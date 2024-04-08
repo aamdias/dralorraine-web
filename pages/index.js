@@ -9,6 +9,7 @@ import { Content } from "@components/Content";
 import { Accordion } from "@components/Accordion";
 import { MotionBTTContainer } from "@components/Motion";
 import SEO from "@components/SEO/SEO";
+import Image from "next/image";
 import {
     CardBody,
     CardGroup,
@@ -21,8 +22,8 @@ export default function Home() {
     return (
         <Layout className="">
             <SEO
-                title="NutriTrack - A landing page template 🚀"
-                description="Discover NutriTrack, the effortless way to plan your meals with the power of Notion. Streamline your nutrition journey and achieve your health goals with ease."
+                title="Dra Lorraine | R1 em Dermato"
+                description="Se prepare para residência médica com quem teve resultado nas provas mais concorridas do país"
             />
             <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-20 ">
                 {/* { Page Banner } */}
@@ -34,26 +35,39 @@ export default function Home() {
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <SectionContainer id="features" className="features">
-                            <BadgeGroup alignment="center">
+                            {/* <BadgeGroup alignment="center">
                                 <BadgeMessage>Features</BadgeMessage>
-                            </BadgeGroup>
+                            </BadgeGroup> */}
                             <PageTitle
-                                className="text-center mx-auto"
+                                className="text-center mx-auto underline"
                                 type="default"
                             >
-                                Simplify Your Nutrition Journey with NutriTrack
+                                De onde eu venho?
                             </PageTitle>
-                            <Content className="text-center" alignment="center">
-                                <p>
-                                    Hey there! Welcome to NutriTrack, the
-                                    ultimate nutrition meal planner powered by
-                                    Notion. We&apos;ve got some awesome features
-                                    lined up to make your nutrition journey a
-                                    piece of cake (pun intended). Check them
-                                    out:
-                                </p>
-                            </Content>
-                            <ContentImage />
+                            <div className="container mx-auto my-5">
+                                <div className="flex flex-col items-center justify-center gap-8">
+                                    <div class="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
+                                        <div class="px-6 py-4">
+                                            <div className="w-full mb-6 mt-2">
+                                                <img src="/history-map-lolo.png" alt="Page Banner" className="w-full h-full object-cover shadow-sm"/>
+                                            </div>
+                                            <h2 class="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
+                                            <p class="text-gray-700 text-lg leading-8 font-thin">
+                                                Sou paulistana diretamente da Zona Leste, porém foi em São José dos Campos onde iniciei minha jornada rumo à medicina. Lá fiz ensino técnico em Análises Clínicas e iniciei um cursinho pré-vestibular no CASD Vestibulares, um cursinho popular.
+                                                <br/><br/>
+                                                Após 3 anos de preparação, fui aprovada na UNICAMP, lugar que foi uma verdadeira casa para mim e onde vivi momentos inesquecíveis!
+                                                Durante a graduação me apaixonei pela área de dermatologia e desde então sonho com uma vaga em uma instituição de excelência nessa especialidade...
+                                                <br/><br/>
+                                                Após colar grau em janeiro de 2021, separei esse ano para trabalhar e nos anos de 2022-2023 me dediquei principalmente à preparação para as provas de residência médica, tendo que conciliar com todas as outras atividades (trabalho, atividade física, saúde mental)
+                                                <br/><br/>
+                                                No primeiro ano de provas, após muitos "nãos", conquistei uma aprovação em dermatologia pelo SUS-SP, porém resolvi persistir no meu sonho e prestar mais um ano de provas. Não foi uma decisão fácil, mas hoje vejo que tudo tem um propósito
+                                                <br/><br/>
+                                                Graças a muita dedicação e apoio da família e amigos, cheguei a lugares que jamais imaginei e sou muito grata a todos momentos dessa trajetória cheia de altos e baixos ❣️
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </SectionContainer>
                     </MotionBTTContainer>
                     {/* Card Container Tabs */}
@@ -62,65 +76,57 @@ export default function Home() {
                     >
                         <SectionContainer className="feature-tabs">
                             <BadgeGroup alignment="center">
-                                <BadgeMessage>More Features</BadgeMessage>
-                                <BadgeIcon icon="twemoji:waving-hand" />
+                                <BadgeMessage>Aprovações</BadgeMessage>
+                                {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
                             </BadgeGroup>
                             <PageTitle
                                 className="text-center mx-auto"
                                 type="default"
                             >
-                                Master Your Meal Planning and Nutrition Journey
+                                Meus resultados em <span className="underline">2023</span>
                             </PageTitle>
-                            <Content className="text-center" alignment="center">
-                                <p>
-                                    Our comprehensive Notion template designed
-                                    to empower you on your meal planning and
-                                    nutrition journey. With our user-friendly
-                                    features, customizable layouts, and seamless
-                                    recipe integration, taking control of your
-                                    meals has never been easier.
-                                </p>
-                            </Content>
-                            <CardGroup className="grid scroll-m-24 gap-8 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2">
-                                <Card className="col-span-1 text-primary-900">
-                                    <CardBody className="w-full bg-white-600/20 p-12">
-                                        <CardImage
-                                            src="/features4.png"
-                                            alt="Customizable Layouts image used."
-                                        />
-                                        <CardHeader className="!text-black !text-2xl !font-bold">
-                                            Customizable Layouts
+                            <CardGroup className="grid scroll-m-24 gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
+                                <Card className="col-span-2 text-primary-900 shadow-lg rounded-lg">
+                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
+                                        <CardImage src="/unicamp.png" alt="UNICAMP" />
+                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
+                                            1º lugar em Dermato na <span className="text-[#D0B49F]">UNICAMP</span>
                                         </CardHeader>
-                                        <p>
-                                            Personalize your meal planning
-                                            experience with our flexible
-                                            layouts. Tailor your sections,
-                                            categories, and tabs to suit your
-                                            unique style and organization
-                                            preferences. Our template adapts to
-                                            your needs, providing a seamless and
-                                            personalized planning experience.
+                                        <p className="text-md">
+                                            Aprovada em primeira chamada na prova de Dermatologia para UNICAMP
                                         </p>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 text-primary-900">
-                                    <CardBody className="w-full bg-white-600/20 p-12">
-                                        <CardImage
-                                            src="/features3.png"
-                                            alt="Progress Tracking image used."
-                                        />
-                                        <CardHeader className="!text-black !text-2xl !font-bold">
-                                            Progress Tracking
+                                <Card className="col-span-1 text-primary-900 shadow-lg rounded-lg">
+                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
+                                        <CardImage src="/usp-rp.png" alt="USP-RP" />
+                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
+                                            2º lugar em Dermato na <span className="text-[#D0B49F]">USP Ribeirão Preto</span>
                                         </CardHeader>
-                                        <p>
-                                            Celebrate your wins and stay
-                                            motivated on your nutrition journey.
-                                            NutriTrack allows you to monitor
-                                            your progress with weight,
-                                            measurements, and other key metrics.
-                                            Track your improvements over time
-                                            and see the positive impact of your
-                                            healthy choices.
+                                        <p className="text-md">
+                                            Aprovada em primeira chamada na prova de Dermatologia para USP Ribeirão Preto
+                                        </p>
+                                    </CardBody>
+                                </Card>
+                                <Card className="col-span-1 text-primary-900 shadow-lg rounded-lg">
+                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
+                                        <CardImage src="/puc.png" alt="PUC" />
+                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
+                                            1º lugar em Dermato na <span className="text-[#D0B49F]">PUC Campinas</span>
+                                        </CardHeader>
+                                        <p className="text-md">
+                                            Aprovada em primeira chamada na prova de Dermatologia para PUC de Campinas
+                                        </p>
+                                    </CardBody>
+                                </Card>
+                                <Card className="col-span-2 text-primary-900 shadow-lg rounded-lg">
+                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
+                                        <CardImage src="/usp-sp.png" alt="USP São Paulo" />
+                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
+                                            3º lugar em Dermato na <span className="text-[#D0B49F]">USP São Paulo</span>
+                                        </CardHeader>
+                                        <p className="text-md">
+                                            Aprovada em primeira chamada na prova de Dermatologia para USP São Paulo
                                         </p>
                                     </CardBody>
                                 </Card>
@@ -128,7 +134,7 @@ export default function Home() {
                         </SectionContainer>
                     </MotionBTTContainer>
                     {/* Testimonials */}
-                    <MotionBTTContainer
+                    {/* <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <SectionContainer
@@ -145,9 +151,9 @@ export default function Home() {
                             </PageTitle>
                             <Columns />
                         </SectionContainer>
-                    </MotionBTTContainer>
+                    </MotionBTTContainer> */}
                     {/* Accordions */}
-                    <MotionBTTContainer
+                    {/* <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <SectionContainer id="faq" className="faq">
@@ -165,7 +171,7 @@ export default function Home() {
                             </PageTitle>
                             <Accordion />
                         </SectionContainer>
-                    </MotionBTTContainer>
+                    </MotionBTTContainer> */}
                 </SectionContainer>
             </div>
         </Layout>

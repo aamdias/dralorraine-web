@@ -16,10 +16,10 @@ export const Header = () => {
                     <h1 className="logo mb-0">
                         <Link href="/">
                             <Image
-                                src="/nutritrack.svg"
+                                src="/logo-dra-lo-v0.svg"
                                 alt="logo"
                                 className="h-6 w-auto"
-                                height="24"
+                                height="48"
                                 width="100"
                                 priority
                             />
@@ -28,7 +28,7 @@ export const Header = () => {
                 </div>
                 <SectionContainer className="flex items-center ml-auto">
                     <Nav />
-                    <ButtonGroup className="hidden md:block">
+                    {/* <ButtonGroup className="hidden md:block">
                         <a
                             role="button"
                             href="https://github.com/christian-luntok/nutritrack"
@@ -37,7 +37,7 @@ export const Header = () => {
                             Get Template
                             <Icon icon="material-symbols:arrow-forward-rounded" />
                         </a>
-                    </ButtonGroup>
+                    </ButtonGroup> */}
                 </SectionContainer>
             </SectionContainer>
         </header>

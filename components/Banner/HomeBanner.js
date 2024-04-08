@@ -4,7 +4,6 @@ import { Content } from "@components/Content";
 import { MotionBTTContainer, MotionInfiniteImage } from "@components/Motion";
 import { SectionContainer } from "@components/Section";
 import { PageTitle } from "@components/Title";
-import { Icon } from "@iconify/react";
 import Image from "next/image";
 
 export const HomeBanner = () => {
@@ -14,26 +13,35 @@ export const HomeBanner = () => {
                 {/* Appear First */}
                 <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
                     <BadgeGroup alignment="center">
-                        <BadgeMessage>Discover NutriTrack!</BadgeMessage>
-                        <BadgeIcon icon="game-icons:meal" />
+                        <BadgeMessage>Sobre mim</BadgeMessage>
                     </BadgeGroup>
                 </MotionBTTContainer>
                 {/* Appear Second */}
                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <PageTitle className="text-center mx-auto" type="heavy">
-                        The effortless way to plan your meals with the power of
-                        Notion.
+                        Oi! Sou a <span className="text-[#D0B49B]">Lorraine</span>.
                     </PageTitle>
                 </MotionBTTContainer>
                 {/* Appear Third */}
                 <MotionBTTContainer transition={{ delay: 0.6, duration: 0.5 }}>
                     <Content className="text-center" alignment="center">
                         <p>
-                            Streamline your nutrition journey and achieve your
-                            health goals with ease.{" "}
+                            <span className="font-bold">Sou médica pela UNICAMP</span> e depois de muito esforço, consegui acumular
+                            um dos melhores resultados de aprovação para residência médica em
+                            Dermatologia em 2023 nas instituições mais concorridas do Brasil.{" "}
                         </p>
                     </Content>
-                    <div className="mt-6 mb-16 text-center">
+                    <div className="page-banner--image">
+                        <Image
+                            src="/lolo-portrait-home-page.png"
+                            width={340}
+                            height={512}
+                            alt="Page Banner"
+                            objectFit="cover"
+                            className="mx-auto mt-4"
+                        />
+                    </div>
+                    {/* <div className="mt-6 mb-16 text-center">
                         <ButtonGroup alignment="center">
                             <Button href="#features">Features</Button>
                             <a
@@ -45,21 +53,21 @@ export const HomeBanner = () => {
                                 <Icon icon="material-symbols:arrow-forward-rounded" />
                             </a>
                         </ButtonGroup>
-                    </div>
+                    </div> */}
                 </MotionBTTContainer>
                 {/* Appear Fourth */}
-                <MotionBTTContainer transition={{ delay: 0.8, duration: 0.5 }}>
+                {/* <MotionBTTContainer transition={{ delay: 0.8, duration: 0.5 }}>
                     <div className="page-banner--image">
                         <Image
-                            src="/nutritrack-hero-banner.png"
-                            width={1024}
-                            height={680}
+                            src="/lolo-portrait-home-page.png"
+                            width={340}
+                            height={512}
                             alt="Page Banner"
                             objectFit="cover"
                             className="mx-auto"
                         />
                     </div>
-                </MotionBTTContainer>
+                </MotionBTTContainer> */}
             </SectionContainer>
         </SectionContainer>
     );

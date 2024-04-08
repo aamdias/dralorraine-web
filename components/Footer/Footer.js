@@ -6,44 +6,19 @@ import { Icon } from "@iconify/react";
 
 const DATA = [
     {
-        title: "Template",
+        title: "Menu",
         items: [
             {
-                label: "Features",
+                label: "Sobre mim",
                 href: "#features"
             },
             {
-                label: "Testimonials",
+                label: "Mentoria",
                 href: "#testimonials"
             },
             {
-                label: "FAQ",
+                label: "Notion",
                 href: "#faq"
-            }
-        ]
-    },
-    {
-        title: "Company",
-        items: [
-            {
-                label: "About",
-                href: "https://github.com/christian-luntok/",
-                target: "_blank"
-            },
-            {
-                label: "Twitter",
-                href: "https://github.com/christian-luntok/",
-                target: "_blank"
-            },
-            {
-                label: "Instagram",
-                href: "https://github.com/christian-luntok/",
-                target: "_blank"
-            },
-            {
-                label: "Facebook",
-                href: "https://github.com/christian-luntok/",
-                target: "_blank"
             }
         ]
     }
@@ -63,7 +38,7 @@ export const Footer = () => {
                             <div className="footer--logo grid gap-8">
                                 <Link href="/">
                                     <Image
-                                        src="/nutritrack.svg"
+                                        src="/logo-dra-lo-v0.svg"
                                         alt="logo"
                                         className="h-10 w-auto"
                                         height="25"
@@ -72,7 +47,7 @@ export const Footer = () => {
                                     />
                                 </Link>
                                 {/* Get Template button; remove if not used */}
-                                <ButtonGroup alignment="left">
+                                {/* <ButtonGroup alignment="left">
                                     <a
                                         role="button"
                                         href="https://github.com/christian-luntok/nutritrack"
@@ -81,7 +56,7 @@ export const Footer = () => {
                                         Get Template
                                         <Icon icon="material-symbols:arrow-forward-rounded" />
                                     </a>
-                                </ButtonGroup>
+                                </ButtonGroup> */}
                             </div>
                         </div>
                         <div className="col-span-6">
@@ -124,7 +99,7 @@ export const Footer = () => {
                 </div>
             </SectionContainer>
             {/* Footer Credits */}
-            <SectionContainer className="footer-credits relative z-10">
+            {/* <SectionContainer className="footer-credits relative z-10">
                 <div className="wrap wrap-px py-6">
                     <p className="my-0">
                         © {year} Nutritrack. All rights reserved{" - "}
@@ -140,7 +115,7 @@ export const Footer = () => {
                         </span>
                     </p>
                 </div>
-            </SectionContainer>
+            </SectionContainer> */}
             <div className="footer--background"></div>
         </footer>
     );
