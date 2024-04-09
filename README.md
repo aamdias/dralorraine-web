@@ -1,9 +1,6 @@
-<div align="center">
-  <img alt="NutriTrack logo" src="/public/nutritrack.svg" width="100" />
-</div>
 
 <h1 align="center">
-  NutriTrack - A landing page template 🚀
+  Website da Dra Lorraine
 </h1>
 
 NutriTrack is a user-friendly landing page template with NextJS and TailwindCSS. It's easy to customize, allowing you to create a minimalistic site that fits your style using its versatile components.

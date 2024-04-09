@@ -123,7 +123,7 @@ export default function Home() {
                             <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         1º lugar em Dermato na <span className="text-[#D0B49B]">UNICAMP</span>
@@ -136,7 +136,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         2º lugar em Dermato na <span className="text-[#D0B49B]">USP Ribeirão Preto</span>
@@ -149,7 +149,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         1º lugar em Dermato na <span className="text-[#D0B49B]">PUC Campinas</span>
@@ -162,7 +162,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div className="flex flex-col justify-start items-start">
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         3º lugar em Dermato na <span className="text-[#D0B49B]">USP São Paulo</span>
