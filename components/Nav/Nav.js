@@ -4,8 +4,8 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 
 const navigation = [
-    { name: "Sobre mim", to: "#features", href: "/#features" },
-    { name: "Mentoria", to: "#testimonials", href: "/#testimonials" },
+    { name: "Sobre mim", to: "#personal-history", href: "/" },
+    { name: "Mentoria", to: "mentoria", href: "/mentoria" },
     { name: "Notion", to: "#faq", href: "/#faq" },
     {
         name: "Contato",

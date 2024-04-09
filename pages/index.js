@@ -170,7 +170,9 @@ export default function Home() {
                                         <p className="text-gray-600 text-base md:text-lg">
                                         Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada
                                         </p>
-                                        <Button>Quero saber mais</Button>
+                                        <Button
+                                            href="/mentoria"
+                                        >Quero saber mais</Button>
                                     </div>
                                 </CardBody>
                                 </Card>
