@@ -5,17 +5,22 @@ import { MotionBTTContainer, MotionInfiniteImage } from "@components/Motion";
 import { SectionContainer } from "@components/Section";
 import { PageTitle } from "@components/Title";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export const HomeBanner = () => {
+
+    const router = useRouter();
+
     return (
         <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white">
             <SectionContainer className="page-banner--inner-container wrap wrap-px z-10">
-                {/* Appear First */}
-                <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                    <BadgeGroup alignment="center">
-                        <BadgeMessage>Sobre mim</BadgeMessage>
-                    </BadgeGroup>
-                </MotionBTTContainer>
+                {router.pathname === "/" && (
+                    <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
+                        <BadgeGroup alignment="center">
+                            <BadgeMessage>Sobre mim</BadgeMessage>
+                        </BadgeGroup>
+                    </MotionBTTContainer>
+                )}
                 {/* Appear Second */}
                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                 <div className="flex flex-col md:flex-row items-center justify-between px-6 pt-12 ">
@@ -26,20 +31,21 @@ export const HomeBanner = () => {
                     <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-gray-700">
                         <span className="font-bold">Sou médica pela UNICAMP</span> e, após muito esforço, alcancei um dos melhores resultados de aprovação para a residência médica em Dermatologia em 2023, nas instituições mais renomadas do Brasil.
                     </p>
-                                        <ButtonGroup alignment="start">
-                                            <a
-                                                role="button"
-                                                href="#solutions"
-                                                className="btn btn--secondary"
-                                            >
-                                                Como posso te ajudar
-                                            </a>
-                                            <Button href="#personal-history">Conheça minha história</Button>
- 
-                                        </ButtonGroup>
+                    {router.pathname === "/" && (
+                    <ButtonGroup alignment="start">
+                        <a
+                            role="button"
+                            href="#solutions"
+                            className="btn btn--secondary"
+                        >
+                            Como posso te ajudar
+                        </a>
+                        <Button href="#personal-history">Conheça minha história</Button>
+                    </ButtonGroup>
+                    )}
                     </div>
                     <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                    <img
+                    <Image
                         src="/lolo-portrait-home-page.png"
                         alt="Dra. Lorraine"
                         className="max-w-xs md:max-w-md rounded-lg"

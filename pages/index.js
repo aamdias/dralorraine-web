@@ -47,7 +47,7 @@ export default function Home() {
                                     <div class="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
                                         <div class="px-6 py-4">
                                             <div className="w-full mb-6 mt-2">
-                                                <img src="/history-map-lolo.png" alt="Page Banner" className="w-full h-full object-cover shadow-sm"/>
+                                                <Image src="/history-map-lolo.png" alt="Page Banner" className="w-full h-full object-cover shadow-sm"/>
                                             </div>
                                             <h2 class="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
                                             <p class="text-gray-700 text-lg leading-8 font-thin">
@@ -86,7 +86,7 @@ export default function Home() {
                             <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         1º lugar em Dermato na <span className="text-[#D0B49B]">UNICAMP</span>
@@ -99,7 +99,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         2º lugar em Dermato na <span className="text-[#D0B49B]">USP Ribeirão Preto</span>
@@ -112,7 +112,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div>
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         1º lugar em Dermato na <span className="text-[#D0B49B]">PUC Campinas</span>
@@ -125,7 +125,7 @@ export default function Home() {
                                 </Card>
                                 <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <Image src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
                                     <div className="flex flex-col justify-start items-start">
                                         <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
                                         3º lugar em Dermato na <span className="text-[#D0B49B]">USP São Paulo</span>
@@ -170,7 +170,9 @@ export default function Home() {
                                         <p className="text-gray-600 text-base md:text-lg">
                                         Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada
                                         </p>
-                                        <Button>Quero saber mais</Button>
+                                        <Button
+                                            href="/mentoria"
+                                        >Quero saber mais</Button>
                                     </div>
                                 </CardBody>
                                 </Card>
@@ -190,25 +192,6 @@ export default function Home() {
                             </CardGroup>
                         </SectionContainer>
                     </MotionBTTContainer>
-                    {/* Testimonials */}
-                    {/* <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer
-                            id="testimonials"
-                            className="benefits"
-                        >
-                            <BadgeGroup alignment="left">
-                                <BadgeMessage>Testimonials</BadgeMessage>
-                                <BadgeIcon icon="twemoji:waving-hand" />
-                            </BadgeGroup>
-                            <PageTitle className="" type="default">
-                                This is what our customers have to say about
-                                this template
-                            </PageTitle>
-                            <Columns />
-                        </SectionContainer>
-                    </MotionBTTContainer> */}
                     {/* Accordions */}
                     {/* <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
