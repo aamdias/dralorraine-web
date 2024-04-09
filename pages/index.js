@@ -8,6 +8,7 @@ import { ContentImage } from "@components/ContentImage";
 import { Content } from "@components/Content";
 import { Accordion } from "@components/Accordion";
 import { MotionBTTContainer } from "@components/Motion";
+import { Button } from "@components/Button";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
 import {
@@ -25,7 +26,7 @@ export default function Home() {
                 title="Dra Lorraine | R1 em Dermato"
                 description="Se prepare para residência médica com quem teve resultado nas provas mais concorridas do país"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-20 ">
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-24 ">
                 {/* { Page Banner } */}
                 <HomeBanner />
                 {/* Components Container */}
@@ -34,12 +35,9 @@ export default function Home() {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer id="features" className="features">
-                            {/* <BadgeGroup alignment="center">
-                                <BadgeMessage>Features</BadgeMessage>
-                            </BadgeGroup> */}
+                        <SectionContainer id="personal-history" className="features">
                             <PageTitle
-                                className="text-center mx-auto underline"
+                                className="text-center mx-auto my-12"
                                 type="default"
                             >
                                 De onde eu venho?
@@ -74,7 +72,7 @@ export default function Home() {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs">
+                        <SectionContainer className="feature-tabs" id="results">
                             <BadgeGroup alignment="center">
                                 <BadgeMessage>Aprovações</BadgeMessage>
                                 {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
@@ -85,49 +83,108 @@ export default function Home() {
                             >
                                 Meus resultados em <span className="underline">2023</span>
                             </PageTitle>
-                            <CardGroup className="grid scroll-m-24 gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
-                                <Card className="col-span-2 text-primary-900 shadow-lg rounded-lg">
-                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
-                                        <CardImage src="/unicamp.png" alt="UNICAMP" />
-                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
-                                            1º lugar em Dermato na <span className="text-[#D0B49F]">UNICAMP</span>
+                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
+                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
+                                    <img src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <div>
+                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
+                                        1º lugar em Dermato na <span className="text-[#D0B49B]">UNICAMP</span>
                                         </CardHeader>
-                                        <p className="text-md">
-                                            Aprovada em primeira chamada na prova de Dermatologia para UNICAMP
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Aprovada em primeira chamada na prova de Dermatologia para UNICAMP
                                         </p>
+                                    </div>
+                                </CardBody>
+                                </Card>
+                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
+                                    <img src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <div>
+                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
+                                        2º lugar em Dermato na <span className="text-[#D0B49B]">USP Ribeirão Preto</span>
+                                        </CardHeader>
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Aprovada em primeira chamada na prova de Dermatologia para USP Ribeirão Preto
+                                        </p>
+                                    </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 text-primary-900 shadow-lg rounded-lg">
-                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
-                                        <CardImage src="/usp-rp.png" alt="USP-RP" />
-                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
-                                            2º lugar em Dermato na <span className="text-[#D0B49F]">USP Ribeirão Preto</span>
+                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
+                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <div>
+                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
+                                        1º lugar em Dermato na <span className="text-[#D0B49B]">PUC Campinas</span>
                                         </CardHeader>
-                                        <p className="text-md">
-                                            Aprovada em primeira chamada na prova de Dermatologia para USP Ribeirão Preto
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Aprovada em primeira chamada na prova de Dermatologia para PUC de Campinas
                                         </p>
+                                    </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 text-primary-900 shadow-lg rounded-lg">
-                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
-                                        <CardImage src="/puc.png" alt="PUC" />
-                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
-                                            1º lugar em Dermato na <span className="text-[#D0B49F]">PUC Campinas</span>
+                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
+                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
+                                    <div className="flex flex-col justify-start items-start">
+                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
+                                        3º lugar em Dermato na <span className="text-[#D0B49B]">USP São Paulo</span>
                                         </CardHeader>
-                                        <p className="text-md">
-                                            Aprovada em primeira chamada na prova de Dermatologia para PUC de Campinas
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Aprovada em primeira chamada na prova de Dermatologia para USP São Paulo
                                         </p>
+                                    </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-2 text-primary-900 shadow-lg rounded-lg">
-                                    <CardBody className="w-full bg-white rounded-lg shadow-md p-8">
-                                        <CardImage src="/usp-sp.png" alt="USP São Paulo" />
-                                        <CardHeader className="!text-black !text-xl !font-bold mt-4 mb-2">
-                                            3º lugar em Dermato na <span className="text-[#D0B49F]">USP São Paulo</span>
+                            </CardGroup>
+                        </SectionContainer>
+                    </MotionBTTContainer>
+                    <MotionBTTContainer
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                    >
+                        <SectionContainer className="feature-tabs" id="solutions">
+                            <BadgeGroup alignment="center">
+                                <BadgeMessage>Soluções</BadgeMessage>
+                                {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
+                            </BadgeGroup>
+                            <PageTitle
+                                className="text-center mx-auto"
+                                type="default"
+                            >
+                                Como posso te ajudar a chegar lá também?
+                            </PageTitle>
+                            <Content className="text-center" alignment="center">
+                                <p>
+                                    Encurte seu caminho para a aprovação através de uma mentoria 
+                                    guiada comigo ou através da ferramenta que eu usei para organizar
+                                    todos os meus estudos ao longo dos últimos anos.{" "}
+                                </p>
+                            </Content>
+                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
+                                    <div>
+                                        <CardHeader className="text-lg font-bold text-zinc-800">
+                                        Mentoria individual comigo
                                         </CardHeader>
-                                        <p className="text-md">
-                                            Aprovada em primeira chamada na prova de Dermatologia para USP São Paulo
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada
                                         </p>
+                                        <Button>Quero saber mais</Button>
+                                    </div>
+                                </CardBody>
+                                </Card>
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
+                                    <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
+                                    <div>
+                                        <CardHeader className="text-lg font-bold text-zinc-800">
+                                        Template de estudos no Notion
+                                        </CardHeader>
+                                        <p className="text-gray-600 text-base md:text-lg">
+                                        Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar. 
+                                        </p>
+                                        <Button>Quero saber mais</Button>
+                                    </div>
                                     </CardBody>
                                 </Card>
                             </CardGroup>

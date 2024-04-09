@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 
 const DATA = [
     {
-        title: "Menu",
+        title: "Navegação",
         items: [
             {
                 label: "Sobre mim",
@@ -19,6 +19,19 @@ const DATA = [
             {
                 label: "Notion",
                 href: "#faq"
+            }
+        ]
+    },
+    {
+        title: "Meu contato",
+        items: [
+            {
+                label: "E-mail",
+                href: "#features"
+            },
+            {
+                label: "Instagram",
+                href: "#testimonials"
             }
         ]
     }
@@ -38,7 +51,7 @@ export const Footer = () => {
                             <div className="footer--logo grid gap-8">
                                 <Link href="/">
                                     <Image
-                                        src="/logo-dra-lo-v0.svg"
+                                        src="/lolo-logo-v1.svg"
                                         alt="logo"
                                         className="h-10 w-auto"
                                         height="25"
