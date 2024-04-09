@@ -19,7 +19,7 @@ import {
     Card
 } from "@components/Card";
 
-export default function Home() {
+export default function MentorshipPage() {
     return (
         <Layout className="">
             <SEO
