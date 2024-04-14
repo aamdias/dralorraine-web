@@ -45,7 +45,7 @@ export const HomeBanner = () => {
                     )}
                     </div>
                     <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                    <img
+                    <Image
                         src="/lolo-portrait-home-page.png"
                         alt="Dra. Lorraine"
                         className="max-w-xs md:max-w-md rounded-lg"

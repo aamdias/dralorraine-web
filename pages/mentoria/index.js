@@ -20,7 +20,7 @@ import {
 } from "@components/Card";
 import { Results } from "@components/Results";
 
-export default function Home() {
+export default function MentorshipPage() {
     return (
         <Layout className="">
             <SEO
