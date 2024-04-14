@@ -43,6 +43,7 @@ export default function NotionPage() {
                             </div>
                         </SectionContainer>
                     </MotionBTTContainer>
+
             </div>
         </Layout>
     );
