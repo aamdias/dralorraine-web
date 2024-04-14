@@ -18,6 +18,7 @@ import {
     CardImage,
     Card
 } from "@components/Card";
+import { Results } from "@components/Results";
 
 export default function Home() {
     return (
@@ -36,13 +37,13 @@ export default function Home() {
                                 {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
                             </BadgeGroup>
                             <PageTitle
-                                className="text-center mx-auto"
+                                className="text-center mx-auto px-4"
                                 type="default"
                             >
                                 Se prepare para a Residência Médica com a Lô
                             </PageTitle>
                             <Content className="text-center" alignment="center">
-                                <p className="mb-4">
+                                <p className="mb-4 mx-4">
                                     Aumente suas chances de aprovação nas provas de residência mais concorridas do país se 
                                     preparando com quem entende de verdade o que é necessário {" "}
                                 </p>
@@ -95,92 +96,20 @@ export default function Home() {
                                     </CardBody>
                                 </Card>
                             </CardGroup>
-                            <Content className="text-center my-12" alignment="center">
-                                <p>
-                                    Vivi na prática esse problemas e agora quero retrubir! Deixa eu me apresentar. {" "}
-                                </p>
+                            <Content className="text-center mt-12 px-16" alignment="center">
+                                <div className="text-xl text-slate-700">
+                                    Vivi na prática esse problemas e agora quero retrubir! <br/> <span className="font-bold">Deixa eu me apresentar.</span> {" "}
+                                </div>
                             </Content>
                         </SectionContainer>
                     </MotionBTTContainer>
                     <HomeBanner />
                 {/* Components Container */}
-                <SectionContainer className="components--container wrap wrap-px grid gap-8 sm:gap-24">
-                    {/* Card Container Tabs */}
-                    <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer className="feature-tabs mt-8" id="results">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>Aprovações</BadgeMessage>
-                                {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
-                            </BadgeGroup>
-                            <PageTitle
-                                className="text-center mx-auto"
-                                type="default"
-                            >
-                                Meus resultados em <span className="underline">2023</span>
-                            </PageTitle>
-                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2 lg:grid-cols-3">
-                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/unicamp.png" alt="UNICAMP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
-                                    <div>
-                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
-                                        1º lugar em Dermato na <span className="text-[#D0B49B]">UNICAMP</span>
-                                        </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Aprovada em primeira chamada na prova de Dermatologia para UNICAMP
-                                        </p>
-                                    </div>
-                                </CardBody>
-                                </Card>
-                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/usp-rp.png" alt="USP-RP" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
-                                    <div>
-                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
-                                        2º lugar em Dermato na <span className="text-[#D0B49B]">USP Ribeirão Preto</span>
-                                        </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Aprovada em primeira chamada na prova de Dermatologia para USP Ribeirão Preto
-                                        </p>
-                                    </div>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
-                                    <div>
-                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
-                                        1º lugar em Dermato na <span className="text-[#D0B49B]">PUC Campinas</span>
-                                        </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Aprovada em primeira chamada na prova de Dermatologia para PUC de Campinas
-                                        </p>
-                                    </div>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-3 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center p-8">
-                                    <img src="/puc.png" alt="PUC" className="mb-4 md:mb-0 md:mr-8 w-54 md:w-48 lg:w-56 hover:scale-105 transition-transform duration-300 rounded-lg"/>
-                                    <div className="flex flex-col justify-start items-start">
-                                        <CardHeader className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-2">
-                                        3º lugar em Dermato na <span className="text-[#D0B49B]">USP São Paulo</span>
-                                        </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Aprovada em primeira chamada na prova de Dermatologia para USP São Paulo
-                                        </p>
-                                    </div>
-                                    </CardBody>
-                                </Card>
-                            </CardGroup>
-                        </SectionContainer>
-                    </MotionBTTContainer>
-                </SectionContainer>
+                <Results /> 
                 <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs bg-zinc-800 my-12 py-12" id="solutions">
+                        <SectionContainer className="feature-tabs bg-zinc-800 my-16 py-12" id="solutions">
                             <PageTitle
                                 className="text-center mx-auto text-white"
                                 type="default"
@@ -253,9 +182,9 @@ export default function Home() {
                     >
                         <SectionContainer
                             id="testimonials"
-                            className="benefits max-w-4xl items-center justify-center mx-auto mt-24"
+                            className="benefits max-w-4xl items-center justify-center mx-auto mt-24 px-8"
                         >
-                            <BadgeGroup alignment="left">
+                            <BadgeGroup alignment="left mx-12">
                                 <BadgeMessage>Testemunhos</BadgeMessage>
                                 <BadgeIcon icon="twemoji:waving-hand" />
                             </BadgeGroup>
