@@ -12,7 +12,7 @@ export const HomeBanner = () => {
     const router = useRouter();
 
     return (
-        <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white">
+        <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6">
             <SectionContainer className="page-banner--inner-container wrap wrap-px z-10">
                 {router.pathname === "/" && (
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
@@ -23,10 +23,10 @@ export const HomeBanner = () => {
                 )}
                 {/* Appear Second */}
                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
-                <div className="flex flex-col md:flex-row items-center justify-between px-6 pt-12 ">
+                <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 ">
                     <div className="flex flex-col space-y-6 md:w-1/2">
                     <h1 className="text-4xl md:text-5xl  font-bold text-gray-800">
-                        Oi! Sou a <span className="text-[#D0B49B]">Lorraine</span>.
+                        Oi! Sou a <span className="text-[#9FD8CB]">Lorraine</span>.
                     </h1>
                     <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-gray-700">
                         <span className="font-bold">Sou médica pela UNICAMP</span> e, após muito esforço, alcancei um dos melhores resultados de aprovação para a residência médica em Dermatologia em 2023, nas instituições mais renomadas do Brasil.
@@ -47,6 +47,8 @@ export const HomeBanner = () => {
                     <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
                     <Image
                         src="/lolo-portrait-home-page.png"
+                        width={680}
+                        height={1024}
                         alt="Dra. Lorraine"
                         className="max-w-xs md:max-w-md rounded-lg"
                     />

@@ -109,7 +109,7 @@ export default function MentorshipPage() {
                 <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs bg-zinc-800 my-16 py-12" id="solutions">
+                        <SectionContainer className="feature-tabs bg-[#517664] my-16 py-16" id="solutions">
                             <PageTitle
                                 className="text-center mx-auto text-white"
                                 type="default"
@@ -199,7 +199,7 @@ export default function MentorshipPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     >
-                    <SectionContainer className="feature-tabs bg-gradient-to-b from-[#D0B49B] to-[#F3F5F8] py-12 px-4 mt-12" id="cta-mentoria">
+                    <SectionContainer className="feature-tabs bg-gradient-to-b from-[#517664] to-[#F3F5F8] py-12 px-4 mt-12" id="cta-mentoria">
                         <div className="text-center mx-auto my-8 max-w-xl">
                         <PageTitle
                             className="text-4xl font-bold text-white"

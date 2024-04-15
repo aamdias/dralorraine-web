@@ -16,7 +16,7 @@ export const Header = () => {
                     <h1 className="logo mb-0">
                         <Link href="/">
                             <Image
-                                src="/lolo-logo-v1.svg"
+                                src="/newlogo-dralorraine-web.svg"
                                 alt="logo"
                                 className="h-6 w-auto"
                                 height="48"

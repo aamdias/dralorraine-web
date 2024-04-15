@@ -48,7 +48,12 @@ export default function Home() {
                                     <div class="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
                                         <div class="px-6 py-4">
                                             <div className="w-full mb-6 mt-2">
-                                                <Image src="/history-map-lolo.png" alt="Page Banner" className="w-full h-full object-cover shadow-sm"/>
+                                                <Image 
+                                                src="/history-map-lolo.png" 
+                                                alt="Page Banner" 
+                                                width={680}
+                                                height={1024}
+                                                className="w-full h-full object-cover shadow-sm"/>
                                             </div>
                                             <h2 class="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
                                             <p class="text-gray-700 text-lg leading-8 font-thin">
@@ -70,7 +75,9 @@ export default function Home() {
                         </SectionContainer>
                     </MotionBTTContainer>
                     {/* Card Container Tabs */}
-                    <Results />
+                </SectionContainer>
+                <Results />
+                <SectionContainer className="pt-16 px-6">
                     {/* Features */}
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}

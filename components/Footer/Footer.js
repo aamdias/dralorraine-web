@@ -51,7 +51,7 @@ export const Footer = () => {
                             <div className="footer--logo grid gap-8">
                                 <Link href="/">
                                     <Image
-                                        src="/lolo-logo-v1.svg"
+                                        src="/newlogo-dralorraine-web.svg"
                                         alt="logo"
                                         className="h-10 w-auto"
                                         height="25"
