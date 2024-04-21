@@ -7,12 +7,6 @@ const navigation = [
     { name: "Sobre mim", to: "#personal-history", href: "/" },
     { name: "Mentoria", to: "mentoria", href: "/mentoria" },
     { name: "Notion", to: "notion", href: "/notion" },
-    {
-        name: "Contato",
-        href: "https://chrstnl.com/",
-        isArrow: true,
-        target: "_blank"
-    }
 ];
 
 export const Nav = () => {
