@@ -125,7 +125,7 @@ export default function NotionPage() {
                     </CardGroup>
                     <Content className="text-center mt-12 px-16 pb-12" alignment="center">
                         <div className="text-base text-slate-700">
-                            Acessível via <a href="https://notion.so" target="_blank" className="underline">Notion</a>, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
+                            Acessível via Notion, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
                         </div>
                     </Content>
                 </SectionContainer>
