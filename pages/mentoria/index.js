@@ -56,48 +56,48 @@ export default function MentorshipPage() {
                                 Já passou por esses problemas?
                             </PageTitle>
                             <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-3">
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
-                                        <CardImage src="/study-illustration.png" alt="Study Plan" className="w-full h-48"/>
+                                        <CardImage src="/study-illustration.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
                                         <CardHeader className="text-lg font-bold text-zinc-800">
                                         Planejamento de estudos
                                         </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
+                                        <p className="text-gray-600 text-base">
                                         Como escolher o que estudar e quando? E como manter constância?
                                         </p>
                                     </div>
                                 </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
-                                        <CardImage src="/routine-illustration.png" alt="Study Plan" className="w-full h-48"/>
+                                        <CardImage src="/routine-illustration.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
                                         <CardHeader className="text-lg font-bold text-zinc-800">
                                         Organização da rotina
                                         </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
+                                        <p className="text-gray-600 text-base">
                                         Como conciliar estudos para residência com trabalho?
                                         </p>
                                     </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
-                                        <CardImage src="/mental-health-illustration.png" alt="Study Plan" className="w-full h-48"/>
+                                        <CardImage src="/mental-health-illustration.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
                                         <CardHeader className="text-lg font-bold text-zinc-800">
                                         Mentalidade e saúde
                                         </CardHeader>
-                                        <p className="text-gray-600 text-base md:text-lg">
+                                        <p className="text-gray-600 text-base">
                                         Como manter a mente sã em um ambiente competitivo?
                                         </p>
                                     </div>
                                     </CardBody>
                                 </Card>
                             </CardGroup>
-                            <Content className="text-center mt-12 px-16" alignment="center">
-                                <div className="text-xl text-slate-700">
+                            <Content className="text-center my-16 px-16" alignment="center">
+                                <div className="text-2xl text-zinc-600">
                                     Vivi na prática esse problemas e agora quero retrubir! <br/> <span className="font-bold">Deixa eu me apresentar.</span> {" "}
                                 </div>
                             </Content>
@@ -122,7 +122,7 @@ export default function MentorshipPage() {
                                 </p>
                             </Content>
                             <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-12 md:grid-cols-2">
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
                                         <CardImage src="/beneficios-mentoria-1.png" alt="Study Plan" className="w-16 h-16"/>
@@ -135,7 +135,7 @@ export default function MentorshipPage() {
                                     </div>
                                 </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
                                         <CardImage src="/beneficios-mentoria-2.png" alt="Study Plan" className="w-16 h-16"/>
@@ -148,7 +148,7 @@ export default function MentorshipPage() {
                                     </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
                                         <CardImage src="/beneficios-mentoria-3.png" alt="Study Plan" className="w-16 h-16"/>
@@ -161,7 +161,7 @@ export default function MentorshipPage() {
                                     </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
                                         <CardImage src="/beneficios-mentoria-4.png" alt="Study Plan" className="w-16 h-16"/>
