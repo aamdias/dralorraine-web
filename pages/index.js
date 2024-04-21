@@ -112,6 +112,7 @@ export default function Home() {
                                         </p>
                                         <Button
                                             href="/mentoria"
+                                            variant="secondary"
                                         >Quero saber mais</Button>
                                     </div>
                                 </CardBody>
@@ -125,7 +126,10 @@ export default function Home() {
                                         <p className="text-gray-600 text-base md:text-lg">
                                         Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar. 
                                         </p>
-                                        <Button>Quero saber mais</Button>
+                                        <Button 
+                                            href="/notion"
+                                            variant="secondary"
+                                        >Quero saber mais</Button>
                                     </div>
                                     </CardBody>
                                 </Card>

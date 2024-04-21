@@ -47,7 +47,7 @@ export default function MentorshipPage() {
                                     Aumente suas chances de aprovação nas provas de residência mais concorridas do país se 
                                     preparando com quem entende de verdade o que é necessário {" "}
                                 </p>
-                                <Button className="mt-8" >Quero saber mais</Button>
+                                <Button className="mt-8" variant="secondary" >Quero saber mais</Button>
                             </Content>
                             <PageTitle
                                 className="text-center mx-auto my-16"
@@ -55,7 +55,7 @@ export default function MentorshipPage() {
                             >
                                 Já passou por esses problemas?
                             </PageTitle>
-                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-3">
+                            <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
                                 <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
