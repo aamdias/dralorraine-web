@@ -198,27 +198,65 @@ export default function NotionPage() {
                             </CardGroup>
                         </SectionContainer>
                     </MotionBTTContainer>
+                    <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 pt-16">
+                    <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
+                        <BadgeGroup alignment="center">
+                            <BadgeMessage>Exclusivo</BadgeMessage>
+                        </BadgeGroup>
+                    </MotionBTTContainer>
+                    {/* Appear Second */}
+                    <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
+                    <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 pb-16">
+                        <div className="flex flex-col space-y-6 md:w-1/2 mb-14">
+                            <h1 className="text-4xl md:text-5xl  font-bold text-slate-800 mb-2">
+                                Acesso as anotações originais que me levaram a aprovação!
+                            </h1>
+                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600">
+                                Na versão mais completa, ganhe acesso também a todas as +140 anotações originais que me levaram as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas
+                            </p>
+                            <div className="border p-4 rounded-lg">
+                                <h2 className="text-lg font-bold md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
+                                Anotações gratuitas
+                                </h2>
+                                <p className="text-base md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600 my-4">
+                                Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
+                                </p>
+                                <Button href="#notion-cta" className="w-64" variant="secondary">Ver anotações gratuitas</Button>
+                            </div>
+                        </div>
+                        <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
+                        <Image
+                            src="/anotacoes-originais-notion-lo.png"
+                            width={680}
+                            height={1024}
+                            alt="Dra. Lorraine"
+                            className="max-w-xs md:max-w-md rounded-lg"
+                        />
+                        </div>
+                    </div>
+                    </MotionBTTContainer>
+                    </SectionContainer>
                     <MotionBTTContainer
                     transition={{ delay: 0.2, duration: 0.5 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     >
-                    <SectionContainer className="feature-tabs bg-gradient-to-b from-[#f3f5f8] to-white py-12 px-4 " id="cta-notion">
+                    <SectionContainer className="feature-tabs bg-zinc-900 py-12 px-4 " id="cta-notion">
                         <div className="text-center mx-auto my-8 max-w-xl">
                         <PageTitle
-                            className="text-4xl font-bold text-zinc-900"
+                            className="text-4xl font-bold text-slate-200"
                             type="default"
                         >
                             Garanta já o seu!
                         </PageTitle>
-                        <p className="mt-4 text-lg text-zinc-700">
+                        <p className="mt-4 text-lg text-zinc-300">
                             Aproveite as condições especiais de lançamento e organize de uma os seus estudos para residência médica com o Notion da Lô
                         </p>
                         </div>
 
                         <Content className="text-center mt-10" alignment="center">
                         <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
-                            <CardBody className="space-y-4 p-8">
+                            <CardBody className="space-y-4 p-8 bg-white">
                             <div className="text-4xl font-bold text-zinc-800">
                                 R$ 149,90 
                             </div>
