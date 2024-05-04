@@ -11,6 +11,7 @@ import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
+import { FaCheck } from "react-icons/fa6";
 import {
     CardBody,
     CardGroup,
@@ -27,7 +28,7 @@ export default function NotionPage() {
                 title="Notion para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através dos cadernos digitais da Dra Lô"
             />      
-            <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6 pt-24">
+            <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6 pt-32">
                 <SectionContainer className="page-banner--inner-container wrap wrap-px z-10">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
                         <BadgeGroup alignment="center">
@@ -38,14 +39,18 @@ export default function NotionPage() {
                     <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 ">
                         <div className="flex flex-col space-y-6 md:w-1/2 mb-14">
-                            <h1 className="text-4xl md:text-5xl  font-bold text-slate-800 mb-2">
-                                <RiNotionFill className="mb-4"/>
+                            <h1 className="text-4xl md:text-5xl text-center md:text-start font-bold text-slate-800 mb-2">
+                                <div className="flex invisible h-0 md: h-8 md:visible md:justify-start md:mb-16"> 
+                                        <RiNotionFill className="text-center md:text-start mb-4"/>
+                                </div>
                                 Meu companheiro de estudos que me levou a aprovação na residência
                             </h1>
-                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600">
+                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] text-center md:text-start font-sans text-slate-600">
                                 A mesma ferramenta que usei diariamente para conquistar todas as minhas aprovações e meus resumos originais podem ser seus também.
                             </p>
-                        <Button href="#notion-cta" className="w-44" variant="secondary">Quero agora</Button>
+                            <div className="flex w-full justify-center md:justify-start">
+                                <Button href="#notion-cta" variant="secondary">Quero agora</Button>
+                            </div>
                         </div>
                         <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
                         <Image
@@ -221,7 +226,12 @@ export default function NotionPage() {
                                 <p className="text-base md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600 my-4">
                                 Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
                                 </p>
-                                <Button href="#notion-cta" className="w-64" variant="secondary">Ver anotações gratuitas</Button>
+                                <Button
+                                className="w-64" 
+                                variant="secondary"
+                                href="https://www.dralorraine.com.br/notion#tally-open=m62MOY&tally-layout=modal&tally-emoji-text=%F0%9F%91%8B&tally-emoji-animation=wave"
+                                >
+                                Ver anotações gratuitas</Button>
                             </div>
                         </div>
                         <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
@@ -254,57 +264,70 @@ export default function NotionPage() {
                         </p>
                         </div>
 
+
                         <Content className="text-center mt-10" alignment="center">
-                        <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
-                            <CardBody className="space-y-4 p-8 bg-white">
-                            <div className="text-4xl font-bold text-zinc-800">
-                                R$ 149,90 
-                            </div>
-                            <div>
-                                Acesso vitalício a:
-                            </div>
-                            <ul className="list-disc list-inside text-gray-600 text-base space-y-2 text-start">
-                                <li> Notion da Lô, template de estudos para residência médica para preencher com suas anotações</li>
-                                <li> Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência</li>
-                            </ul>
-                            </CardBody>
-                        </Card>
-                        <Button className="mt-8" variant="secondary" >
-                            Quero meu Notion
-                        </Button>
+                            <CardGroup>
+                                <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
+                                    <CardBody className="space-y-6 p-8">
+                                        <div>
+                                            <p className="text-lg font-bold line-through text-gray-400">De R$199</p>
+                                            <div className="text-4xl font-bold text-zinc-800">
+                                                R$ 149,90
+                                            </div>
+                                            <div className="inline-block bg-gray-800 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-900">Versão Completa</div>
+                                            
+                                        </div>
+                                    <ul className="list-disc list-inside text-gray-600 text-base space-y-2 text-start list-none">
+                                    <p className="text-lg font-bold text-gray-600 my-2">Ganhe acesso vitalício a</p>
+                                    <li className="flex items-center gap-2">
+                                        <span className="flex-shrink-0"><FaCheck /></span>
+                                        Notion da Lô, template de estudos para residência médica para preencher com suas anotações
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="flex-shrink-0"><FaCheck /></span>
+                                        Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
+                                    </li>
+                                    </ul>
+                                        <Button 
+                                        className="mt-12 bg-black text-white" 
+                                        variant="secondary"
+                                        href="https://pay.hotmart.com/X90902784L"
+                                        >
+                                        Quero meu Notion
+                                        </Button>
+                                    </CardBody>
+                                </Card>
+                                <Card className="mx-auto max-w-md bg-zinc-800 rounded-lg overflow-hidden shadow-lg">
+                                    <CardBody className="space-y-6 p-8">
+                                    <div>
+                                        <p className="text-lg font-bold line-through text-gray-400">De R$99</p>
+                                        <div className="text-4xl font-bold text-zinc-200">
+                                            R$ 49,90
+                                        </div>
+                                        <div className="inline-block bg-gray-400 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-400">Somente o template</div>
+                                    </div>
+                                    <ul className="list-disc list-inside text-gray-400 text-base space-y-2 text-start list-none">
+                                    <p className="text-lg font-bold text-gray-600 my-2">Ganhe acesso vitalício a</p>
+                                    <li className="flex items-center gap-2">
+                                        <span className="flex-shrink-0"><FaCheck /></span>
+                                        Notion da Lô, template de estudos para residência médica para preencher com suas anotações
+                                    </li>
+                                    </ul>
+                                        <Button 
+                                        className="mt-12" 
+                                        variant="primary"
+                                        href="https://pay.hotmart.com/C90888187B"
+                                        >
+                                        Quero meu Notion
+                                        </Button>
+                                    </CardBody>
+                                </Card>    
+                            </CardGroup>
+                        
+                        
                         </Content>
                     </SectionContainer>
                     </MotionBTTContainer>
-                    {/* Appear Third */}
-                    {/* <MotionBTTContainer transition={{ delay: 0.6, duration: 0.5 }}>
-
-                    </MotionBTTContainer> */}
-                        {/* <div className="mt-6 mb-16 text-center">
-                            <ButtonGroup alignment="center">
-                                <Button href="#features">Features</Button>
-                                <a
-                                    role="button"
-                                    href="https://github.com/christian-luntok/nutritrack"
-                                    className="btn btn--secondary"
-                                >
-                                    Get Template
-                                    <Icon icon="material-symbols:arrow-forward-rounded" />
-                                </a>
-                            </ButtonGroup>
-                        </div> */}
-                    {/* Appear Fourth */}
-                    {/* <MotionBTTContainer transition={{ delay: 0.8, duration: 0.5 }}>
-                        <div className="page-banner--image">
-                            <Image
-                                src="/lolo-portrait-home-page.png"
-                                width={340}
-                                height={512}
-                                alt="Page Banner"
-                                objectFit="cover"
-                                className="mx-auto"
-                            />
-                        </div>
-                    </MotionBTTContainer> */}
                 
         </Layout>
     );

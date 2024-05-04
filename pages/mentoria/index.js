@@ -11,6 +11,7 @@ import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
+import { FaCheck } from "react-icons/fa6";
 import {
     CardBody,
     CardGroup,
@@ -27,7 +28,7 @@ export default function MentorshipPage() {
                 title="Mentoria para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através de uma mentoria personalizada"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-24 ">
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">
                 <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
@@ -117,7 +118,7 @@ export default function MentorshipPage() {
                                 O que posso esperar da mentoria com a Lô?
                             </PageTitle>
                             <Content className="text-center text-slate-200" alignment="center">
-                                <p className="mb-4">
+                                <p className="mb-4 mx-2">
                                     Encurte seu caminho para a aprovação através de uma mentoria guiada comigo {" "}
                                 </p>
                             </Content>
@@ -201,36 +202,61 @@ export default function MentorshipPage() {
                     >
                     <SectionContainer className="feature-tabs py-12 px-4 mt-12" id="cta-mentoria">
                         <div className="text-center mx-auto my-8 max-w-xl">
-                        <PageTitle
-                            className="text-4xl font-bold text-zinc-900"
-                            type="default"
+                        <div
+                            className="underline underline-offset-2 decoration-[#9FD8CB] text-4xl font-bold text-zinc-800 pb-4 "
                         >
                             Partiu residência?
-                        </PageTitle>
+                        </div>
                         <p className="mt-4 text-lg text-zinc-700">
                             Aproveite a condição especial de lançamento e os assentos limitados
                         </p>
                         </div>
 
                         <Content className="text-center mt-10" alignment="center">
-                        <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
-                            <CardBody className="space-y-4 p-8">
-                            <div className="text-4xl font-bold text-zinc-800">
-                                R$ 249,90 por sessão
-                            </div>
-                            <ul className="list-disc list-inside text-gray-600 text-base space-y-2 text-start">
-                                <li> Encontros de até 1h30 via Google Meet</li>
-                                <li> Avaliação personalizada do seu momento</li>
-                                <li> Direcionamento personalizado para estudos</li>
-                                <li> Faça uma melhor decisão de o que e como estudar</li>
-                                <li> Faça uma melhor decisão de para que estudar</li>
-                            </ul>
-                            </CardBody>
-                        </Card>
-                        <Button className="mt-8" variant="secondary" >
-                            Quero minha mentoria
-                        </Button>
+                            <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
+                                <CardBody className="space-y-6 p-8">
+                                    <div>
+                                        <p className="text-lg font-bold line-through text-gray-400">De R$299</p>
+                                        <div className="text-4xl font-bold text-zinc-800">
+                                            R$ 249,90
+                                        </div>
+                                        <div className="inline-block bg-gray-800 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-900">Mentoria online</div>
+                                        
+                                    </div>
+                                <ul className="list-disc list-inside text-gray-600 text-base space-y-2 text-start list-none">
+                                <p className="text-lg font-bold text-gray-600 my-2">Ganhe acesso exclusivo a</p>
+                                <li className="flex items-center gap-2">
+                                    <span className="flex-shrink-0"><FaCheck /></span>
+                                    Encontro de até 1h30 via Google Meet
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="flex-shrink-0"><FaCheck /></span>
+                                    Avaliação personalizada do seu momento
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="flex-shrink-0"><FaCheck /></span>
+                                    Direcionamento personalizado para estudos
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="flex-shrink-0"><FaCheck /></span>
+                                    Faça uma melhor decisão de o que e como estudar
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="flex-shrink-0"><FaCheck /></span>
+                                    Faça uma melhor decisão de para que estudar
+                                </li>
+                                </ul>
+                                    <Button 
+                                    className="mt-12 bg-black text-white" 
+                                    variant="secondary"
+                                    href="https://tally.so/r/mZaprA"
+                                    >
+                                    Quero minha mentoria
+                                    </Button>
+                                </CardBody>
+                            </Card>
                         </Content>
+                            
                     </SectionContainer>
                     </MotionBTTContainer>
             </div>
