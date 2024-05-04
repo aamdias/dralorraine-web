@@ -15,15 +15,29 @@ export const Button = ({
     href = "",
     type = "link",
     variant = "primary",
-    className = ""
+    className = "",
+    asButton = false  // New prop to force button rendering
 }) => {
-    const Element = type === "button" ? "button" : Link;
+    // Determine the correct element type to render
+    const Element = type === "button" || asButton ? "button" : Link;
     const variantClass = ButtonVariant[variant];
     const buttonClass = clsx("btn", variantClass, className);
-    return (
-        <Element href={href} role="button" className={buttonClass}>
-            {children}
-            {icon?.length && <Icon icon={icon} />}
-        </Element>
-    );
+
+    // Use <button> or <a> tag based on the Element resolved
+    if (Element === "button") {
+        return (
+            <button className={buttonClass} type="button">
+                {children}
+                {icon && <Icon icon={icon} />}
+            </button>
+        );
+    } else {
+        return (
+            <Link href={href} role="button" className={buttonClass}>
+                {children}
+                {icon && <Icon icon={icon} />}
+            </Link>
+        );
+    }
 };
+
