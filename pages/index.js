@@ -104,9 +104,9 @@ export default function Home() {
                                 <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
-                                        <CardHeader className="text-lg font-bold text-zinc-800">
+                                        <div className="text-2xl font-bold text-zinc-800 mt-4 underline">
                                         Mentoria individual comigo
-                                        </CardHeader>
+                                        </div>
                                         <p className="text-gray-600 text-base md:text-lg">
                                         Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada
                                         </p>
@@ -120,9 +120,9 @@ export default function Home() {
                                 <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
                                     <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
                                     <div>
-                                        <CardHeader className="text-lg font-bold text-zinc-800">
+                                        <div className="text-2xl font-bold text-zinc-800 mt-4 underline">
                                         Template de estudos no Notion
-                                        </CardHeader>
+                                        </div>
                                         <p className="text-gray-600 text-base md:text-lg">
                                         Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar. 
                                         </p>

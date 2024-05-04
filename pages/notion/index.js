@@ -23,18 +23,21 @@ import { RiNotionFill } from "react-icons/ri";
 
 export default function NotionPage() {
     return (
-        <Layout>
+<>
+        <Layout className="">
             <SEO
                 title="Notion para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através dos cadernos digitais da Dra Lô"
-            />      
-            <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6 pt-32">
-                <SectionContainer className="page-banner--inner-container wrap wrap-px z-10">
+            />
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">  
+            <SectionContainer className=" flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6"> 
+                <SectionContainer className=" wrap wrap-px z-10">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
                         <BadgeGroup alignment="center">
                             <BadgeMessage>Notion</BadgeMessage>
                         </BadgeGroup>
                     </MotionBTTContainer>
+
                     {/* Appear Second */}
                     <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 ">
@@ -64,77 +67,80 @@ export default function NotionPage() {
                     </div>
                     </MotionBTTContainer>
                     </SectionContainer>
+                    
             </SectionContainer>
-
-            <MotionBTTContainer
-                transition={{ delay: 0.2, duration: 0.5 }}
-            >
-                <SectionContainer className="feature-tabs bg-[#F3F5F8]" id="solutions">
+            
+            <SectionContainer className="bg-[#F3F5F8]" id="solutions">
+                
+                <MotionBTTContainer
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                >
                     <PageTitle
                         className="text-center mx-auto pt-8"
                         type="default"
                     >
                         Meu caderno digital
                     </PageTitle>
-                        <Content className="text-center px-4" alignment="center">
-                            <div className="text-xl text-slate-700">
-                                Tudo pronto para você usar também! Dá uma olhada no que você irá encontrar nele.
-                            </div>
-                        </Content>
-                    <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
-                        <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
-                            <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
-                            <div>
-                                <div className="flex flex-row w-full justify-center">
-                                    <CardImage src="/notion-image-1.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
+                    
+                    <Content className="text-center px-4" alignment="center">
+                        <div className="text-xl text-slate-700">
+                            Tudo pronto para você usar também! Dá uma olhada no que você irá encontrar nele.
+                        </div>
+                        <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                                <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
+                                <div>
+                                    <div className="flex flex-row w-full justify-center">
+                                        <CardImage src="/notion-image-1.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
+                                    </div>
+                                    <CardHeader className="text-lg font-bold text-zinc-800">
+                                    Anotações organizadas por grande área
+                                    </CardHeader>
+                                    <p className="text-gray-600 text-base">
+                                    Em vez de comprar um caderno físico (ou várias rs) para cada grande área, no Notion TODAS as matérias de cada grande área ficaram bem organizadas e acessíveis.
+                                    </p>
                                 </div>
-                                <CardHeader className="text-lg font-bold text-zinc-800">
-                                Anotações organizadas por grande área
-                                </CardHeader>
-                                <p className="text-gray-600 text-base">
-                                Em vez de comprar um caderno físico (ou várias rs) para cada grande área, no Notion TODAS as matérias de cada grande área ficaram bem organizadas e acessíveis.
-                                </p>
-                            </div>
-                        </CardBody>
-                        </Card>
-                        <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
-                            <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
-                            <div>
-                                <div className="flex flex-row w-full justify-center">
-                                    <CardImage src="/notion-image-2.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>      
-                                </div>
-                                <CardHeader className="text-lg font-bold text-zinc-800">
-                                Acompanhamento e planejamento de estudos
-                                </CardHeader>
-                                <p className="text-gray-600 text-base">
-                                Através dessa ferramenta, pude acompanhar a quantidade de acertos em cada tema e em cada  tem e em cada prova/simulado que fazia. Ficava mais fácil entender o que priorizar.
-                                </p>
-                            </div>
                             </CardBody>
-                        </Card>
-                        <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
-                            <CardBody className="flex flex-col md:flex-row items-center pb-8 px-8 justify-items-start">
-                            <div>
-                                <div className="flex flex-row w-full justify-center">
-                                    <CardImage src="/notion-image-3.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
+                            </Card>
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                                <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
+                                <div>
+                                    <div className="flex flex-row w-full justify-center">
+                                        <CardImage src="/notion-image-2.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>      
+                                    </div>
+                                    <CardHeader className="text-lg font-bold text-zinc-800">
+                                    Acompanhamento e planejamento de estudos
+                                    </CardHeader>
+                                    <p className="text-gray-600 text-base">
+                                    Através dessa ferramenta, pude acompanhar a quantidade de acertos em cada tema e em cada  tem e em cada prova/simulado que fazia. Ficava mais fácil entender o que priorizar.
+                                    </p>
                                 </div>
-                                <CardHeader className="text-lg font-bold text-zinc-800">
-                                Maior facilidade para revisão e dicas para questões
-                                </CardHeader>
-                                <p className="text-gray-600 text-base">
-                                Com tudo organizado, vem a melhor parte. Para tirar a dúvida de uma questão, resgatar uma anotação era uma tarefa de segundos
-                                </p>
+                                </CardBody>
+                            </Card>
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                                <CardBody className="flex flex-col md:flex-row items-center pb-8 px-8 justify-items-start">
+                                <div>
+                                    <div className="flex flex-row w-full justify-center">
+                                        <CardImage src="/notion-image-3.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
+                                    </div>
+                                    <CardHeader className="text-lg font-bold text-zinc-800">
+                                    Maior facilidade para revisão e dicas para questões
+                                    </CardHeader>
+                                    <p className="text-gray-600 text-base">
+                                    Com tudo organizado, vem a melhor parte. Para tirar a dúvida de uma questão, resgatar uma anotação era uma tarefa de segundos
+                                    </p>
+                                </div>
+                                </CardBody>
+                            </Card>
+                        </CardGroup>
+                        <div className="text-center mt-12 px-16 pb-12" alignment="center">
+                            <div className="text-base text-slate-700">
+                                Acessível via <a href="https://notion.so" target="_blank" className="underline">Notion</a>, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
                             </div>
-                            </CardBody>
-                        </Card>
-                    </CardGroup>
-                    <Content className="text-center mt-12 px-16 pb-12" alignment="center">
-                        <div className="text-base text-slate-700">
-                            Acessível via Notion, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
                         </div>
                     </Content>
-                </SectionContainer>
-            </MotionBTTContainer>
+                </MotionBTTContainer>
+            </SectionContainer>
             <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
@@ -203,7 +209,7 @@ export default function NotionPage() {
                             </CardGroup>
                         </SectionContainer>
                     </MotionBTTContainer>
-                    <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 pt-16">
+                    <SectionContainer className="wrap wrap-px z-10 pt-16">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
                         <BadgeGroup alignment="center">
                             <BadgeMessage>Exclusivo</BadgeMessage>
@@ -227,11 +233,12 @@ export default function NotionPage() {
                                 Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
                                 </p>
                                 <Button
-                                className="w-64" 
-                                variant="secondary"
-                                href="https://www.dralorraine.com.br/notion#tally-open=m62MOY&tally-layout=modal&tally-emoji-text=%F0%9F%91%8B&tally-emoji-animation=wave"
-                                >
-                                Ver anotações gratuitas</Button>
+                                    type="button"
+                                    variant="outline"
+                                    href="https://www.dralorraine.com/notion#tally-open=m62MOY&tally-layout=modal&tally-emoji-text=%F0%9F%91%8B&tally-emoji-animation=wave"
+                                    >
+                                    Ver anotações gratuitas
+                                </Button>      
                             </div>
                         </div>
                         <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
@@ -251,7 +258,7 @@ export default function NotionPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     >
-                    <SectionContainer className="feature-tabs bg-zinc-900 py-12 px-4 " id="cta-notion">
+                    <SectionContainer id="notion-cta" className="feature-tabs bg-zinc-900 py-12 px-4 ">
                         <div className="text-center mx-auto my-8 max-w-xl">
                         <PageTitle
                             className="text-4xl font-bold text-slate-200"
@@ -266,7 +273,7 @@ export default function NotionPage() {
 
 
                         <Content className="text-center mt-10" alignment="center">
-                            <CardGroup>
+                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-12 md:grid-cols-2">
                                 <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
                                     <CardBody className="space-y-6 p-8">
                                         <div>
@@ -312,6 +319,10 @@ export default function NotionPage() {
                                         <span className="flex-shrink-0"><FaCheck /></span>
                                         Notion da Lô, template de estudos para residência médica para preencher com suas anotações
                                     </li>
+                                    <li className="flex items-center gap-2 invisible">
+                                        <span className="flex-shrink-0"><FaCheck /></span>
+                                        Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
+                                    </li>
                                     </ul>
                                         <Button 
                                         className="mt-12" 
@@ -323,12 +334,11 @@ export default function NotionPage() {
                                     </CardBody>
                                 </Card>    
                             </CardGroup>
-                        
-                        
                         </Content>
                     </SectionContainer>
                     </MotionBTTContainer>
-                
+                 </div>
         </Layout>
+</>
     );
 }

@@ -32,7 +32,7 @@ export default function MentorshipPage() {
                 <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs" id="solutions">
+                        <SectionContainer className="feature-tabs">
                             <BadgeGroup alignment="center">
                                 <BadgeMessage>Mentoria Individual</BadgeMessage>
                                 {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
@@ -48,7 +48,11 @@ export default function MentorshipPage() {
                                     Aumente suas chances de aprovação nas provas de residência mais concorridas do país se 
                                     preparando com quem entende de verdade o que é necessário {" "}
                                 </p>
-                                <Button className="mt-8" variant="secondary" >Quero saber mais</Button>
+                                <Button 
+                                className="mt-8" 
+                                variant="secondary" 
+                                href="#pre-solutions"
+                                >Quero saber mais</Button>
                             </Content>
                             <PageTitle
                                 className="text-center mx-auto my-16"
@@ -98,7 +102,7 @@ export default function MentorshipPage() {
                                 </Card>
                             </CardGroup>
                             <Content className="text-center my-16 px-16" alignment="center">
-                                <div className="text-2xl text-zinc-600">
+                                <div className="text-2xl text-zinc-600" id="pre-solutions">
                                     Vivi na prática esse problemas e agora quero retrubir! <br/> <span className="font-bold">Deixa eu me apresentar.</span> {" "}
                                 </div>
                             </Content>
@@ -256,7 +260,6 @@ export default function MentorshipPage() {
                                 </CardBody>
                             </Card>
                         </Content>
-                            
                     </SectionContainer>
                     </MotionBTTContainer>
             </div>
