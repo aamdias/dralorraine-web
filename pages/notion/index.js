@@ -29,7 +29,7 @@ export default function NotionPage() {
                 title="Notion para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através dos cadernos digitais da Dra Lô"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">  
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pt-32 ">  
             <SectionContainer className=" flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6"> 
                 <SectionContainer className=" wrap wrap-px z-10">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
@@ -87,7 +87,7 @@ export default function NotionPage() {
                             Tudo pronto para você usar também! Dá uma olhada no que você irá encontrar nele.
                         </div>
                         <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
                                 <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
                                 <div>
                                     <div className="flex flex-row w-full justify-center">
@@ -102,7 +102,7 @@ export default function NotionPage() {
                                 </div>
                             </CardBody>
                             </Card>
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
                                 <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
                                 <div>
                                     <div className="flex flex-row w-full justify-center">
@@ -117,7 +117,7 @@ export default function NotionPage() {
                                 </div>
                                 </CardBody>
                             </Card>
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4">
+                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
                                 <CardBody className="flex flex-col md:flex-row items-center pb-8 px-8 justify-items-start">
                                 <div>
                                     <div className="flex flex-row w-full justify-center">
@@ -233,9 +233,9 @@ export default function NotionPage() {
                                 Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
                                 </p>
                                 <Button
-                                    type="button"
+                                    type="link"
                                     variant="outline"
-                                    href="https://www.dralorraine.com/notion#tally-open=m62MOY&tally-layout=modal&tally-emoji-text=%F0%9F%91%8B&tally-emoji-animation=wave"
+                                    href="#tally-open=m62MOY&tally-emoji-text=👋&tally-emoji-animation=wave"
                                     >
                                     Ver anotações gratuitas
                                 </Button>      
