@@ -25,14 +25,14 @@ export const HomeBanner = () => {
                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                 <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 ">
                     <div className="flex flex-col space-y-6 md:w-1/2">
-                    <h1 className="text-4xl md:text-5xl  font-bold text-gray-800">
+                    <h1 className="text-4xl md:text-5xl text-center md:text-left font-bold text-gray-800">
                         Oi! Sou a <span className="text-[#9FD8CB]">Lorraine</span>.
                     </h1>
-                    <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-gray-700">
+                    <p className="text-lg md:max-w-[264px] lg:max-w-[440px] text-center md:text-left  font-sans text-gray-700">
                         <span className="font-bold">Sou médica pela UNICAMP</span> e, após muito esforço, alcancei um dos melhores resultados de aprovação para a residência médica em Dermatologia em 2023, nas instituições mais renomadas do Brasil.
                     </p>
                     {router.pathname === "/" && (
-                    <ButtonGroup alignment="start">
+                    <ButtonGroup className="justify-center md:justify-start">
                         <a
                             role="button"
                             href="#solutions"

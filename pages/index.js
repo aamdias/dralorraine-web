@@ -27,7 +27,7 @@ export default function Home() {
                 title="Dra Lorraine | R1 em Dermato"
                 description="Se prepare para residência médica com quem teve resultado nas provas mais concorridas do país"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-24 ">
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">
                 {/* { Page Banner } */}
                 <HomeBanner />
                 {/* Components Container */}
