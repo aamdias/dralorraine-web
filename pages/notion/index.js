@@ -28,7 +28,7 @@ export default function NotionPage() {
                 title="Notion para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através dos cadernos digitais da Dra Lô"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pt-32 ">  
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pt-28 ">  
             <SectionContainer className=" flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6"> 
                 <SectionContainer className=" wrap wrap-px z-10">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
@@ -44,7 +44,7 @@ export default function NotionPage() {
                             <h1 className="text-4xl md:text-5xl text-center md:text-start font-bold text-slate-800 mb-2 pt-4">
                                 Meu <span className="underline decoration-[#9FD8CB]">caderno digital</span> que me levou a aprovação na residência
                             </h1>
-                            <p className="text-2xl md:max-w-[264px] lg:max-w-[440px] text-center md:text-start font-sans text-slate-600">
+                            <p className="text-xl md:max-w-[264px] lg:max-w-[440px] text-center md:text-start font-sans text-slate-600">
                                 A mesma ferramenta que usei diariamente para conquistar todas as minhas aprovações e meus resumos originais podem ser seus também.
                             </p>
                             <div className="flex w-full justify-center md:justify-start pb-12">

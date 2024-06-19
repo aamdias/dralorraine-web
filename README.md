@@ -4,7 +4,6 @@ Esse projeto é um web app de front-end feito para divulgar serviços e produtos
 
 O projeto está hospedado em produção via [www.dralorraine.com](https://www.dralorraine.com)
 
-
 ## Stack
 
 - Next 
