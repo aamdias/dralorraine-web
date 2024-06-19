@@ -45,8 +45,8 @@ export default function Home() {
                             </PageTitle>
                             <div className="container mx-auto my-5">
                                 <div className="flex flex-col items-center justify-center gap-8">
-                                    <div class="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
-                                        <div class="px-6 py-4">
+                                    <div className="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
+                                        <div className="px-6 py-4">
                                             <div className="w-full mb-6 mt-2">
                                                 <Image 
                                                 src="/history-map-lolo.png" 
@@ -55,8 +55,8 @@ export default function Home() {
                                                 height={1024}
                                                 className="w-full h-full object-cover shadow-sm"/>
                                             </div>
-                                            <h2 class="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
-                                            <p class="text-gray-700 text-lg leading-8 font-thin">
+                                            <h2 className="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
+                                            <p className="text-gray-700 text-lg leading-8 font-thin">
                                                 Sou paulistana diretamente da Zona Leste, porém foi em São José dos Campos onde iniciei minha jornada rumo à medicina. Lá fiz ensino técnico em Análises Clínicas e iniciei um cursinho pré-vestibular no CASD Vestibulares, um cursinho popular.
                                                 <br/><br/>
                                                 Após 3 anos de preparação, fui aprovada na UNICAMP, lugar que foi uma verdadeira casa para mim e onde vivi momentos inesquecíveis!

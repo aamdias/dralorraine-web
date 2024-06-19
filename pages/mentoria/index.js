@@ -33,15 +33,15 @@ export default function MentorshipPage() {
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <SectionContainer className="feature-tabs">
-                            <BadgeGroup alignment="center">
+                            <BadgeGroup alignment="center" className="mb-4">
                                 <BadgeMessage>Mentoria Individual</BadgeMessage>
                                 {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
                             </BadgeGroup>
                             <PageTitle
-                                className="text-center mx-auto px-4"
+                                className="text-center mx-auto px-4 mb-4"
                                 type="default"
                             >
-                                Se prepare para a Residência Médica com a Lô
+                                Se prepare para a <span className="underline decoration-[#9FD8CB]">Residência Médica</span> com a Lô
                             </PageTitle>
                             <Content className="text-center" alignment="center">
                                 <p className="mb-4 mx-4">
