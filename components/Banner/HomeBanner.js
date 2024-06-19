@@ -12,11 +12,11 @@ export const HomeBanner = () => {
     const router = useRouter();
 
     return (
-        <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6">
+        <SectionContainer className="page-banner--container flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-2">
             <SectionContainer className="page-banner--inner-container wrap wrap-px z-10">
                 {router.pathname === "/" && (
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                        <BadgeGroup alignment="center" className="mb-4">
+                        <BadgeGroup alignment="center" className="mb-6">
                             <BadgeMessage>Sobre mim</BadgeMessage>
                         </BadgeGroup>
                     </MotionBTTContainer>
@@ -25,7 +25,7 @@ export const HomeBanner = () => {
                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                 <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 ">
                     <div className="flex flex-col space-y-6 md:w-1/2">
-                    <h1 className="text-4xl md:text-5xl text-center md:text-left font-bold text-gray-800 mb-2">
+                    <h1 className="text-5xl md:text-5xl text-center md:text-left font-bold text-gray-800 mb-2">
                         Oi! Sou a <span className="text-[#9FD8CB]">Lorraine</span>.
                     </h1>
                     <p className="text-lg md:max-w-[264px] lg:max-w-[440px] text-center md:text-left  font-sans text-gray-700">
