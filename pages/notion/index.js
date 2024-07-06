@@ -19,8 +19,45 @@ import {
     CardImage,
     Card
 } from "@components/Card";
+import { WobbleCard } from "@components/WobbleCard";
+import { useState, useEffect } from 'react';
+import { GlareCard } from "@components/GlareCard";
 
 export default function NotionPage() {
+
+const [dimensionsFeatureReviews, setDimensionsFeatureReviews] = useState({ width: 500, height: 500 });
+const [dimensionsFeatureEditor, setDimensionsFeatureEditor] = useState({ width: 420, height: 420 });
+const [dimensionsFeatureAnnotations, setDimensionsFeatureAnnotations] = useState({ width: 600, height: 600 });
+const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 600, height: 600 });
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 1024) {
+        setDimensionsFeatureReviews({ width: 500, height: 500 }); 
+        setDimensionsFeatureEditor({ width: 420, height: 420 }); 
+        setDimensionsFeatureAnnotations({ width: 600, height: 600 });
+        setDimensionsFeatureFocus({ width: 600, height: 600 });
+      } else if (screenWidth < 1350) {
+        setDimensionsFeatureReviews({ width: 700, height: 700 }); 
+        setDimensionsFeatureEditor({ width: 580, height: 580 }); 
+        setDimensionsFeatureAnnotations({ width: 800, height: 800 });
+        setDimensionsFeatureFocus({ width: 680, height: 680 });
+      } else {
+        setDimensionsFeatureEditor({ width: 400, height: 420 });
+        setDimensionsFeatureReviews({ width: 500, height: 500 });
+        setDimensionsFeatureAnnotations({ width: 600, height: 600 });
+        setDimensionsFeatureFocus({ width: 600, height: 600 });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Set initial dimensions
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
     return (
 <>
         <Layout className="">
@@ -72,140 +109,115 @@ export default function NotionPage() {
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
                     <PageTitle
-                        className="text-center mx-auto pt-8"
+                        className="text-center w-screen pt-8"
                         type="default"
                     >
-                        Meu caderno digital
+                        Notion da Lô
                     </PageTitle>
                     
-                    <Content className="text-center px-4" alignment="center">
+                    <div className="text-center" alignment="center">
                         <div className="text-xl text-slate-700">
-                            Tudo pronto para você usar também! Dá uma olhada no que você irá encontrar nele.
+                            Dá uma olhada no que você irá encontrar nele.
                         </div>
-                        <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
-                                <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
-                                <div>
-                                    <div className="flex flex-row w-full justify-center">
-                                        <CardImage src="/notion-image-1.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
-                                    </div>
-                                    <CardHeader className="text-lg font-bold text-zinc-800">
-                                    Anotações organizadas por grande área
-                                    </CardHeader>
-                                    <p className="text-gray-600 text-base">
-                                    Em vez de comprar um caderno físico (ou várias rs) para cada grande área, no Notion TODAS as matérias de cada grande área ficaram bem organizadas e acessíveis.
-                                    </p>
+                        <CardGroup className="grid gap-4 grid-cols-1 min-[1350px]:grid-cols-3 md:w-3/5 lg:w-full lg:px-16 xl:w-[1200px] mx-auto mt-12 ">
+                            
+
+                            <WobbleCard
+                                containerClassName="col-span-1 min-[1350px]:col-span-2 h-content bg-teal-800 min-h-[500px] md:min-h-[620px] lg:min-h-[620px]"
+                                className=""
+                            >
+                                <div className="max-w-md lg:max-w-xs">
+                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                                    Melhor que cadernos físicos
+                                </h2>
+                                <p className="mt-2 text-left  text-base/6 text-neutral-200 md:pr-16 min-[1350px]:pr-2">
+                                    Com o Notion, você organiza todas as anotações nas grandes áreas da medicina e acompanha de forma simples o nível de confiança e o porcentual de acertos, facilitando a identificação de onde focar seus estudos
+                                </p>
                                 </div>
-                            </CardBody>
-                            </Card>
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
-                                <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8 justify-items-start">
-                                <div>
-                                    <div className="flex flex-row w-full justify-center">
-                                        <CardImage src="/notion-image-2.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>      
-                                    </div>
-                                    <CardHeader className="text-lg font-bold text-zinc-800">
-                                    Acompanhamento e planejamento de estudos
-                                    </CardHeader>
-                                    <p className="text-gray-600 text-base">
-                                    Através dessa ferramenta, pude acompanhar a quantidade de acertos em cada tema e em cada  tem e em cada prova/simulado que fazia. Ficava mais fácil entender o que priorizar.
-                                    </p>
+                                <Image
+                                src="/notion-feature-image-1.png"
+                                width={dimensionsFeatureAnnotations.width}
+                                height={dimensionsFeatureAnnotations.height}
+                                alt="Notion feature 1"
+                                className="absolute -right-4 lg:-right-[20%]  filter -bottom-3 object-contain rounded-xl"
+                                />
+                            </WobbleCard>
+
+                            <WobbleCard
+                                containerClassName="col-span-1 h-content bg-teal-950 min-h-[540px] sm:min-h-[620px] md:min-h-[600px] lg:min-h-[620px] "
+                                className=""
+                            >
+                                <div className="max-w-md sm:max-w-xs">
+                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                                    Acesso rápido ao que importa
+                                </h2>
+                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
+                                    No Notion você poderá acessar rapidamente os últimos temas estudados e poderá definir temas para focar ao longo de sua preparação
+                                </p>
                                 </div>
-                                </CardBody>
-                            </Card>
-                            <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md bg-white mx-4 md:mx-2">
-                                <CardBody className="flex flex-col md:flex-row items-center pb-8 px-8 justify-items-start">
-                                <div>
-                                    <div className="flex flex-row w-full justify-center">
-                                        <CardImage src="/notion-image-3.png" alt="Study Plan" className="h-48 sm:aspect-square md:aspect-auto"/>
-                                    </div>
-                                    <CardHeader className="text-lg font-bold text-zinc-800">
-                                    Maior facilidade para revisão e dicas para questões
-                                    </CardHeader>
-                                    <p className="text-gray-600 text-base">
-                                    Com tudo organizado, vem a melhor parte. Para tirar a dúvida de uma questão, resgatar uma anotação era uma tarefa de segundos
-                                    </p>
+                                <Image
+                                src="/notion-feature-image-2.png"
+                                width={dimensionsFeatureFocus.width}
+                                height={dimensionsFeatureFocus.height}
+                                alt="Notion feature 1"
+                                className="absolute -right-4 lg:-right-[20%] filter -bottom-2 object-contain rounded-xl"
+                                />
+                            </WobbleCard>
+
+                            <WobbleCard
+                                containerClassName="col-span-1 h-content bg-orange-800 min-h-[500px] sm:min-h-[540px] lg:min-h-[600px]"
+                                className=""
+                            >
+                                <div className="max-w-md sm:max-w-xs">
+                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                                    Revisões programadas e planejamento semanal
+                                </h2>
+                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
+                                    Organize quando estudar o quê. Planeje seus estudos e programe revisões de matérias com maior dificuldade
+                                </p>
                                 </div>
-                                </CardBody>
-                            </Card>
+                                <Image
+                                src="/notion-feature-image-3.png"
+                                width={dimensionsFeatureReviews.width}
+                                height={dimensionsFeatureReviews.height}
+                                alt="Notion feature 1"
+                                className="absolute -right-4 lg:-right-[20%] filter -bottom-3 object-contain rounded-xl"
+                                />
+                            </WobbleCard>
+
+                            <WobbleCard
+                                containerClassName="col-span-1 min-[1350px]:col-span-2 h-content bg-zinc-900 min-h-[800px] sm:min-h-[840px] 2xl:min-h-[640px] "
+                                className=""
+                            >
+                                <div className="max-w-md sm:max-w-xs">
+                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                                    Editor completo para suas anotações
+                                </h2>
+                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
+                                    No Notion, cada anotação fica em uma página própria que tem acesso a inúmeros recursos de formatação como diferentes tamanhos de texto, imagens, vídeos, tabelas... Assim as anotações ficam bem ricas e visuais!
+                                </p>
+                                </div>
+                                <Image
+                                src="/notion-feature-image-4.png"
+                                width={dimensionsFeatureEditor.width}
+                                height={dimensionsFeatureEditor.height}
+                                alt="Notion feature 1"
+                                className="absolute -right-4 lg:-right-[5%] 2xl:-right-[10%] filter -bottom-3 object-contain rounded-xl"
+                                />
+                            </WobbleCard>
+                        
                         </CardGroup>
                         <div className="text-center mt-12 px-16 pb-12" alignment="center">
                             <div className="text-base text-slate-700">
                                 Acessível via <a href="https://notion.so" className="underline">Notion</a>, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
                             </div>
                         </div>
-                    </Content>
+                    </div>
                 </MotionBTTContainer>
             </SectionContainer>
-            <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer className="feature-tabs bg-zinc-900 py-16" id="notion-features">
-                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-12">
-                                <Card className="col-span-1 bg-transparent mx-4">
-                                    <CardBody className="flex flex-col items-center pt-4 pb-8 px-8">
-                                        <div className="grid grid-rows-3 grid-cols-1 gap-8 items-start md:grid-cols-3 min-[360px]:grid-rows-1">
-                                            <CardImage src="/notion-feature-image-1.png" alt="Study Plan" className="row-span-1 min-[360px]:col-span-2 aspect-video drop-shadow-[0_4px_6px_rgba(214,229,227,0.5)]"/>
-                                            <div className="flex flex-col row-span-2 md:col-span-1">
-                                                <CardHeader className="text-lg font-bold text-slate-100">
-                                                Melhor que cadernos físicos
-                                                </CardHeader>
-                                                <p className="text-slate-200 text-base">
-                                                Com o Notion, você organiza todas as anotações nas grandes áreas da medicina e acompanha de forma simples o nível de confiança e o porcentual de acertos, facilitando a identificação de onde focar seus estudos
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-1 bg-transparent mx-4">
-                                    <CardBody className="flex flex-col items-center pt-4 pb-8 px-8">
-                                        <div className="grid grid-rows-3 grid-cols-1 gap-8 items-start md:grid-cols-3 min-[360px]:grid-rows-1">
-                                            <div className="flex flex-col row-span-2 order-2 md:order-1 md:col-span-1">
-                                                <CardHeader className="text-lg font-bold text-slate-100">
-                                                Acesso rápido ao que importa
-                                                </CardHeader>
-                                                <p className="text-slate-200 text-base">
-                                                No Notion você poderá acessar rapidamente os últimos temas estudados e poderá definir temas para focar ao longo de sua preparação, te ajudando a gastar seu tempo no que é mais relevante para a sua preparação
-                                                </p>
-                                            </div>
-                                            <CardImage src="/notion-feature-image-2.png" alt="Study Plan" className="row-span-1 order-1 md:order-2 min-[360px]:col-span-2 aspect-video drop-shadow-[0_4px_6px_rgba(214,229,227,0.5)]"/>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-1 bg-transparent mx-4">
-                                    <CardBody className="flex flex-col items-center pt-4 pb-8 px-8">
-                                        <div className="grid grid-rows-3 grid-cols-1 gap-8 items-start md:grid-cols-3 min-[360px]:grid-rows-1">
-                                            <CardImage src="/notion-feature-image-3.png" alt="Study Plan" className="row-span-1 min-[360px]:col-span-2 aspect-video drop-shadow-[0_4px_6px_rgba(214,229,227,0.5)]"/>
-                                            <div className="flex flex-col row-span-2 md:col-span-1">
-                                                <CardHeader className="text-lg font-bold text-slate-100">
-                                                Revisões programadas e planejamento semanal
-                                                </CardHeader>
-                                                <p className="text-slate-200 text-base">
-                                                Organize quando estudar o quê. Planeje seus estudos e programe revisões de matérias com maior dificuldade de forma automática
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-1 bg-transparent mx-4">
-                                    <CardBody className="flex flex-col items-center pt-4 pb-8 px-8">
-                                        <div className="grid grid-rows-3 grid-cols-1 gap-8 items-start md:grid-cols-3 min-[360px]:grid-rows-1">
-                                            <div className="flex flex-col order-2 md:order-1 row-span-2 md:col-span-1">
-                                                <CardHeader className="text-lg font-bold text-slate-100">
-                                                Editor completo para suas anotações
-                                                </CardHeader>
-                                                <p className="text-slate-200 text-base">
-                                                No Notion, cada anotação fica em uma página própria que tem acesso a inúmeros recursos de formatação como diferentes tamanhos de texto, imagens, vídeos, tabelas... Assim as anotações ficam bem ricas e visuais!
-                                                </p>
-                                            </div>
-                                            <CardImage src="/notion-feature-image-4.png" alt="Study Plan" className="row-span-1 order-1 md:order-2 min-[360px]:col-span-2 min-h-80 drop-shadow-[0_4px_6px_rgba(214,229,227,0.5)]"/>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                            </CardGroup>
-                        </SectionContainer>
-                    </MotionBTTContainer>
-                    <SectionContainer className="wrap wrap-px z-10 pt-16">
+                    <SectionContainer className="w-full z-10 pt-16 pb-8 bg-white px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-[1200px] mx-auto">
+
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
                         <BadgeGroup alignment="center">
                             <BadgeMessage>Exclusivo</BadgeMessage>
@@ -215,17 +227,17 @@ export default function NotionPage() {
                     <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 pb-16">
                         <div className="flex flex-col space-y-6 md:w-1/2 mb-14">
-                            <h1 className="text-4xl md:text-5xl  font-bold text-slate-800 mb-2">
-                                Acesso as anotações originais que me levaram a aprovação!
+                            <h1 className="text-4xl md:text-5xl text-center md:text-left font-bold text-slate-800 mb-2">
+                                Acesso as <span className="underline decoration-[#9FD8CB]">anotações originais</span> que me levaram a aprovação!
                             </h1>
-                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600">
+                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] text-center md:text-left font-sans text-slate-600">
                                 Na versão mais completa, ganhe acesso também a todas as +140 anotações originais que me levaram as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas
                             </p>
-                            <div className="border p-4 rounded-lg">
-                                <h2 className="text-lg font-bold md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
+                            <div className="border p-4 rounded-lg flex flex-col items-center md:items-start">
+                                <h2 className="text-lg font-bold text-center md:text-left md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
                                 Anotações gratuitas
                                 </h2>
-                                <p className="text-base md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600 my-4">
+                                <p className="text-base text-center md:text-left md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600 my-4">
                                 Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
                                 </p>
                                 <Button
@@ -238,16 +250,22 @@ export default function NotionPage() {
                             </div>
                         </div>
                         <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                        <Image
-                            src="/anotacoes-originais-notion-lo.png"
-                            width={680}
-                            height={1024}
-                            alt="Dra. Lorraine"
-                            className="max-w-xs md:max-w-md rounded-lg"
-                        />
+                            <GlareCard>
+                                <Image
+                                    src="/anotacoes-originais-notion-lo.png"
+                                    width={680}
+                                    height={1024}
+                                    alt="Dra. Lorraine"
+                                    className="max-w-xs md:max-w-md rounded-lg"
+                                />
+                            </GlareCard>
+                        
                         </div>
                     </div>
                     </MotionBTTContainer>
+
+                        </div>
+
                     </SectionContainer>
                     <MotionBTTContainer
                     transition={{ delay: 0.2, duration: 0.5 }}
