@@ -116,10 +116,10 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                     </PageTitle>
                     
                     <div className="text-center" alignment="center">
-                        <div className="text-xl text-slate-700">
+                        <div className="text-xl text-slate-700 mx-4">
                             Dá uma olhada no que você irá encontrar nele.
                         </div>
-                        <CardGroup className="grid gap-4 grid-cols-1 min-[1350px]:grid-cols-3 md:w-3/5 lg:w-full lg:px-16 xl:w-[1200px] mx-auto mt-12 ">
+                        <CardGroup className="grid gap-4 grid-cols-1 min-[1350px]:grid-cols-3 md:w-3/5 lg:w-full lg:px-16 xl:w-[1236px] px-4 mx-auto mt-12 ">
                             
 
                             <WobbleCard
@@ -144,7 +144,7 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                             </WobbleCard>
 
                             <WobbleCard
-                                containerClassName="col-span-1 h-content bg-teal-950 min-h-[540px] sm:min-h-[620px] md:min-h-[600px] lg:min-h-[620px] "
+                                containerClassName="col-span-1 h-content bg-teal-950 min-h-[540px] sm:min-h-[620px] md:min-h-[600px] lg:min-h-[620px]"
                                 className=""
                             >
                                 <div className="max-w-md sm:max-w-xs">
@@ -165,7 +165,7 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                             </WobbleCard>
 
                             <WobbleCard
-                                containerClassName="col-span-1 h-content bg-orange-800 min-h-[500px] sm:min-h-[540px] lg:min-h-[600px]"
+                                containerClassName="col-span-1 h-content bg-orange-800 min-h-[500px] sm:min-h-[540px] lg:min-h-[600px] "
                                 className=""
                             >
                                 <div className="max-w-md sm:max-w-xs">
