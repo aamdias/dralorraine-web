@@ -22,6 +22,7 @@ import {
 import { WobbleCard } from "@components/WobbleCard";
 import { useState, useEffect } from 'react';
 import { GlareCard } from "@components/GlareCard";
+import { VideoModal } from "@components/VideoModal";
 
 export default function NotionPage() {
 
@@ -29,7 +30,6 @@ const [dimensionsFeatureReviews, setDimensionsFeatureReviews] = useState({ width
 const [dimensionsFeatureEditor, setDimensionsFeatureEditor] = useState({ width: 420, height: 420 });
 const [dimensionsFeatureAnnotations, setDimensionsFeatureAnnotations] = useState({ width: 600, height: 600 });
 const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 600, height: 600 });
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,8 +84,11 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                             <p className="text-xl md:max-w-[264px] lg:max-w-[440px] text-center md:text-start font-sans text-slate-600">
                                 A mesma ferramenta que usei diariamente para conquistar todas as minhas aprovações e meus resumos originais podem ser seus também.
                             </p>
-                            <div className="flex w-full justify-center md:justify-start pb-12">
+                            <div className="flex w-full justify-center md:justify-start">
                                 <Button href="#notion-cta" variant="secondary">Quero agora</Button>
+                            </div>
+                            <div className="flex w-full justify-center md:justify-start pb-10">
+                                <VideoModal />
                             </div>
                         </div>
                         <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
