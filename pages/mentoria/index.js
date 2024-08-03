@@ -249,6 +249,8 @@ export default function MentorshipPage() {
                                     <span className="flex-shrink-0"><FaCheck /></span>
                                     Faça uma melhor decisão de para que estudar
                                 </li>
+                                <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
+                                <p className="text-md font-bold text-gray-600 my-2 text-center">COPID2024 (20% off) </p>
                                 </ul>
                                     <Button 
                                     className="mt-12 bg-black text-white" 
