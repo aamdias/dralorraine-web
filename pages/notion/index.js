@@ -311,6 +311,8 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                                         <span className="flex-shrink-0"><FaCheck /></span>
                                         Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
                                     </li>
+                                    <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
+                                <p className="text-md font-bold text-gray-600 my-2 text-center">COPID 2024 (20% off) </p>
                                     </ul>
                                         <Button 
                                         className="mt-12 bg-black text-white" 
@@ -340,6 +342,8 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                                         <span className="flex-shrink-0"><FaCheck /></span>
                                         Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
                                     </li>
+                                    <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
+                                <p className="text-md font-bold text-gray-600 my-2 text-center">COPID 2024 (20% off) </p>
                                     </ul>
                                         <Button 
                                         className="mt-12" 
