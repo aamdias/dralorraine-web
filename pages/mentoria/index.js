@@ -61,8 +61,8 @@ export default function MentorshipPage() {
                                 Já passou por esses problemas?
                             </PageTitle>
                             <CardGroup className="grid gap-2 grid-cols-1 max-w-4xl mx-auto mt-16 md:grid-cols-3">
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4">
-                                    <div className="w-full h-48">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4 ">
+                                    <div className="w-full h-56">
                                     <CardImage src="/new-study-planning.png" alt="Study Plan" className="w-full h-full object-cover"/>
                                     </div>
                                     <CardBody className="flex flex-col items-center  pb-8 px-8">
@@ -76,8 +76,8 @@ export default function MentorshipPage() {
                                     </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4">
-                                    <div className="w-full h-48">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4 ">
+                                    <div className="w-full h-56">
                                     <CardImage src="/new-routine-planning.png" alt="Study Plan" className="w-full h-full object-cover"/>
                                     </div>
                                     <CardBody className="flex flex-col items-center  pb-8 px-8">
@@ -91,8 +91,8 @@ export default function MentorshipPage() {
                                     </div>
                                     </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4">
-                                    <div className="w-full h-48">
+                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md mx-4 ">
+                                    <div className="w-full h-56">
                                     <CardImage src="/new-mental-health.png" alt="Study Plan" className="w-full h-full object-cover"/>
                                     </div>
                                     <CardBody className="flex flex-col items-center  pb-8 px-8">
@@ -256,8 +256,8 @@ export default function MentorshipPage() {
                                     <span className="flex-shrink-0"><FaCheck /></span>
                                     Faça uma melhor decisão de para que estudar
                                 </li>
-                                <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
-                                <p className="text-md font-bold text-gray-600 my-2 text-center">COPID2024 (20% off) </p>
+                                {/* <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
+                                <p className="text-md font-bold text-gray-600 my-2 text-center">COPID2024 (20% off) </p> */}
                                 </ul>
                                     <Button 
                                     className="mt-12 bg-black text-white" 
