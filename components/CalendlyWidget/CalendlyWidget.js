@@ -49,7 +49,7 @@ export const CalendlyWidget = ({ onDateSelected, onEventScheduled, purchaseCompl
   return (
     <>
       <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-      <button className="flex flex-row mx-auto w-72 bg-white p-2 rounded-md justify-center">
+      <button className="flex flex-row mx-auto w-72 bg-[#F3F5F8] p-2 rounded-lg shadow-sm justify-center">
         <a href="" onClick={handleLinkClick}>Ver horários disponíveis</a>
       </button>
     </>
