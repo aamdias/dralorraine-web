@@ -8,6 +8,7 @@ import { GlareCard } from "@components/GlareCard";
 import { BadgeMessage, BadgeGroup } from "@components/Badge";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
+import Link from "next/link";
 import {
     CardBody,
     CardGroup,
@@ -42,7 +43,7 @@ export default function Anotacoes() {
                   <span className="text-secondary-500 block mt-2">1º lugar em Dermato na UNICAMP</span>
                 </PageTitle>
                 <Content className="text-lg md:text-xl text-gray-600 mb-10">
-                  Tenha acesso a todas as +140 anotações originais que levaram a <a href="/">Dra Lô</a> as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas. Material completo e organizado para maximizar seu aprendizado.
+                  Tenha acesso a todas as +140 anotações originais que levaram a <Link href="/">Dra Lô</Link> as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas. Material completo e organizado para maximizar seu aprendizado.
                 </Content>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
