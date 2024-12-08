@@ -69,7 +69,7 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
             <SectionContainer className=" flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6"> 
                 <SectionContainer className=" wrap wrap-px z-10">
                     <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                        <BadgeGroup alignment="center" className="mb-2">
+                        <BadgeGroup alignment="center" className="mb-6">
                             <BadgeMessage>Notion</BadgeMessage>
                         </BadgeGroup>
                     </MotionBTTContainer>
@@ -77,17 +77,15 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                     {/* Appear Second */}
                     <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <div className="flex flex-col md:flex-row items-center justify-between px-2 ">
-                        <div className="flex flex-col space-y-6 md:w-1/2">
-                            <h1 className="text-4xl md:text-5xl text-center md:text-start font-bold text-slate-800 mb-2 pt-4">
+                        <div className="flex flex-col space-y-6 text-center w-full md:w-1/2">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 mt-6 text-center mx-auto text-slate-800">
                                 Meu <span className="underline decoration-[#9FD8CB]">caderno digital</span> que me levou a aprovação na residência
                             </h1>
-                            <p className="text-xl md:max-w-[264px] lg:max-w-[440px] text-center md:text-start font-sans text-slate-600">
+                            <p className="text-xl mx-auto max-w-[440px] font-sans text-slate-600">
                                 A mesma ferramenta que usei diariamente para conquistar todas as minhas aprovações e meus resumos originais podem ser seus também.
                             </p>
-                            <div className="flex w-full justify-center md:justify-start">
+                            <div className="flex flex-col md:flex-row w-full justify-center items-center gap-4 pb-10">
                                 <Button href="#notion-cta" variant="secondary">Quero agora</Button>
-                            </div>
-                            <div className="flex w-full justify-center md:justify-start pb-10">
                                 <VideoModal />
                             </div>
                         </div>
@@ -229,25 +227,25 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                     {/* Appear Second */}
                     <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
                     <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 pb-16">
-                        <div className="flex flex-col space-y-6 md:w-1/2 mb-14">
-                            <h1 className="text-4xl md:text-5xl text-center md:text-left font-bold text-slate-800 mb-2">
+                        <div className="flex flex-col space-y-6 text-center w-full md:w-1/2 mb-14">
+                            <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
                                 Acesso as <span className="underline decoration-[#9FD8CB]">anotações originais</span> que me levaram a aprovação!
                             </h1>
-                            <p className="text-lg md:max-w-[264px] lg:max-w-[440px] text-center md:text-left font-sans text-slate-600">
+                            <p className="text-lg mx-auto max-w-[440px] font-sans text-slate-600">
                                 Na versão mais completa, ganhe acesso também a todas as +140 anotações originais que me levaram as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas
                             </p>
-                            <div className="border p-4 rounded-lg flex flex-col items-center md:items-start">
-                                <h2 className="text-lg font-bold text-center md:text-left md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
+                            <div className="border p-4 rounded-lg flex flex-col items-center scroll-mt-32" id="anotacoes-gratuitas">
+                                <h2 className="text-lg font-bold text-center max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
                                 Anotações gratuitas
                                 </h2>
-                                <p className="text-base text-center md:text-left md:max-w-[264px] lg:max-w-[440px] font-sans text-slate-600 my-4">
+                                <p className="text-base text-center max-w-[440px] font-sans text-slate-600 my-4">
                                 Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
                                 </p>
                                 <Button
                                     type="link"
                                     variant="outline"
-                                    href="#tally-open=m62MOY&tally-emoji-text=👋&tally-emoji-animation=wave"
-                                    >
+                                    href="#anotacoes-gratuitas"
+                                >
                                     Ver anotações gratuitas
                                 </Button>      
                             </div>
@@ -275,86 +273,96 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     >
-                    <SectionContainer id="notion-cta" className="feature-tabs bg-zinc-900 py-12 px-4 ">
-                        <div className="text-center mx-auto my-8 max-w-xl">
+                    <SectionContainer id="notion-cta" className="feature-tabs bg-slate-900 py-20 px-4">
+                        <div className="text-center mx-auto mb-12 max-w-xl scroll-mt-32" id="comprar">
                         <PageTitle
-                            className="text-4xl font-bold text-slate-200"
+                            className="text-4xl font-bold text-slate-100"
                             type="default"
                         >
                             Garanta já o seu!
                         </PageTitle>
-                        <p className="mt-4 text-lg text-zinc-300">
-                            Aproveite as condições especiais de lançamento e organize de uma os seus estudos para residência médica com o Notion da Lô
+                        <p className="mt-6 text-lg text-slate-300">
+                            Aproveite as condições especiais de lançamento e organize de uma vez os seus estudos para residência médica com o Notion da Lô
                         </p>
                         </div>
 
-
-                        <Content className="text-center mt-10" alignment="center">
-                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-12 md:grid-cols-2">
-                                <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
-                                    <CardBody className="space-y-6 p-8">
+                        <Content className="text-center" alignment="center">
+                            <CardGroup className="grid gap-8 grid-cols-1 max-w-4xl mx-auto mt-8 md:grid-cols-2">
+                                <Card className="mx-auto w-full bg-white rounded-2xl overflow-hidden shadow-xl">
+                                    <CardBody className="space-y-6 p-10">
                                         <div>
-                                            <p className="text-lg font-bold line-through text-gray-400">De R$199</p>
-                                            <div className="text-4xl font-bold text-zinc-800">
-                                                R$ 149,90
+                                            <p className="text-lg font-bold line-through text-gray-400">De R$99</p>
+                                            <div className="text-4xl font-bold text-gray-900">
+                                                R$ 49,90
                                             </div>
-                                            <div className="inline-block bg-gray-800 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-900">Versão Completa</div>
-                                            
+                                            <div className="inline-block bg-gray-100 text-gray-700 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Somente Template</div>
                                         </div>
-                                    <ul className="list-disc list-inside text-gray-600 text-base space-y-2 text-start list-none">
-                                    <p className="text-lg font-bold text-gray-600 my-2">Ganhe acesso vitalício a</p>
-                                    <li className="flex items-center gap-2">
-                                        <span className="flex-shrink-0"><FaCheck /></span>
-                                        Notion da Lô, template de estudos para residência médica para preencher com suas anotações
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <span className="flex-shrink-0"><FaCheck /></span>
-                                        Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
-                                    </li>
-                                    {/* <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
-                                    <p className="text-md font-bold text-gray-600 my-2 text-center">COPID 2024 (20% off) </p> */}
-                                    </ul>
+                                        <ul className="list-disc list-inside text-gray-600 text-base space-y-3 text-start list-none mt-8">
+                                            <p className="text-lg font-bold text-gray-900 mb-4">Ganhe acesso vitalício a</p>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Template do Notion da Lô para seus estudos
+                                            </li>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Sistema completo de organização de estudos
+                                            </li>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Acesso imediato ao template
+                                            </li>
+                                        </ul>
                                         <Button 
-                                        className="mt-12 bg-black text-white" 
-                                        variant="secondary"
-                                        href="https://pay.hotmart.com/X90902784L"
+                                            className="mt-12 bg-gray-900 hover:bg-black text-white w-full transition-all duration-200" 
+                                            variant="secondary"
+                                            href="https://pay.hotmart.com/C90888187B"
                                         >
-                                        Quero meu Notion
+                                            Quero o Template
                                         </Button>
                                     </CardBody>
                                 </Card>
-                                <Card className="mx-auto max-w-md bg-zinc-800 rounded-lg overflow-hidden shadow-lg">
-                                    <CardBody className="space-y-6 p-8">
-                                    <div>
-                                        <p className="text-lg font-bold line-through text-gray-400">De R$99</p>
-                                        <div className="text-4xl font-bold text-zinc-200">
-                                            R$ 49,90
+
+                                <Card className="mx-auto w-full bg-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                                    <CardBody className="space-y-6 p-10">
+                                        <div>
+                                            <p className="text-lg font-bold line-through text-slate-400">De R$299</p>
+                                            <div className="text-4xl font-bold text-slate-100">
+                                                R$ 199,90
+                                            </div>
+                                            <div className="inline-block bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Combo Completo</div>
                                         </div>
-                                        <div className="inline-block bg-gray-400 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-400">Somente o template</div>
-                                    </div>
-                                    <ul className="list-disc list-inside text-gray-400 text-base space-y-2 text-start list-none">
-                                    <p className="text-lg font-bold text-gray-600 my-2">Ganhe acesso vitalício a</p>
-                                    <li className="flex items-center gap-2">
-                                        <span className="flex-shrink-0"><FaCheck /></span>
-                                        Notion da Lô, template de estudos para residência médica para preencher com suas anotações
-                                    </li>
-                                    <li className="flex items-center gap-2 invisible">
-                                        <span className="flex-shrink-0"><FaCheck /></span>
-                                        Todas as +140 anotações originais da Lô usadas na sua preparação para as provas de residência
-                                    </li>
-                                    {/* <p className="text-md font-thin text-gray-600 my-2 text-center">Cupom exclusivo para 03/Ago/2024</p>
-                                    <p className="text-md font-bold text-gray-600 my-2 text-center">COPID2024 (20% off) </p> */}
-                                    </ul>
+                                        <ul className="list-disc list-inside text-slate-300 text-base space-y-3 text-start list-none mt-8">
+                                            <p className="text-lg font-bold text-slate-200 mb-4">Ganhe acesso vitalício a</p>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Template do Notion da Lô para seus estudos
+                                            </li>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Todas as +140 anotações originais da Lô
+                                            </li>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Sistema completo de organização de estudos
+                                            </li>
+                                            <li className="flex items-center gap-3">
+                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
+                                                Acesso imediato a todo conteúdo
+                                            </li>
+                                        </ul>
                                         <Button 
-                                        className="mt-12" 
-                                        variant="primary"
-                                        href="https://pay.hotmart.com/C90888187B"
+                                            className="mt-12 bg-secondary-500 hover:bg-gray-900 text-white w-full transition-all duration-200" 
+                                            variant="secondary"
+                                            href="https://pay.hotmart.com/X90902784L"
                                         >
-                                        Quero meu Notion
+                                            Quero o Combo
                                         </Button>
                                     </CardBody>
-                                </Card>    
+                                </Card>
                             </CardGroup>
+                            <div className="text-center mt-8">
+                                <p className="text-sm text-slate-400">Pagamento 100% seguro via Hotmart</p>
+                            </div>
                         </Content>
                     </SectionContainer>
                     </MotionBTTContainer>

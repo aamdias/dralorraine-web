@@ -6,7 +6,9 @@ import { useRouter } from "next/router";
 const navigation = [
     { name: "Sobre mim", to: "#personal-history", href: "/" },
     { name: "Mentoria", to: "mentoria", href: "/mentoria" },
+    { name: "Anotações", to: "anotacoes", href: "/anotacoes", isNew: true },
     { name: "Notion", to: "notion", href: "/notion" },
+    { name: "Currículo", to: "curriculo", href: "/curriculo", isNew: true },
 ];
 
 export const Nav = () => {
@@ -62,6 +64,11 @@ export const Nav = () => {
                                                 icon="material-symbols:arrow-outward"
                                                 className="h-6 w-auto"
                                             />
+                                        </span>
+                                    )}
+                                    {item.isNew && (
+                                        <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-blue-50 text-blue-700 ring-blue-700/10">
+                                            Novidade
                                         </span>
                                     )}
                                 </a>
