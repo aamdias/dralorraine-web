@@ -90,7 +90,7 @@ export default function Curriculo() {
                   Currículo profissional para
                   <span className="text-secondary-500 block mt-2">Residência Médica</span>
                 </PageTitle>
-                <Content className="text-lg md:text-xl text-gray-600 mb-10">
+                <Content className="text-base font-light md:text-lg text-gray-600 mb-10">
                   Tenha um currículo para residência que se destaca, similar ao curriculo que usei para conquistar as melhores notas na UNICAMP, USP e UNIFESP.
                 </Content>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -217,7 +217,7 @@ export default function Curriculo() {
                         ))}
                       </ul>
                       <Button
-                        href="https://wa.me//5585994319716?text=Tenho%20interesse%20em%20comprar%20seu%20carro"
+                        href="https://wa.me//5585994319716?text=Oi%20Alan!%20Vim%20pelo%20site%20da%20L%C3%B4%20e%20tenho%20interesse%20em%20fazer%20um%20curr%C3%ADculo%20profissional%20para%20a%20Resid%C3%AAncia%20M%C3%A9dica"
                         variant="secondary"
                         className="w-full bg-secondary-500 hover:bg-[#2D3319] hover:text-white text-white transition-all duration-200"
                       >
