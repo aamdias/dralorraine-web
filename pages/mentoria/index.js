@@ -28,17 +28,16 @@ export default function MentorshipPage() {
                 title="Mentoria para Residência Médica | Dra Lô R1 Dermato UNICAMP"
                 description="Se prepare para residência médica através de uma mentoria personalizada"
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">
+            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-36 ">
                 <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <SectionContainer className="feature-tabs">
                             <BadgeGroup alignment="center" className="mb-6">
                                 <BadgeMessage>Mentoria Individual</BadgeMessage>
-                                {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
                             </BadgeGroup>
                             <PageTitle
-                                className="text-center mx-auto px-4 mb-4 text-5xl"
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 mt-2 text-center mx-auto"
                                 type="default"
                             >
                                 Mentoria para a <span className="underline decoration-[#9FD8CB]">Residência Médica</span> com a Lô
@@ -48,11 +47,24 @@ export default function MentorshipPage() {
                                     Aumente suas chances de aprovação nas provas de residência mais concorridas do país se 
                                     preparando com quem entende de verdade o que é necessário {" "}
                                 </p>
-                                <Button 
-                                className="mt-8" 
-                                variant="secondary" 
-                                href="#pre-solutions"
-                                >Quero saber mais</Button>
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 w-full mx-auto">
+                                    <Button 
+                                        className="bg-secondary-500 w-80 text-white hover:bg-[#2D3319] mx-auto sm:mx-2"
+                                        variant="primary"
+                                        href="#cta-mentoria"
+                                    >
+                                        Garantir minha mentoria
+                                    </Button>
+                                    
+                                    <Button 
+                                        className="bg-transparent w-80 border-1 border-gray-800 text-gray-800 hover:bg-gray-100 mx-auto sm:mx-2" 
+                                        variant="secondary" 
+                                        href="#pre-solutions"
+                                    >
+                                        Quero saber mais
+                                    </Button>
+                                    
+                                </div>
                             </Content>
                             <PageTitle
                                 className="text-center mx-auto my-16"
@@ -109,13 +121,16 @@ export default function MentorshipPage() {
                                 </CardGroup>
 
                             <Content className="text-center my-16 px-16" alignment="center">
-                                <div className="text-2xl text-zinc-600" id="pre-solutions">
+                                <div className="text-2xl text-zinc-600" >
                                     Vivi na prática esse problemas e agora quero retrubir! <br/> <span className="font-bold">Deixa eu me apresentar.</span> {" "}
                                 </div>
                             </Content>
                         </SectionContainer>
                     </MotionBTTContainer>
-                    <HomeBanner />
+                    <div className="scroll-mt-24" id="pre-solutions">
+                        <HomeBanner />
+                    </div>
+                   
                 {/* Components Container */}
                 <Results /> 
                 <MotionBTTContainer
@@ -211,7 +226,7 @@ export default function MentorshipPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     >
-                    <SectionContainer className="feature-tabs py-12 px-4 mt-12" id="cta-mentoria">
+                    <SectionContainer className="feature-tabs py-12 px-4 mt-12 scroll-mt-14" id="cta-mentoria">
                         <div className="text-center mx-auto my-8 max-w-xl">
                         <div
                             className="underline underline-offset-2 decoration-[#9FD8CB] text-4xl font-bold text-zinc-800 pb-4 "
@@ -219,7 +234,7 @@ export default function MentorshipPage() {
                             Partiu residência?
                         </div>
                         <p className="mt-4 text-lg text-zinc-700">
-                            Aproveite a condição especial de lançamento e os assentos limitados
+                            Invista no seu futuro e garanta sua vaga na mentoria com a Lô
                         </p>
                         </div>
 
@@ -227,9 +242,9 @@ export default function MentorshipPage() {
                             <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
                                 <CardBody className="space-y-6 p-8">
                                     <div>
-                                        <p className="text-lg font-bold line-through text-gray-400">De R$299</p>
+                                        <p className="text-lg font-bold line-through text-gray-400">De R$499</p>
                                         <div className="text-4xl font-bold text-zinc-800">
-                                            R$ 249,90
+                                            R$ 299,90
                                         </div>
                                         <div className="inline-block bg-gray-800 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full border border-gray-900">Mentoria online</div>
                                         

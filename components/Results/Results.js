@@ -17,7 +17,7 @@ export const Results = () => {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs mt-12" id="results">
+                        <SectionContainer className="feature-tabs mt-12 scroll-mt-32" id="results">
                             <BadgeGroup alignment="center">
                                 <BadgeMessage>Aprovações</BadgeMessage>
                                 {/* <BadgeIcon icon="twemoji:waving-hand" /> */}

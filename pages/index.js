@@ -11,6 +11,7 @@ import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
 import {
     CardBody,
     CardGroup,
@@ -36,7 +37,7 @@ export default function Home() {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer id="personal-history" className="features">
+                        <SectionContainer id="personal-history" className="features scroll-mt-32">
                             <PageTitle
                                 className="text-center mx-auto my-12"
                                 type="default"
@@ -82,80 +83,113 @@ export default function Home() {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                        <SectionContainer className="feature-tabs" id="solutions">
+                        <SectionContainer className="feature-tabs scroll-mt-32" id="solutions">
                             <BadgeGroup alignment="center">
                                 <BadgeMessage>Soluções</BadgeMessage>
-                                {/* <BadgeIcon icon="twemoji:waving-hand" /> */}
                             </BadgeGroup>
                             <PageTitle
-                                className="text-center mx-auto"
+                                className="text-center mx-auto max-w-3xl mb-8"
                                 type="default"
                             >
                                 Como posso te ajudar a chegar lá também?
                             </PageTitle>
-                            <Content className="text-center" alignment="center">
-                                <p>
+                            <Content className="text-center max-w-2xl mx-auto" alignment="center">
+                                <p className="text-lg text-gray-600">
                                     Encurte seu caminho para a aprovação através de uma mentoria 
                                     guiada comigo ou através da ferramenta que eu usei para organizar
                                     todos os meus estudos ao longo dos últimos anos.{" "}
                                 </p>
                             </Content>
-                            <CardGroup className="grid gap-6 grid-cols-1 max-w-4xl mx-auto mt-24 md:grid-cols-2">
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
-                                    <div>
-                                        <div className="text-2xl font-bold text-zinc-800 mt-4 underline">
-                                        Mentoria individual comigo
+                            <CardGroup className="grid gap-8 grid-cols-1 max-w-5xl mx-auto mt-16 md:grid-cols-2">
+                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                    <CardBody className="flex flex-col items-start p-8">
+                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
+                                            <Icon 
+                                                icon="ph:chats-circle-fill" 
+                                                className="w-7 h-7 text-[#9FD8CB]"
+                                            />
                                         </div>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada
+                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
+                                            Mentoria individual comigo
+                                        </div>
+                                        <p className="text-gray-600 text-lg mb-8">
+                                            Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada.
                                         </p>
                                         <Button
                                             href="/mentoria"
                                             variant="secondary"
+                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
                                         >Quero saber mais</Button>
-                                    </div>
-                                </CardBody>
+                                    </CardBody>
                                 </Card>
-                                <Card className="col-span-1 bg-white rounded-lg overflow-hidden shadow-md">
-                                    <CardBody className="flex flex-col md:flex-row items-center pt-4 pb-8 px-8">
-                                    <div>
-                                        <div className="text-2xl font-bold text-zinc-800 mt-4 underline">
-                                        Template de estudos no Notion
+                                
+                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                    <CardBody className="flex flex-col items-start p-8">
+                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
+                                            <Icon 
+                                                icon="ph:books-fill" 
+                                                className="w-7 h-7 text-[#9FD8CB]"
+                                            />
                                         </div>
-                                        <p className="text-gray-600 text-base md:text-lg">
-                                        Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar. 
+                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
+                                            Minhas Anotações Originais
+                                        </div>
+                                        <p className="text-gray-600 text-lg mb-8">
+                                            Acesse minhas anotações originais que me ajudaram a conquistar a aprovação. Material organizado, objetivo e focado nos pontos mais relevantes para as provas de residência médica.
+                                        </p>
+                                        <Button 
+                                            href="/anotacoes"
+                                            variant="secondary"
+                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
+                                        >Quero saber mais</Button>
+                                    </CardBody>
+                                </Card>
+                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                    <CardBody className="flex flex-col items-start p-8">
+                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
+                                            <Icon 
+                                                icon="ph:notebook-fill" 
+                                                className="w-7 h-7 text-[#9FD8CB]"
+                                            />
+                                        </div>
+                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
+                                            Template de estudos no Notion
+                                        </div>
+                                        <p className="text-gray-600 text-lg mb-8">
+                                            Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar.
                                         </p>
                                         <Button 
                                             href="/notion"
                                             variant="secondary"
+                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
                                         >Quero saber mais</Button>
-                                    </div>
+                                    </CardBody>
+                                </Card>
+                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                    <CardBody className="flex flex-col items-start p-8">
+                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
+                                            <Icon 
+                                                icon="ph:file-text-fill" 
+                                                className="w-7 h-7 text-[#9FD8CB]"
+                                            />
+                                        </div>
+                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
+                                            Currículo Profissional
+                                        </div>
+                                        <p className="text-gray-600 text-lg mb-8">
+                                            Destaque sua trajetória com um currículo estrategicamente elaborado para residência médica. Design moderno e profissional que valoriza suas conquistas e experiências.
+                                        </p>
+                                        <Button 
+                                            href="/curriculo"
+                                            variant="secondary"
+                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
+                                        >Quero saber mais</Button>
                                     </CardBody>
                                 </Card>
                             </CardGroup>
                         </SectionContainer>
                     </MotionBTTContainer>
-                    {/* Accordions */}
-                    {/* <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer id="faq" className="faq">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>FAQ</BadgeMessage>
-                            </BadgeGroup>
-                            <PageTitle
-                                className="text-center mx-auto"
-                                type="default"
-                            >
-                                Got some burning questions about NutriTrack?{" "}
-                                <br></br>
-                                <br></br>No worries! We&apos;ve got the answers
-                                you need:
-                            </PageTitle>
-                            <Accordion />
-                        </SectionContainer>
-                    </MotionBTTContainer> */}
+                    
                 </SectionContainer>
             </div>
         </Layout>
