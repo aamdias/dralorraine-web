@@ -95,9 +95,7 @@ export default function Home() {
                             </PageTitle>
                             <Content className="text-center max-w-2xl mx-auto" alignment="center">
                                 <p className="text-lg text-gray-600">
-                                    Encurte seu caminho para a aprovação através de uma mentoria 
-                                    guiada comigo ou através da ferramenta que eu usei para organizar
-                                    todos os meus estudos ao longo dos últimos anos.{" "}
+                                    Encurte seu caminho para a aprovação através de serviços e produtos feitos especialmente para quem quer alcançar os melhores resultados nas provas de residência médica.{" "}
                                 </p>
                             </Content>
                             <CardGroup className="grid gap-8 grid-cols-1 max-w-5xl mx-auto mt-16 md:grid-cols-2">

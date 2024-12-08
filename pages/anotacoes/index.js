@@ -38,12 +38,12 @@ export default function Anotacoes() {
                 <BadgeGroup alignment="center" className="mb-6">
                   <BadgeMessage>Material Exclusivo</BadgeMessage>
                 </BadgeGroup>
-                <PageTitle tag="h1" className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 mt-2 text-center mx-auto">
+                <PageTitle tag="h1" className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 mt-2 text-center mx-auto px-1">
                 <span className="underline decoration-[#9FD8CB]">Anotações originais</span> que me levaram ao
                   <span className="text-secondary-500 block mt-2">1º lugar em Dermato na UNICAMP</span>
                 </PageTitle>
-                <Content className="text-lg md:text-xl text-gray-600 mb-10">
-                  Tenha acesso a todas as +140 anotações originais que levaram a <Link href="/">Dra Lô</Link> as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas. Material completo e organizado para maximizar seu aprendizado.
+                <Content className="text-base md:text-lg text-gray-600 mb-10 font-light">
+                  Tenha acesso a todas as +140 anotações originais que levaram a <Link href="/" className="underline decoration-secondary-500">Dra Lô</Link> as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas. Material completo e organizado para maximizar seu aprendizado.
                 </Content>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
