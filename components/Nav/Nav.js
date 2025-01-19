@@ -66,11 +66,7 @@ export const Nav = () => {
                                             />
                                         </span>
                                     )}
-                                    {item.isNew && (
-                                        <span className="ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset bg-blue-50 text-blue-700 ring-blue-700/10">
-                                            Novidade
-                                        </span>
-                                    )}
+                                    
                                 </a>
                             </li>
                         ))}
