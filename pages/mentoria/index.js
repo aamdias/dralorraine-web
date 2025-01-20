@@ -43,7 +43,7 @@ export default function MentorshipPage() {
                                 <p className="text-yellow-700 mt-2">
                                     Conheça o novo programa completo de mentoria para residência médica em{" "}
                                     <a 
-                                        href="https://www.queroserdermato.com.br" 
+                                        href="https://queroserdermato.com.br" 
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-yellow-800 underline font-semibold"
@@ -57,7 +57,7 @@ export default function MentorshipPage() {
                                 <Button 
                                     className="bg-secondary-500 w-full sm:w-80 text-white hover:bg-[#2D3319] text-lg py-4"
                                     variant="primary"
-                                    href="https://www.queroserdermato.com.br"
+                                    href="https://queroserdermato.com.br"
                                     target="_blank"
                                 >
                                     Conhecer mentoria QSD
@@ -220,7 +220,7 @@ export default function MentorshipPage() {
                                     <p className="text-yellow-700 mt-2">
                                         Conheça nosso novo programa:{" "}
                                         <a 
-                                            href="https://www.queroserdermato.com.br" 
+                                            href="https://queroserdermato.com.br" 
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-yellow-800 underline font-semibold"
