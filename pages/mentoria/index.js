@@ -24,7 +24,7 @@ export default function MentorshipPage() {
                 >
                     <SectionContainer className="feature-tabs max-w-4xl mx-auto px-4">
                         <BadgeGroup alignment="center" className="mb-6">
-                            <BadgeMessage>Novidades 2025</BadgeMessage>
+                            <BadgeMessage>Mentoria Individual</BadgeMessage>
                         </BadgeGroup>
                         <PageTitle
                             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-center max-w-4xl mx-auto"
@@ -35,35 +35,7 @@ export default function MentorshipPage() {
                             </div>
                         </PageTitle>
                         
-                        <Content className="text-center max-w-2xl mx-auto" alignment="center">
-                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-                                <p className="text-yellow-800 font-medium">
-                                    Novidade: Mentoria QSD - Quero Ser Dermato 🎉
-                                </p>
-                                <p className="text-yellow-700 mt-2">
-                                    Conheça o novo programa completo de mentoria para residência médica em{" "}
-                                    <a 
-                                        href="https://queroserdermato.com.br" 
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-yellow-800 underline font-semibold"
-                                    >
-                                        queroserdermato.com.br
-                                    </a>
-                                </p>
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-6 mt-12">
-                                <Button 
-                                    className="bg-secondary-500 w-full sm:w-80 text-white hover:bg-[#2D3319] text-lg py-4"
-                                    variant="primary"
-                                    href="https://queroserdermato.com.br"
-                                    target="_blank"
-                                >
-                                    Conhecer mentoria QSD
-                                </Button>
-                            </div>
-                        </Content>
+                        
 
                         <PageTitle
                             className="text-center mx-auto my-16"
@@ -215,20 +187,7 @@ export default function MentorshipPage() {
                     <Content className="text-center mt-10" alignment="center">
                         <Card className="mx-auto max-w-md bg-white rounded-lg overflow-hidden shadow-lg">
                             <CardBody className="space-y-6 p-8">
-                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6">
-                                    <p className="text-yellow-800 font-medium">Mentorias temporariamente pausadas</p>
-                                    <p className="text-yellow-700 mt-2">
-                                        Conheça nosso novo programa:{" "}
-                                        <a 
-                                            href="https://queroserdermato.com.br" 
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-yellow-800 underline font-semibold"
-                                        >
-                                            Mentoria QSD
-                                        </a>
-                                    </p>
-                                </div>
+
                                 <div>
                                     <p className="text-lg font-bold line-through text-gray-400">De R$499</p>
                                     <div className="text-4xl font-bold text-zinc-800">
@@ -262,11 +221,12 @@ export default function MentorshipPage() {
                                     </li>
                                 </ul>
                                 <Button 
-                                    className="mt-12 bg-gray-300 text-gray-600 cursor-not-allowed w-full" 
-                                    variant="secondary"
-                                    disabled={true}
+                                    className="mt-12 bg-secondary-500 hover:bg-[#2D3319] text-white w-full" 
+                                    variant="primary"
+                                    href="https://pay.hotmart.com/V91028431Y?checkoutMode=10&bid=1756811102458"
+                                    target="_blank"
                                 >
-                                    Temporariamente Indisponível
+                                    Agende agora
                                 </Button>
                             </CardBody>
                         </Card>

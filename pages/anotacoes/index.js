@@ -6,6 +6,7 @@ import { Content } from "@components/Content";
 import { Button } from "@components/Button";
 import { GlareCard } from "@components/GlareCard";
 import { BadgeMessage, BadgeGroup } from "@components/Badge";
+import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
 import Link from "next/link";
@@ -103,13 +104,52 @@ export default function Anotacoes() {
           </div>
         </SectionContainer>
 
-        <SectionContainer className="bg-[#F3F5F8] pb-0">
+        {/* Who am I section */}
+        <SectionContainer className="bg-gradient-to-b from-white to-[#F3F5F8] pt-20 pb-0">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <BadgeGroup alignment="center">
+                <BadgeMessage>Sobre mim</BadgeMessage>
+              </BadgeGroup>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto"
+            >
+              <div className="flex flex-col space-y-6 md:w-1/2 text-center md:text-left">
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+                  Oi! Sou a <span className="text-secondary-500">Lorraine</span>.
+                </h2>
+                <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-gray-700">
+                  <span className="font-bold">Sou médica pela UNICAMP</span> e, após muito esforço, alcancei um dos melhores resultados de aprovação para a residência médica em Dermatologia em 2023, nas instituições mais renomadas do Brasil.
+                </p>
+                
+              </div>
+              <div className="md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
+                <Image
+                  src="/lolo-portrait-home-page.png"
+                  width={680}
+                  height={1024}
+                  alt="Dra. Lorraine"
+                  className="max-w-xs md:max-w-md rounded-lg"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </SectionContainer>
+
+        {/* Aprovações section */}
+        <Results />
+
+        <SectionContainer className="bg-[#F3F5F8] mt-20">
           <div className="container mx-auto px-4 pt-20">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <BadgeGroup alignment="center">
                 <BadgeMessage>Exemplo de Anotação</BadgeMessage>
               </BadgeGroup>
-              <PageTitle tag="h2" className="text-3xl md:text-4xl font-bold mt-6 mb-8">
+              <PageTitle tag="h2" className="text-3xl md:text-4xl font-bold mt-4 mb-8">
                 Veja como são as anotações
               </PageTitle>
               <Content className="text-gray-600 text-lg">
@@ -391,31 +431,33 @@ export default function Anotacoes() {
           <Content className="text-center" alignment="center">
             <CardGroup className="grid gap-8 grid-cols-1 max-w-4xl mx-auto mt-8 md:grid-cols-2">
               <Card className="mx-auto w-full bg-white rounded-2xl overflow-hidden shadow-xl">
-                <CardBody className="space-y-6 p-10">
-                  <div>
-                    <p className="text-lg font-bold line-through text-gray-400">De R$199</p>
-                    <div className="text-4xl font-bold text-gray-900">
-                      R$ 149,90
+                <CardBody className="flex flex-col h-full p-10">
+                  <div className="space-y-6">
+                    <div>
+                      <p className="text-lg font-bold line-through text-gray-400">De R$199</p>
+                      <div className="text-4xl font-bold text-gray-900">
+                        R$ 149,90
+                      </div>
+                      <div className="inline-block bg-gray-100 text-gray-700 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Somente Anotações</div>
                     </div>
-                    <div className="inline-block bg-gray-100 text-gray-700 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Somente Anotações</div>
+                    <ul className="list-disc list-inside text-gray-600 text-base space-y-3 text-start list-none mt-8">
+                      <p className="text-lg font-bold text-gray-900 mb-4">Ganhe acesso vitalício a</p>
+                      <li className="flex items-center gap-3">
+                        <span className="flex-shrink-0 text-secondary-500">✓</span>
+                        Todas as +140 anotações originais da Lô
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <span className="flex-shrink-0 text-secondary-500">✓</span>
+                        Material completo e organizado por especialidade
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <span className="flex-shrink-0 text-secondary-500">✓</span>
+                        Acesso imediato ao conteúdo
+                      </li>
+                    </ul>
                   </div>
-                  <ul className="list-disc list-inside text-gray-600 text-base space-y-3 text-start list-none mt-8">
-                    <p className="text-lg font-bold text-gray-900 mb-4">Ganhe acesso vitalício a</p>
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-secondary-500">✓</span>
-                      Todas as +140 anotações originais da Lô
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-secondary-500">✓</span>
-                      Material completo e organizado por especialidade
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-secondary-500">✓</span>
-                      Acesso imediato ao conteúdo
-                    </li>
-                  </ul>
                   <Button 
-                    className="mt-12 bg-gray-900 hover:bg-black text-white w-full transition-all duration-200" 
+                    className="mt-auto bg-gray-900 hover:bg-black text-white w-full transition-all duration-200" 
                     variant="secondary"
                     href="https://pay.hotmart.com/G96980103S"
                   >
