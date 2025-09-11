@@ -34,7 +34,16 @@ export const Button = ({
         );
     } else {
         return (
-            <Link href={href} role="button" className={buttonClass}>
+            <Link 
+                href={href} 
+                role="button" 
+                className={buttonClass}
+                onClick={(e) => {
+                    if (onClick) {
+                        onClick(e);
+                    }
+                }}
+            >
                 {children}
                 {icon && <Icon icon={icon} />}
             </Link>

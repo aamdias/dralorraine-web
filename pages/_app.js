@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
         const initializeFacebookPixel = async () => {
             if (typeof window !== "undefined") {
                 const FacebookPixel = (await import("react-facebook-pixel")).default;
-                FacebookPixel.init('942080827985314', null, pixelOptions);
+                FacebookPixel.init('429829449584135', null, pixelOptions);
                 FacebookPixel.pageView();
 
                 const handleRouteChange = () => {
