@@ -765,9 +765,7 @@ export default function Anotacoes() {
                                         className="mt-auto bg-gray-900 hover:bg-black text-white w-full transition-all duration-200"
                                         variant="secondary"
                                         href="https://pay.hotmart.com/G96980103S"
-                                        onClick={
-                                            trackFacebookInitiateCheckoutAnotacoes
-                                        }
+                                        onClick={trackFacebookInitiateCheckoutAnotacoes}
                                     >
                                         Quero as Anotações
                                     </Button>
@@ -823,9 +821,7 @@ export default function Anotacoes() {
                                         className="mt-12 bg-secondary-500 hover:bg-gray-900 text-white w-full transition-all duration-200"
                                         variant="secondary"
                                         href="https://pay.hotmart.com/X90902784L?off=p7aai34k"
-                                        onClick={
-                                            trackFacebookInitiateCheckoutCombo
-                                        }
+                                        onClick={trackFacebookInitiateCheckoutCombo}
                                     >
                                         Quero o Combo
                                     </Button>

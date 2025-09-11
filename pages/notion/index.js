@@ -23,6 +23,9 @@ import { WobbleCard } from "@components/WobbleCard";
 import { useState, useEffect } from 'react';
 import { GlareCard } from "@components/GlareCard";
 import { VideoModal } from "@components/VideoModal";
+import {
+    trackFacebookInitiateCheckoutCombo
+} from "@utils/facebookPixel";
 
 export default function NotionPage() {
 
@@ -354,6 +357,7 @@ const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 60
                                             className="mt-12 bg-secondary-500 hover:bg-gray-900 text-white w-full transition-all duration-200" 
                                             variant="secondary"
                                             href="https://pay.hotmart.com/X90902784L"
+                                            onClick={trackFacebookInitiateCheckoutCombo}
                                         >
                                             Quero o Combo
                                         </Button>
