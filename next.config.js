@@ -17,12 +17,12 @@ const nextConfig = {
         domains: ["s.gravatar.com"]
     },
     env: {
-        siteTitle: "Your Company",
-        siteDescription: "Your company description.",
-        siteKeywords: "your company keywords",
-        siteUrl: "You site url",
-        siteImagePreviewUrl: "/images/preview.jpeg",
-        twitterHandle: "@your_handle"
+        siteTitle: "Dra. Lorraine - Mentoria e Serviços para Residência Médica",
+        siteDescription: "Serviços especializados para aprovação na residência médica em São Paulo: currículo profissional, mentoria individual e anotações de estudo. Aprovada em UNICAMP, USP, UNIFESP e PUC.",
+        siteKeywords: "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo",
+        siteUrl: "https://dralaorraine.com.br",
+        siteImagePreviewUrl: "/lolo-portrait-home-page.png",
+        twitterHandle: "@dralaorraine"
     },
     headers() {
         return [
