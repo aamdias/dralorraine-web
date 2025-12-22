@@ -23,37 +23,45 @@ export default function MentorshipPage() {
                 <MotionBTTContainer
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
-                    <SectionContainer className="max-w-6xl mx-auto px-4 mb-20">
-                        <div className="bg-gradient-to-br from-[#9FD8CB] to-[#7BC5B5] rounded-2xl shadow-2xl overflow-hidden">
-                            <div className="grid md:grid-cols-2 gap-8 items-center">
-                                <div className="p-8 md:p-12 text-white">
-                                    <BadgeGroup alignment="left" className="mb-6">
-                                        <BadgeMessage className="bg-white text-[#2D3319] font-semibold">
-                                            🎓 Turma 2026
-                                        </BadgeMessage>
-                                    </BadgeGroup>
-                                    <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                                        Programa de Mentoria para Residência Médica
+                    <SectionContainer className="max-w-5xl mx-auto px-4 mb-12">
+                        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div className="bg-[#9FD8CB] px-8 py-3">
+                                <div className="flex items-center justify-center gap-2">
+                                    <BadgeMessage className="bg-secondary-500 text-white font-semibold">
+                                        Turma 2026
+                                    </BadgeMessage>
+                                    <span className="text-white font-medium text-sm">Inscrições Abertas</span>
+                                </div>
+                            </div>
+                            <div className="p-8 md:p-12">
+                                <div className="text-center mb-8">
+                                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">
+                                        Programa de Mentoria para Residência Médica 2026
                                     </h1>
-                                    <p className="text-lg md:text-xl mb-8 text-white/90">
-                                        Prepare-se para as provas mais concorridas do país com um programa completo de mentoria. Inscrições abertas para 2026!
+                                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                                        Prepare-se para as provas mais concorridas do país com acompanhamento contínuo e personalizado
                                     </p>
-                                    <div className="space-y-4 mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <FaGraduationCap className="text-2xl" />
-                                            <span className="text-lg">Acompanhamento contínuo e personalizado</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <FaCalendarAlt className="text-2xl" />
-                                            <span className="text-lg">Plano de estudos estratégico</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <FaUsers className="text-2xl" />
-                                            <span className="text-lg">Grupo de estudos exclusivo</span>
-                                        </div>
+                                </div>
+                                <div className="grid md:grid-cols-3 gap-6 mb-8">
+                                    <div className="text-center p-4">
+                                        <FaGraduationCap className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
+                                        <h3 className="font-semibold text-zinc-800 mb-2">Acompanhamento Contínuo</h3>
+                                        <p className="text-gray-600 text-sm">Encontros mensais durante toda sua preparação</p>
                                     </div>
+                                    <div className="text-center p-4">
+                                        <FaCalendarAlt className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
+                                        <h3 className="font-semibold text-zinc-800 mb-2">Plano Estratégico</h3>
+                                        <p className="text-gray-600 text-sm">Cronograma personalizado para suas metas</p>
+                                    </div>
+                                    <div className="text-center p-4">
+                                        <FaUsers className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
+                                        <h3 className="font-semibold text-zinc-800 mb-2">Grupo Exclusivo</h3>
+                                        <p className="text-gray-600 text-sm">Comunidade de estudos e suporte</p>
+                                    </div>
+                                </div>
+                                <div className="text-center">
                                     <Button
-                                        className="bg-secondary-500 hover:bg-[#2D3319] text-white text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                                        className="bg-secondary-500 hover:bg-[#2D3319] text-white text-lg px-10 py-3"
                                         variant="primary"
                                         href="https://queroserdermato.com.br"
                                         target="_blank"
@@ -61,23 +69,11 @@ export default function MentorshipPage() {
                                         Conhecer o Programa 2026
                                     </Button>
                                 </div>
-                                <div className="hidden md:block p-8">
-                                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border-2 border-white/20">
-                                        <div className="text-white space-y-4">
-                                            <div className="text-6xl font-bold">2026</div>
-                                            <div className="text-2xl font-semibold">Vagas Limitadas</div>
-                                            <div className="text-lg opacity-90">
-                                                Garanta sua vaga no programa de mentoria mais completo para residência médica
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </SectionContainer>
                 </MotionBTTContainer>
 
-                {/* Traditional Header for Context */}
                 <MotionBTTContainer
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
@@ -216,28 +212,31 @@ export default function MentorshipPage() {
                                 </CardBody>
                             </Card>
 
-                            {/* Additional Testimonial Placeholder */}
-                            <Card className="bg-gradient-to-br from-[#9FD8CB] to-[#7BC5B5] rounded-xl shadow-lg overflow-hidden">
-                                <CardBody className="p-8 text-white h-full flex flex-col justify-center">
+                            {/* Success Highlights */}
+                            <Card className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-[#9FD8CB]">
+                                <CardBody className="p-8 h-full flex flex-col justify-center">
                                     <div className="text-center space-y-6">
-                                        <div className="text-5xl font-bold">100+</div>
-                                        <div className="text-2xl font-semibold">Mentorados aprovados</div>
-                                        <p className="text-lg opacity-90">
-                                            Em instituições como UNICAMP, USP, UNIFESP, PUC-Campinas e outras residências concorridas
-                                        </p>
-                                        <div className="pt-4">
-                                            <div className="flex justify-center gap-2 flex-wrap">
-                                                <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold">
-                                                    Dermatologia
-                                                </span>
-                                                <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold">
-                                                    Clínica Médica
-                                                </span>
-                                                <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold">
-                                                    Outras especialidades
-                                                </span>
+                                        <div className="mb-4">
+                                            <div className="text-[#9FD8CB] text-4xl font-bold mb-2">Aprovações em</div>
+                                            <div className="text-2xl font-semibold text-zinc-800">Instituições de Excelência</div>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-center gap-3 p-3 bg-[#F3F5F8] rounded-lg">
+                                                <FaGraduationCap className="text-2xl text-[#9FD8CB]" />
+                                                <span className="font-semibold text-zinc-800">UNICAMP</span>
+                                            </div>
+                                            <div className="flex items-center justify-center gap-3 p-3 bg-[#F3F5F8] rounded-lg">
+                                                <FaGraduationCap className="text-2xl text-[#9FD8CB]" />
+                                                <span className="font-semibold text-zinc-800">USP Ribeirão Preto</span>
+                                            </div>
+                                            <div className="flex items-center justify-center gap-3 p-3 bg-[#F3F5F8] rounded-lg">
+                                                <FaGraduationCap className="text-2xl text-[#9FD8CB]" />
+                                                <span className="font-semibold text-zinc-800">USP São Paulo</span>
                                             </div>
                                         </div>
+                                        <p className="text-gray-600 text-sm mt-6">
+                                            Mentorados aprovados em Clínica Médica e outras especialidades nas melhores residências do país
+                                        </p>
                                     </div>
                                 </CardBody>
                             </Card>
@@ -319,123 +318,124 @@ export default function MentorshipPage() {
 
                 {/* CTA Section - Two Options */}
                 <SectionContainer className="feature-tabs py-12 px-4 mt-12 scroll-mt-14" id="cta-mentoria">
-                    <div className="text-center mx-auto my-8 max-w-4xl">
-                        <PageTitle
-                            className="text-center mx-auto mb-4"
-                            type="default"
-                        >
-                            Escolha a melhor opção para você
-                        </PageTitle>
-                        <p className="text-gray-600 text-lg mb-12">
+                    <BadgeGroup alignment="center" className="mb-6">
+                        <BadgeMessage>Comece Agora</BadgeMessage>
+                    </BadgeGroup>
+                    <PageTitle
+                        className="text-center mx-auto mb-4"
+                        type="default"
+                    >
+                        Escolha a melhor opção para você
+                    </PageTitle>
+                    <Content className="text-center max-w-3xl mx-auto mb-12" alignment="center">
+                        <p className="text-gray-600 text-lg">
                             Seja através do programa completo ou de sessões individuais, estou aqui para te ajudar
                         </p>
-                    </div>
+                    </Content>
 
-                    <Content className="text-center mt-10" alignment="center">
-                        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                            {/* Primary Option - 2026 Program */}
-                            <Card className="bg-gradient-to-br from-[#9FD8CB] to-[#7BC5B5] rounded-xl shadow-2xl overflow-hidden relative">
-                                <div className="absolute top-4 right-4">
-                                    <span className="bg-secondary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                        RECOMENDADO
-                                    </span>
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Primary Option - 2026 Program */}
+                        <Card className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#9FD8CB] relative">
+                            <div className="bg-[#9FD8CB] px-4 py-2">
+                                <div className="text-center">
+                                    <span className="text-white font-semibold text-sm">✨ RECOMENDADO</span>
                                 </div>
-                                <CardBody className="space-y-6 p-8 text-white">
-                                    <div className="text-center">
-                                        <h3 className="text-2xl font-bold mb-2">Programa Completo 2026</h3>
-                                        <p className="text-white/90 mb-6">
-                                            Acompanhamento contínuo durante toda sua preparação
-                                        </p>
-                                    </div>
-                                    <ul className="space-y-3 text-left">
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Encontros mensais individuais</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Grupo de estudos exclusivo</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Plano de estudos personalizado</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Suporte via WhatsApp</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Material exclusivo e simulados</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-xl flex-shrink-0 mt-1" />
-                                            <span>Preparação para prova prática</span>
-                                        </li>
-                                    </ul>
-                                    <Button
-                                        className="mt-8 bg-secondary-500 hover:bg-[#2D3319] text-white w-full text-lg py-4 shadow-lg"
-                                        variant="primary"
-                                        href="https://queroserdermato.com.br"
-                                        target="_blank"
-                                    >
-                                        Conhecer o Programa
-                                    </Button>
-                                </CardBody>
-                            </Card>
+                            </div>
+                            <CardBody className="p-8">
+                                <div className="text-center mb-6">
+                                    <h3 className="text-2xl font-bold text-zinc-800 mb-2">Programa Completo 2026</h3>
+                                    <p className="text-gray-600">
+                                        Acompanhamento contínuo durante toda sua preparação
+                                    </p>
+                                </div>
+                                <ul className="space-y-3 text-gray-700 mb-8">
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Encontros mensais individuais</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Grupo de estudos exclusivo</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Plano de estudos personalizado</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Suporte via WhatsApp</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Material exclusivo e simulados</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
+                                        <span>Preparação para prova prática</span>
+                                    </li>
+                                </ul>
+                                <Button
+                                    className="bg-secondary-500 hover:bg-[#2D3319] text-white w-full py-3"
+                                    variant="primary"
+                                    href="https://queroserdermato.com.br"
+                                    target="_blank"
+                                >
+                                    Conhecer o Programa
+                                </Button>
+                            </CardBody>
+                        </Card>
 
-                            {/* Secondary Option - One-off Mentorship */}
-                            <Card className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200">
-                                <CardBody className="space-y-6 p-8">
-                                    <div className="text-center">
-                                        <h3 className="text-2xl font-bold text-zinc-800 mb-2">Mentoria Avulsa</h3>
-                                        <p className="text-gray-600 mb-4">
-                                            Sessão individual para tirar dúvidas específicas
-                                        </p>
-                                        <div className="mb-4">
-                                            <p className="text-lg font-bold line-through text-gray-400">De R$499</p>
-                                            <div className="text-4xl font-bold text-zinc-800">
-                                                R$ 399,90
-                                            </div>
-                                            <div className="inline-block bg-gray-800 text-white text-sm font-semibold px-3 py-1 my-2 rounded-full">
-                                                Sessão online
-                                            </div>
+                        {/* Secondary Option - One-off Mentorship */}
+                        <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <CardBody className="p-8">
+                                <div className="text-center mb-6">
+                                    <h3 className="text-2xl font-bold text-zinc-800 mb-2">Mentoria Avulsa</h3>
+                                    <p className="text-gray-600 mb-4">
+                                        Sessão individual para tirar dúvidas específicas
+                                    </p>
+                                    <div>
+                                        <p className="text-base line-through text-gray-400">De R$499</p>
+                                        <div className="text-4xl font-bold text-zinc-800">
+                                            R$ 399,90
+                                        </div>
+                                        <div className="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 my-2 rounded-full border border-gray-300">
+                                            Sessão online
                                         </div>
                                     </div>
-                                    <ul className="space-y-3 text-gray-700 text-left">
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-[#9FD8CB] text-xl flex-shrink-0 mt-1" />
-                                            <span>Encontro de até 1h30 via Google Meet</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-[#9FD8CB] text-xl flex-shrink-0 mt-1" />
-                                            <span>Avaliação personalizada do seu momento</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-[#9FD8CB] text-xl flex-shrink-0 mt-1" />
-                                            <span>Direcionamento para estudos</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-[#9FD8CB] text-xl flex-shrink-0 mt-1" />
-                                            <span>Orientação sobre o que e como estudar</span>
-                                        </li>
-                                        <li className="flex items-start gap-3">
-                                            <FaCheck className="text-[#9FD8CB] text-xl flex-shrink-0 mt-1" />
-                                            <span>Definição de metas e próximos passos</span>
-                                        </li>
-                                    </ul>
-                                    <Button
-                                        className="mt-8 bg-zinc-800 hover:bg-zinc-700 text-white w-full text-lg py-4"
-                                        variant="primary"
-                                        href="https://pay.hotmart.com/V91028431Y?checkoutMode=10&bid=1756811102458"
-                                        target="_blank"
-                                    >
-                                        Agendar Sessão
-                                    </Button>
-                                </CardBody>
-                            </Card>
-                        </div>
-                    </Content>
+                                </div>
+                                <ul className="space-y-3 text-gray-700 mb-8">
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
+                                        <span>Encontro de até 1h30 via Google Meet</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
+                                        <span>Avaliação personalizada do seu momento</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
+                                        <span>Direcionamento para estudos</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
+                                        <span>Orientação sobre o que e como estudar</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
+                                        <span>Definição de metas e próximos passos</span>
+                                    </li>
+                                </ul>
+                                <Button
+                                    className="bg-zinc-800 hover:bg-zinc-700 text-white w-full py-3"
+                                    variant="primary"
+                                    href="https://pay.hotmart.com/V91028431Y?checkoutMode=10&bid=1756811102458"
+                                    target="_blank"
+                                >
+                                    Agendar Sessão
+                                </Button>
+                            </CardBody>
+                        </Card>
+                    </div>
                 </SectionContainer>
             </div>
         </Layout>
