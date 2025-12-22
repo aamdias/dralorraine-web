@@ -19,78 +19,51 @@ export default function MentorshipPage() {
                 description="Se prepare para residência médica através de uma mentoria personalizada"
             />
             <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-36">
-                {/* Hero Section - 2026 Mentorship Program CTA */}
-                <MotionBTTContainer
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                >
-                    <SectionContainer className="max-w-5xl mx-auto px-4 mb-12">
-                        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                            <div className="bg-[#9FD8CB] px-8 py-3">
-                                <div className="flex items-center justify-center gap-2">
-                                    <BadgeMessage className="bg-secondary-500 text-white font-semibold">
-                                        Turma 2026
-                                    </BadgeMessage>
-                                    <span className="text-white font-medium text-sm">Inscrições Abertas</span>
-                                </div>
-                            </div>
-                            <div className="p-8 md:p-12">
-                                <div className="text-center mb-8">
-                                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">
-                                        Programa de Mentoria para Residência Médica 2026
-                                    </h1>
-                                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                                        Prepare-se para as provas mais concorridas do país com acompanhamento contínuo e personalizado
-                                    </p>
-                                </div>
-                                <div className="grid md:grid-cols-3 gap-6 mb-8">
-                                    <div className="text-center p-4">
-                                        <FaGraduationCap className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
-                                        <h3 className="font-semibold text-zinc-800 mb-2">Acompanhamento Contínuo</h3>
-                                        <p className="text-gray-600 text-sm">Encontros mensais durante toda sua preparação</p>
-                                    </div>
-                                    <div className="text-center p-4">
-                                        <FaCalendarAlt className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
-                                        <h3 className="font-semibold text-zinc-800 mb-2">Plano Estratégico</h3>
-                                        <p className="text-gray-600 text-sm">Cronograma personalizado para suas metas</p>
-                                    </div>
-                                    <div className="text-center p-4">
-                                        <FaUsers className="text-3xl text-[#9FD8CB] mx-auto mb-3" />
-                                        <h3 className="font-semibold text-zinc-800 mb-2">Grupo Exclusivo</h3>
-                                        <p className="text-gray-600 text-sm">Comunidade de estudos e suporte</p>
-                                    </div>
-                                </div>
-                                <div className="text-center">
-                                    <Button
-                                        className="bg-secondary-500 hover:bg-[#2D3319] text-white text-lg px-10 py-3"
-                                        variant="primary"
-                                        href="https://queroserdermato.com.br"
-                                        target="_blank"
-                                    >
-                                        Conhecer o Programa 2026
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    </SectionContainer>
-                </MotionBTTContainer>
-
                 <MotionBTTContainer
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
                     <SectionContainer className="feature-tabs max-w-4xl mx-auto px-4">
                         <BadgeGroup alignment="center" className="mb-6">
-                            <BadgeMessage>Mentoria para Residência</BadgeMessage>
+                            <BadgeMessage>Mentoria Individual</BadgeMessage>
                         </BadgeGroup>
                         <PageTitle
                             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-center max-w-4xl mx-auto"
                             type="default"
                         >
                             <div className="mx-auto text-center">
-                                Sua aprovação na <span className="underline decoration-[#9FD8CB]">Residência Médica</span>
+                                Mentoria para a <span className="underline decoration-[#9FD8CB]">Residência Médica</span>
                             </div>
                         </PageTitle>
-                        
-                        
+
+                        {/* 2026 Program Banner */}
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-16 border-l-4 border-[#9FD8CB]">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                <div className="flex-1 text-center md:text-left">
+                                    <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                                        <BadgeMessage className="bg-secondary-500 text-white font-semibold">
+                                            Turma 2026
+                                        </BadgeMessage>
+                                        <span className="text-sm font-medium text-gray-600">Inscrições Abertas</span>
+                                    </div>
+                                    <h2 className="text-xl md:text-2xl font-bold text-zinc-800 mb-2">
+                                        Programa de Mentoria Completo 2026
+                                    </h2>
+                                    <p className="text-gray-600">
+                                        Acompanhamento contínuo durante toda sua preparação para residência
+                                    </p>
+                                </div>
+                                <div className="flex-shrink-0">
+                                    <Button
+                                        className="bg-secondary-500 hover:bg-[#2D3319] text-white px-8 py-3"
+                                        variant="primary"
+                                        href="https://queroserdermato.com.br"
+                                        target="_blank"
+                                    >
+                                        Conhecer o Programa
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
 
                         <PageTitle
                             className="text-center mx-auto my-16"
@@ -231,7 +204,7 @@ export default function MentorshipPage() {
                                             </div>
                                             <div className="flex items-center justify-center gap-3 p-3 bg-[#F3F5F8] rounded-lg">
                                                 <FaGraduationCap className="text-2xl text-[#9FD8CB]" />
-                                                <span className="font-semibold text-zinc-800">USP São Paulo</span>
+                                                <span className="font-semibold text-zinc-800">Instituto Azulay</span>
                                             </div>
                                         </div>
                                         <p className="text-gray-600 text-sm mt-6">
@@ -335,16 +308,14 @@ export default function MentorshipPage() {
 
                     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         {/* Primary Option - 2026 Program */}
-                        <Card className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#9FD8CB] relative">
-                            <div className="bg-[#9FD8CB] px-4 py-2">
-                                <div className="text-center">
-                                    <span className="text-white font-semibold text-sm">✨ RECOMENDADO</span>
-                                </div>
-                            </div>
+                        <Card className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#9FD8CB]">
                             <CardBody className="p-8">
                                 <div className="text-center mb-6">
+                                    <div className="inline-block bg-[#9FD8CB] text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                                        ✨ RECOMENDADO
+                                    </div>
                                     <h3 className="text-2xl font-bold text-zinc-800 mb-2">Programa Completo 2026</h3>
-                                    <p className="text-gray-600">
+                                    <p className="text-gray-600 mb-4">
                                         Acompanhamento contínuo durante toda sua preparação
                                     </p>
                                 </div>
