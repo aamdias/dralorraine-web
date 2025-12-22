@@ -46,7 +46,7 @@ export default function MentorshipPage() {
                                         <span className="text-sm font-medium text-gray-600">Inscrições Abertas</span>
                                     </div>
                                     <h2 className="text-xl md:text-2xl font-bold text-zinc-800 mb-2">
-                                        Programa de Mentoria Completo 2026
+                                        Mentoria Quero Ser Dermato 2026
                                     </h2>
                                     <p className="text-gray-600">
                                         Acompanhamento contínuo durante toda sua preparação para residência
@@ -59,7 +59,7 @@ export default function MentorshipPage() {
                                         href="https://queroserdermato.com.br"
                                         target="_blank"
                                     >
-                                        Conhecer o Programa
+                                        Conhecer
                                     </Button>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@ export default function MentorshipPage() {
                                             </div>
                                         </div>
                                         <p className="text-gray-600 text-sm mt-6">
-                                            Mentorados aprovados em Clínica Médica e outras especialidades nas melhores residências do país
+                                            Mentorados aprovados em Dermatologia e Clínica Médica nas melhores residências do país
                                         </p>
                                     </div>
                                 </CardBody>
@@ -309,12 +309,12 @@ export default function MentorshipPage() {
                     <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                         {/* Primary Option - 2026 Program */}
                         <Card className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#9FD8CB]">
-                            <CardBody className="p-8 flex flex-col h-full">
+                            <CardBody className="p-6 md:p-8 flex flex-col h-full">
                                 <div className="text-center mb-6">
                                     <div className="inline-block bg-[#9FD8CB] text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
                                         RECOMENDADO
                                     </div>
-                                    <h3 className="text-2xl font-bold text-zinc-800 mb-2">Programa Completo 2026</h3>
+                                    <h3 className="text-2xl font-bold text-zinc-800 mb-2">Mentoria QSD 2026</h3>
                                     <p className="text-gray-600 mb-4">
                                         Acompanhamento contínuo durante toda sua preparação
                                     </p>
@@ -358,7 +358,7 @@ export default function MentorshipPage() {
 
                         {/* Secondary Option - One-off Mentorship */}
                         <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
-                            <CardBody className="p-8 flex flex-col h-full">
+                            <CardBody className="p-6 md:p-8 flex flex-col h-full">
                                 <div className="text-center mb-6">
                                     <h3 className="text-2xl font-bold text-zinc-800 mb-2">Mentoria Avulsa</h3>
                                     <p className="text-gray-600 mb-4">
