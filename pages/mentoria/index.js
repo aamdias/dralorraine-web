@@ -364,14 +364,12 @@ export default function MentorshipPage() {
                                     <p className="text-gray-600 mb-4">
                                         Sessão individual para tirar dúvidas específicas
                                     </p>
-                                    <div>
-                                        <p className="text-base line-through text-gray-400">De R$499</p>
-                                        <div className="text-4xl font-bold text-zinc-800">
-                                            R$ 399,90
-                                        </div>
-                                        <div className="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 my-2 rounded-full border border-gray-300">
-                                            Sessão online
-                                        </div>
+                                    <p className="text-base line-through text-gray-400">De R$499</p>
+                                    <div className="text-4xl font-bold text-zinc-800">
+                                        R$ 399,90
+                                    </div>
+                                    <div className="inline-block bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 my-2 rounded-full border border-gray-300">
+                                        Sessão online
                                     </div>
                                 </div>
                                 <ul className="space-y-3 text-gray-700 flex-grow">
