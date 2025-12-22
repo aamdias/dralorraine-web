@@ -199,13 +199,13 @@ export default function MentorshipPage() {
                                     </div>
                                     <div className="space-y-4 text-gray-700 leading-relaxed">
                                         <p>
-                                            "Owww obrigadaaa!!! Por tudo mesmo. Vc foi o melhor 'investimento' com certeza. Me ajudou demais!! ❤️"
+                                            &ldquo;Owww obrigadaaa!!! Por tudo mesmo. Vc foi o melhor &lsquo;investimento&rsquo; com certeza. Me ajudou demais!! ❤️&rdquo;
                                         </p>
                                         <p className="font-semibold text-zinc-800">
-                                            "Você foi exatamente aquilo que eu pedi e precisei que você fosse. Um guia pra calcular a rota, pra me acelerar quando eu tava parando, pra me frear quando eu tava rápido e perdendo o controle."
+                                            &ldquo;Você foi exatamente aquilo que eu pedi e precisei que você fosse. Um guia pra calcular a rota, pra me acelerar quando eu tava parando, pra me frear quando eu tava rápido e perdendo o controle.&rdquo;
                                         </p>
                                         <p>
-                                            "Eu chegava um caos antes das reuniões e sempre saia com tudo mais claro, pq vc passou toda a confiança que eu precisava."
+                                            &ldquo;Eu chegava um caos antes das reuniões e sempre saia com tudo mais claro, pq vc passou toda a confiança que eu precisava.&rdquo;
                                         </p>
                                     </div>
                                     <div className="mt-6 pt-6 border-t border-gray-200">
