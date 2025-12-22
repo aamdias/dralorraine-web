@@ -306,20 +306,20 @@ export default function MentorshipPage() {
                         </p>
                     </Content>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                         {/* Primary Option - 2026 Program */}
                         <Card className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#9FD8CB]">
-                            <CardBody className="p-8">
+                            <CardBody className="p-8 flex flex-col h-full">
                                 <div className="text-center mb-6">
                                     <div className="inline-block bg-[#9FD8CB] text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
-                                        ✨ RECOMENDADO
+                                        RECOMENDADO
                                     </div>
                                     <h3 className="text-2xl font-bold text-zinc-800 mb-2">Programa Completo 2026</h3>
                                     <p className="text-gray-600 mb-4">
                                         Acompanhamento contínuo durante toda sua preparação
                                     </p>
                                 </div>
-                                <ul className="space-y-3 text-gray-700 mb-8">
+                                <ul className="space-y-3 text-gray-700 flex-grow">
                                     <li className="flex items-start gap-3">
                                         <FaCheck className="text-[#9FD8CB] text-lg flex-shrink-0 mt-1" />
                                         <span>Encontros mensais individuais</span>
@@ -346,7 +346,7 @@ export default function MentorshipPage() {
                                     </li>
                                 </ul>
                                 <Button
-                                    className="bg-secondary-500 hover:bg-[#2D3319] text-white w-full py-3"
+                                    className="bg-secondary-500 hover:bg-[#2D3319] text-white w-full py-3 mt-8"
                                     variant="primary"
                                     href="https://queroserdermato.com.br"
                                     target="_blank"
@@ -358,7 +358,7 @@ export default function MentorshipPage() {
 
                         {/* Secondary Option - One-off Mentorship */}
                         <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
-                            <CardBody className="p-8">
+                            <CardBody className="p-8 flex flex-col h-full">
                                 <div className="text-center mb-6">
                                     <h3 className="text-2xl font-bold text-zinc-800 mb-2">Mentoria Avulsa</h3>
                                     <p className="text-gray-600 mb-4">
@@ -374,7 +374,7 @@ export default function MentorshipPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <ul className="space-y-3 text-gray-700 mb-8">
+                                <ul className="space-y-3 text-gray-700 flex-grow">
                                     <li className="flex items-start gap-3">
                                         <FaCheck className="text-gray-400 text-lg flex-shrink-0 mt-1" />
                                         <span>Encontro de até 1h30 via Google Meet</span>
@@ -397,7 +397,7 @@ export default function MentorshipPage() {
                                     </li>
                                 </ul>
                                 <Button
-                                    className="bg-zinc-800 hover:bg-zinc-700 text-white w-full py-3"
+                                    className="bg-zinc-800 hover:bg-zinc-700 text-white w-full py-3 mt-8"
                                     variant="primary"
                                     href="https://pay.hotmart.com/V91028431Y?checkoutMode=10&bid=1756811102458"
                                     target="_blank"
