@@ -180,7 +180,7 @@ export default function MentorshipPage() {
                     <HomeBanner />
                 </div>
 
-                <div className="bg-[#F3F5F8]">
+                <div className="bg-[#F3F5F8] pb-16 md:pb-20">
                     <Results />
                 </div>
 
@@ -204,8 +204,8 @@ export default function MentorshipPage() {
                                             FF
                                         </div>
                                         <div>
-                                            <h3 className="font-bold text-lg text-zinc-800">Flávia Freitas</h3>
-                                            <div className="flex flex-wrap gap-2 mt-0.5">
+                                            <h3 className="font-bold text-lg text-zinc-800 mb-0">Flávia Freitas</h3>
+                                            <div className="flex flex-wrap gap-2 -mt-0.5">
                                                 <span className="inline-flex items-center gap-1 text-xs text-[#9FD8CB] font-medium">
                                                     <FaCheck className="text-[10px]" /> USP-RP
                                                 </span>
@@ -305,8 +305,8 @@ export default function MentorshipPage() {
                                     <div className="bg-white/5 rounded-xl p-5 sm:p-6 h-full">
                                         <div className="flex items-start gap-4">
                                             <div className="flex-shrink-0">
-                                                <div className="w-10 h-10 bg-[#9FD8CB]/20 rounded-lg flex items-center justify-center">
-                                                    <img src={benefit.icon} alt="" className="w-6 h-6 object-contain" />
+                                                <div className="w-10 h-10 bg-[#9FD8CB] rounded-lg flex items-center justify-center">
+                                                    <img src={benefit.icon} alt="" className="w-6 h-6 object-contain invert" />
                                                 </div>
                                             </div>
                                             <div>
