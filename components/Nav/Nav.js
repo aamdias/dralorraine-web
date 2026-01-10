@@ -11,7 +11,7 @@ const navigation = [
     { name: "Currículo", to: "curriculo", href: "/curriculo", isNew: true },
 ];
 
-export const Nav = () => {
+export const Nav = ({ isTransparent = false }) => {
     const router = useRouter();
     const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export const Nav = () => {
                     <span className="sr-only">Open main menu</span>
                     <Icon
                         icon="material-symbols:menu-rounded"
-                        className="h-6 w-auto text-black"
+                        className={`h-6 w-auto transition-colors duration-300 ${isTransparent ? 'text-white' : 'text-black'}`}
                     />
                 </button>
                 <div
@@ -41,7 +41,7 @@ export const Nav = () => {
                     }`}
                     id="navbar-default"
                 >
-                    <ul className="header-nav--menu">
+                    <ul className={`header-nav--menu ${isTransparent ? 'nav-transparent' : ''}`}>
                         {navigation.map((item) => (
                             <li
                                 key={item.name}
@@ -51,8 +51,9 @@ export const Nav = () => {
                                     key={item.name}
                                     to={item.to}
                                     href={item.href}
-                                    className={`menu-item--link flex items-center
+                                    className={`menu-item--link flex items-center transition-colors duration-300
                     ${router.pathname === item.href ? "active" : ""}
+                    ${isTransparent ? "text-white/80 hover:text-white" : ""}
                   `}
                                     onClick={closeNav}
                                     target={item.target ? item.target : "_self"}

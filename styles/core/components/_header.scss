@@ -8,21 +8,25 @@
 
 @layer components {
     .header {
-    }
-
-    .header--container {
-        @apply relative flex items-center justify-between py-2 lg:justify-start;
         &:after {
             content: "";
-            margin-left: var(--page-padding-left);
-            margin-right: var(--page-padding-right);
             position: absolute;
             bottom: 0px;
             left: 0px;
             right: 0px;
             height: 1px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.08);
         }
+
+        &.header--transparent {
+            &:after {
+                background: rgba(255, 255, 255, 0.15);
+            }
+        }
+    }
+
+    .header--container {
+        @apply relative flex items-center justify-between py-2 lg:justify-start;
     }
 
     .header-logo--container {
