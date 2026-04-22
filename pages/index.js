@@ -4,6 +4,7 @@ import { Button } from "@components/Button";
 import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
+import Link from "next/link";
 
 const PORTRAIT_SRC = "/lolo-portrait-consulta.jpg";
 
@@ -370,12 +371,12 @@ export default function Home() {
                                 >
                                     Agendar consulta
                                 </Button>
-                                <a
+                                <Link
                                     href="/mentoria"
                                     className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
                                 >
                                     Conhecer mentoria
-                                </a>
+                                </Link>
                             </div>
                         </MotionBTTContainer>
                     </div>
