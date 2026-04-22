@@ -32,7 +32,8 @@ const initialData = {
     photos: [], // [{ url, pathname, name, size }]
     consentTelemedicine: false,
     consentLgpd: false,
-    consentTerms: false
+    consentTerms: false,
+    consultaId: null // set after /api/consulta insert at Step 5 → 6
 };
 
 export default function AgendarPage() {
@@ -153,10 +154,12 @@ export default function AgendarPage() {
                         )}
                     </div>
 
-                    <p className="text-center text-xs uppercase tracking-[0.24em] text-[#57534E]/70 font-medium mt-8 flex items-center justify-center gap-2">
-                        <LockGlyph />
-                        Informações criptografadas · LGPD
-                    </p>
+                    <div className="mt-24 lg:mt-32 pt-10 border-t border-[#E7E2D9]">
+                        <p className="text-center text-xs uppercase tracking-[0.24em] text-[#57534E]/70 font-medium flex items-center justify-center gap-2">
+                            <LockGlyph />
+                            Informações criptografadas · LGPD
+                        </p>
+                    </div>
                 </div>
             </div>
         </Layout>
@@ -785,10 +788,45 @@ function CameraGlyph() {
 function StepConsent({ data, update, onNext, onBack }) {
     const valid =
         data.consentTelemedicine && data.consentLgpd && data.consentTerms;
-    const submit = (e) => {
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
+
+    const submit = async (e) => {
         e.preventDefault();
-        if (valid) onNext();
+        if (!valid || submitting) return;
+
+        // Already persisted earlier (user navigated back and re-submitted).
+        // Don't create a duplicate row — just advance.
+        if (data.consultaId) {
+            onNext();
+            return;
+        }
+
+        setError("");
+        setSubmitting(true);
+        try {
+            const r = await fetch("/api/consulta", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data })
+            });
+            if (!r.ok) {
+                const body = await r.json().catch(() => ({}));
+                throw new Error(body.error || "Falha ao enviar");
+            }
+            const { id } = await r.json();
+            update({ consultaId: id });
+            onNext();
+        } catch (err) {
+            setError(
+                err.message ||
+                    "Não foi possível enviar agora. Tente novamente em instantes."
+            );
+        } finally {
+            setSubmitting(false);
+        }
     };
+
     return (
         <form onSubmit={submit}>
             <StepHeader
@@ -847,7 +885,17 @@ function StepConsent({ data, update, onNext, onBack }) {
                 </ConsentCheckbox>
             </div>
 
-            <StepActions onBack={onBack} nextDisabled={!valid} />
+            {error && (
+                <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
+                    — {error}
+                </div>
+            )}
+
+            <StepActions
+                onBack={onBack}
+                nextDisabled={!valid || submitting}
+                nextLabel={submitting ? "Enviando…" : undefined}
+            />
         </form>
     );
 }
