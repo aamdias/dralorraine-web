@@ -11,7 +11,7 @@ const steps = [
     { id: 2, label: "Queixa" },
     { id: 3, label: "Saúde" },
     { id: 4, label: "Fotos" },
-    { id: 5, label: "Consentimento" },
+    { id: 5, label: "Termos" },
     { id: 6, label: "Pagamento" },
     { id: 7, label: "Agenda" }
 ];
