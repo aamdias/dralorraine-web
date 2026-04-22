@@ -5,7 +5,7 @@ import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
 
-const PORTRAIT_SRC = "/lolo-portrait-home-page.png";
+const PORTRAIT_SRC = "/lolo-portrait-consulta.jpg";
 
 const stats = [
     { figure: "UNICAMP", label: "Formação em Medicina" },
