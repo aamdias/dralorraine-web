@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 
 const navigation = [
     { name: "Sobre mim", to: "#personal-history", href: "/" },
+    { name: "Consulta", to: "consulta", href: "/consulta", isNew: true },
     { name: "Mentoria", to: "mentoria", href: "/mentoria" },
-    { name: "Anotações", to: "anotacoes", href: "/anotacoes", isNew: true },
+    { name: "Anotações", to: "anotacoes", href: "/anotacoes" },
     { name: "Notion", to: "notion", href: "/notion" },
-    { name: "Currículo", to: "curriculo", href: "/curriculo", isNew: true },
+    { name: "Currículo", to: "curriculo", href: "/curriculo" },
 ];
 
 export const Nav = ({ isTransparent = false }) => {

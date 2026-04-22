@@ -8,31 +8,19 @@ const DATA = [
     {
         title: "Navegação",
         items: [
-            {
-                label: "Sobre mim",
-                href: "#features"
-            },
-            {
-                label: "Mentoria",
-                href: "#testimonials"
-            },
-            {
-                label: "Notion",
-                href: "#faq"
-            }
+            { label: "Sobre mim", href: "/#personal-history" },
+            { label: "Consulta", href: "/consulta" },
+            { label: "Mentoria", href: "/mentoria" },
+            { label: "Anotações", href: "/anotacoes" },
+            { label: "Notion", href: "/notion" }
         ]
     },
     {
-        title: "Meu contato",
+        title: "Legal",
         items: [
-            {
-                label: "E-mail",
-                href: "#features"
-            },
-            {
-                label: "Instagram",
-                href: "#testimonials"
-            }
+            { label: "Política de Privacidade", href: "/politica-de-privacidade" },
+            { label: "Termos de Uso", href: "/termos-de-uso" },
+            { label: "Consentimento Telemedicina", href: "/consentimento-telemedicina" }
         ]
     }
 ];
@@ -59,17 +47,11 @@ export const Footer = () => {
                                         priority
                                     />
                                 </Link>
-                                {/* Get Template button; remove if not used */}
-                                {/* <ButtonGroup alignment="left">
-                                    <a
-                                        role="button"
-                                        href="https://github.com/christian-luntok/nutritrack"
-                                        className="btn btn--secondary"
-                                    >
-                                        Get Template
-                                        <Icon icon="material-symbols:arrow-forward-rounded" />
-                                    </a>
-                                </ButtonGroup> */}
+                                <p className="text-sm text-zinc-600 max-w-xs leading-relaxed">
+                                    Dra. Lorraine Souza
+                                    <br />
+                                    Dermatologia · CRM-SP [a definir]
+                                </p>
                             </div>
                         </div>
                         <div className="col-span-6">
