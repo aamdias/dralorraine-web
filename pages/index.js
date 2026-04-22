@@ -1,194 +1,385 @@
-import { BadgeMessage, BadgeGroup, BadgeIcon } from "@components/Badge";
-import { SectionContainer } from "@components/Section";
-import { PageTitle } from "@components/Title";
 import { Layout } from "@components/Layout";
-import { HomeBanner } from "@components/Banner";
-import { Columns } from "@components/Columns";
-import { ContentImage } from "@components/ContentImage";
-import { Content } from "@components/Content";
-import { Accordion } from "@components/Accordion";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
+import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
-import { Icon } from "@iconify/react";
-import {
-    CardBody,
-    CardGroup,
-    CardHeader,
-    CardImage,
-    Card
-} from "@components/Card";
-import { Results }  from "@components/Results";
+
+const PORTRAIT_SRC = "/lolo-portrait-home-page.png";
+
+const stats = [
+    { figure: "UNICAMP", label: "Formação em Medicina" },
+    { figure: "2023", label: "R1 em Dermatologia" },
+    { figure: "+140", label: "Anotações de residência" },
+    { figure: "São Paulo", label: "Atendimento" }
+];
+
+const services = [
+    {
+        n: "01",
+        tag: "Para pacientes",
+        title: "Consulta dermatológica",
+        description:
+            "Videoconsulta de 40 minutos com avaliação completa, conduta personalizada e 14 dias de suporte.",
+        href: "/consulta",
+        cta: "Agendar consulta",
+        featured: true
+    },
+    {
+        n: "02",
+        tag: "Para médicos em preparação",
+        title: "Mentoria individual",
+        description:
+            "Acompanhamento estratégico com quem conquistou o 1º lugar em Dermato na UNICAMP. Planeje, ajuste rotina e chegue lá.",
+        href: "/mentoria",
+        cta: "Conhecer mentoria"
+    },
+    {
+        n: "03",
+        tag: "Material de estudo",
+        title: "Anotações originais",
+        description:
+            "+140 anotações organizadas por grande área — o mesmo material que levou à aprovação em UNICAMP, USP-RP, USP-SP e PUCC.",
+        href: "/anotacoes",
+        cta: "Ver anotações"
+    },
+    {
+        n: "04",
+        tag: "Método de estudo",
+        title: "Template no Notion",
+        description:
+            "Sistema de revisão e organização digital. Cadernos digitais que substituem as pilhas de papel e tornam a revisão eficaz.",
+        href: "/notion",
+        cta: "Ver template"
+    },
+    {
+        n: "05",
+        tag: "Preparação",
+        title: "Currículo para residência",
+        description:
+            "Modelo de currículo estratégico, valorizando trajetória e conquistas para provas que consideram o documento.",
+        href: "/curriculo",
+        cta: "Ver currículo"
+    }
+];
 
 export default function Home() {
     return (
-        <Layout className="">
+        <Layout>
             <SEO
-                title="Dra Lorraine | R1 em Dermato"
-                description="Se prepare para residência médica com quem teve resultado nas provas mais concorridas do país"
+                title="Dra. Lorraine Souza | Dermatologia · Mentoria · Residência"
+                description="Dermatologista formada pela UNICAMP. Videoconsulta dermatológica, mentoria para residência médica, anotações, template Notion e currículo."
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32 ">
-                {/* { Page Banner } */}
-                <HomeBanner />
-                {/* Components Container */}
-                <SectionContainer className="components--container wrap wrap-px grid gap-8 sm:gap-24">
-                    {/* Features */}
-                    <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer id="personal-history" className="features scroll-mt-32">
-                            <PageTitle
-                                className="text-center mx-auto my-12"
-                                type="default"
+
+            <div className="bg-[#FAF6F0] text-[#1C1917]">
+                {/* ============ HERO ============ */}
+                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-8"
+                                >
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        Dra. Lorraine Souza
+                                    </div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
+                                        Dermatologia clínica e uma nova geração
+                                        de{" "}
+                                        <span className="italic text-[#9A4639]">
+                                            médicos
+                                        </span>
+                                        .
+                                    </h1>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.3, duration: 0.6 }}
+                                    className="mb-14 lg:mb-16"
+                                >
+                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                        Sou médica pela UNICAMP e dermatologista.
+                                        Atendo pacientes por videoconsulta e
+                                        acompanho médicos em preparação para
+                                        residência — compartilhando o que
+                                        aprendi ao longo da jornada.
+                                    </p>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                >
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
+                                        <Button
+                                            href="/consulta"
+                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                        >
+                                            Agendar consulta
+                                        </Button>
+                                        <a
+                                            href="#solutions"
+                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                        >
+                                            Ver todos os serviços
+                                        </a>
+                                    </div>
+                                </MotionBTTContainer>
+                            </div>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.7 }}
                             >
-                                De onde eu venho?
-                            </PageTitle>
-                            <div className="container mx-auto my-5">
-                                <div className="flex flex-col items-center justify-center gap-8">
-                                    <div className="max-w-4xl bg-white overflow-hidden rounded shadow-lg">
-                                        <div className="px-6 py-4">
-                                            <div className="w-full mb-6 mt-2">
-                                                <Image 
-                                                src="/history-map-lolo.png" 
-                                                alt="Page Banner" 
-                                                width={680}
-                                                height={1024}
-                                                className="w-full h-full object-cover shadow-sm"/>
-                                            </div>
-                                            <h2 className="font-bold text-xl my-4 text-center text-zinc-900">Da ZL para 1º lugar em Dermato na UNICAMP ♥️</h2>
-                                            <p className="text-gray-700 text-lg leading-8 font-thin">
-                                                Sou paulistana diretamente da Zona Leste, porém foi em São José dos Campos onde iniciei minha jornada rumo à medicina. Lá fiz ensino técnico em Análises Clínicas e iniciei um cursinho pré-vestibular no CASD Vestibulares, um cursinho popular.
-                                                <br/><br/>
-                                                Após 3 anos de preparação, fui aprovada na UNICAMP, lugar que foi uma verdadeira casa para mim e onde vivi momentos inesquecíveis!
-                                                Durante a graduação me apaixonei pela área de dermatologia e desde então sonho com uma vaga em uma instituição de excelência nessa especialidade...
-                                                <br/><br/>
-                                                Após colar grau em janeiro de 2021, separei esse ano para trabalhar e nos anos de 2022-2023 me dediquei principalmente à preparação para as provas de residência médica, tendo que conciliar com todas as outras atividades (trabalho, atividade física, saúde mental)
-                                                <br/><br/>
-                                                No primeiro ano de provas, após muitos &quot;nãos&quot;, conquistei uma aprovação em dermatologia pelo SUS-SP, porém resolvi persistir no meu sonho e prestar mais um ano de provas. Não foi uma decisão fácil, mas hoje vejo que tudo tem um propósito
-                                                <br/><br/>
-                                                Graças a muita dedicação e apoio da família e amigos, cheguei a lugares que jamais imaginei e sou muito grata a todos momentos dessa trajetória cheia de altos e baixos ❣️
-                                            </p>
-                                        </div>
+                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
+                                        <Image
+                                            src={PORTRAIT_SRC}
+                                            alt="Dra. Lorraine Souza"
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                            sizes="(max-width: 1024px) 90vw, 40vw"
+                                        />
                                     </div>
                                 </div>
+                            </MotionBTTContainer>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ STATS STRIP ============ */}
+                <section className="border-t border-[#E7E2D9] bg-[#FAF6F0]">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
+                            {stats.map((s, i) => (
+                                <MotionBTTContainer
+                                    key={i}
+                                    transition={{
+                                        delay: 0.1 + i * 0.08,
+                                        duration: 0.5
+                                    }}
+                                >
+                                    <div>
+                                        <div className="text-2xl lg:text-3xl font-light text-[#1C1917] tracking-tight">
+                                            {s.figure}
+                                        </div>
+                                        <div className="mt-2 text-xs uppercase tracking-[0.2em] text-[#57534E] font-medium">
+                                            {s.label}
+                                        </div>
+                                    </div>
+                                </MotionBTTContainer>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ PERSONAL HISTORY ============ */}
+                <section
+                    id="personal-history"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-6"
+                                >
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        De onde eu venho
+                                    </div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
+                                        Da Zona Leste de São Paulo ao{" "}
+                                        <span className="italic">
+                                            1º lugar
+                                        </span>{" "}
+                                        em Dermato na UNICAMP.
+                                    </h2>
+                                </MotionBTTContainer>
                             </div>
-                        </SectionContainer>
-                    </MotionBTTContainer>
-                    {/* Card Container Tabs */}
-                </SectionContainer>
-                <Results />
-                <SectionContainer className="pt-16 px-6">
-                    {/* Features */}
-                    <MotionBTTContainer
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <SectionContainer className="feature-tabs scroll-mt-32" id="solutions">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>Soluções</BadgeMessage>
-                            </BadgeGroup>
-                            <PageTitle
-                                className="text-center mx-auto max-w-3xl mb-8"
-                                type="default"
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.6 }}
                             >
-                                Como posso te ajudar a chegar lá também?
-                            </PageTitle>
-                            <Content className="text-center max-w-2xl mx-auto" alignment="center">
-                                <p className="text-lg text-gray-600">
-                                    Encurte seu caminho para a aprovação através de serviços e produtos feitos especialmente para quem quer alcançar os melhores resultados nas provas de residência médica.{" "}
+                                <div className="space-y-6 text-[#3C3833] text-lg leading-relaxed">
+                                    <p>
+                                        Sou paulistana, nascida na Zona Leste.
+                                        Foi em São José dos Campos que comecei
+                                        a trilhar o caminho da medicina — fiz
+                                        ensino técnico em Análises Clínicas e
+                                        estudei em um cursinho popular. Três
+                                        anos depois, passei na UNICAMP, que se
+                                        tornou minha segunda casa.
+                                    </p>
+                                    <p>
+                                        Durante a graduação me apaixonei pela
+                                        dermatologia. Após colar grau em
+                                        janeiro de 2021, dediquei dois anos à
+                                        preparação para a residência médica,
+                                        conciliando estudos, trabalho e saúde
+                                        mental.
+                                    </p>
+                                    <p>
+                                        Depois de muitos{" "}
+                                        <span className="italic">nãos</span>,
+                                        vieram os <em>sins</em>: UNICAMP,
+                                        USP-RP, USP-SP e PUC Campinas. Hoje,
+                                        vejo que cada passo tinha um propósito
+                                        — e é essa experiência que trago para
+                                        cada paciente e cada mentorado.
+                                    </p>
+                                </div>
+                            </MotionBTTContainer>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ RESULTS ============ */}
+                <Results />
+
+                {/* ============ SOLUTIONS ============ */}
+                <section
+                    id="solutions"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-2xl mb-14 lg:mb-20">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="mb-6"
+                            >
+                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    Como posso te ajudar
+                                </div>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Dois caminhos, uma{" "}
+                                    <span className="italic">mesma origem</span>
+                                    .
+                                </h2>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <p className="text-lg text-[#57534E] leading-relaxed">
+                                    Atendo quem precisa de cuidado
+                                    dermatológico e acompanho quem está a
+                                    caminho da residência.
                                 </p>
-                            </Content>
-                            <CardGroup className="grid gap-8 grid-cols-1 max-w-5xl mx-auto mt-16 md:grid-cols-2">
-                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                    <CardBody className="flex flex-col items-start p-8">
-                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
-                                            <Icon 
-                                                icon="ph:chats-circle-fill" 
-                                                className="w-7 h-7 text-[#9FD8CB]"
-                                            />
+                            </MotionBTTContainer>
+                        </div>
+
+                        <div className="space-y-0 border-t border-[#E7E2D9]">
+                            {services.map((s, i) => (
+                                <MotionBTTContainer
+                                    key={s.n}
+                                    transition={{
+                                        delay: 0.15 + i * 0.05,
+                                        duration: 0.5
+                                    }}
+                                >
+                                    <a
+                                        href={s.href}
+                                        className="group block border-b border-[#E7E2D9] py-8 lg:py-10 transition-colors duration-300 hover:bg-[#F3EADB]/40"
+                                    >
+                                        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-6 lg:gap-12 items-start lg:items-center px-1 lg:px-2">
+                                            <div className="flex items-baseline gap-6">
+                                                <div className="text-sm font-mono text-[#9A4639] tracking-[0.15em]">
+                                                    {s.n}
+                                                </div>
+                                                <div className="hidden sm:block text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium lg:w-44">
+                                                    {s.tag}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] text-[#1C1917] group-hover:text-[#9A4639] transition-colors duration-300">
+                                                    {s.title}
+                                                </h3>
+                                                <p className="mt-3 text-[#57534E] leading-relaxed max-w-2xl">
+                                                    {s.description}
+                                                </p>
+                                            </div>
+                                            <div className="text-sm font-medium text-[#1C1917] group-hover:text-[#9A4639] transition-colors whitespace-nowrap">
+                                                {s.cta}
+                                                <span
+                                                    aria-hidden
+                                                    className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1"
+                                                >
+                                                    →
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
-                                            Mentoria individual comigo
-                                        </div>
-                                        <p className="text-gray-600 text-lg mb-8">
-                                            Entendo o seu contexto de vida, histórico, preferências e objetivos e te ajudo a traçar uma melhor estratégia de estudos e a tomar melhores decisões na sua preparação. Encurte seu caminho para aprovação de forma personalizada.
-                                        </p>
-                                        <Button
-                                            href="/mentoria"
-                                            variant="secondary"
-                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
-                                        >Quero saber mais</Button>
-                                    </CardBody>
-                                </Card>
-                                
-                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                    <CardBody className="flex flex-col items-start p-8">
-                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
-                                            <Icon 
-                                                icon="ph:books-fill" 
-                                                className="w-7 h-7 text-[#9FD8CB]"
-                                            />
-                                        </div>
-                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
-                                            Minhas Anotações Originais
-                                        </div>
-                                        <p className="text-gray-600 text-lg mb-8">
-                                            Acesse minhas anotações originais que me ajudaram a conquistar a aprovação. Material organizado, objetivo e focado nos pontos mais relevantes para as provas de residência médica.
-                                        </p>
-                                        <Button 
-                                            href="/anotacoes"
-                                            variant="secondary"
-                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
-                                        >Quero saber mais</Button>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                    <CardBody className="flex flex-col items-start p-8">
-                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
-                                            <Icon 
-                                                icon="ph:notebook-fill" 
-                                                className="w-7 h-7 text-[#9FD8CB]"
-                                            />
-                                        </div>
-                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
-                                            Template de estudos no Notion
-                                        </div>
-                                        <p className="text-gray-600 text-lg mb-8">
-                                            Em 2023 dispensei todos os meus cadernos físicos por um caderno digital no Notion. Todas as minhas anotações das grandes áreas ficaram bem mais organizadas e toda vez que eu errava uma questão em prova, era muito mais fácil de revisar.
-                                        </p>
-                                        <Button 
-                                            href="/notion"
-                                            variant="secondary"
-                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
-                                        >Quero saber mais</Button>
-                                    </CardBody>
-                                </Card>
-                                <Card className="col-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                    <CardBody className="flex flex-col items-start p-8">
-                                        <div className="w-14 h-14 rounded-2xl bg-[#9FD8CB]/10 flex items-center justify-center mb-6">
-                                            <Icon 
-                                                icon="ph:file-text-fill" 
-                                                className="w-7 h-7 text-[#9FD8CB]"
-                                            />
-                                        </div>
-                                        <div className="text-2xl font-bold text-zinc-800 mb-4">
-                                            Currículo Profissional
-                                        </div>
-                                        <p className="text-gray-600 text-lg mb-8">
-                                            Destaque sua trajetória com um currículo estrategicamente elaborado para residência médica. Design moderno e profissional que valoriza suas conquistas e experiências.
-                                        </p>
-                                        <Button 
-                                            href="/curriculo"
-                                            variant="secondary"
-                                            className="mt-auto w-full justify-center bg-[#9FD8CB] hover:bg-[#8EC8BB] text-white font-medium py-3"
-                                        >Quero saber mais</Button>
-                                    </CardBody>
-                                </Card>
-                            </CardGroup>
-                        </SectionContainer>
-                    </MotionBTTContainer>
-                    
-                </SectionContainer>
+                                    </a>
+                                </MotionBTTContainer>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ CLOSING CTA ============ */}
+                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB]">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                        <MotionBTTContainer
+                            transition={{ delay: 0.1, duration: 0.6 }}
+                        >
+                            <h2 className="text-4xl lg:text-6xl font-light leading-[1.05] tracking-[-0.02em] mb-8">
+                                Vamos conversar sobre{" "}
+                                <span className="italic text-[#9A4639]">
+                                    a sua próxima etapa
+                                </span>
+                                ?
+                            </h2>
+                        </MotionBTTContainer>
+
+                        <MotionBTTContainer
+                            transition={{ delay: 0.2, duration: 0.5 }}
+                            className="mb-12"
+                        >
+                            <p className="text-lg text-[#57534E] leading-relaxed max-w-xl mx-auto">
+                                Seja pra cuidar da pele ou encurtar o caminho
+                                até a residência, estou aqui.
+                            </p>
+                        </MotionBTTContainer>
+
+                        <MotionBTTContainer
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                        >
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+                                <Button
+                                    href="/consulta"
+                                    className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                >
+                                    Agendar consulta
+                                </Button>
+                                <a
+                                    href="/mentoria"
+                                    className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                >
+                                    Conhecer mentoria
+                                </a>
+                            </div>
+                        </MotionBTTContainer>
+                    </div>
+                </section>
             </div>
         </Layout>
     );

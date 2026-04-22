@@ -1,18 +1,23 @@
-import { SectionContainer } from "@components/Section";
 import Link from "next/link";
-import Image from "next/image";
-import { ButtonGroup } from "@components/Button";
-import { Icon } from "@iconify/react";
+import { SectionContainer } from "@components/Section";
+import { Logo } from "@components/Logo";
 
-const DATA = [
+const NAV_COLUMNS = [
     {
-        title: "Navegação",
+        title: "Serviços",
         items: [
-            { label: "Sobre mim", href: "/#personal-history" },
             { label: "Consulta", href: "/consulta" },
             { label: "Mentoria", href: "/mentoria" },
             { label: "Anotações", href: "/anotacoes" },
-            { label: "Notion", href: "/notion" }
+            { label: "Notion", href: "/notion" },
+            { label: "Currículo", href: "/curriculo" }
+        ]
+    },
+    {
+        title: "Sobre",
+        items: [
+            { label: "Sobre mim", href: "/#personal-history" },
+            { label: "Aprovações", href: "/#results" }
         ]
     },
     {
@@ -20,98 +25,78 @@ const DATA = [
         items: [
             { label: "Política de Privacidade", href: "/politica-de-privacidade" },
             { label: "Termos de Uso", href: "/termos-de-uso" },
-            { label: "Consentimento Telemedicina", href: "/consentimento-telemedicina" }
+            {
+                label: "Consentimento · Telemedicina",
+                href: "/consentimento-telemedicina"
+            }
         ]
     }
 ];
 
 export const Footer = () => {
-    const date = new Date();
-    const year = date.getFullYear();
+    const year = new Date().getFullYear();
 
     return (
-        <footer id="footer" className="bg-white">
-            {/* Footer Links */}
-            <SectionContainer className="footer--container wrap wrap-px relative z-10">
-                <div className="footer--content-container py-16">
-                    <div className="footer-links mb-12 grid grid-cols-2 gap-8 md:mb-16 md:grid-cols-8 lg:grid-cols-12">
-                        <div className="col-span-6">
-                            <div className="footer--logo grid gap-8">
-                                <Link href="/">
-                                    <Image
-                                        src="/newlogo-dralorraine-web.svg"
-                                        alt="logo"
-                                        className="h-10 w-auto"
-                                        height="25"
-                                        width="100"
-                                        priority
-                                    />
-                                </Link>
-                                <p className="text-sm text-zinc-600 max-w-xs leading-relaxed">
-                                    Dra. Lorraine Souza
-                                    <br />
-                                    Dermatologia · CRM-SP [a definir]
-                                </p>
+        <footer
+            id="footer"
+            className="bg-[#1C1917] text-[#FAF6F0] border-t border-[#2A2724]"
+        >
+            <SectionContainer className="wrap wrap-px">
+                <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+                    {/* Identity */}
+                    <div className="lg:col-span-5">
+                        <Link
+                            href="/"
+                            aria-label="Ir para a página inicial"
+                            className="inline-block"
+                        >
+                            <Logo variant="light" className="h-7 w-auto" />
+                        </Link>
+                        <p className="text-[#FAF6F0]/70 text-base leading-relaxed max-w-sm mt-6">
+                            Dra. Lorraine Souza
+                            <br />
+                            <span className="text-[#FAF6F0]/50 text-sm">
+                                Dermatologia · Formada pela UNICAMP
+                            </span>
+                        </p>
+                        <p className="text-[#FAF6F0]/40 text-xs leading-relaxed mt-8 max-w-sm">
+                            Conteúdo educativo e atendimento clínico. Este site
+                            não substitui avaliação médica presencial quando
+                            indicada.
+                        </p>
+                    </div>
+
+                    {/* Nav columns */}
+                    <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                        {NAV_COLUMNS.map((col) => (
+                            <div key={col.title}>
+                                <h3 className="text-xs uppercase tracking-[0.24em] text-[#FAF6F0]/50 font-medium mb-5">
+                                    {col.title}
+                                </h3>
+                                <ul className="space-y-3">
+                                    {col.items.map((item) => (
+                                        <li key={item.label}>
+                                            <a
+                                                href={item.href}
+                                                className="text-[#FAF6F0]/80 hover:text-[#FAF6F0] text-sm transition-colors"
+                                            >
+                                                {item.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                        </div>
-                        <div className="col-span-6">
-                            <div className="footer-menu grid grid-cols-2 md:grid-cols-8 lg:grid-cols-12">
-                                {DATA.map((footerLinks) => (
-                                    <div
-                                        key={footerLinks.title}
-                                        className="footer-menu--container col-span-1 md:col-span-4"
-                                    >
-                                        <h3 className="font-bold text-base mb-2">
-                                            {footerLinks.title}
-                                        </h3>
-                                        <ul className="footer-menu--list">
-                                            {footerLinks.items.map(
-                                                (footerItem) => (
-                                                    <li
-                                                        key={footerItem.label}
-                                                        className="footer-menu--list-item gap-2"
-                                                    >
-                                                        <a
-                                                            className="mb-2 block w-auto font-medium transition-colors duration-300 hover:underline"
-                                                            href={
-                                                                footerItem.href
-                                                            }
-                                                            target={
-                                                                footerItem.target
-                                                            }
-                                                        >
-                                                            {footerItem.label}
-                                                        </a>
-                                                    </li>
-                                                )
-                                            )}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
-            </SectionContainer>
-            {/* Footer Credits */}
-            {/* <SectionContainer className="footer-credits relative z-10">
-                <div className="wrap wrap-px py-6">
-                    <p className="my-0">
-                        © {year} Nutritrack. All rights reserved{" - "}
-                        <span className="font-normal">
-                            A template by{" "}
-                            <Link
-                                className="transition-colors duration-300 hover:underline"
-                                href="https://chrstnl.com"
-                                target="_blank"
-                            >
-                                chrstnl.
-                            </Link>
-                        </span>
-                    </p>
+
+                <div className="border-t border-[#FAF6F0]/10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#FAF6F0]/40">
+                    <span>© {year} Dra. Lorraine Souza. Todos os direitos reservados.</span>
+                    <span className="tracking-[0.24em] uppercase">
+                        Dermatologia · Mentoria · Conteúdo
+                    </span>
                 </div>
-            </SectionContainer> */}
-            <div className="footer--background"></div>
+            </SectionContainer>
         </footer>
     );
 };
