@@ -1,880 +1,454 @@
-import { motion } from "framer-motion";
 import { Layout } from "@components/Layout";
-import { SectionContainer } from "@components/Section";
-import { PageTitle } from "@components/Title";
-import { Content } from "@components/Content";
+import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
-import { GlareCard } from "@components/GlareCard";
-import { BadgeMessage, BadgeGroup } from "@components/Badge";
 import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
-import Link from "next/link";
-import {
-    CardBody,
-    CardGroup,
-    CardHeader,
-    CardImage,
-    Card
-} from "@components/Card";
 import {
     trackFacebookInitiateCheckoutAnotacoes,
     trackFacebookInitiateCheckoutCombo
 } from "@utils/facebookPixel";
 
+const PREVIEW_SRC = "/anotacoes-originais-notion-lo.png";
+const PORTRAIT_SRC = "/lolo-portrait-home-page.png";
+
+const features = [
+    {
+        n: "01",
+        area: "Clínica Médica",
+        count: "40 temas",
+        description:
+            "Insuficiência cardíaca, arritmias, síncope, PCR, síndromes coronarianas e diagnósticos diferenciais essenciais."
+    },
+    {
+        n: "02",
+        area: "Cirurgia",
+        count: "30 temas",
+        description:
+            "Trauma de face e pescoço, queimaduras, trauma abdominal, hérnias e conceitos fundamentais para prova."
+    },
+    {
+        n: "03",
+        area: "Ginecologia e Obstetrícia",
+        count: "31 temas",
+        description:
+            "Ciclo menstrual, pré-natal, dor pélvica crônica, assistência ao parto e doenças benignas da mama."
+    },
+    {
+        n: "04",
+        area: "Pediatria",
+        count: "26 temas",
+        description:
+            "Distúrbios obstrutivos, crescimento e desenvolvimento, tuberculose e síndromes febris."
+    },
+    {
+        n: "05",
+        area: "Medicina Preventiva",
+        count: "14 temas",
+        description:
+            "SUS, estatística dos testes diagnósticos, níveis de prevenção e documentação médica."
+    },
+    {
+        n: "06",
+        area: "Tudo em um só lugar",
+        count: "+140 temas",
+        description:
+            "Mais de 2 mil horas de estudo condensadas em anotações objetivas e focadas no que importa para aprovação."
+    }
+];
+
+const anotacoesInclusions = [
+    "Todas as +140 anotações originais",
+    "Material organizado por grande área",
+    "Acesso vitalício e imediato",
+    "Atualizações sem custo adicional"
+];
+
+const comboInclusions = [
+    "Todas as +140 anotações originais",
+    "Template completo do Notion",
+    "Sistema de organização de estudos",
+    "Acesso vitalício aos dois produtos"
+];
+
 export default function Anotacoes() {
     return (
         <Layout>
             <SEO
-                title="Anotações da Dra. Lorraine | Material Exclusivo para Residência"
-                description="Acesse as anotações originais da Dra. Lorraine, material exclusivo que a ajudou a conquistar sua aprovação na residência médica."
+                title="Anotações Originais | Dra. Lorraine Souza"
+                description="+140 anotações originais que levaram a Dra. Lorraine ao 1º lugar em Dermato na UNICAMP. Material organizado e focado no essencial."
             />
 
-            <div className="main-wrapper relative z-10">
-                <SectionContainer className="bg-gradient-to-b from-[#E5FFF9] via-white to-white pt-24">
-                    <div className="container mx-auto px-4 py-12 md:py-24">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="flex flex-col md:flex-row items-center gap-12 md:gap-16"
-                        >
-                            <div className="flex-1 text-center mx-auto max-w-2xl">
-                                <BadgeGroup alignment="center" className="mb-6">
-                                    <BadgeMessage>
-                                        Material Exclusivo
-                                    </BadgeMessage>
-                                </BadgeGroup>
-                                <PageTitle
-                                    tag="h1"
-                                    className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 mt-2 text-center mx-auto px-1"
+            <div className="bg-[#FAF6F0] text-[#1C1917]">
+                {/* ============ HERO ============ */}
+                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-8"
                                 >
-                                    <span className="underline decoration-[#9FD8CB]">
-                                        Anotações originais
-                                    </span>{" "}
-                                    que me levaram ao
-                                    <span className="text-secondary-500 block mt-2">
-                                        1º lugar em Dermato na UNICAMP
-                                    </span>
-                                </PageTitle>
-                                <Content className="text-base md:text-lg text-gray-600 mb-10 font-light">
-                                    Tenha acesso a todas as +140 anotações
-                                    originais que levaram a{" "}
-                                    <Link
-                                        href="/"
-                                        className="underline decoration-secondary-500"
-                                    >
-                                        Dra Lô
-                                    </Link>{" "}
-                                    as aprovações no UNICAMP, USP-SP, USP-RP e
-                                    PUC Campinas. Material completo e organizado
-                                    para maximizar seu aprendizado.
-                                </Content>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <Button
-                                        href="#cta-anotacoes"
-                                        variant="primary"
-                                        className="text-lg px-4 py-2 w-80 bg-secondary-500 hover:bg-[#2D3319] hover:text-white transition-all duration-200 mx-auto"
-                                    >
-                                        Quero Garantir Meu Acesso
-                                    </Button>
-                                </div>
-                            </div>
-                            <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                                <GlareCard>
-                                    <Image
-                                        src="/anotacoes-originais-notion-lo.png"
-                                        width={680}
-                                        height={1024}
-                                        alt="Anotações da Dra. Lorraine"
-                                        className="max-w-xs md:max-w-md rounded-lg"
-                                    />
-                                </GlareCard>
-                            </div>
-                        </motion.div>
-                    </div>
-                </SectionContainer>
-
-                <SectionContainer className="bg-white">
-                    <div className="container mx-auto px-4 py-20">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>Conteúdo</BadgeMessage>
-                            </BadgeGroup>
-                            <PageTitle
-                                tag="h2"
-                                className="text-3xl md:text-4xl font-bold mt-6 mb-8"
-                            >
-                                O que você vai encontrar nas anotações
-                            </PageTitle>
-                            <Content className="text-gray-600 text-lg">
-                                Material completo e organizado para maximizar
-                                seu aprendizado
-                            </Content>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                            {features.map((feature, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{
-                                        duration: 0.5,
-                                        delay: index * 0.1
-                                    }}
-                                    className="bg-[#F8FAFC] rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-200"
-                                >
-                                    <div className="w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mb-6">
-                                        <span className="text-secondary-500 text-2xl">
-                                            {feature.icon}
-                                        </span>
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        Material exclusivo · +140 temas
                                     </div>
-                                    <h3 className="text-xl font-bold mb-4 text-gray-800">
-                                        {feature.title}
-                                    </h3>
-                                    <p className="text-gray-600 leading-relaxed">
-                                        {feature.description}
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
+                                        As anotações que me levaram ao{" "}
+                                        <span className="italic text-[#9A4639]">
+                                            1º lugar
+                                        </span>{" "}
+                                        em Dermato.
+                                    </h1>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.3, duration: 0.6 }}
+                                    className="mb-14 lg:mb-16"
+                                >
+                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                        +140 anotações originais, o mesmo
+                                        material que levou à aprovação em
+                                        UNICAMP, USP-RP, USP-SP e PUC Campinas.
+                                        Organizado por grande área e focado no
+                                        que realmente cai.
                                     </p>
-                                </motion.div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                >
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
+                                        <Button
+                                            href="#cta-anotacoes"
+                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                        >
+                                            Quero garantir meu acesso
+                                        </Button>
+                                        <a
+                                            href="#conteudo"
+                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                        >
+                                            Ver o que está incluído
+                                        </a>
+                                    </div>
+                                </MotionBTTContainer>
+                            </div>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.7 }}
+                            >
+                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
+                                        <Image
+                                            src={PREVIEW_SRC}
+                                            alt="Preview das anotações da Dra. Lorraine"
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                            sizes="(max-width: 1024px) 90vw, 40vw"
+                                        />
+                                    </div>
+                                </div>
+                            </MotionBTTContainer>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ FEATURES ============ */}
+                <section
+                    id="conteudo"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-2xl mb-14 lg:mb-20">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="mb-6"
+                            >
+                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    O que está incluído
+                                </div>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Todas as grandes áreas em um{" "}
+                                    <span className="italic">só lugar</span>.
+                                </h2>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <p className="text-lg text-[#3C3833] leading-relaxed">
+                                    Material completo e organizado para
+                                    maximizar seu aprendizado.
+                                </p>
+                            </MotionBTTContainer>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-12">
+                            {features.map((f, i) => (
+                                <MotionBTTContainer
+                                    key={f.n}
+                                    transition={{
+                                        delay: 0.15 + i * 0.06,
+                                        duration: 0.5
+                                    }}
+                                >
+                                    <div className="border-t border-[#1C1917]/25 pt-6">
+                                        <div className="flex items-baseline justify-between mb-3">
+                                            <div className="text-sm font-mono text-[#9A4639] tracking-[0.15em]">
+                                                {f.n}
+                                            </div>
+                                            <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
+                                                {f.count}
+                                            </div>
+                                        </div>
+                                        <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-3 text-[#1C1917]">
+                                            {f.area}
+                                        </h3>
+                                        <p className="text-[#3C3833] leading-relaxed">
+                                            {f.description}
+                                        </p>
+                                    </div>
+                                </MotionBTTContainer>
                             ))}
                         </div>
                     </div>
-                </SectionContainer>
+                </section>
 
-                {/* Who am I section */}
-                <SectionContainer className="bg-gradient-to-b from-white to-[#F3F5F8] pt-20 pb-0">
-                    <div className="container mx-auto px-4">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>Sobre mim</BadgeMessage>
-                            </BadgeGroup>
+                {/* ============ ABOUT ============ */}
+                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0]">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20 items-center">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <div className="relative max-w-[360px] mx-auto lg:max-w-none">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -inset-6 bg-[#9A4639]/[0.05] rounded-[4px]"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.25)]">
+                                        <Image
+                                            src={PORTRAIT_SRC}
+                                            alt="Dra. Lorraine Souza"
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 1024px) 70vw, 30vw"
+                                        />
+                                    </div>
+                                </div>
+                            </MotionBTTContainer>
+
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-6"
+                                >
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        Quem escreveu
+                                    </div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-8">
+                                        Dra. Lorraine Souza.
+                                    </h2>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                >
+                                    <p className="text-lg text-[#57534E] leading-relaxed">
+                                        Médica formada pela UNICAMP. Após muito
+                                        esforço, alcancei um dos melhores
+                                        resultados de aprovação para residência
+                                        médica em Dermatologia em 2023 nas
+                                        instituições mais renomadas do Brasil.
+                                    </p>
+                                </MotionBTTContainer>
+                            </div>
                         </div>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto"
-                        >
-                            <div className="flex flex-col space-y-6 md:w-1/2 text-center md:text-left">
-                                <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
-                                    Oi! Sou a{" "}
-                                    <span className="text-secondary-500">
-                                        Lorraine
+                    </div>
+                </section>
+
+                {/* ============ RESULTS ============ */}
+                <Results />
+
+                {/* ============ PRICING ============ */}
+                <section
+                    id="cta-anotacoes"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#1C1917] text-[#FAF6F0] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="mb-6"
+                            >
+                                <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium">
+                                    Condições especiais de lançamento
+                                </div>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Garanta o seu{" "}
+                                    <span className="italic text-[#E4B5AC]">
+                                        acesso
                                     </span>
                                     .
                                 </h2>
-                                <p className="text-lg md:max-w-[264px] lg:max-w-[440px] font-sans text-gray-700">
-                                    <span className="font-bold">
-                                        Sou médica pela UNICAMP
-                                    </span>{" "}
-                                    e, após muito esforço, alcancei um dos
-                                    melhores resultados de aprovação para a
-                                    residência médica em Dermatologia em 2023,
-                                    nas instituições mais renomadas do Brasil.
-                                </p>
-                            </div>
-                            <div className="md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
-                                <Image
-                                    src="/lolo-portrait-home-page.png"
-                                    width={680}
-                                    height={1024}
-                                    alt="Dra. Lorraine"
-                                    className="max-w-xs md:max-w-md rounded-lg"
-                                />
-                            </div>
-                        </motion.div>
-                    </div>
-                </SectionContainer>
+                            </MotionBTTContainer>
 
-                {/* Aprovações section */}
-                <Results />
-
-                <SectionContainer className="bg-[#F3F5F8] mt-20">
-                    <div className="container mx-auto px-4 pt-20">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
-                            <BadgeGroup alignment="center">
-                                <BadgeMessage>Exemplo de Anotação</BadgeMessage>
-                            </BadgeGroup>
-                            <PageTitle
-                                tag="h2"
-                                className="text-3xl md:text-4xl font-bold mt-4 mb-8"
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                Veja como são as anotações
-                            </PageTitle>
-                            <Content className="text-gray-600 text-lg">
-                                Conteúdo objetivo e organizado para facilitar
-                                seu aprendizado
-                            </Content>
+                                <p className="text-lg text-[#FAF6F0]/70 leading-relaxed">
+                                    O mesmo material que me ajudou a conquistar
+                                    a aprovação na residência médica.
+                                </p>
+                            </MotionBTTContainer>
                         </div>
 
-                        <div className="max-w-5xl mx-auto px-4 md:px-0">
-                            {/* PC Mockup */}
-                            <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] md:border-[16px] rounded-t-xl h-[592px] max-w-[512px] md:h-[672px] md:max-w-[912px]">
-                                <div className="rounded-lg overflow-hidden h-[560px] md:h-[640px] bg-white">
-                                    {/* Notion-like Interface */}
-                                    <div
-                                        className="h-full overflow-y-auto notion-content bg-white"
-                                        style={{
-                                            fontFamily:
-                                                'ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"'
-                                        }}
-                                    >
-                                        {/* Notion Top Bar */}
-                                        <div className="sticky top-0 z-50 bg-white border-b border-gray-200">
-                                            <div className="flex items-center px-4 md:px-8 h-12">
-                                                <div className="flex items-center space-x-4 text-gray-500">
-                                                    <button className="hover:bg-gray-100 p-1 rounded">
-                                                        <svg
-                                                            className="w-4 h-4"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth={2}
-                                                                d="M4 6h16M4 12h16M4 18h16"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                    <div className="flex items-center space-x-1 text-sm">
-                                                        <span>Pediatria</span>
-                                                        <span>/</span>
-                                                        <span>
-                                                            Arritmia, Síncope e
-                                                            PCR
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+                            {/* Tier 1: Anotações */}
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.5 }}
+                            >
+                                <div className="bg-[#FAF6F0] text-[#1C1917] h-full flex flex-col p-8 lg:p-10">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-[#9A4639] font-medium mb-6">
+                                        Somente anotações
+                                    </div>
+
+                                    <div className="border-t border-[#E7E2D9] pt-6 mb-8">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-sm text-[#57534E] line-through">
+                                                R$199
+                                            </span>
+                                            <span className="text-5xl font-light text-[#1C1917] tracking-tight">
+                                                R$ 149
+                                            </span>
+                                            <span className="text-sm text-[#57534E]">
+                                                ,90
+                                            </span>
                                         </div>
-
-                                        {/* Page Cover */}
-                                        <div className="w-full h-[200px] relative">
-                                            <div className="absolute inset-0">
-                                                <img
-                                                    src="/notion-page-cover.jpeg"
-                                                    alt="Page cover"
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-                                            {/* Icon Container - positioned to overflow the cover */}
-                                            <div className="absolute -bottom-12 left-4 md:left-[calc(max(96px,calc(96px+env(safe-area-inset-left))))]">
-                                                <div className="w-[78px] h-[78px] rounded-full bg-white shadow-sm flex items-center justify-center text-4xl">
-                                                    💔
-                                                </div>
-                                            </div>
+                                        <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mt-3">
+                                            Pagamento único · Acesso vitalício
                                         </div>
+                                    </div>
 
-                                        {/* Page Content */}
-                                        <div className="px-4 md:px-[calc(max(96px,calc(96px+env(safe-area-inset-left))))] pt-16 pb-10">
-                                            {/* Page Title */}
-                                            <h1 className="text-4xl font-bold mb-10">
-                                                Arritmia, Síncope e PCR
-                                            </h1>
-
-                                            {/* Page Properties */}
-                                            <div className="mb-12">
-                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                                    {/* Grande área Property */}
-                                                    <div className="space-y-1">
-                                                        <div className="text-sm text-gray-500">
-                                                            Grande área
-                                                        </div>
-                                                        <div className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-600">
-                                                            Pediatria
-                                                        </div>
-                                                    </div>
-                                                    {/* Status Property */}
-                                                    <div className="space-y-1">
-                                                        <div className="text-sm text-gray-500">
-                                                            Status
-                                                        </div>
-                                                        <div className="inline-flex items-center rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-700">
-                                                            Revisado
-                                                        </div>
-                                                    </div>
-                                                    {/* Created Property */}
-                                                    <div className="space-y-1">
-                                                        <div className="text-sm text-gray-500">
-                                                            Criado em
-                                                        </div>
-                                                        <div className="text-sm text-gray-600">
-                                                            15 de julho de 2023
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Add to Page Button */}
-                                            <div className="mb-8 flex items-center">
-                                                <button className="text-gray-500 hover:bg-gray-100 rounded-md px-2 py-1 text-sm flex items-center gap-1">
-                                                    <svg
-                                                        className="w-4 h-4"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M12 4v16m8-8H4"
-                                                        />
-                                                    </svg>
-                                                    Adicionar conteúdo
-                                                </button>
-                                            </div>
-
-                                            {/* Table of Contents */}
-                                            <div className="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                                <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                                                    <svg
-                                                        className="w-4 h-4"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M4 6h16M4 12h16M4 18h16"
-                                                        />
-                                                    </svg>
-                                                    CONTEÚDO
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <a
-                                                        href="#morte-subita"
-                                                        className="block text-gray-600 hover:bg-gray-100 rounded px-2 py-1 text-sm"
-                                                    >
-                                                        1. Morte súbita em
-                                                        lactente
-                                                    </a>
-                                                    <a
-                                                        href="#brue"
-                                                        className="block text-gray-600 hover:bg-gray-100 rounded px-2 py-1 text-sm"
-                                                    >
-                                                        2. BRUE
-                                                    </a>
-                                                    <a
-                                                        href=""
-                                                        className="block text-gray-600 hover:bg-gray-100 rounded px-2 py-1 text-sm"
-                                                    >
-                                                        3. ...
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            {/* Content Sections */}
-                                            <div
-                                                id="morte-subita"
-                                                className="space-y-6"
+                                    <ul className="space-y-3 text-[#3C3833] flex-grow mb-10">
+                                        {anotacoesInclusions.map((item, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex items-start gap-3"
                                             >
-                                                <div className="group">
-                                                    <h2 className="text-xl font-bold mb-3 text-gray-900 flex items-center gap-2">
-                                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400">
-                                                            <button className="hover:bg-gray-100 p-1 rounded">
-                                                                ⚓
-                                                            </button>
-                                                        </div>
-                                                        <span className="text-gray-400 mr-2">
-                                                            1.
-                                                        </span>
-                                                        Morte súbita em lactente
-                                                        <button className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 text-gray-400 hover:bg-gray-100 p-1 rounded">
-                                                            <svg
-                                                                className="w-4 h-4"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={
-                                                                        2
-                                                                    }
-                                                                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                    </h2>
-                                                </div>
-
-                                                <div className="pl-4 border-l-4 border-gray-200 space-y-4">
-                                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                                                        Definição
-                                                    </h3>
-                                                    <ul className="list-disc pl-6 space-y-1 mb-6 text-gray-600">
-                                                        <li>
-                                                            Morte súbita e
-                                                            inesperada em
-                                                            menores de 1 ano de
-                                                            idade
-                                                        </li>
-                                                        <li>Durante o sono</li>
-                                                        <li>
-                                                            Não pode ser
-                                                            explicada após a
-                                                            avaliação pós-morte
-                                                        </li>
-                                                    </ul>
-
-                                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                                                        Incidência
-                                                    </h3>
-                                                    <ul className="list-disc pl-6 space-y-1 mb-6 text-gray-600">
-                                                        <li>
-                                                            Pico entre 2 e 4
-                                                            meses
-                                                        </li>
-                                                        <li>
-                                                            Menos comum depois
-                                                            dos 8 meses
-                                                        </li>
-                                                    </ul>
-
-                                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                                                        Fisiopatologia
-                                                    </h3>
-                                                    <ul className="list-disc pl-6 space-y-1 mb-6 text-gray-600">
-                                                        <li>
-                                                            Ainda desconhecida
-                                                        </li>
-                                                        <li>
-                                                            Criança vulnerável
-                                                        </li>
-                                                        <li>Período crítico</li>
-                                                        <li>
-                                                            Fatores
-                                                            desencadeantes
-                                                        </li>
-                                                    </ul>
-
-                                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                                                        Fatores de Risco
-                                                    </h3>
-                                                    <div className="pl-6 space-y-4 mb-6">
-                                                        <div className="p-4 bg-gray-50 rounded-lg">
-                                                            <div className="font-medium text-gray-800 mb-2">
-                                                                Epidemiológicos
-                                                            </div>
-                                                            <ul className="list-disc pl-6 space-y-1 text-gray-600">
-                                                                <li>
-                                                                    Baixo nível
-                                                                    socioeconômico
-                                                                </li>
-                                                                <li>
-                                                                    Posição
-                                                                    prona/
-                                                                    lateral
-                                                                </li>
-                                                                <li>
-                                                                    Cama
-                                                                    compartilhada
-                                                                </li>
-                                                                <li>
-                                                                    Cama fofa e
-                                                                    macia
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div className="p-4 bg-gray-50 rounded-lg">
-                                                            <div className="font-medium text-gray-800 mb-2">
-                                                                Maternos e
-                                                                pré-natal
-                                                            </div>
-                                                            <ul className="list-disc pl-6 space-y-1 text-gray-600">
-                                                                <li>
-                                                                    Tabagismo
-                                                                </li>
-                                                                <li>
-                                                                    Doenças
-                                                                    mentais
-                                                                </li>
-                                                                <li>
-                                                                    Abuso de
-                                                                    substâncias
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div className="p-4 bg-gray-50 rounded-lg">
-                                                            <div className="font-medium text-gray-800 mb-2">
-                                                                Lactente
-                                                            </div>
-                                                            <ul className="list-disc pl-6 space-y-1 text-gray-600">
-                                                                <li>
-                                                                    Prematuridade
-                                                                </li>
-                                                                <li>
-                                                                    Sexo
-                                                                    masculino
-                                                                </li>
-                                                                <li>
-                                                                    Baixo peso
-                                                                    ao nascer
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* BRUE Section */}
-                                            <div
-                                                id="brue"
-                                                className="space-y-6 mt-12"
-                                            >
-                                                <div className="group">
-                                                    <h2 className="text-xl font-bold mb-3 text-gray-900 flex items-center gap-2">
-                                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400">
-                                                            <button className="hover:bg-gray-100 p-1 rounded">
-                                                                ⚓
-                                                            </button>
-                                                        </div>
-                                                        <span className="text-gray-400 mr-2">
-                                                            2.
-                                                        </span>
-                                                        BRUE
-                                                        <button className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 text-gray-400 hover:bg-gray-100 p-1 rounded">
-                                                            <svg
-                                                                className="w-4 h-4"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={
-                                                                        2
-                                                                    }
-                                                                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                    </h2>
-                                                </div>
-
-                                                <div className="pl-4 border-l-4 border-gray-200 space-y-4">
-                                                    <div className="space-y-3 text-gray-600">
-                                                        <div className="p-4 bg-gray-50 rounded-lg">
-                                                            <p className="mb-3">
-                                                                Evento súbito,
-                                                                breve e já
-                                                                resolvido (ao
-                                                                chegar no
-                                                                hospital) em
-                                                                criança de até 1
-                                                                ano com pelo
-                                                                menos uma
-                                                                característica:
-                                                            </p>
-                                                            <ul className="list-disc pl-6 space-y-1">
-                                                                <li>
-                                                                    Cianose ou
-                                                                    palidez
-                                                                </li>
-                                                                <li>
-                                                                    Esforço
-                                                                    respiratório,
-                                                                    ausente,
-                                                                    diminuído ou
-                                                                    irregular
-                                                                </li>
-                                                                <li>
-                                                                    Alteração do
-                                                                    tônus
-                                                                    muscular
-                                                                    (hiper ou
-                                                                    hipotonia)
-                                                                </li>
-                                                                <li>
-                                                                    Alteração da
-                                                                    responsividade
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="py-2 text-gray-600">
-                                                        <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                                                            <p>
-                                                                O termo só deve
-                                                                ser usado para
-                                                                crianças
-                                                                assintomáticas
-                                                                no momento da
-                                                                avaliação e
-                                                                quando não há
-                                                                nenhuma
-                                                                explicação para
-                                                                o episódio
-                                                                encontrado no
-                                                                exame físico ou
-                                                                na história
-                                                                clínica
-                                                            </p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="space-y-3">
-                                                        <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                                                            <span>
-                                                                Fatores de risco
-                                                            </span>
-                                                            <button className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:bg-gray-100 p-1 rounded text-sm">
-                                                                <svg
-                                                                    className="w-4 h-4"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    viewBox="0 0 24 24"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        strokeWidth={
-                                                                            2
-                                                                        }
-                                                                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                                                    />
-                                                                </svg>
-                                                            </button>
-                                                        </h3>
-                                                        <div className="p-4 bg-gray-50 rounded-lg">
-                                                            <ul className="list-disc pl-6 space-y-1 text-gray-600">
-                                                                <li>
-                                                                    Dificuldades
-                                                                    na
-                                                                    alimentação
-                                                                </li>
-                                                                <li>
-                                                                    Sintomas
-                                                                    respiratórios
-                                                                    recentes
-                                                                </li>
-                                                                <li>
-                                                                    Idade &lt; 2
-                                                                    meses
-                                                                </li>
-                                                                <li>
-                                                                    História
-                                                                    prévia de
-                                                                    BRUE
-                                                                </li>
-                                                                <li>
-                                                                    Prematuridade
-                                                                </li>
-                                                                <li>
-                                                                    Baixo peso
-                                                                    ao nascer
-                                                                </li>
-                                                                <li>
-                                                                    Tabagismo
-                                                                    materno
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Ellipsis indicator */}
-                                            <div className="mt-16 border-t border-gray-200 pt-8 text-center">
-                                                <div className="inline-flex items-center space-x-2 text-gray-500">
-                                                    <span className="text-2xl leading-[1]">
-                                                        ....
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="relative -mt-px mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
-                                    <div className="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </SectionContainer>
-
-                <SectionContainer
-                    className="bg-slate-900 py-20 px-4 scroll-mt-10"
-                    id="cta-anotacoes"
-                >
-                    <div className="text-center mx-auto mb-12 max-w-xl">
-                        <PageTitle
-                            className="text-4xl font-bold text-slate-100"
-                            type="default"
-                        >
-                            Garanta já o seu!
-                        </PageTitle>
-                        <p className="mt-6 text-lg text-slate-300">
-                            Aproveite as condições especiais de lançamento e
-                            tenha acesso ao material que me ajudou a conquistar
-                            a aprovação na residência médica
-                        </p>
-                    </div>
-
-                    <Content className="text-center" alignment="center">
-                        <CardGroup className="grid gap-8 grid-cols-1 max-w-4xl mx-auto mt-8 md:grid-cols-2">
-                            <Card className="mx-auto w-full bg-white rounded-2xl overflow-hidden shadow-xl">
-                                <CardBody className="flex flex-col h-full p-10">
-                                    <div className="space-y-6">
-                                        <div>
-                                            <p className="text-lg font-bold line-through text-gray-400">
-                                                De R$199
-                                            </p>
-                                            <div className="text-4xl font-bold text-gray-900">
-                                                R$ 149,90
-                                            </div>
-                                            <div className="inline-block bg-gray-100 text-gray-700 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">
-                                                Somente Anotações
-                                            </div>
-                                        </div>
-                                        <ul className="list-disc list-inside text-gray-600 text-base space-y-3 text-start list-none mt-8">
-                                            <p className="text-lg font-bold text-gray-900 mb-4">
-                                                Ganhe acesso vitalício a
-                                            </p>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">
-                                                    ✓
+                                                <span
+                                                    aria-hidden
+                                                    className="text-[#9A4639] mt-[2px]"
+                                                >
+                                                    —
                                                 </span>
-                                                Todas as +140 anotações
-                                                originais da Lô
+                                                <span>{item}</span>
                                             </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">
-                                                    ✓
-                                                </span>
-                                                Material completo e organizado
-                                                por especialidade
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">
-                                                    ✓
-                                                </span>
-                                                Acesso imediato ao conteúdo
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <Button
-                                        className="mt-auto bg-gray-900 hover:bg-black text-white w-full transition-all duration-200"
-                                        variant="secondary"
-                                        href="https://pay.hotmart.com/G96980103S"
-                                        onClick={trackFacebookInitiateCheckoutAnotacoes}
-                                    >
-                                        Quero as Anotações
-                                    </Button>
-                                </CardBody>
-                            </Card>
-
-                            <Card className="mx-auto w-full bg-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                                <CardBody className="space-y-6 p-10">
-                                    <div>
-                                        <p className="text-lg font-bold line-through text-slate-400">
-                                            De R$299
-                                        </p>
-                                        <div className="text-4xl font-bold text-slate-100">
-                                            R$ 199,90
-                                        </div>
-                                        <div className="inline-block bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">
-                                            Combo Completo
-                                        </div>
-                                    </div>
-                                    <ul className="list-disc list-inside text-slate-300 text-base space-y-3 text-start list-none mt-8">
-                                        <p className="text-lg font-bold text-slate-200 mb-4">
-                                            Ganhe acesso vitalício a
-                                        </p>
-                                        <li className="flex items-center gap-3">
-                                            <span className="flex-shrink-0 text-secondary-500">
-                                                ✓
-                                            </span>
-                                            Todas as +140 anotações originais da
-                                            Lô
-                                        </li>
-                                        <li className="flex items-center gap-3">
-                                            <span className="flex-shrink-0 text-secondary-500">
-                                                ✓
-                                            </span>
-                                            Template do Notion da Lô para seus
-                                            estudos
-                                        </li>
-                                        <li className="flex items-center gap-3">
-                                            <span className="flex-shrink-0 text-secondary-500">
-                                                ✓
-                                            </span>
-                                            Sistema completo de organização de
-                                            estudos
-                                        </li>
-                                        <li className="flex items-center gap-3">
-                                            <span className="flex-shrink-0 text-secondary-500">
-                                                ✓
-                                            </span>
-                                            Acesso imediato a todo conteúdo
-                                        </li>
+                                        ))}
                                     </ul>
+
                                     <Button
-                                        className="mt-12 bg-secondary-500 hover:bg-gray-900 text-white w-full transition-all duration-200"
-                                        variant="secondary"
-                                        href="https://pay.hotmart.com/X90902784L?off=p7aai34k"
-                                        onClick={trackFacebookInitiateCheckoutCombo}
+                                        href="https://pay.hotmart.com/G96980103S"
+                                        onClick={
+                                            trackFacebookInitiateCheckoutAnotacoes
+                                        }
+                                        className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
                                     >
-                                        Quero o Combo
+                                        Quero as anotações
                                     </Button>
-                                </CardBody>
-                            </Card>
-                        </CardGroup>
-                        <div className="text-center mt-8">
-                            <p className="text-sm text-slate-400">
-                                Pagamento 100% seguro via Hotmart
-                            </p>
+                                </div>
+                            </MotionBTTContainer>
+
+                            {/* Tier 2: Combo */}
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <div className="bg-[#2A2724] border border-[#FAF6F0]/10 text-[#FAF6F0] h-full flex flex-col p-8 lg:p-10 relative">
+                                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#9A4639] text-[#FAF6F0] text-xs uppercase tracking-[0.22em] font-medium px-3 py-1.5">
+                                        Mais vendido
+                                    </div>
+                                    <div className="text-xs uppercase tracking-[0.24em] text-[#E4B5AC] font-medium mb-6">
+                                        Combo completo
+                                    </div>
+
+                                    <div className="border-t border-[#FAF6F0]/15 pt-6 mb-8">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-sm text-[#FAF6F0]/50 line-through">
+                                                R$299
+                                            </span>
+                                            <span className="text-5xl font-light text-[#FAF6F0] tracking-tight">
+                                                R$ 199
+                                            </span>
+                                            <span className="text-sm text-[#FAF6F0]/60">
+                                                ,90
+                                            </span>
+                                        </div>
+                                        <div className="text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/50 font-medium mt-3">
+                                            Anotações + Template Notion
+                                        </div>
+                                    </div>
+
+                                    <ul className="space-y-3 text-[#FAF6F0]/85 flex-grow mb-10">
+                                        {comboInclusions.map((item, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex items-start gap-3"
+                                            >
+                                                <span
+                                                    aria-hidden
+                                                    className="text-[#E4B5AC] mt-[2px]"
+                                                >
+                                                    —
+                                                </span>
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        href="https://pay.hotmart.com/X90902784L?off=p7aai34k"
+                                        onClick={
+                                            trackFacebookInitiateCheckoutCombo
+                                        }
+                                        className="bg-[#FAF6F0] hover:bg-[#9A4639] text-[#1C1917] hover:text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
+                                    >
+                                        Quero o combo
+                                    </Button>
+                                </div>
+                            </MotionBTTContainer>
                         </div>
-                    </Content>
-                </SectionContainer>
+
+                        <div className="text-center mt-10 text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/40 font-medium">
+                            Pagamento 100% seguro · Hotmart
+                        </div>
+                    </div>
+                </section>
             </div>
         </Layout>
     );
 }
-
-const features = [
-    {
-        icon: "🔬",
-        title: "Clínica Médica ",
-        description:
-            "40 temas essenciais incluindo insuficiência cardíaca, arritmias, síncope, PCR, síndromes coronarianas e diagnósticos diferenciais."
-    },
-    {
-        icon: "⚕",
-        title: "Cirurgia Médica ",
-        description:
-            "30 temas fundamentais como trauma de face e pescoço, queimaduras, trauma abdominal, hérnias e muito mais."
-    },
-    {
-        icon: "🤰",
-        title: "GO ",
-        description:
-            "31 temas incluindo ciclo menstrual, pré-natal, dor pélvica crônica, assistência ao parto e doenças benignas da mama."
-    },
-    {
-        icon: "👶",
-        title: "Pediatria ",
-        description:
-            "26 temas cruciais cobrindo desde distúrbios obstrutivos até crescimento e desenvolvimento, tuberculose e síndromes febris."
-    },
-    {
-        icon: "🏥",
-        title: "Medicina Preventiva",
-        description:
-            "14 temas, como SUS, estatística dos testes diagnósticos, níveis de prevenção e documentação médica."
-    },
-    {
-        icon: "📚",
-        title: "Tudo em um só lugar",
-        description:
-            "Mais de 2 mil horas de estudo condensados em +140 anotações com conteúdo objetivo e focado no que importa para aprovação."
-    }
-];

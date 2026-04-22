@@ -1,377 +1,497 @@
-import { BadgeMessage, BadgeGroup, BadgeIcon } from "@components/Badge";
-import { SectionContainer } from "@components/Section";
-import { PageTitle } from "@components/Title";
 import { Layout } from "@components/Layout";
-import { HomeBanner } from "@components/Banner";
-import { Columns } from "@components/Columns";
-import { ContentImage } from "@components/ContentImage";
-import { Content } from "@components/Content";
-import { Accordion } from "@components/Accordion";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
+import { Results } from "@components/Results";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
-import {
-    CardBody,
-    CardGroup,
-    CardHeader,
-    CardImage,
-    Card
-} from "@components/Card";
-import { WobbleCard } from "@components/WobbleCard";
-import { useState, useEffect } from 'react';
-import { GlareCard } from "@components/GlareCard";
-import { VideoModal } from "@components/VideoModal";
-import {
-    trackFacebookInitiateCheckoutCombo
-} from "@utils/facebookPixel";
+import Link from "next/link";
+import { trackFacebookInitiateCheckoutCombo } from "@utils/facebookPixel";
+
+const PREVIEW_SRC = "/nova-thumb-notion.png";
+
+const capabilities = [
+    {
+        n: "01",
+        title: "Melhor que caderno físico",
+        description:
+            "Suas anotações organizadas por grande área, com indicadores de confiança e porcentual de acertos — assim fica simples ver onde focar.",
+        image: "/notion-feature-image-1.png"
+    },
+    {
+        n: "02",
+        title: "Acesso rápido ao que importa",
+        description:
+            "Últimos temas estudados sempre à mão. Defina prioridades, marque pendências e retome de onde parou em segundos.",
+        image: "/notion-feature-image-2.png"
+    },
+    {
+        n: "03",
+        title: "Revisões programadas",
+        description:
+            "Planejamento semanal e ciclos de revisão embutidos. Matérias com maior dificuldade voltam sozinhas, no tempo certo.",
+        image: "/notion-feature-image-3.png"
+    },
+    {
+        n: "04",
+        title: "Editor completo",
+        description:
+            "Cada anotação em uma página própria com recursos de formatação — tamanhos, imagens, vídeos, tabelas. Anotações ricas, visuais e pesquisáveis.",
+        image: "/notion-feature-image-4.png"
+    }
+];
+
+const templateInclusions = [
+    "Template completo do Notion da Lô",
+    "Sistema de organização de estudos",
+    "Indicadores de confiança e revisão",
+    "Acesso vitalício ao template"
+];
+
+const comboInclusions = [
+    "Template completo do Notion",
+    "Todas as +140 anotações originais",
+    "Sistema de organização de estudos",
+    "Acesso vitalício aos dois produtos"
+];
 
 export default function NotionPage() {
-
-const [dimensionsFeatureReviews, setDimensionsFeatureReviews] = useState({ width: 500, height: 500 });
-const [dimensionsFeatureEditor, setDimensionsFeatureEditor] = useState({ width: 420, height: 420 });
-const [dimensionsFeatureAnnotations, setDimensionsFeatureAnnotations] = useState({ width: 600, height: 600 });
-const [dimensionsFeatureFocus, setDimensionsFeatureFocus] = useState({ width: 600, height: 600 });
-
-  useEffect(() => {
-    const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth < 1024) {
-        setDimensionsFeatureReviews({ width: 500, height: 500 }); 
-        setDimensionsFeatureEditor({ width: 420, height: 420 }); 
-        setDimensionsFeatureAnnotations({ width: 600, height: 600 });
-        setDimensionsFeatureFocus({ width: 600, height: 600 });
-      } else if (screenWidth < 1350) {
-        setDimensionsFeatureReviews({ width: 700, height: 700 }); 
-        setDimensionsFeatureEditor({ width: 580, height: 580 }); 
-        setDimensionsFeatureAnnotations({ width: 800, height: 800 });
-        setDimensionsFeatureFocus({ width: 680, height: 680 });
-      } else {
-        setDimensionsFeatureEditor({ width: 400, height: 420 });
-        setDimensionsFeatureReviews({ width: 500, height: 500 });
-        setDimensionsFeatureAnnotations({ width: 600, height: 600 });
-        setDimensionsFeatureFocus({ width: 600, height: 600 });
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Set initial dimensions
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
     return (
-<>
-        <Layout className="">
+        <Layout>
             <SEO
-                title="Notion para Residência Médica | Dra Lô R1 Dermato UNICAMP"
-                description="Se prepare para residência médica através dos cadernos digitais da Dra Lô"
+                title="Template Notion para Residência | Dra. Lorraine Souza"
+                description="O caderno digital que me levou à aprovação na residência médica. Template completo em Notion para organizar estudos, revisões e anotações."
             />
-            <div className="main-wrapper bg-[#F3F5F8] relative z-10 pt-28 ">  
-            <SectionContainer className=" flex items-center justify-center bg-gradient-to-b from-[#F3F5F8] to-white mt-6"> 
-                <SectionContainer className=" wrap wrap-px z-10">
-                    <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                        <BadgeGroup alignment="center" className="mb-6">
-                            <BadgeMessage>Notion</BadgeMessage>
-                        </BadgeGroup>
-                    </MotionBTTContainer>
 
-                    {/* Appear Second */}
-                    <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
-                    <div className="flex flex-col md:flex-row items-center justify-between px-2 ">
-                        <div className="flex flex-col space-y-6 text-center w-full md:w-1/2">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 mt-6 text-center mx-auto text-slate-800">
-                                Meu <span className="underline decoration-[#9FD8CB]">caderno digital</span> que me levou a aprovação na residência
-                            </h1>
-                            <p className="text-xl mx-auto max-w-[440px] font-sans text-slate-600">
-                                A mesma ferramenta que usei diariamente para conquistar todas as minhas aprovações e meus resumos originais podem ser seus também.
-                            </p>
-                            <div className="flex flex-col md:flex-row w-full justify-center items-center gap-4 pb-10">
-                                <Button href="#notion-cta" variant="secondary">Quero agora</Button>
-                                <VideoModal />
-                            </div>
-                        </div>
-                        <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                        <Image
-                            src="/nova-thumb-notion.png"
-                            width={680}
-                            height={1024}
-                            alt="Dra. Lorraine"
-                            className="max-w-xs md:max-w-md rounded-lg h-full"
-                        />
-                        </div>
-                    </div>
-                    </MotionBTTContainer>
-                    </SectionContainer>
-                    
-            </SectionContainer>
-            
-            <SectionContainer className="bg-[#F3F5F8]" id="solutions">
-                
-                <MotionBTTContainer
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                >
-                    <PageTitle
-                        className="text-center w-screen pt-8"
-                        type="default"
-                    >
-                        Notion da Lô
-                    </PageTitle>
-                    
-                    <div className="text-center" alignment="center">
-                        <div className="text-xl text-slate-700 mx-4">
-                            Dá uma olhada no que você irá encontrar nele.
-                        </div>
-                        <CardGroup className="grid gap-4 grid-cols-1 min-[1350px]:grid-cols-3 md:w-3/5 lg:w-full lg:px-16 xl:w-[1236px] px-4 mx-auto mt-12 ">
-                            
-
-                            <WobbleCard
-                                containerClassName="col-span-1 min-[1350px]:col-span-2 h-content bg-teal-800 min-h-[500px] md:min-h-[620px] lg:min-h-[620px]"
-                                className=""
-                            >
-                                <div className="max-w-md lg:max-w-xs">
-                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-                                    Melhor que cadernos físicos
-                                </h2>
-                                <p className="mt-2 text-left  text-base/6 text-neutral-200 md:pr-16 min-[1350px]:pr-2">
-                                    Com o Notion, você organiza todas as anotações nas grandes áreas da medicina e acompanha de forma simples o nível de confiança e o porcentual de acertos, facilitando a identificação de onde focar seus estudos
-                                </p>
-                                </div>
-                                <Image
-                                src="/notion-feature-image-1.png"
-                                width={dimensionsFeatureAnnotations.width}
-                                height={dimensionsFeatureAnnotations.height}
-                                alt="Notion feature 1"
-                                className="absolute -right-4 lg:-right-[20%]  filter -bottom-3 object-contain rounded-xl"
-                                />
-                            </WobbleCard>
-
-                            <WobbleCard
-                                containerClassName="col-span-1 h-content bg-teal-950 min-h-[540px] sm:min-h-[620px] md:min-h-[600px] lg:min-h-[620px]"
-                                className=""
-                            >
-                                <div className="max-w-md sm:max-w-xs">
-                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-                                    Acesso rápido ao que importa
-                                </h2>
-                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
-                                    No Notion você poderá acessar rapidamente os últimos temas estudados e poderá definir temas para focar ao longo de sua preparação
-                                </p>
-                                </div>
-                                <Image
-                                src="/notion-feature-image-2.png"
-                                width={dimensionsFeatureFocus.width}
-                                height={dimensionsFeatureFocus.height}
-                                alt="Notion feature 1"
-                                className="absolute -right-4 lg:-right-[20%] filter -bottom-2 object-contain rounded-xl"
-                                />
-                            </WobbleCard>
-
-                            <WobbleCard
-                                containerClassName="col-span-1 h-content bg-orange-800 min-h-[500px] sm:min-h-[540px] lg:min-h-[600px] "
-                                className=""
-                            >
-                                <div className="max-w-md sm:max-w-xs">
-                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-                                    Revisões programadas e planejamento semanal
-                                </h2>
-                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
-                                    Organize quando estudar o quê. Planeje seus estudos e programe revisões de matérias com maior dificuldade
-                                </p>
-                                </div>
-                                <Image
-                                src="/notion-feature-image-3.png"
-                                width={dimensionsFeatureReviews.width}
-                                height={dimensionsFeatureReviews.height}
-                                alt="Notion feature 1"
-                                className="absolute -right-4 lg:-right-[20%] filter -bottom-3 object-contain rounded-xl"
-                                />
-                            </WobbleCard>
-
-                            <WobbleCard
-                                containerClassName="col-span-1 min-[1350px]:col-span-2 h-content bg-zinc-900 min-h-[800px] sm:min-h-[840px] 2xl:min-h-[640px] "
-                                className=""
-                            >
-                                <div className="max-w-md sm:max-w-xs">
-                                <h2 className="text-left text-balance text-2xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-                                    Editor completo para suas anotações
-                                </h2>
-                                <p className="mt-2 text-left  text-base/6 text-neutral-200">
-                                    No Notion, cada anotação fica em uma página própria que tem acesso a inúmeros recursos de formatação como diferentes tamanhos de texto, imagens, vídeos, tabelas... Assim as anotações ficam bem ricas e visuais!
-                                </p>
-                                </div>
-                                <Image
-                                src="/notion-feature-image-4.png"
-                                width={dimensionsFeatureEditor.width}
-                                height={dimensionsFeatureEditor.height}
-                                alt="Notion feature 1"
-                                className="absolute -right-4 lg:-right-[5%] 2xl:-right-[10%] filter -bottom-3 object-contain rounded-xl"
-                                />
-                            </WobbleCard>
-                        
-                        </CardGroup>
-                        <div className="text-center mt-12 px-16 pb-12" alignment="center">
-                            <div className="text-base text-slate-700">
-                                Acessível via <a href="https://notion.so" className="underline">Notion</a>, uma ferramenta de produtividade usada por milhões de pessoas e acessível no celular, tablet e computador. {" "}
-                            </div>
-                        </div>
-                    </div>
-                </MotionBTTContainer>
-            </SectionContainer>
-                    <SectionContainer className="w-full z-10 pt-16 pb-8 bg-white px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-[1200px] mx-auto">
-
-                    <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                        <BadgeGroup alignment="center">
-                            <BadgeMessage>Exclusivo</BadgeMessage>
-                        </BadgeGroup>
-                    </MotionBTTContainer>
-                    {/* Appear Second */}
-                    <MotionBTTContainer transition={{ delay: 0.4, duration: 0.5 }}>
-                    <div className="flex flex-col md:flex-row items-center justify-between px-2 pt-2 pb-16">
-                        <div className="flex flex-col space-y-6 text-center w-full md:w-1/2 mb-14">
-                            <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
-                                Acesso as <span className="underline decoration-[#9FD8CB]">anotações originais</span> que me levaram a aprovação!
-                            </h1>
-                            <p className="text-lg mx-auto max-w-[440px] font-sans text-slate-600">
-                                Na versão mais completa, ganhe acesso também a todas as +140 anotações originais que me levaram as aprovações no UNICAMP, USP-SP, USP-RP e PUC Campinas
-                            </p>
-                            <div className="border p-4 rounded-lg flex flex-col items-center scroll-mt-32" id="anotacoes-gratuitas">
-                                <h2 className="text-lg font-bold text-center max-w-[440px] font-sans text-slate-800 leading-4 mb-2">
-                                Anotações gratuitas
-                                </h2>
-                                <p className="text-base text-center max-w-[440px] font-sans text-slate-600 my-4">
-                                Conheça uma amostra dos resumos que eu fiz! Dos 140, escolhi 15 resumos entre Clínica Médica, Cirurgia, Pediatria, GO e Preventiva para compartilhar de forma gratuita!
-                                </p>
-                                <Button
-                                    type="link"
-                                    variant="outline"
-                                    href="#anotacoes-gratuitas"
+            <div className="bg-[#FAF6F0] text-[#1C1917]">
+                {/* ============ HERO ============ */}
+                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-8"
                                 >
-                                    Ver anotações gratuitas
-                                </Button>      
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        Notion · Método de estudo
+                                    </div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
+                                        O caderno digital que me levou à{" "}
+                                        <span className="italic text-[#9A4639]">
+                                            aprovação
+                                        </span>
+                                        .
+                                    </h1>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.3, duration: 0.6 }}
+                                    className="mb-14 lg:mb-16"
+                                >
+                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                        A mesma ferramenta que usei todos os
+                                        dias durante a preparação — agora
+                                        transformada num template para você
+                                        organizar estudos, revisões e
+                                        anotações de residência.
+                                    </p>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                >
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
+                                        <Button
+                                            href="#cta-notion"
+                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                        >
+                                            Quero o template
+                                        </Button>
+                                        <a
+                                            href="#capacidades"
+                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                        >
+                                            Ver como funciona
+                                        </a>
+                                    </div>
+                                </MotionBTTContainer>
                             </div>
-                        </div>
-                        <div className="md:w-1/2 flex justify-end mt-8 md:mt-0">
-                            <GlareCard>
-                                <Image
-                                    src="/anotacoes-originais-notion-lo.png"
-                                    width={680}
-                                    height={1024}
-                                    alt="Dra. Lorraine"
-                                    className="max-w-xs md:max-w-md rounded-lg"
-                                />
-                            </GlareCard>
-                        
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.7 }}
+                            >
+                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
+                                        <Image
+                                            src={PREVIEW_SRC}
+                                            alt="Template do Notion da Dra. Lorraine"
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                            sizes="(max-width: 1024px) 90vw, 40vw"
+                                        />
+                                    </div>
+                                </div>
+                            </MotionBTTContainer>
                         </div>
                     </div>
-                    </MotionBTTContainer>
+                </section>
 
+                {/* ============ CAPABILITIES ============ */}
+                <section
+                    id="capacidades"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-2xl mb-14 lg:mb-20">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="mb-6"
+                            >
+                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    O que tem dentro
+                                </div>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Um sistema pensado para{" "}
+                                    <span className="italic">residência</span>.
+                                </h2>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <p className="text-lg text-[#3C3833] leading-relaxed">
+                                    Estudar bem é mais do que acumular páginas.
+                                    É revisar no tempo certo, medir confiança e
+                                    manter o foco no que ainda não domina.
+                                </p>
+                            </MotionBTTContainer>
                         </div>
 
-                    </SectionContainer>
-                    <MotionBTTContainer
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    >
-                    <SectionContainer id="notion-cta" className="feature-tabs bg-slate-900 py-20 px-4">
-                        <div className="text-center mx-auto mb-12 max-w-xl scroll-mt-32" id="comprar">
-                        <PageTitle
-                            className="text-4xl font-bold text-slate-100"
-                            type="default"
+                        <div className="space-y-16 lg:space-y-24">
+                            {capabilities.map((c, i) => (
+                                <MotionBTTContainer
+                                    key={c.n}
+                                    transition={{
+                                        delay: 0.15 + i * 0.06,
+                                        duration: 0.5
+                                    }}
+                                >
+                                    <div
+                                        className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
+                                            i % 2 === 1
+                                                ? "lg:[&>*:first-child]:order-2"
+                                                : ""
+                                        }`}
+                                    >
+                                        <div className="max-w-xl">
+                                            <div className="flex items-baseline gap-4 mb-5">
+                                                <div className="text-sm font-mono text-[#9A4639] tracking-[0.15em]">
+                                                    {c.n}
+                                                </div>
+                                                <div className="flex-1 h-px bg-[#1C1917]/15" />
+                                            </div>
+                                            <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-4 text-[#1C1917]">
+                                                {c.title}
+                                            </h3>
+                                            <p className="text-[#3C3833] leading-relaxed">
+                                                {c.description}
+                                            </p>
+                                        </div>
+                                        <div className="relative">
+                                            <div
+                                                aria-hidden
+                                                className="absolute -inset-4 bg-[#9A4639]/[0.04] rounded-[4px]"
+                                            />
+                                            <div className="relative bg-[#FAF6F0] overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.22)] aspect-[4/3]">
+                                                <Image
+                                                    src={c.image}
+                                                    alt={c.title}
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 1024px) 90vw, 50vw"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </MotionBTTContainer>
+                            ))}
+                        </div>
+
+                        <MotionBTTContainer
+                            transition={{ delay: 0.3, duration: 0.5 }}
                         >
-                            Garanta já o seu!
-                        </PageTitle>
-                        <p className="mt-6 text-lg text-slate-300">
-                            Aproveite as condições especiais de lançamento e organize de uma vez os seus estudos para residência médica com o Notion da Lô
-                        </p>
+                            <div className="mt-16 lg:mt-20 border-t border-[#1C1917]/15 pt-8 text-sm text-[#57534E] max-w-3xl">
+                                Funciona sobre o{" "}
+                                <a
+                                    href="https://notion.so"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline underline-offset-4 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors"
+                                >
+                                    Notion
+                                </a>
+                                , uma ferramenta de produtividade usada por
+                                milhões de pessoas — acessível no computador,
+                                tablet e celular.
+                            </div>
+                        </MotionBTTContainer>
+                    </div>
+                </section>
+
+                {/* ============ RESULTS ============ */}
+                <Results />
+
+                {/* ============ ANOTACOES UPGRADE HINT ============ */}
+                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0]">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-center">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-6"
+                                >
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                        Combo exclusivo
+                                    </div>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-8">
+                                        Template + as{" "}
+                                        <span className="italic text-[#9A4639]">
+                                            anotações originais
+                                        </span>{" "}
+                                        que me aprovaram.
+                                    </h2>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                    className="mb-10"
+                                >
+                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                        Na versão completa, você leva também as
+                                        +140 anotações originais que levaram à
+                                        aprovação em UNICAMP, USP-SP, USP-RP e
+                                        PUC Campinas.
+                                    </p>
+                                </MotionBTTContainer>
+
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                >
+                                    <Link
+                                        href="/anotacoes"
+                                        className="inline-flex items-baseline gap-3 text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors"
+                                    >
+                                        Conhecer as anotações
+                                        <span
+                                            aria-hidden
+                                            className="transition-transform duration-300 group-hover:translate-x-1"
+                                        >
+                                            →
+                                        </span>
+                                    </Link>
+                                </MotionBTTContainer>
+                            </div>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.6 }}
+                            >
+                                <div className="relative max-w-[360px] mx-auto lg:max-w-none">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -inset-6 bg-[#9A4639]/[0.05] rounded-[4px]"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.25)]">
+                                        <Image
+                                            src="/anotacoes-originais-notion-lo.png"
+                                            alt="Anotações originais da Dra. Lorraine"
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 1024px) 70vw, 30vw"
+                                        />
+                                    </div>
+                                </div>
+                            </MotionBTTContainer>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ============ PRICING ============ */}
+                <section
+                    id="cta-notion"
+                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#1C1917] text-[#FAF6F0] scroll-mt-24"
+                >
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20">
+                            <MotionBTTContainer
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="mb-6"
+                            >
+                                <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium">
+                                    Condições especiais de lançamento
+                                </div>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Garanta já o{" "}
+                                    <span className="italic text-[#E4B5AC]">
+                                        seu
+                                    </span>
+                                    .
+                                </h2>
+                            </MotionBTTContainer>
+
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <p className="text-lg text-[#FAF6F0]/70 leading-relaxed">
+                                    Organize seus estudos com o mesmo sistema
+                                    que usei na preparação — e, se quiser, leve
+                                    as anotações junto.
+                                </p>
+                            </MotionBTTContainer>
                         </div>
 
-                        <Content className="text-center" alignment="center">
-                            <CardGroup className="grid gap-8 grid-cols-1 max-w-4xl mx-auto mt-8 md:grid-cols-2">
-                                <Card className="mx-auto w-full bg-white rounded-2xl overflow-hidden shadow-xl">
-                                    <CardBody className="space-y-6 p-10">
-                                        <div>
-                                            <p className="text-lg font-bold line-through text-gray-400">De R$99</p>
-                                            <div className="text-4xl font-bold text-gray-900">
-                                                R$ 49,90
-                                            </div>
-                                            <div className="inline-block bg-gray-100 text-gray-700 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Somente Template</div>
-                                        </div>
-                                        <ul className="list-disc list-inside text-gray-600 text-base space-y-3 text-start list-none mt-8">
-                                            <p className="text-lg font-bold text-gray-900 mb-4">Ganhe acesso vitalício a</p>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Template do Notion da Lô para seus estudos
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Sistema completo de organização de estudos
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Acesso imediato ao template
-                                            </li>
-                                        </ul>
-                                        <Button 
-                                            className="mt-12 bg-gray-900 hover:bg-black text-white w-full transition-all duration-200" 
-                                            variant="secondary"
-                                            href="https://pay.hotmart.com/C90888187B"
-                                        >
-                                            Quero o Template
-                                        </Button>
-                                    </CardBody>
-                                </Card>
+                        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+                            {/* Tier 1: Template */}
+                            <MotionBTTContainer
+                                transition={{ delay: 0.2, duration: 0.5 }}
+                            >
+                                <div className="bg-[#FAF6F0] text-[#1C1917] h-full flex flex-col p-8 lg:p-10">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-[#9A4639] font-medium mb-6">
+                                        Somente template
+                                    </div>
 
-                                <Card className="mx-auto w-full bg-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                                    <CardBody className="space-y-6 p-10">
-                                        <div>
-                                            <p className="text-lg font-bold line-through text-slate-400">De R$299</p>
-                                            <div className="text-4xl font-bold text-slate-100">
-                                                R$ 199,90
-                                            </div>
-                                            <div className="inline-block bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-1.5 my-3 rounded-full">Combo Completo</div>
+                                    <div className="border-t border-[#E7E2D9] pt-6 mb-8">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-sm text-[#57534E] line-through">
+                                                R$99
+                                            </span>
+                                            <span className="text-5xl font-light text-[#1C1917] tracking-tight">
+                                                R$ 49
+                                            </span>
+                                            <span className="text-sm text-[#57534E]">
+                                                ,90
+                                            </span>
                                         </div>
-                                        <ul className="list-disc list-inside text-slate-300 text-base space-y-3 text-start list-none mt-8">
-                                            <p className="text-lg font-bold text-slate-200 mb-4">Ganhe acesso vitalício a</p>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Template do Notion da Lô para seus estudos
+                                        <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mt-3">
+                                            Pagamento único · Acesso vitalício
+                                        </div>
+                                    </div>
+
+                                    <ul className="space-y-3 text-[#3C3833] flex-grow mb-10">
+                                        {templateInclusions.map((item, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex items-start gap-3"
+                                            >
+                                                <span
+                                                    aria-hidden
+                                                    className="text-[#9A4639] mt-[2px]"
+                                                >
+                                                    —
+                                                </span>
+                                                <span>{item}</span>
                                             </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Todas as +140 anotações originais da Lô
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        href="https://pay.hotmart.com/C90888187B"
+                                        className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
+                                    >
+                                        Quero o template
+                                    </Button>
+                                </div>
+                            </MotionBTTContainer>
+
+                            {/* Tier 2: Combo */}
+                            <MotionBTTContainer
+                                transition={{ delay: 0.3, duration: 0.5 }}
+                            >
+                                <div className="bg-[#2A2724] border border-[#FAF6F0]/10 text-[#FAF6F0] h-full flex flex-col p-8 lg:p-10 relative">
+                                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#9A4639] text-[#FAF6F0] text-xs uppercase tracking-[0.22em] font-medium px-3 py-1.5">
+                                        Mais vendido
+                                    </div>
+                                    <div className="text-xs uppercase tracking-[0.24em] text-[#E4B5AC] font-medium mb-6">
+                                        Combo completo
+                                    </div>
+
+                                    <div className="border-t border-[#FAF6F0]/15 pt-6 mb-8">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-sm text-[#FAF6F0]/50 line-through">
+                                                R$299
+                                            </span>
+                                            <span className="text-5xl font-light text-[#FAF6F0] tracking-tight">
+                                                R$ 199
+                                            </span>
+                                            <span className="text-sm text-[#FAF6F0]/60">
+                                                ,90
+                                            </span>
+                                        </div>
+                                        <div className="text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/50 font-medium mt-3">
+                                            Template + +140 anotações
+                                        </div>
+                                    </div>
+
+                                    <ul className="space-y-3 text-[#FAF6F0]/85 flex-grow mb-10">
+                                        {comboInclusions.map((item, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex items-start gap-3"
+                                            >
+                                                <span
+                                                    aria-hidden
+                                                    className="text-[#E4B5AC] mt-[2px]"
+                                                >
+                                                    —
+                                                </span>
+                                                <span>{item}</span>
                                             </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Sistema completo de organização de estudos
-                                            </li>
-                                            <li className="flex items-center gap-3">
-                                                <span className="flex-shrink-0 text-secondary-500">✓</span>
-                                                Acesso imediato a todo conteúdo
-                                            </li>
-                                        </ul>
-                                        <Button 
-                                            className="mt-12 bg-secondary-500 hover:bg-gray-900 text-white w-full transition-all duration-200" 
-                                            variant="secondary"
-                                            href="https://pay.hotmart.com/X90902784L"
-                                            onClick={trackFacebookInitiateCheckoutCombo}
-                                        >
-                                            Quero o Combo
-                                        </Button>
-                                    </CardBody>
-                                </Card>
-                            </CardGroup>
-                            <div className="text-center mt-8">
-                                <p className="text-sm text-slate-400">Pagamento 100% seguro via Hotmart</p>
-                            </div>
-                        </Content>
-                    </SectionContainer>
-                    </MotionBTTContainer>
-                 </div>
+                                        ))}
+                                    </ul>
+
+                                    <Button
+                                        href="https://pay.hotmart.com/X90902784L"
+                                        onClick={
+                                            trackFacebookInitiateCheckoutCombo
+                                        }
+                                        className="bg-[#FAF6F0] hover:bg-[#9A4639] text-[#1C1917] hover:text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
+                                    >
+                                        Quero o combo
+                                    </Button>
+                                </div>
+                            </MotionBTTContainer>
+                        </div>
+
+                        <div className="text-center mt-10 text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/40 font-medium">
+                            Pagamento 100% seguro · Hotmart
+                        </div>
+                    </div>
+                </section>
+            </div>
         </Layout>
-</>
     );
 }

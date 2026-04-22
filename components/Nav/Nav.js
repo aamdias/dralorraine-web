@@ -4,20 +4,25 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
 
 const navigation = [
-    { name: "Sobre mim", to: "#personal-history", href: "/" },
-    { name: "Mentoria", to: "mentoria", href: "/mentoria" },
-    { name: "Anotações", to: "anotacoes", href: "/anotacoes", isNew: true },
-    { name: "Notion", to: "notion", href: "/notion" },
-    { name: "Currículo", to: "curriculo", href: "/curriculo", isNew: true },
+    { name: "Sobre mim", href: "/" },
+    { name: "Consulta", href: "/consulta" },
+    { name: "Mentoria", href: "/mentoria" },
+    { name: "Anotações", href: "/anotacoes" },
+    { name: "Notion", href: "/notion" },
+    { name: "Currículo", href: "/curriculo" }
 ];
 
 export const Nav = ({ isTransparent = false }) => {
     const router = useRouter();
     const [isNavOpen, setIsNavOpen] = useState(false);
 
-    const closeNav = () => {
-        setIsNavOpen(false);
+    const closeNav = () => setIsNavOpen(false);
+
+    const isActive = (href) => {
+        if (href === "/") return router.pathname === "/";
+        return router.pathname.startsWith(href);
     };
+
     return (
         <nav className="header-nav">
             <div className="header-nav--container">
@@ -27,12 +32,14 @@ export const Nav = ({ isTransparent = false }) => {
                     type="button"
                     className="mobile-menu"
                     aria-controls="navbar-dropdown"
-                    aria-expanded="false"
+                    aria-expanded={isNavOpen}
                 >
-                    <span className="sr-only">Open main menu</span>
+                    <span className="sr-only">Abrir menu principal</span>
                     <Icon
                         icon="material-symbols:menu-rounded"
-                        className={`h-6 w-auto transition-colors duration-300 ${isTransparent ? 'text-white' : 'text-black'}`}
+                        className={`h-6 w-auto transition-colors duration-300 ${
+                            isTransparent ? "text-[#FAF6F0]" : "text-[#1C1917]"
+                        }`}
                     />
                 </button>
                 <div
@@ -41,36 +48,44 @@ export const Nav = ({ isTransparent = false }) => {
                     }`}
                     id="navbar-default"
                 >
-                    <ul className={`header-nav--menu ${isTransparent ? 'nav-transparent' : ''}`}>
-                        {navigation.map((item) => (
-                            <li
-                                key={item.name}
-                                className="header-nav--menu-item"
-                            >
-                                <a
+                    <ul
+                        className={`header-nav--menu ${
+                            isTransparent ? "nav-transparent" : ""
+                        }`}
+                    >
+                        {navigation.map((item) => {
+                            const active = isActive(item.href);
+                            return (
+                                <li
                                     key={item.name}
-                                    to={item.to}
-                                    href={item.href}
-                                    className={`menu-item--link flex items-center transition-colors duration-300
-                    ${router.pathname === item.href ? "active" : ""}
-                    ${isTransparent ? "text-white/80 hover:text-white" : ""}
-                  `}
-                                    onClick={closeNav}
-                                    target={item.target ? item.target : "_self"}
+                                    className="header-nav--menu-item"
                                 >
-                                    {item.name}
-                                    {item.isArrow && (
-                                        <span className="ml-2 inline-block text-sm font-medium text-inherit">
-                                            <Icon
-                                                icon="material-symbols:arrow-outward"
-                                                className="h-6 w-auto"
-                                            />
+                                    <Link
+                                        href={item.href}
+                                        onClick={closeNav}
+                                        className={`menu-item--link inline-flex items-center text-[15px] font-normal transition-colors duration-300 ${
+                                            isTransparent
+                                                ? active
+                                                    ? "text-[#FAF6F0]"
+                                                    : "text-[#FAF6F0]/70 hover:text-[#FAF6F0]"
+                                                : active
+                                                ? "text-[#1C1917]"
+                                                : "text-[#57534E] hover:text-[#1C1917]"
+                                        }`}
+                                    >
+                                        <span className="relative">
+                                            {item.name}
+                                            {active && (
+                                                <span
+                                                    aria-hidden
+                                                    className="absolute -bottom-1 left-0 right-0 h-px bg-[#9A4639]"
+                                                />
+                                            )}
                                         </span>
-                                    )}
-                                    
-                                </a>
-                            </li>
-                        ))}
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </div>

@@ -1,55 +1,51 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SectionContainer } from "@components/Section";
 import { Nav } from "@components/Nav";
-import { ButtonGroup, Button } from "@components/Button";
-import { Icon } from "@iconify/react";
+import { Logo } from "@components/Logo";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 export const Header = () => {
     const router = useRouter();
     const [isScrolled, setIsScrolled] = useState(false);
-    
-    // Pages with dark hero backgrounds
-    const darkHeroPages = ['/mentoria'];
+
+    // Pages with intentionally dark/alt hero backgrounds
+    const darkHeroPages = [];
     const hasDarkHero = darkHeroPages.includes(router.pathname);
 
     useEffect(() => {
         const handleScroll = () => {
-            // Consider scrolled after 100px
-            setIsScrolled(window.scrollY > 100);
+            setIsScrolled(window.scrollY > 80);
         };
-
-        window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Check initial state
-        
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll);
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Determine header style based on page and scroll position
     const isTransparent = hasDarkHero && !isScrolled;
 
     return (
         <header
             id="header"
-            className={`header fixed py-2 left-0 w-full z-30 top-0 transition-all duration-300 ${
-                isTransparent 
-                    ? 'bg-transparent header--transparent' 
-                    : 'bg-white backdrop-filter backdrop-blur-md bg-opacity-50'
+            className={`header fixed py-3 left-0 w-full z-30 top-0 transition-all duration-300 ${
+                isTransparent
+                    ? "bg-transparent header--transparent"
+                    : isScrolled
+                    ? "bg-[#FAF6F0]/90 backdrop-blur-md border-b border-[#E7E2D9]"
+                    : "bg-[#FAF6F0] border-b border-transparent"
             }`}
         >
             <SectionContainer className="header--container wrap wrap-px">
                 <div className="header-logo--container">
                     <h1 className="logo mb-0">
-                        <Link href="/">
-                            <Image
-                                src="/newlogo-dralorraine-web.svg"
-                                alt="logo"
+                        <Link
+                            href="/"
+                            aria-label="Ir para a página inicial"
+                            className="inline-flex items-center"
+                        >
+                            <Logo
+                                variant={isTransparent ? "light" : "dark"}
                                 className="h-6 w-auto"
-                                height="48"
-                                width="100"
-                                priority
                             />
                         </Link>
                     </h1>
