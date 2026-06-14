@@ -28,7 +28,6 @@ const initialData = {
     allergies: "",
     medications: "",
     conditions: "",
-    skinType: "",
     photos: [], // [{ url, pathname, name, size, previewUrl }]
     consentTelemedicine: false,
     consentLgpd: false,
@@ -274,9 +273,13 @@ const textareaClass =
     "w-full px-4 py-3 bg-[#FAF6F0] border border-[#E7E2D9] rounded-none text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#9A4639] transition-colors resize-none";
 
 function getSerializableData(data) {
+    const { skinType, ...serializableData } = data;
+
     return {
-        ...data,
-        photos: (data.photos || []).map(({ previewUrl, ...photo }) => photo)
+        ...serializableData,
+        photos: (serializableData.photos || []).map(
+            ({ previewUrl, ...photo }) => photo
+        )
     };
 }
 
@@ -380,14 +383,6 @@ const concernDurationOptions = [
     { value: "6 meses a 1 ano", label: "6 meses a 1 ano" },
     { value: "1 a 5 anos", label: "1 a 5 anos" },
     { value: "Mais de 5 anos", label: "Mais de 5 anos" }
-];
-
-const skinTypeOptions = [
-    { value: "Seca", label: "Seca" },
-    { value: "Mista", label: "Mista" },
-    { value: "Oleosa", label: "Oleosa" },
-    { value: "Sensível", label: "Sensível" },
-    { value: "Não sei", label: "Não sei" }
 ];
 
 function StepActions({
@@ -652,13 +647,6 @@ function StepHealth({ data, update, onNext, onBack }) {
                         />
                     </Field>
                 </div>
-                <Field label="Como você descreveria sua pele?">
-                    <FormSelect
-                        value={data.skinType}
-                        onChange={(value) => update({ skinType: value })}
-                        options={skinTypeOptions}
-                    />
-                </Field>
             </div>
             <StepActions onBack={onBack} />
         </form>
