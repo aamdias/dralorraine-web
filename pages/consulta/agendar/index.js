@@ -429,22 +429,21 @@ function StepAboutYou({ data, update, onNext }) {
 /* ─── Step 2 · Concern ───────────────────────────────────────────────── */
 
 function StepConcern({ data, update, onNext, onBack }) {
-    const valid = data.mainConcern && data.concernDuration;
     const submit = (e) => {
         e.preventDefault();
-        if (valid) onNext();
+        onNext();
     };
     return (
         <form onSubmit={submit}>
             <StepHeader
                 eyebrow="Passo 02 · Queixa"
                 title="O que te trouxe até aqui?"
-                description="Conte com suas palavras. Quanto mais contexto, melhor conseguimos te ajudar."
+                description="Conte com suas palavras se quiser. Quanto mais contexto, melhor conseguimos te ajudar, mas você também pode pular esta etapa."
             />
             <div className="space-y-8">
                 <Field
                     label="Principal queixa ou motivo da consulta"
-                    required
+                    hint="Opcional"
                 >
                     <textarea
                         className={textareaClass}
@@ -454,17 +453,18 @@ function StepConcern({ data, update, onNext, onBack }) {
                         onChange={(e) =>
                             update({ mainConcern: e.target.value })
                         }
-                        required
                     />
                 </Field>
-                <Field label="Há quanto tempo você percebe isso?" required>
+                <Field
+                    label="Há quanto tempo você percebe isso?"
+                    hint="Opcional"
+                >
                     <select
                         className={selectClass}
                         value={data.concernDuration}
                         onChange={(e) =>
                             update({ concernDuration: e.target.value })
                         }
-                        required
                     >
                         <option value="">Selecione</option>
                         <option value="Menos de 1 mês">Menos de 1 mês</option>
@@ -491,7 +491,7 @@ function StepConcern({ data, update, onNext, onBack }) {
                     />
                 </Field>
             </div>
-            <StepActions onBack={onBack} nextDisabled={!valid} />
+            <StepActions onBack={onBack} />
         </form>
     );
 }
