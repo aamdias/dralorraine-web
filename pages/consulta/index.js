@@ -407,7 +407,7 @@ export default function ConsultaPage() {
                                 <div className="flex items-baseline justify-center gap-2 mb-3">
                                     <span className="text-xl text-[#57534E]">R$</span>
                                     <span className="text-7xl lg:text-8xl font-light tracking-tight">
-                                        300
+                                        350
                                     </span>
                                 </div>
                                 <div className="text-sm text-[#57534E] mb-12">

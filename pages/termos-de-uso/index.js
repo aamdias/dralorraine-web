@@ -69,8 +69,8 @@ export default function TermsOfUse() {
                                         pagamento.
                                     </li>
                                     <li>
-                                        O valor da consulta é de R$ 300,00
-                                        (trezentos reais).
+                                        O valor da consulta é de R$ 350,00
+                                        (trezentos e cinquenta reais).
                                     </li>
                                     <li>
                                         O pagamento é processado por provedor

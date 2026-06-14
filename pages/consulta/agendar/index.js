@@ -16,6 +16,8 @@ const steps = [
     { id: 7, label: "Agenda" }
 ];
 
+const CONSULTATION_PRICE_LABEL = "R$ 350";
+
 const initialData = {
     name: "",
     email: "",
@@ -1278,7 +1280,7 @@ function StepPayment({ data, onNext, onBack }) {
                 <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">
                     <div className="flex items-baseline gap-3">
                         <span className="text-5xl lg:text-6xl font-light text-[#FAF6F0] tracking-tight">
-                            R$ 300
+                            {CONSULTATION_PRICE_LABEL}
                         </span>
                         <span className="text-sm text-[#FAF6F0]/60 uppercase tracking-[0.22em]">
                             Pagamento único
