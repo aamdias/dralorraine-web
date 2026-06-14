@@ -248,7 +248,7 @@ function StepProgress({ currentStep }) {
 
 function Field({ label, required, hint, children }) {
     return (
-        <label className="block">
+        <div className="block">
             <div className="flex items-baseline justify-between mb-2">
                 <span className="text-xs uppercase tracking-[0.2em] text-[#1C1917] font-medium">
                     {label}
@@ -263,7 +263,7 @@ function Field({ label, required, hint, children }) {
                 )}
             </div>
             {children}
-        </label>
+        </div>
     );
 }
 
@@ -273,14 +273,122 @@ const inputClass =
 const textareaClass =
     "w-full px-4 py-3 bg-[#FAF6F0] border border-[#E7E2D9] rounded-none text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#9A4639] transition-colors resize-none";
 
-const selectClass = inputClass + " cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22><path d=%22M1 1l4 4 4-4%22 stroke=%22%239A4639%22 fill=%22none%22 stroke-width=%221.2%22/></svg>')] bg-no-repeat bg-[right_0.25rem_center]";
-
 function getSerializableData(data) {
     return {
         ...data,
         photos: (data.photos || []).map(({ previewUrl, ...photo }) => photo)
     };
 }
+
+function FormSelect({
+    value,
+    onChange,
+    options,
+    placeholder = "Selecione"
+}) {
+    const [open, setOpen] = useState(false);
+    const selectRef = useRef(null);
+    const selected = options.find((option) => option.value === value);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const closeOnOutsideClick = (event) => {
+            if (!selectRef.current?.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", closeOnOutsideClick);
+        return () =>
+            document.removeEventListener("mousedown", closeOnOutsideClick);
+    }, [open]);
+
+    const choose = (nextValue) => {
+        onChange(nextValue);
+        setOpen(false);
+    };
+
+    return (
+        <div ref={selectRef} className="relative">
+            <button
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                onClick={() => setOpen((current) => !current)}
+                onKeyDown={(event) => {
+                    if (event.key === "Escape") setOpen(false);
+                }}
+                className="group flex w-full items-center justify-between gap-4 border-0 border-b border-[#E7E2D9] bg-transparent px-0 py-3 text-left text-[#1C1917] transition-colors hover:border-[#CBB9AE] focus:outline-none focus:border-[#9A4639]"
+            >
+                <span className={selected ? "" : "text-[#A8A29E]"}>
+                    {selected?.label || placeholder}
+                </span>
+                <span
+                    aria-hidden
+                    className={`h-2 w-2 shrink-0 border-b border-r border-[#9A4639] transition-transform ${
+                        open
+                            ? "rotate-[225deg] translate-y-1"
+                            : "rotate-45 -translate-y-0.5"
+                    }`}
+                />
+            </button>
+
+            {open && (
+                <div
+                    role="listbox"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 border border-[#E7E2D9] bg-[#FAF6F0] shadow-[0_18px_40px_rgba(28,25,23,0.08)]"
+                >
+                    <button
+                        type="button"
+                        role="option"
+                        aria-selected={!value}
+                        onClick={() => choose("")}
+                        className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
+                            value === ""
+                                ? "bg-[#F3EADB] text-[#9A4639]"
+                                : "text-[#A8A29E] hover:bg-[#F3EADB]/70 hover:text-[#1C1917]"
+                        }`}
+                    >
+                        {placeholder}
+                    </button>
+                    {options.map((option) => (
+                        <button
+                            key={option.value}
+                            type="button"
+                            role="option"
+                            aria-selected={value === option.value}
+                            onClick={() => choose(option.value)}
+                            className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
+                                value === option.value
+                                    ? "bg-[#F3EADB] text-[#9A4639]"
+                                    : "text-[#1C1917] hover:bg-[#F3EADB]/70 hover:text-[#9A4639]"
+                            }`}
+                        >
+                            {option.label}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+const concernDurationOptions = [
+    { value: "Menos de 1 mês", label: "Menos de 1 mês" },
+    { value: "1 a 6 meses", label: "1 a 6 meses" },
+    { value: "6 meses a 1 ano", label: "6 meses a 1 ano" },
+    { value: "1 a 5 anos", label: "1 a 5 anos" },
+    { value: "Mais de 5 anos", label: "Mais de 5 anos" }
+];
+
+const skinTypeOptions = [
+    { value: "Seca", label: "Seca" },
+    { value: "Mista", label: "Mista" },
+    { value: "Oleosa", label: "Oleosa" },
+    { value: "Sensível", label: "Sensível" },
+    { value: "Não sei", label: "Não sei" }
+];
 
 function StepActions({
     onBack,
@@ -459,22 +567,13 @@ function StepConcern({ data, update, onNext, onBack }) {
                     label="Há quanto tempo você percebe isso?"
                     hint="Opcional"
                 >
-                    <select
-                        className={selectClass}
+                    <FormSelect
                         value={data.concernDuration}
-                        onChange={(e) =>
-                            update({ concernDuration: e.target.value })
+                        onChange={(value) =>
+                            update({ concernDuration: value })
                         }
-                    >
-                        <option value="">Selecione</option>
-                        <option value="Menos de 1 mês">Menos de 1 mês</option>
-                        <option value="1 a 6 meses">1 a 6 meses</option>
-                        <option value="6 meses a 1 ano">
-                            6 meses a 1 ano
-                        </option>
-                        <option value="1 a 5 anos">1 a 5 anos</option>
-                        <option value="Mais de 5 anos">Mais de 5 anos</option>
-                    </select>
+                        options={concernDurationOptions}
+                    />
                 </Field>
                 <Field
                     label="Já fez algum tratamento para isso?"
@@ -554,20 +653,11 @@ function StepHealth({ data, update, onNext, onBack }) {
                     </Field>
                 </div>
                 <Field label="Como você descreveria sua pele?">
-                    <select
-                        className={selectClass}
+                    <FormSelect
                         value={data.skinType}
-                        onChange={(e) =>
-                            update({ skinType: e.target.value })
-                        }
-                    >
-                        <option value="">Selecione</option>
-                        <option value="Seca">Seca</option>
-                        <option value="Mista">Mista</option>
-                        <option value="Oleosa">Oleosa</option>
-                        <option value="Sensível">Sensível</option>
-                        <option value="Não sei">Não sei</option>
-                    </select>
+                        onChange={(value) => update({ skinType: value })}
+                        options={skinTypeOptions}
+                    />
                 </Field>
             </div>
             <StepActions onBack={onBack} />
