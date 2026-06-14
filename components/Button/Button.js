@@ -17,7 +17,9 @@ export const Button = ({
     variant = "primary",
     className = "",
     asButton = false,  // New prop to force button rendering
-    onClick // Add onClick prop
+    onClick, // Add onClick prop
+    target,
+    rel
 }) => {
     // Determine the correct element type to render
     const Element = type === "button" || asButton ? "button" : Link;
@@ -38,6 +40,8 @@ export const Button = ({
                 href={href} 
                 role="button" 
                 className={buttonClass}
+                target={target}
+                rel={rel || (target === "_blank" ? "noopener noreferrer" : undefined)}
                 onClick={(e) => {
                     if (onClick) {
                         onClick(e);
