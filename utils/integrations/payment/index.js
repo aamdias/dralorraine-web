@@ -18,12 +18,15 @@ export function getPaymentProvider(name = process.env.PAYMENT_PROVIDER) {
 }
 
 export function getPublicBaseUrl(req) {
-    if (process.env.NEXT_PUBLIC_SITE_URL) {
-        return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-    }
-
     const protocol = req.headers["x-forwarded-proto"] || "http";
     const host = req.headers["x-forwarded-host"] || req.headers.host;
 
-    return `${protocol}://${host}`;
+    if (host) {
+        return `${protocol}://${host}`;
+    }
+
+    return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
+        /\/$/,
+        ""
+    );
 }
