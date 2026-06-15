@@ -91,10 +91,9 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                        Cosmeatria e uma nova geração
-                                        de{" "}
+                                        Cosmeatria com ciência, escuta e{" "}
                                         <span className="italic text-[#9A4639]">
-                                            médicos
+                                            cuidado
                                         </span>
                                         .
                                     </h1>
@@ -205,11 +204,11 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
-                                        Da Zona Leste à UNICAMP: uma jornada de{" "}
+                                        Da Zona Leste de São Paulo ao{" "}
                                         <span className="italic">
-                                            coragem
-                                        </span>
-                                        , disciplina e propósito.
+                                            1º lugar
+                                        </span>{" "}
+                                        em Dermato na UNICAMP.
                                     </h2>
                                 </MotionBTTContainer>
                             </div>
