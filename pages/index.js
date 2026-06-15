@@ -10,7 +10,7 @@ const PORTRAIT_SRC = "/lolo-portrait-consulta.jpg";
 
 const stats = [
     { figure: "UNICAMP", label: "Formação em Medicina" },
-    { figure: "2023", label: "R1 em Dermatologia" },
+    { figure: "2026", label: "R3 em Dermatologia" },
     { figure: "+140", label: "Anotações de residência" },
     { figure: "São Paulo", label: "Atendimento" }
 ];
@@ -19,9 +19,9 @@ const services = [
     {
         n: "01",
         tag: "Para pacientes",
-        title: "Consulta de cosmeatria",
+        title: "Consulta de dermatologia",
         description:
-            "Videoconsulta de 40 minutos com avaliação completa, conduta personalizada e 14 dias de suporte.",
+            "Videoconsulta de 1 hora com avaliação completa, conduta personalizada e 14 dias de suporte.",
         href: "/consulta",
         cta: "Agendar consulta",
         featured: true
@@ -68,8 +68,8 @@ export default function Home() {
     return (
         <Layout>
             <SEO
-                title="Dra. Lorraine Souza | Cosmeatria · Mentoria · Residência"
-                description="Médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Videoconsulta em cosmeatria, mentoria para residência médica, anotações, template Notion e currículo."
+                title="Dra. Lorraine Souza | Dermatologia · Mentoria · Residência"
+                description="Médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Videoconsulta em dermatologia, mentoria para residência médica, anotações, template Notion e currículo."
             />
 
             <div className="bg-[#FAF6F0] text-[#1C1917]">
@@ -91,7 +91,7 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                        Cosmeatria com ciência, escuta e{" "}
+                                        Dermatologia com ciência, escuta e{" "}
                                         <span className="italic text-[#9A4639]">
                                             cuidado
                                         </span>
@@ -108,7 +108,7 @@ export default function Home() {
                                         Dermatologia na UNICAMP. Atendo pacientes
                                         por videoconsulta e
                                         acompanho médicos em preparação para
-                                        residência — compartilhando o que
+                                        residência, compartilhando o que
                                         aprendi ao longo da jornada.
                                     </p>
                                 </MotionBTTContainer>
@@ -196,7 +196,7 @@ export default function Home() {
                                     className="mb-6"
                                 >
                                     <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
-                                        De onde eu venho
+                                        Sobre mim
                                     </div>
                                 </MotionBTTContainer>
 
@@ -204,7 +204,7 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
-                                        Da Zona Leste de São Paulo ao{" "}
+                                        Médica pela UNICAMP e{" "}
                                         <span className="italic">
                                             1º lugar
                                         </span>{" "}
@@ -218,30 +218,28 @@ export default function Home() {
                             >
                                 <div className="space-y-6 text-[#3C3833] text-lg leading-relaxed">
                                     <p>
-                                        Sou paulistana, nascida na Zona Leste.
-                                        Foi em São José dos Campos que comecei
-                                        a trilhar o caminho da medicina — fiz
-                                        ensino técnico em Análises Clínicas e
-                                        estudei em um cursinho popular. Três
-                                        anos depois, passei na UNICAMP, que se
-                                        tornou minha segunda casa.
+                                        Sou médica formada pela UNICAMP, onde a
+                                        dermatologia se tornou meu foco desde a
+                                        graduação. Minha trajetória combina
+                                        estudo intenso, prática clínica e a
+                                        curiosidade constante de cuidar melhor
+                                        da pele de cada pessoa.
                                     </p>
                                     <p>
-                                        Durante a graduação me apaixonei pela
-                                        dermatologia. Após colar grau em
-                                        janeiro de 2021, dediquei dois anos à
-                                        preparação para a residência médica,
-                                        conciliando estudos, trabalho e saúde
-                                        mental.
+                                        Na preparação para a residência, conquistei
+                                        o 1º lugar em Dermatologia na UNICAMP,
+                                        além de aprovações em USP-RP, USP-SP e
+                                        PUC Campinas. Esse resultado nasceu de
+                                        método, consistência e escolhas bem
+                                        feitas ao longo do caminho.
                                     </p>
                                     <p>
-                                        Depois de muitos{" "}
-                                        <span className="italic">nãos</span>,
-                                        vieram os <em>sins</em>: UNICAMP,
-                                        USP-RP, USP-SP e PUC Campinas. Hoje,
-                                        vejo que cada passo tinha um propósito
-                                        — e é essa experiência que trago para
-                                        cada paciente e cada mentorado.
+                                        Hoje, como R3 em Dermatologia na
+                                        UNICAMP, levo essa mesma combinação de
+                                        ciência, organização e escuta para as
+                                        consultas e para a mentoria de médicos
+                                        que também estão construindo seus
+                                        próximos passos.
                                     </p>
                                 </div>
                             </MotionBTTContainer>
@@ -282,7 +280,7 @@ export default function Home() {
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
                                 <p className="text-lg text-[#57534E] leading-relaxed">
-                                    Atendo quem busca cuidado em cosmeatria e
+                                    Atendo quem busca cuidado em dermatologia e
                                     acompanho quem está a caminho da
                                     residência.
                                 </p>
