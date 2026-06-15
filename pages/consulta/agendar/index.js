@@ -41,6 +41,7 @@ export default function AgendarPage() {
     const [step, setStep] = useState(1);
     const [data, setData] = useState(initialData);
     const [paymentReturn, setPaymentReturn] = useState("");
+    const [paymentSessionId, setPaymentSessionId] = useState("");
     const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
@@ -61,6 +62,7 @@ export default function AgendarPage() {
         const params = new URLSearchParams(window.location.search);
         const consultaId = Number(params.get("consulta"));
         const payment = params.get("payment") || "";
+        const sessionId = params.get("session_id") || "";
 
         if (consultaId) {
             restoredData = { ...restoredData, consultaId };
@@ -74,6 +76,7 @@ export default function AgendarPage() {
         setData(restoredData);
         setStep(Math.min(steps.length, Math.max(1, restoredStep)));
         setPaymentReturn(payment);
+        setPaymentSessionId(sessionId);
         setHydrated(true);
     }, []);
 
@@ -86,6 +89,30 @@ export default function AgendarPage() {
 
         const verifyReturnedPayment = async () => {
             try {
+                if (paymentSessionId) {
+                    const confirmationResponse = await fetch(
+                        "/api/payments/confirm",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                consultationId: data.consultaId,
+                                sessionId: paymentSessionId
+                            })
+                        }
+                    );
+                    const confirmationBody = await confirmationResponse
+                        .json()
+                        .catch(() => ({}));
+
+                    if (!active) return;
+
+                    if (confirmationBody.paid) {
+                        setStep(7);
+                        return;
+                    }
+                }
+
                 const response = await fetch(`/api/consultations/${data.consultaId}`);
                 const body = await response.json().catch(() => ({}));
 
@@ -110,7 +137,7 @@ export default function AgendarPage() {
         return () => {
             active = false;
         };
-    }, [data.consultaId, hydrated, paymentReturn]);
+    }, [data.consultaId, hydrated, paymentReturn, paymentSessionId]);
 
     useEffect(() => {
         if (!hydrated) return;
@@ -205,6 +232,7 @@ export default function AgendarPage() {
                             <StepPayment
                                 data={data}
                                 paymentReturn={paymentReturn}
+                                paymentSessionId={paymentSessionId}
                                 onNext={next}
                                 onBack={back}
                             />
@@ -1248,7 +1276,13 @@ function ConsentCheckbox({ checked, onChange, children }) {
 
 /* ─── Step 6 · Payment ───────────────────────────────────────────────── */
 
-function StepPayment({ data, paymentReturn, onNext, onBack }) {
+function StepPayment({
+    data,
+    paymentReturn,
+    paymentSessionId,
+    onNext,
+    onBack
+}) {
     const [checkout, setCheckout] = useState(null);
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(false);
@@ -1307,7 +1341,9 @@ function StepPayment({ data, paymentReturn, onNext, onBack }) {
     useEffect(() => {
         if (paymentReturn === "stripe_success") {
             setNotice(
-                "Pagamento concluído no Stripe. Estamos conferindo a confirmação para liberar a agenda."
+                paymentSessionId
+                    ? "Pagamento concluído no Stripe. Estamos conferindo a confirmação para liberar a agenda."
+                    : "Pagamento concluído no Stripe. Clique em verificar pagamento para conferir a confirmação e liberar a agenda."
             );
         }
 
@@ -1316,7 +1352,7 @@ function StepPayment({ data, paymentReturn, onNext, onBack }) {
                 "Checkout cancelado. Você pode abrir o pagamento novamente quando quiser continuar."
             );
         }
-    }, [paymentReturn]);
+    }, [paymentReturn, paymentSessionId]);
 
     const checkPayment = async () => {
         setChecking(true);
@@ -1324,6 +1360,32 @@ function StepPayment({ data, paymentReturn, onNext, onBack }) {
         setNotice("");
 
         try {
+            if (paymentSessionId) {
+                const confirmationResponse = await fetch("/api/payments/confirm", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        consultationId: data.consultaId,
+                        sessionId: paymentSessionId
+                    })
+                });
+                const confirmationBody = await confirmationResponse
+                    .json()
+                    .catch(() => ({}));
+
+                if (!confirmationResponse.ok) {
+                    throw new Error(
+                        confirmationBody.error ||
+                            "Não foi possível confirmar o pagamento."
+                    );
+                }
+
+                if (confirmationBody.paid) {
+                    onNext();
+                    return;
+                }
+            }
+
             const response = await fetch(`/api/consultations/${data.consultaId}`);
             const body = await response.json().catch(() => ({}));
 

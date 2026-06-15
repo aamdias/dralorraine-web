@@ -127,6 +127,52 @@ function mapStripeEvent(event) {
     };
 }
 
+function mapCheckoutSession(session = {}) {
+    if (session.payment_status === "paid") {
+        return {
+            paymentStatus: "paid",
+            consultationStatus: "paid",
+            paidAt: new Date().toISOString()
+        };
+    }
+
+    if (session.status === "expired") {
+        return {
+            paymentStatus: "failed",
+            consultationStatus: "pending_payment",
+            paidAt: null
+        };
+    }
+
+    return {
+        paymentStatus: "awaiting_confirmation",
+        consultationStatus: "pending_payment",
+        paidAt: null
+    };
+}
+
+async function retrieveCheckoutSession(sessionId) {
+    const response = await fetch(
+        `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(
+            sessionId
+        )}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+                "Stripe-Version": STRIPE_API_VERSION
+            }
+        }
+    );
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(result?.error?.message || "Stripe session lookup failed");
+    }
+
+    return result;
+}
+
 export const stripePaymentProvider = {
     name: "stripe",
 
@@ -145,7 +191,7 @@ export const stripePaymentProvider = {
 
         const params = new URLSearchParams();
         const consultationId = String(consultation.id);
-        const successUrl = `${baseUrl}/consulta/agendar?consulta=${consultation.id}&payment=stripe_success`;
+        const successUrl = `${baseUrl}/consulta/agendar?consulta=${consultation.id}&payment=stripe_success&session_id={CHECKOUT_SESSION_ID}`;
         const cancelUrl = `${baseUrl}/consulta/agendar?consulta=${consultation.id}&payment=stripe_cancel`;
 
         appendParam(params, "mode", "payment");
@@ -201,6 +247,37 @@ export const stripePaymentProvider = {
                 amountTotal: result.amount_total,
                 currency: result.currency,
                 consultationId
+            }
+        };
+    },
+
+    async confirmCheckout({ consultationId, sessionId }) {
+        if (!this.isConfigured()) {
+            throw new Error("STRIPE_SECRET_KEY is not configured");
+        }
+
+        const session = await retrieveCheckoutSession(sessionId);
+        const sessionConsultationId = parseConsultationId(session);
+
+        if (sessionConsultationId !== Number(consultationId)) {
+            throw new Error("Stripe session does not match this consultation");
+        }
+
+        const status = mapCheckoutSession(session);
+
+        return {
+            consultationId: sessionConsultationId,
+            provider: this.name,
+            providerRef: session.payment_intent || session.id || null,
+            paymentStatus: status.paymentStatus,
+            consultationStatus: status.consultationStatus,
+            paidAt: status.paidAt,
+            metadata: {
+                checkoutSessionId: session.id,
+                paymentStatus: session.payment_status,
+                status: session.status,
+                amountTotal: session.amount_total,
+                currency: session.currency
             }
         };
     },
