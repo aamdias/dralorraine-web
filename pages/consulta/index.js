@@ -7,7 +7,7 @@ import Image from "next/image";
 const stats = [
     { figure: "UNICAMP", label: "Formação em Medicina" },
     { figure: "1º lugar", label: "em Dermatologia" },
-    { figure: "40 min", label: "de videoconsulta" },
+    { figure: "1 hora", label: "de videoconsulta" },
     { figure: "14 dias", label: "de suporte pós-consulta" },
 ];
 
@@ -57,7 +57,7 @@ const nonIndications = [
 ];
 
 const included = [
-    "Videoconsulta de até 40 min",
+    "Videoconsulta de 1 hora",
     "Análise prévia do seu caso e das fotos",
     "Plano de tratamento personalizado",
     "Prescrição digital quando indicada",
@@ -106,7 +106,7 @@ export default function ConsultaPage() {
                 <section className="pt-28 lg:pt-32 pb-16 lg:pb-20">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-20 items-center">
-                            <div className="order-2 lg:order-1">
+                            <div className="order-1">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
                                     <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-8">
                                         Cosmeatria · Teleconsulta
@@ -153,7 +153,7 @@ export default function ConsultaPage() {
 
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.7 }}
-                                className="order-1 lg:order-2"
+                                className="order-2"
                             >
                                 <div className="relative max-w-[440px] mx-auto lg:max-w-none">
                                     <div
@@ -370,7 +370,7 @@ export default function ConsultaPage() {
                                             <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
                                                 CRM
                                             </dt>
-                                            <dd className="font-medium">SP · a definir</dd>
+                                            <dd className="font-medium">218676 CRM-SP</dd>
                                         </div>
                                         <div>
                                             <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
