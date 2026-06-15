@@ -40,21 +40,77 @@ const initialData = {
 export default function AgendarPage() {
     const [step, setStep] = useState(1);
     const [data, setData] = useState(initialData);
+    const [paymentReturn, setPaymentReturn] = useState("");
     const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
+        let restoredData = initialData;
+        let restoredStep = 1;
+
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                setData({ ...initialData, ...parsed.data });
-                if (parsed.step && parsed.step < 6) setStep(parsed.step);
+                restoredData = { ...initialData, ...parsed.data };
+                if (parsed.step) restoredStep = parsed.step;
             }
         } catch (e) {
             // ignore
         }
+
+        const params = new URLSearchParams(window.location.search);
+        const consultaId = Number(params.get("consulta"));
+        const payment = params.get("payment") || "";
+
+        if (consultaId) {
+            restoredData = { ...restoredData, consultaId };
+            restoredStep = 6;
+        }
+
+        if (payment === "stripe_cancel") {
+            restoredStep = 6;
+        }
+
+        setData(restoredData);
+        setStep(Math.min(steps.length, Math.max(1, restoredStep)));
+        setPaymentReturn(payment);
         setHydrated(true);
     }, []);
+
+    useEffect(() => {
+        if (!hydrated || paymentReturn !== "stripe_success" || !data.consultaId) {
+            return;
+        }
+
+        let active = true;
+
+        const verifyReturnedPayment = async () => {
+            try {
+                const response = await fetch(`/api/consultations/${data.consultaId}`);
+                const body = await response.json().catch(() => ({}));
+
+                if (!active || !response.ok) return;
+
+                if (
+                    body.payment_status === "paid" ||
+                    body.status === "paid" ||
+                    body.status === "scheduled"
+                ) {
+                    setStep(7);
+                } else {
+                    setStep(6);
+                }
+            } catch (e) {
+                if (active) setStep(6);
+            }
+        };
+
+        verifyReturnedPayment();
+
+        return () => {
+            active = false;
+        };
+    }, [data.consultaId, hydrated, paymentReturn]);
 
     useEffect(() => {
         if (!hydrated) return;
@@ -148,6 +204,7 @@ export default function AgendarPage() {
                         {step === 6 && (
                             <StepPayment
                                 data={data}
+                                paymentReturn={paymentReturn}
                                 onNext={next}
                                 onBack={back}
                             />
@@ -1191,7 +1248,7 @@ function ConsentCheckbox({ checked, onChange, children }) {
 
 /* ─── Step 6 · Payment ───────────────────────────────────────────────── */
 
-function StepPayment({ data, onNext, onBack }) {
+function StepPayment({ data, paymentReturn, onNext, onBack }) {
     const [checkout, setCheckout] = useState(null);
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(false);
@@ -1205,6 +1262,12 @@ function StepPayment({ data, onNext, onBack }) {
         }
 
         const loadCheckout = async () => {
+            if (paymentReturn === "stripe_success") {
+                setCheckout(null);
+                setLoading(false);
+                return;
+            }
+
             setLoading(true);
             setError("");
             setNotice("");
@@ -1225,6 +1288,11 @@ function StepPayment({ data, onNext, onBack }) {
                     );
                 }
 
+                if (body.alreadyPaid) {
+                    onNext();
+                    return;
+                }
+
                 setCheckout(body);
             } catch (err) {
                 setError(err.message);
@@ -1234,7 +1302,21 @@ function StepPayment({ data, onNext, onBack }) {
         };
 
         loadCheckout();
-    }, [data.consultaId]);
+    }, [data.consultaId, onNext, paymentReturn]);
+
+    useEffect(() => {
+        if (paymentReturn === "stripe_success") {
+            setNotice(
+                "Pagamento concluído no Stripe. Estamos conferindo a confirmação para liberar a agenda."
+            );
+        }
+
+        if (paymentReturn === "stripe_cancel") {
+            setNotice(
+                "Checkout cancelado. Você pode abrir o pagamento novamente quando quiser continuar."
+            );
+        }
+    }, [paymentReturn]);
 
     const checkPayment = async () => {
         setChecking(true);

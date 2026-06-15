@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         }
 
         const { rows } = await sql`
-            SELECT id, name, email, phone, status
+            SELECT id, name, email, phone, status, payment_status
             FROM consultations
             WHERE id = ${consultationId}
             LIMIT 1;
@@ -35,6 +35,18 @@ export default async function handler(req, res) {
 
         if (!consultation) {
             res.status(404).json({ error: "Consultation not found" });
+            return;
+        }
+
+        if (
+            consultation.payment_status === "paid" ||
+            consultation.status === "paid" ||
+            consultation.status === "scheduled"
+        ) {
+            res.status(200).json({
+                provider: provider.name,
+                alreadyPaid: true
+            });
             return;
         }
 
