@@ -1560,7 +1560,11 @@ function StepSchedule({ data, onBack }) {
             <div className="border border-[#E7E2D9] bg-[#FAF6F0] p-12 text-center">
                 <CalendarGlyph />
                 <div className="mt-4 text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
-                    {loading ? "Carregando agenda..." : "Agendamento · Cal.com"}
+                    {loading
+                        ? "Carregando agenda..."
+                        : `Agendamento · ${
+                              option?.providerLabel || "Google Calendar"
+                          }`}
                 </div>
                 {option?.bookingUrl && (
                     <a

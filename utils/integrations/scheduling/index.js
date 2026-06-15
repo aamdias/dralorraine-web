@@ -1,11 +1,13 @@
 import { calSchedulingProvider } from "./providers/cal";
+import { googleSchedulingProvider } from "./providers/google";
 
 const providers = {
-    cal: calSchedulingProvider
+    cal: calSchedulingProvider,
+    google: googleSchedulingProvider
 };
 
 export function getSchedulingProvider(name = process.env.SCHEDULING_PROVIDER) {
-    const providerName = (name || "cal").toLowerCase();
+    const providerName = (name || "google").toLowerCase();
     const provider = providers[providerName];
 
     if (!provider) {
