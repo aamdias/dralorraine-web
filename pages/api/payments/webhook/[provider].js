@@ -1,6 +1,32 @@
 import { sql } from "@vercel/postgres";
 import { getPaymentProvider } from "@utils/integrations/payment";
 
+export const config = {
+    api: {
+        bodyParser: false
+    }
+};
+
+async function readRawBody(req) {
+    const chunks = [];
+
+    for await (const chunk of req) {
+        chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+    }
+
+    return Buffer.concat(chunks).toString("utf8");
+}
+
+function parseJsonBody(rawBody) {
+    if (!rawBody) return {};
+
+    try {
+        return JSON.parse(rawBody);
+    } catch (err) {
+        throw new Error("Invalid webhook JSON payload");
+    }
+}
+
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         res.status(405).json({ error: "Method not allowed" });
@@ -8,8 +34,15 @@ export default async function handler(req, res) {
     }
 
     try {
+        const rawBody = await readRawBody(req);
         const provider = getPaymentProvider(req.query.provider);
-        const event = provider.parseWebhook({ req });
+        const body =
+            provider.name === "stripe" ? undefined : parseJsonBody(rawBody);
+        const event = provider.parseWebhook({
+            req,
+            rawBody,
+            body
+        });
 
         await sql`
             UPDATE consultations

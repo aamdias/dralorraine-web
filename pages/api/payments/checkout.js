@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             return;
         }
 
-        const checkout = provider.createCheckout({
+        const checkout = await provider.createCheckout({
             consultation,
             baseUrl: getPublicBaseUrl(req)
         });

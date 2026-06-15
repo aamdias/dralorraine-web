@@ -151,10 +151,10 @@ export const hotmartPaymentProvider = {
         };
     },
 
-    parseWebhook({ req }) {
+    parseWebhook({ req, body }) {
         verifyWebhook(req);
 
-        const payload = req.body || {};
+        const payload = body || req.body || {};
         const consultationId = findConsultationId(payload);
 
         if (!consultationId) {

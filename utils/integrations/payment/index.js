@@ -1,11 +1,13 @@
 import { hotmartPaymentProvider } from "./providers/hotmart";
+import { stripePaymentProvider } from "./providers/stripe";
 
 const providers = {
-    hotmart: hotmartPaymentProvider
+    hotmart: hotmartPaymentProvider,
+    stripe: stripePaymentProvider
 };
 
 export function getPaymentProvider(name = process.env.PAYMENT_PROVIDER) {
-    const providerName = (name || "hotmart").toLowerCase();
+    const providerName = (name || "stripe").toLowerCase();
     const provider = providers[providerName];
 
     if (!provider) {
