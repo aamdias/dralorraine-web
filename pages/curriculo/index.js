@@ -112,9 +112,9 @@ export default function Curriculo() {
                 "@type": "Person",
                 name: "Dra. Lorraine Almeida",
                 jobTitle:
-                    "Médica Dermatologista e Mentora para Residência Médica",
+                    "Médica e Mentora para Residência Médica",
                 description:
-                    "Médica aprovada em 1º lugar em Dermatologia na UNICAMP, com aprovações em USP-SP, USP-RP e UNIFESP.",
+                    "Médica pela UNICAMP, R3 em Dermatologia na UNICAMP e aprovada em 1º lugar, com aprovações em USP-SP, USP-RP e UNIFESP.",
                 address: {
                     "@type": "PostalAddress",
                     addressLocality: "São Paulo",

@@ -19,7 +19,7 @@ const services = [
     {
         n: "01",
         tag: "Para pacientes",
-        title: "Consulta dermatológica",
+        title: "Consulta de cosmeatria",
         description:
             "Videoconsulta de 40 minutos com avaliação completa, conduta personalizada e 14 dias de suporte.",
         href: "/consulta",
@@ -68,8 +68,8 @@ export default function Home() {
     return (
         <Layout>
             <SEO
-                title="Dra. Lorraine Souza | Dermatologia · Mentoria · Residência"
-                description="Dermatologista formada pela UNICAMP. Videoconsulta dermatológica, mentoria para residência médica, anotações, template Notion e currículo."
+                title="Dra. Lorraine Souza | Cosmeatria · Mentoria · Residência"
+                description="Médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Videoconsulta em cosmeatria, mentoria para residência médica, anotações, template Notion e currículo."
             />
 
             <div className="bg-[#FAF6F0] text-[#1C1917]">
@@ -91,10 +91,9 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                        Dermatologia clínica e uma nova geração
-                                        de{" "}
+                                        Cosmeatria com ciência, escuta e{" "}
                                         <span className="italic text-[#9A4639]">
-                                            médicos
+                                            cuidado
                                         </span>
                                         .
                                     </h1>
@@ -105,8 +104,9 @@ export default function Home() {
                                     className="mb-14 lg:mb-16"
                                 >
                                     <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
-                                        Sou médica pela UNICAMP e dermatologista.
-                                        Atendo pacientes por videoconsulta e
+                                        Sou médica pela UNICAMP e R3 em
+                                        Dermatologia na UNICAMP. Atendo pacientes
+                                        por videoconsulta e
                                         acompanho médicos em preparação para
                                         residência — compartilhando o que
                                         aprendi ao longo da jornada.
@@ -282,9 +282,9 @@ export default function Home() {
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
                                 <p className="text-lg text-[#57534E] leading-relaxed">
-                                    Atendo quem precisa de cuidado
-                                    dermatológico e acompanho quem está a
-                                    caminho da residência.
+                                    Atendo quem busca cuidado em cosmeatria e
+                                    acompanho quem está a caminho da
+                                    residência.
                                 </p>
                             </MotionBTTContainer>
                         </div>

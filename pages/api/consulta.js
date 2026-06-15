@@ -37,6 +37,14 @@ export default async function handler(req, res) {
     }
 
     try {
+        if (!process.env.POSTGRES_URL) {
+            res.status(503).json({
+                error:
+                    "Banco de dados não configurado. Defina POSTGRES_URL em .env.local."
+            });
+            return;
+        }
+
         const photosJson = JSON.stringify(data.photos || []);
         // Normalize empty date strings to null so Postgres doesn't choke.
         const dob = data.dob && data.dob.length > 0 ? data.dob : null;
@@ -72,6 +80,9 @@ export default async function handler(req, res) {
         res.status(200).json({ id: result.rows[0].id });
     } catch (err) {
         console.error("[consulta insert error]", err);
-        res.status(500).json({ error: "Failed to save intake" });
+        res.status(500).json({
+            error:
+                "Não foi possível salvar o formulário. Verifique a conexão com o banco e se a migration consultations foi executada."
+        });
     }
 }

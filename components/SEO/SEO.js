@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const SEO = ({ title, description, keywords }) => {
+const SEO = ({ title, description, keywords, image, url }) => {
     // Cuztomize Meta Properties
     // Can create extra props and pass as arguments like title in case you want to change for each page.
     const metaDescription = description
@@ -9,7 +9,13 @@ const SEO = ({ title, description, keywords }) => {
     const metaKeywords = keywords ? keywords : process.env.siteKeywords;
     const siteURL = process.env.siteUrl;
     const twitterHandle = process.env.twitterHandle;
-    const imagePreview = `${siteURL}/${process.env.siteImagePreviewUrl}`;
+    const imagePath = image || process.env.siteImagePreviewUrl;
+    const imagePreview = imagePath?.startsWith("http")
+        ? imagePath
+        : `${siteURL}${imagePath?.startsWith("/") ? "" : "/"}${imagePath}`;
+    const pageUrl = url
+        ? `${siteURL}${url.startsWith("/") ? "" : "/"}${url}`
+        : siteURL;
 
     return (
         <Head>
@@ -23,7 +29,7 @@ const SEO = ({ title, description, keywords }) => {
             <meta name="keywords" content={metaKeywords} />
             {/* { Twitter } */}
             <meta
-                name="twitte:card"
+                name="twitter:card"
                 content="summary_large_image"
                 key="twcard"
             />
@@ -34,8 +40,9 @@ const SEO = ({ title, description, keywords }) => {
             />
 
             {/* {Open Graph} */}
-            <meta property="og:url" content={siteURL} key="ogurl" />
+            <meta property="og:url" content={pageUrl} key="ogurl" />
             <meta property="og:image" content={imagePreview} key="ogimage" />
+            <meta property="twitter:image" content={imagePreview} key="twimage" />
             <meta property="og:site_name" content={siteURL} key="ogsitename" />
             <meta property="og:title" content={title} key="ogtitle" />
             <meta

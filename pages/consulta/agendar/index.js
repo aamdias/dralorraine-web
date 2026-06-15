@@ -16,6 +16,8 @@ const steps = [
     { id: 7, label: "Agenda" }
 ];
 
+const CONSULTATION_PRICE_LABEL = "R$ 350";
+
 const initialData = {
     name: "",
     email: "",
@@ -28,8 +30,7 @@ const initialData = {
     allergies: "",
     medications: "",
     conditions: "",
-    skinType: "",
-    photos: [], // [{ url, pathname, name, size }]
+    photos: [], // [{ url, pathname, name, size, previewUrl }]
     consentTelemedicine: false,
     consentLgpd: false,
     consentTerms: false,
@@ -39,28 +40,111 @@ const initialData = {
 export default function AgendarPage() {
     const [step, setStep] = useState(1);
     const [data, setData] = useState(initialData);
+    const [paymentReturn, setPaymentReturn] = useState("");
+    const [paymentSessionId, setPaymentSessionId] = useState("");
     const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
+        let restoredData = initialData;
+        let restoredStep = 1;
+
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                setData({ ...initialData, ...parsed.data });
-                if (parsed.step && parsed.step < 6) setStep(parsed.step);
+                restoredData = { ...initialData, ...parsed.data };
+                if (parsed.step) restoredStep = parsed.step;
             }
         } catch (e) {
             // ignore
         }
+
+        const params = new URLSearchParams(window.location.search);
+        const consultaId = Number(params.get("consulta"));
+        const payment = params.get("payment") || "";
+        const sessionId = params.get("session_id") || "";
+
+        if (consultaId) {
+            restoredData = { ...restoredData, consultaId };
+            restoredStep = 6;
+        }
+
+        if (payment === "stripe_cancel") {
+            restoredStep = 6;
+        }
+
+        setData(restoredData);
+        setStep(Math.min(steps.length, Math.max(1, restoredStep)));
+        setPaymentReturn(payment);
+        setPaymentSessionId(sessionId);
         setHydrated(true);
     }, []);
+
+    useEffect(() => {
+        if (!hydrated || paymentReturn !== "stripe_success" || !data.consultaId) {
+            return;
+        }
+
+        let active = true;
+
+        const verifyReturnedPayment = async () => {
+            try {
+                if (paymentSessionId) {
+                    const confirmationResponse = await fetch(
+                        "/api/payments/confirm",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                consultationId: data.consultaId,
+                                sessionId: paymentSessionId
+                            })
+                        }
+                    );
+                    const confirmationBody = await confirmationResponse
+                        .json()
+                        .catch(() => ({}));
+
+                    if (!active) return;
+
+                    if (confirmationBody.paid) {
+                        setStep(7);
+                        return;
+                    }
+                }
+
+                const response = await fetch(`/api/consultations/${data.consultaId}`);
+                const body = await response.json().catch(() => ({}));
+
+                if (!active || !response.ok) return;
+
+                if (
+                    body.payment_status === "paid" ||
+                    body.status === "paid" ||
+                    body.status === "scheduled"
+                ) {
+                    setStep(7);
+                } else {
+                    setStep(6);
+                }
+            } catch (e) {
+                if (active) setStep(6);
+            }
+        };
+
+        verifyReturnedPayment();
+
+        return () => {
+            active = false;
+        };
+    }, [data.consultaId, hydrated, paymentReturn, paymentSessionId]);
 
     useEffect(() => {
         if (!hydrated) return;
         try {
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify({ step, data })
+                JSON.stringify({ step, data: getSerializableData(data) })
             );
         } catch (e) {
             // ignore
@@ -75,7 +159,9 @@ export default function AgendarPage() {
         <Layout>
             <SEO
                 title="Agendar Consulta | Dra. Lorraine Souza"
-                description="Agende sua videoconsulta dermatológica em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
+                description="Agende sua videoconsulta de cosmeatria em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
+                image="/lolo-portrait-consulta.jpg"
+                url="/consulta/agendar"
             />
 
             <div className="bg-[#FAF6F0] text-[#1C1917] min-h-screen pt-32 pb-24">
@@ -145,6 +231,8 @@ export default function AgendarPage() {
                         {step === 6 && (
                             <StepPayment
                                 data={data}
+                                paymentReturn={paymentReturn}
+                                paymentSessionId={paymentSessionId}
                                 onNext={next}
                                 onBack={back}
                             />
@@ -246,7 +334,7 @@ function StepProgress({ currentStep }) {
 
 function Field({ label, required, hint, children }) {
     return (
-        <label className="block">
+        <div className="block">
             <div className="flex items-baseline justify-between mb-2">
                 <span className="text-xs uppercase tracking-[0.2em] text-[#1C1917] font-medium">
                     {label}
@@ -261,7 +349,7 @@ function Field({ label, required, hint, children }) {
                 )}
             </div>
             {children}
-        </label>
+        </div>
     );
 }
 
@@ -271,7 +359,118 @@ const inputClass =
 const textareaClass =
     "w-full px-4 py-3 bg-[#FAF6F0] border border-[#E7E2D9] rounded-none text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#9A4639] transition-colors resize-none";
 
-const selectClass = inputClass + " cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22><path d=%22M1 1l4 4 4-4%22 stroke=%22%239A4639%22 fill=%22none%22 stroke-width=%221.2%22/></svg>')] bg-no-repeat bg-[right_0.25rem_center]";
+function getSerializableData(data) {
+    const { skinType, ...serializableData } = data;
+
+    return {
+        ...serializableData,
+        photos: (serializableData.photos || []).map(
+            ({ previewUrl, ...photo }) => photo
+        )
+    };
+}
+
+function FormSelect({
+    value,
+    onChange,
+    options,
+    placeholder = "Selecione"
+}) {
+    const [open, setOpen] = useState(false);
+    const selectRef = useRef(null);
+    const selected = options.find((option) => option.value === value);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const closeOnOutsideClick = (event) => {
+            if (!selectRef.current?.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", closeOnOutsideClick);
+        return () =>
+            document.removeEventListener("mousedown", closeOnOutsideClick);
+    }, [open]);
+
+    const choose = (nextValue) => {
+        onChange(nextValue);
+        setOpen(false);
+    };
+
+    return (
+        <div ref={selectRef} className="relative">
+            <button
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                onClick={() => setOpen((current) => !current)}
+                onKeyDown={(event) => {
+                    if (event.key === "Escape") setOpen(false);
+                }}
+                className="group flex w-full items-center justify-between gap-4 border-0 border-b border-[#E7E2D9] bg-transparent px-0 py-3 text-left text-[#1C1917] transition-colors hover:border-[#CBB9AE] focus:outline-none focus:border-[#9A4639]"
+            >
+                <span className={selected ? "" : "text-[#A8A29E]"}>
+                    {selected?.label || placeholder}
+                </span>
+                <span
+                    aria-hidden
+                    className={`h-2 w-2 shrink-0 border-b border-r border-[#9A4639] transition-transform ${
+                        open
+                            ? "rotate-[225deg] translate-y-1"
+                            : "rotate-45 -translate-y-0.5"
+                    }`}
+                />
+            </button>
+
+            {open && (
+                <div
+                    role="listbox"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 border border-[#E7E2D9] bg-[#FAF6F0] shadow-[0_18px_40px_rgba(28,25,23,0.08)]"
+                >
+                    <button
+                        type="button"
+                        role="option"
+                        aria-selected={!value}
+                        onClick={() => choose("")}
+                        className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
+                            value === ""
+                                ? "bg-[#F3EADB] text-[#9A4639]"
+                                : "text-[#A8A29E] hover:bg-[#F3EADB]/70 hover:text-[#1C1917]"
+                        }`}
+                    >
+                        {placeholder}
+                    </button>
+                    {options.map((option) => (
+                        <button
+                            key={option.value}
+                            type="button"
+                            role="option"
+                            aria-selected={value === option.value}
+                            onClick={() => choose(option.value)}
+                            className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
+                                value === option.value
+                                    ? "bg-[#F3EADB] text-[#9A4639]"
+                                    : "text-[#1C1917] hover:bg-[#F3EADB]/70 hover:text-[#9A4639]"
+                            }`}
+                        >
+                            {option.label}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+const concernDurationOptions = [
+    { value: "Menos de 1 mês", label: "Menos de 1 mês" },
+    { value: "1 a 6 meses", label: "1 a 6 meses" },
+    { value: "6 meses a 1 ano", label: "6 meses a 1 ano" },
+    { value: "1 a 5 anos", label: "1 a 5 anos" },
+    { value: "Mais de 5 anos", label: "Mais de 5 anos" }
+];
 
 function StepActions({
     onBack,
@@ -420,22 +619,21 @@ function StepAboutYou({ data, update, onNext }) {
 /* ─── Step 2 · Concern ───────────────────────────────────────────────── */
 
 function StepConcern({ data, update, onNext, onBack }) {
-    const valid = data.mainConcern && data.concernDuration;
     const submit = (e) => {
         e.preventDefault();
-        if (valid) onNext();
+        onNext();
     };
     return (
         <form onSubmit={submit}>
             <StepHeader
                 eyebrow="Passo 02 · Queixa"
                 title="O que te trouxe até aqui?"
-                description="Conte com suas palavras. Quanto mais contexto, melhor conseguimos te ajudar."
+                description="Conte com suas palavras se quiser. Quanto mais contexto, melhor conseguimos te ajudar, mas você também pode pular esta etapa."
             />
             <div className="space-y-8">
                 <Field
                     label="Principal queixa ou motivo da consulta"
-                    required
+                    hint="Opcional"
                 >
                     <textarea
                         className={textareaClass}
@@ -445,27 +643,19 @@ function StepConcern({ data, update, onNext, onBack }) {
                         onChange={(e) =>
                             update({ mainConcern: e.target.value })
                         }
-                        required
                     />
                 </Field>
-                <Field label="Há quanto tempo você percebe isso?" required>
-                    <select
-                        className={selectClass}
+                <Field
+                    label="Há quanto tempo você percebe isso?"
+                    hint="Opcional"
+                >
+                    <FormSelect
                         value={data.concernDuration}
-                        onChange={(e) =>
-                            update({ concernDuration: e.target.value })
+                        onChange={(value) =>
+                            update({ concernDuration: value })
                         }
-                        required
-                    >
-                        <option value="">Selecione</option>
-                        <option value="Menos de 1 mês">Menos de 1 mês</option>
-                        <option value="1 a 6 meses">1 a 6 meses</option>
-                        <option value="6 meses a 1 ano">
-                            6 meses a 1 ano
-                        </option>
-                        <option value="1 a 5 anos">1 a 5 anos</option>
-                        <option value="Mais de 5 anos">Mais de 5 anos</option>
-                    </select>
+                        options={concernDurationOptions}
+                    />
                 </Field>
                 <Field
                     label="Já fez algum tratamento para isso?"
@@ -482,7 +672,7 @@ function StepConcern({ data, update, onNext, onBack }) {
                     />
                 </Field>
             </div>
-            <StepActions onBack={onBack} nextDisabled={!valid} />
+            <StepActions onBack={onBack} />
         </form>
     );
 }
@@ -544,22 +734,6 @@ function StepHealth({ data, update, onNext, onBack }) {
                         />
                     </Field>
                 </div>
-                <Field label="Como você descreveria sua pele?">
-                    <select
-                        className={selectClass}
-                        value={data.skinType}
-                        onChange={(e) =>
-                            update({ skinType: e.target.value })
-                        }
-                    >
-                        <option value="">Selecione</option>
-                        <option value="Seca">Seca</option>
-                        <option value="Mista">Mista</option>
-                        <option value="Oleosa">Oleosa</option>
-                        <option value="Sensível">Sensível</option>
-                        <option value="Não sei">Não sei</option>
-                    </select>
-                </Field>
             </div>
             <StepActions onBack={onBack} />
         </form>
@@ -569,40 +743,167 @@ function StepHealth({ data, update, onNext, onBack }) {
 /* ─── Step 4 · Photos (Vercel Blob upload) ───────────────────────────── */
 
 const MAX_PHOTOS = 6;
+const MAX_PHOTO_SIZE = 10 * 1024 * 1024;
+const ACCEPTED_PHOTO_TYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif"
+];
+const ACCEPTED_PHOTO_EXTENSIONS = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp",
+    ".heic",
+    ".heif"
+];
+const PHOTO_CONTENT_TYPES_BY_EXTENSION = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".heic": "image/heic",
+    ".heif": "image/heif"
+};
+
+function formatFileSize(bytes) {
+    if (!bytes) return "0 MB";
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function isAcceptedPhoto(file) {
+    const extension = getFileExtension(file.name);
+
+    return (
+        ACCEPTED_PHOTO_TYPES.includes(file.type) ||
+        ACCEPTED_PHOTO_EXTENSIONS.includes(extension)
+    );
+}
+
+function getFileExtension(fileName) {
+    return fileName.includes(".")
+        ? fileName.slice(fileName.lastIndexOf(".")).toLowerCase()
+        : "";
+}
+
+function getPhotoContentType(file) {
+    return (
+        file.type || PHOTO_CONTENT_TYPES_BY_EXTENSION[getFileExtension(file.name)]
+    );
+}
+
+function getSafePhotoPath(file, index) {
+    const extension = getFileExtension(file.name);
+    const baseName = file.name
+        .replace(/\.[^/.]+$/, "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9-]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase()
+        .slice(0, 48);
+
+    return `consulta-photos/${Date.now()}-${index}-${
+        baseName || "foto"
+    }${extension}`;
+}
 
 function StepPhotos({ data, update, onNext, onBack }) {
     const inputRef = useRef(null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState("");
+    const [dragActive, setDragActive] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState("");
 
     const handleFiles = async (files) => {
         setError("");
+        setUploadStatus("");
         const remaining = MAX_PHOTOS - data.photos.length;
-        const picked = Array.from(files).slice(0, remaining);
+        const allFiles = Array.from(files);
+        const picked = allFiles.slice(0, remaining);
         if (picked.length === 0) return;
+
+        if (allFiles.length > remaining) {
+            setError(
+                `Você pode enviar mais ${remaining} ${
+                    remaining === 1 ? "foto" : "fotos"
+                }. As imagens extras não foram adicionadas.`
+            );
+        }
+
+        const invalidFile = picked.find((file) => !isAcceptedPhoto(file));
+        if (invalidFile) {
+            setError(
+                `${invalidFile.name} não está em um formato compatível. Envie JPG, PNG, WEBP, HEIC ou HEIF.`
+            );
+            return;
+        }
+
+        const oversizedFile = picked.find((file) => file.size > MAX_PHOTO_SIZE);
+        if (oversizedFile) {
+            setError(
+                `${oversizedFile.name} tem ${formatFileSize(
+                    oversizedFile.size
+                )}. O limite é 10 MB por imagem.`
+            );
+            return;
+        }
 
         setUploading(true);
         try {
             const uploaded = [];
-            for (const file of picked) {
+            for (const [index, file] of picked.entries()) {
+                setUploadStatus(
+                    `Enviando ${index + 1} de ${picked.length}: ${file.name}`
+                );
+                const controller = new AbortController();
+                const timeout = window.setTimeout(
+                    () => controller.abort(),
+                    45000
+                );
+
                 // Client uploads direct to Blob; our API just signs a token.
-                const blob = await upload(file.name, file, {
-                    access: "public",
-                    handleUploadUrl: "/api/photos/upload"
-                });
-                uploaded.push({
-                    url: blob.url,
-                    pathname: blob.pathname,
-                    name: file.name,
-                    size: file.size
-                });
+                try {
+                    const blob = await upload(getSafePhotoPath(file, index), file, {
+                        access: "private",
+                        contentType: getPhotoContentType(file),
+                        handleUploadUrl: "/api/photos/upload",
+                        abortSignal: controller.signal,
+                        onUploadProgress: ({ percentage }) => {
+                            setUploadStatus(
+                                `Enviando ${index + 1} de ${picked.length}: ${
+                                    file.name
+                                } · ${Math.min(Math.round(percentage), 100)}%`
+                            );
+                        }
+                    });
+                    uploaded.push({
+                        url: blob.url,
+                        pathname: blob.pathname,
+                        name: file.name,
+                        size: file.size,
+                        previewUrl: URL.createObjectURL(file)
+                    });
+                } finally {
+                    window.clearTimeout(timeout);
+                }
             }
             update({ photos: [...data.photos, ...uploaded] });
+            setUploadStatus(
+                `${uploaded.length} ${
+                    uploaded.length === 1 ? "foto enviada" : "fotos enviadas"
+                } com sucesso.`
+            );
         } catch (err) {
             console.error(err);
             setError(
-                err?.message ||
-                    "Não conseguimos enviar suas fotos. Tente novamente."
+                err?.name === "AbortError"
+                    ? "O envio demorou demais e foi interrompido. Tente novamente com uma conexão estável ou uma imagem menor."
+                    : err?.message ||
+                          "Não conseguimos enviar suas fotos. Tente novamente."
             );
         } finally {
             setUploading(false);
@@ -610,7 +911,24 @@ function StepPhotos({ data, update, onNext, onBack }) {
         }
     };
 
+    const handleDrop = (event) => {
+        event.preventDefault();
+        setDragActive(false);
+
+        if (uploading || slotsLeft === 0) return;
+
+        const files = event.dataTransfer?.files;
+        if (files?.length) {
+            handleFiles(files);
+        }
+    };
+
     const removePhoto = (pathname) => {
+        const photo = data.photos.find((p) => p.pathname === pathname);
+        if (photo?.previewUrl) {
+            URL.revokeObjectURL(photo.previewUrl);
+        }
+
         update({
             photos: data.photos.filter((p) => p.pathname !== pathname)
         });
@@ -628,21 +946,49 @@ function StepPhotos({ data, update, onNext, onBack }) {
 
             {/* Dropzone / picker */}
             <div
-                className={`border border-dashed border-[#9A4639]/40 bg-[#FAF6F0] p-10 text-center transition-colors ${
+                className={`border border-dashed bg-[#FAF6F0] p-10 text-center transition-colors ${
                     uploading
                         ? "opacity-60"
+                        : dragActive
+                        ? "border-[#9A4639] bg-[#F3EADB]"
                         : slotsLeft > 0
-                        ? "hover:bg-[#F3EADB]/60 cursor-pointer"
+                        ? "border-[#9A4639]/40 hover:bg-[#F3EADB]/60 cursor-pointer"
                         : "opacity-60 cursor-not-allowed"
                 }`}
+                role="button"
+                tabIndex={slotsLeft > 0 && !uploading ? 0 : -1}
                 onClick={() => {
                     if (!uploading && slotsLeft > 0) inputRef.current?.click();
                 }}
+                onKeyDown={(e) => {
+                    if (
+                        (e.key === "Enter" || e.key === " ") &&
+                        !uploading &&
+                        slotsLeft > 0
+                    ) {
+                        e.preventDefault();
+                        inputRef.current?.click();
+                    }
+                }}
+                onDragEnter={(e) => {
+                    e.preventDefault();
+                    if (!uploading && slotsLeft > 0) setDragActive(true);
+                }}
+                onDragOver={(e) => {
+                    e.preventDefault();
+                    if (!uploading && slotsLeft > 0) setDragActive(true);
+                }}
+                onDragLeave={(e) => {
+                    e.preventDefault();
+                    if (e.currentTarget.contains(e.relatedTarget)) return;
+                    setDragActive(false);
+                }}
+                onDrop={handleDrop}
             >
                 <input
                     ref={inputRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif"
                     multiple
                     className="hidden"
                     disabled={uploading || slotsLeft === 0}
@@ -662,6 +1008,12 @@ function StepPhotos({ data, update, onNext, onBack }) {
                     JPG · PNG · HEIC · até 10 MB por imagem
                 </div>
             </div>
+
+            {uploadStatus && (
+                <div className="mt-4 border-l-2 border-[#9A4639] pl-4 py-3 text-sm text-[#57534E]">
+                    {uploadStatus}
+                </div>
+            )}
 
             {error && (
                 <div className="mt-4 border-l-2 border-[#9A4639] pl-4 py-3 text-sm text-[#9A4639]">
@@ -683,7 +1035,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                             >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src={p.url}
+                                    src={p.previewUrl || p.url}
                                     alt={p.name}
                                     className="w-full h-full object-cover"
                                 />
@@ -808,7 +1160,7 @@ function StepConsent({ data, update, onNext, onBack }) {
             const r = await fetch("/api/consulta", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data })
+                body: JSON.stringify({ data: getSerializableData(data) })
             });
             if (!r.ok) {
                 const body = await r.json().catch(() => ({}));
@@ -924,7 +1276,138 @@ function ConsentCheckbox({ checked, onChange, children }) {
 
 /* ─── Step 6 · Payment ───────────────────────────────────────────────── */
 
-function StepPayment({ data, onNext, onBack }) {
+function StepPayment({
+    data,
+    paymentReturn,
+    paymentSessionId,
+    onNext,
+    onBack
+}) {
+    const [checkout, setCheckout] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [checking, setChecking] = useState(false);
+    const [error, setError] = useState("");
+    const [notice, setNotice] = useState("");
+
+    useEffect(() => {
+        if (!data.consultaId) {
+            setError("Salve o formulário antes de iniciar o pagamento.");
+            return;
+        }
+
+        const loadCheckout = async () => {
+            if (paymentReturn === "stripe_success") {
+                setCheckout(null);
+                setLoading(false);
+                return;
+            }
+
+            setLoading(true);
+            setError("");
+            setNotice("");
+
+            try {
+                const response = await fetch("/api/payments/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ consultationId: data.consultaId })
+                });
+                const body = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    throw new Error(
+                        body.missing?.length
+                            ? `Configure: ${body.missing.join(", ")}`
+                            : body.error || "Não foi possível preparar o checkout."
+                    );
+                }
+
+                if (body.alreadyPaid) {
+                    onNext();
+                    return;
+                }
+
+                setCheckout(body);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCheckout();
+    }, [data.consultaId, onNext, paymentReturn]);
+
+    useEffect(() => {
+        if (paymentReturn === "stripe_success") {
+            setNotice(
+                paymentSessionId
+                    ? "Pagamento concluído no Stripe. Estamos conferindo a confirmação para liberar a agenda."
+                    : "Pagamento concluído no Stripe. Clique em verificar pagamento para conferir a confirmação e liberar a agenda."
+            );
+        }
+
+        if (paymentReturn === "stripe_cancel") {
+            setNotice(
+                "Checkout cancelado. Você pode abrir o pagamento novamente quando quiser continuar."
+            );
+        }
+    }, [paymentReturn, paymentSessionId]);
+
+    const checkPayment = async () => {
+        setChecking(true);
+        setError("");
+        setNotice("");
+
+        try {
+            if (paymentSessionId) {
+                const confirmationResponse = await fetch("/api/payments/confirm", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        consultationId: data.consultaId,
+                        sessionId: paymentSessionId
+                    })
+                });
+                const confirmationBody = await confirmationResponse
+                    .json()
+                    .catch(() => ({}));
+
+                if (!confirmationResponse.ok) {
+                    throw new Error(
+                        confirmationBody.error ||
+                            "Não foi possível confirmar o pagamento."
+                    );
+                }
+
+                if (confirmationBody.paid) {
+                    onNext();
+                    return;
+                }
+            }
+
+            const response = await fetch(`/api/consultations/${data.consultaId}`);
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(body.error || "Não foi possível verificar o pagamento.");
+            }
+
+            if (body.payment_status === "paid" || body.status === "paid" || body.status === "scheduled") {
+                onNext();
+                return;
+            }
+
+            setNotice(
+                "Ainda não recebemos a confirmação do pagamento. Assim que o webhook confirmar, você poderá avançar para a agenda."
+            );
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setChecking(false);
+        }
+    };
+
     return (
         <div>
             <StepHeader
@@ -935,13 +1418,13 @@ function StepPayment({ data, onNext, onBack }) {
 
             <div className="bg-[#1C1917] text-[#FAF6F0] p-8 lg:p-10">
                 <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium mb-6">
-                    Videoconsulta · Dermatologia
+                    Videoconsulta · Cosmeatria
                 </div>
 
                 <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">
                     <div className="flex items-baseline gap-3">
                         <span className="text-5xl lg:text-6xl font-light text-[#FAF6F0] tracking-tight">
-                            R$ 300
+                            {CONSULTATION_PRICE_LABEL}
                         </span>
                         <span className="text-sm text-[#FAF6F0]/60 uppercase tracking-[0.22em]">
                             Pagamento único
@@ -959,20 +1442,53 @@ function StepPayment({ data, onNext, onBack }) {
             </div>
 
             <div className="mt-6 border-l-2 border-[#9A4639] pl-5 py-2 text-sm text-[#57534E] leading-relaxed">
-                A integração com o checkout será ativada em breve. Por
-                enquanto, clique em{" "}
-                <span className="text-[#1C1917] font-medium">
-                    Simular pagamento
-                </span>{" "}
-                para conhecer o próximo passo do fluxo.
+                {loading
+                    ? "Preparando checkout seguro..."
+                    : "O pagamento é confirmado por webhook. Depois de concluir o checkout, volte aqui para verificar a confirmação e liberar a agenda."}
             </div>
 
-            <StepActions
-                onBack={onBack}
-                onNext={onNext}
-                nextType="button"
-                nextLabel="Simular pagamento →"
-            />
+            {error && (
+                <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
+                    — {error}
+                </div>
+            )}
+
+            {notice && (
+                <div className="mt-6 p-4 border border-[#E7E2D9] bg-[#FAF6F0] text-sm text-[#57534E] leading-relaxed">
+                    {notice}
+                </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-8 mt-10 border-t border-[#E7E2D9]">
+                <button
+                    type="button"
+                    onClick={onBack}
+                    className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                >
+                    ← Voltar
+                </button>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    {checkout?.checkoutUrl && (
+                        <a
+                            href={checkout.checkoutUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
+                        >
+                            Abrir checkout
+                        </a>
+                    )}
+                    <button
+                        type="button"
+                        onClick={checkPayment}
+                        disabled={!data.consultaId || checking}
+                        className="border border-[#1C1917] hover:border-[#9A4639] disabled:border-[#E7E2D9] disabled:text-[#A8A29E] text-[#1C1917] hover:text-[#9A4639] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                    >
+                        {checking ? "Verificando..." : "Verificar pagamento →"}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
@@ -980,6 +1496,47 @@ function StepPayment({ data, onNext, onBack }) {
 /* ─── Step 7 · Schedule ──────────────────────────────────────────────── */
 
 function StepSchedule({ data, onBack }) {
+    const [option, setOption] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (!data.consultaId) {
+            setError("Salve o formulário antes de escolher um horário.");
+            return;
+        }
+
+        const loadScheduling = async () => {
+            setLoading(true);
+            setError("");
+
+            try {
+                const response = await fetch("/api/scheduling/options", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ consultationId: data.consultaId })
+                });
+                const body = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    throw new Error(
+                        body.missing?.length
+                            ? `Configure: ${body.missing.join(", ")}`
+                            : body.error || "Não foi possível preparar a agenda."
+                    );
+                }
+
+                setOption(body);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadScheduling();
+    }, [data.consultaId]);
+
     return (
         <div>
             <div className="mb-10">
@@ -995,17 +1552,37 @@ function StepSchedule({ data, onBack }) {
                 </h2>
                 <p className="text-[#57534E] leading-relaxed max-w-xl">
                     Agora é só escolher o melhor horário na agenda da Dra.
-                    Lorraine. O widget do Calendly aparecerá aqui assim que a
-                    integração for ativada.
+                    Lorraine. A disponibilidade é controlada no provedor de
+                    agenda conectado.
                 </p>
             </div>
 
             <div className="border border-[#E7E2D9] bg-[#FAF6F0] p-12 text-center">
                 <CalendarGlyph />
                 <div className="mt-4 text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
-                    Widget de agendamento · Calendly
+                    {loading
+                        ? "Carregando agenda..."
+                        : `Agendamento · ${
+                              option?.providerLabel || "Google Calendar"
+                          }`}
                 </div>
+                {option?.bookingUrl && (
+                    <a
+                        href={option.bookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-6 inline-flex bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                    >
+                        Escolher horário
+                    </a>
+                )}
             </div>
+
+            {error && (
+                <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
+                    — {error}
+                </div>
+            )}
 
             <div className="flex justify-start pt-8 mt-10 border-t border-[#E7E2D9]">
                 <button
