@@ -205,11 +205,11 @@ export default function Home() {
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
                                     <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
-                                        Da Zona Leste de São Paulo ao{" "}
+                                        Da Zona Leste à UNICAMP: uma jornada de{" "}
                                         <span className="italic">
-                                            1º lugar
-                                        </span>{" "}
-                                        em Dermato na UNICAMP.
+                                            coragem
+                                        </span>
+                                        , disciplina e propósito.
                                     </h2>
                                 </MotionBTTContainer>
                             </div>
