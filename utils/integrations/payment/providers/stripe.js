@@ -167,7 +167,7 @@ export const stripePaymentProvider = {
         appendParam(
             params,
             "line_items[0][price_data][product_data][name]",
-            "Consulta Online de Cosmeatria"
+            "Consulta Online com Dra Lorraine Souza"
         );
         appendParam(
             params,
