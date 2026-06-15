@@ -182,8 +182,7 @@ export const stripePaymentProvider = {
                 headers: {
                     Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
                     "Content-Type": "application/x-www-form-urlencoded",
-                    "Stripe-Version":
-                        process.env.STRIPE_API_VERSION || STRIPE_API_VERSION
+                    "Stripe-Version": STRIPE_API_VERSION
                 },
                 body: params.toString()
             }
