@@ -56,7 +56,7 @@ export const Footer = () => {
                             Dra. Lorraine Souza
                             <br />
                             <span className="text-[#FAF6F0]/50 text-sm">
-                                Dermatologia · Formada pela UNICAMP
+                                Cosmeatria · R3 em Dermatologia na UNICAMP
                             </span>
                         </p>
                         <p className="text-[#FAF6F0]/40 text-xs leading-relaxed mt-8 max-w-sm">
@@ -93,7 +93,7 @@ export const Footer = () => {
                 <div className="border-t border-[#FAF6F0]/10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#FAF6F0]/40">
                     <span>© {year} Dra. Lorraine Souza. Todos os direitos reservados.</span>
                     <span className="tracking-[0.24em] uppercase">
-                        Dermatologia · Mentoria · Conteúdo
+                        Cosmeatria · Mentoria · Conteúdo
                     </span>
                 </div>
             </SectionContainer>

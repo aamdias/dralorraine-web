@@ -7,7 +7,7 @@ export default function TermsOfUse() {
         <Layout>
             <SEO
                 title="Termos de Uso | Dra. Lorraine"
-                description="Termos e condições do serviço de consulta dermatológica online."
+                description="Termos e condições do serviço de consulta online de cosmeatria."
             />
             <div className="main-wrapper bg-[#FBF7F2] pt-28 pb-20 min-h-screen">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">
@@ -43,7 +43,7 @@ export default function TermsOfUse() {
                                 </h2>
                                 <p>
                                     O serviço consiste em uma videoconsulta
-                                    dermatológica de até 40 minutos, realizada via
+                                    de cosmeatria de até 40 minutos, realizada via
                                     videoconferência por profissional regularmente
                                     inscrito no Conselho Regional de Medicina.
                                 </p>

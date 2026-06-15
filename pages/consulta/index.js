@@ -98,8 +98,8 @@ export default function ConsultaPage() {
     return (
         <Layout>
             <SEO
-                title="Consulta Dermatológica Online | Dra. Lorraine"
-                description="Agende uma videoconsulta com a Dra. Lorraine. Dermatologia clínica, atendimento humanizado e acompanhamento pós-consulta."
+                title="Consulta Online de Cosmeatria | Dra. Lorraine"
+                description="Agende uma videoconsulta de cosmeatria com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP."
             />
             <div className="main-wrapper relative z-10 bg-[#FAF6F0] text-[#1C1917]">
                 {/* ============ HERO ============ */}
@@ -109,7 +109,7 @@ export default function ConsultaPage() {
                             <div className="order-2 lg:order-1">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
                                     <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-8">
-                                        Dermatologia clínica · Teleconsulta
+                                        Cosmeatria · Teleconsulta
                                     </div>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
@@ -127,8 +127,10 @@ export default function ConsultaPage() {
                                 >
                                     <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
                                         Videoconsulta com a Dra. Lorraine Souza,
-                                        dermatologista formada na UNICAMP. Atendimento
-                                        humanizado, sem filas, do conforto da sua casa.
+                                        médica formada na UNICAMP e R3 em
+                                        Dermatologia na UNICAMP. Atendimento
+                                        humanizado, sem filas, do conforto da sua
+                                        casa.
                                     </p>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.6 }}>
@@ -372,9 +374,9 @@ export default function ConsultaPage() {
                                         </div>
                                         <div>
                                             <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
-                                                Especialidade
+                                                Foco
                                             </dt>
-                                            <dd className="font-medium">Dermatologia</dd>
+                                            <dd className="font-medium">Cosmeatria</dd>
                                         </div>
                                     </dl>
                                 </div>

@@ -76,7 +76,7 @@ export default function AgendarPage() {
         <Layout>
             <SEO
                 title="Agendar Consulta | Dra. Lorraine Souza"
-                description="Agende sua videoconsulta dermatológica em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
+                description="Agende sua videoconsulta de cosmeatria em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
                 image="/lolo-portrait-consulta.jpg"
                 url="/consulta/agendar"
             />
@@ -1274,7 +1274,7 @@ function StepPayment({ data, onNext, onBack }) {
 
             <div className="bg-[#1C1917] text-[#FAF6F0] p-8 lg:p-10">
                 <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium mb-6">
-                    Videoconsulta · Dermatologia
+                    Videoconsulta · Cosmeatria
                 </div>
 
                 <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">

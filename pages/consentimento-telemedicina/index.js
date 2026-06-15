@@ -7,7 +7,7 @@ export default function TelemedicineConsent() {
         <Layout>
             <SEO
                 title="Consentimento para Telemedicina | Dra. Lorraine"
-                description="Termo de consentimento informado para atendimento dermatológico por telemedicina, conforme a Resolução CFM 2.314/2022."
+                description="Termo de consentimento informado para atendimento em cosmeatria por telemedicina, conforme a Resolução CFM 2.314/2022."
             />
             <div className="main-wrapper bg-[#FBF7F2] pt-28 pb-20 min-h-screen">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">

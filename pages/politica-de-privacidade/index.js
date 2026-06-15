@@ -30,8 +30,9 @@ export default function PrivacyPolicy() {
                                 </h2>
                                 <p>
                                     Esta Política descreve como a Dra. Lorraine
-                                    Souza, dermatologista inscrita no CRM-SP sob o
-                                    nº [a definir], trata os dados pessoais dos
+                                    Souza, médica inscrita no CRM-SP sob o nº [a
+                                    definir] e R3 em Dermatologia na UNICAMP,
+                                    trata os dados pessoais dos
                                     pacientes atendidos através deste site em
                                     conformidade com a Lei Geral de Proteção de
                                     Dados (Lei nº 13.709/2018 — LGPD) e a
@@ -83,7 +84,7 @@ export default function PrivacyPolicy() {
                                 </h2>
                                 <ul className="list-disc pl-6 space-y-1">
                                     <li>
-                                        Prestar o atendimento dermatológico
+                                        Prestar o atendimento em cosmeatria
                                         solicitado.
                                     </li>
                                     <li>
