@@ -98,8 +98,8 @@ export default function ConsultaPage() {
     return (
         <Layout>
             <SEO
-                title="Consulta Online de Cosmeatria | Dra. Lorraine"
-                description="Agende uma videoconsulta de cosmeatria com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP."
+                title="Consulta Online de Dermatologia | Dra. Lorraine"
+                description="Agende uma videoconsulta de dermatologia com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP."
             />
             <div className="main-wrapper relative z-10 bg-[#FAF6F0] text-[#1C1917]">
                 {/* ============ HERO ============ */}
@@ -109,7 +109,7 @@ export default function ConsultaPage() {
                             <div className="order-1">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
                                     <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-8">
-                                        Cosmeatria · Teleconsulta
+                                        Dermatologia · Teleconsulta
                                     </div>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
@@ -376,7 +376,7 @@ export default function ConsultaPage() {
                                             <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
                                                 Foco
                                             </dt>
-                                            <dd className="font-medium">Cosmeatria</dd>
+                                            <dd className="font-medium">Dermatologia</dd>
                                         </div>
                                     </dl>
                                 </div>

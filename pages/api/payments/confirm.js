@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { getPaymentProvider } from "@utils/integrations/payment";
+import { safeNotifyConsultaPaymentConfirmed } from "@utils/consultaNotifications";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -34,7 +35,9 @@ export default async function handler(req, res) {
         }
 
         const { rows } = await sql`
-            SELECT id, status, payment_status
+            SELECT
+                id, name, email, phone, city, main_concern,
+                status, payment_status
             FROM consultations
             WHERE id = ${consultationId}
             LIMIT 1;
@@ -76,6 +79,19 @@ export default async function handler(req, res) {
                 paid_at = COALESCE(paid_at, ${confirmation.paidAt})
             WHERE id = ${consultationId};
         `;
+
+        if (confirmation.paymentStatus === "paid") {
+            await safeNotifyConsultaPaymentConfirmed({
+                id: consultation.id,
+                name: consultation.name,
+                email: consultation.email,
+                phone: consultation.phone,
+                city: consultation.city,
+                mainConcern: consultation.main_concern,
+                paymentProvider: confirmation.provider,
+                paymentProviderRef: confirmation.providerRef
+            });
+        }
 
         res.status(200).json({
             paid: confirmation.paymentStatus === "paid",

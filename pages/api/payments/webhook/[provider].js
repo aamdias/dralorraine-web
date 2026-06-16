@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { getPaymentProvider } from "@utils/integrations/payment";
+import { safeNotifyConsultaPaymentConfirmed } from "@utils/consultaNotifications";
 
 export const config = {
     api: {
@@ -43,6 +44,15 @@ export default async function handler(req, res) {
             rawBody,
             body
         });
+        const { rows } = await sql`
+            SELECT
+                id, name, email, phone, city, main_concern,
+                status, payment_status
+            FROM consultations
+            WHERE id = ${event.consultationId}
+            LIMIT 1;
+        `;
+        const consultation = rows[0];
 
         await sql`
             UPDATE consultations
@@ -57,6 +67,25 @@ export default async function handler(req, res) {
                 hotmart_transaction_id = COALESCE(hotmart_transaction_id, ${event.providerRef})
             WHERE id = ${event.consultationId};
         `;
+
+        if (
+            event.paymentStatus === "paid" &&
+            consultation &&
+            consultation.payment_status !== "paid" &&
+            consultation.status !== "paid" &&
+            consultation.status !== "scheduled"
+        ) {
+            await safeNotifyConsultaPaymentConfirmed({
+                id: consultation.id,
+                name: consultation.name,
+                email: consultation.email,
+                phone: consultation.phone,
+                city: consultation.city,
+                mainConcern: consultation.main_concern,
+                paymentProvider: event.provider,
+                paymentProviderRef: event.providerRef
+            });
+        }
 
         res.status(200).json({ ok: true });
     } catch (err) {

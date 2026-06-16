@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Pagamento confirmado</title>
+    </head>
+    <body style="margin:0; padding:0; background:#FAF6F0; color:#1C1917; font-family:Arial, Helvetica, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#FAF6F0; margin:0; padding:0;">
+            <tr>
+                <td align="center" style="padding:32px 16px;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px; background:#FFFFFF; border:1px solid #E7E2D9;">
+                        <tr>
+                            <td style="padding:36px 36px 20px;">
+                                <div style="font-size:12px; line-height:1.4; letter-spacing:0.22em; text-transform:uppercase; color:#9A4639; font-weight:700;">
+                                    Pagamento confirmado
+                                </div>
+                                <h1 style="margin:18px 0 12px; font-size:32px; line-height:1.15; font-weight:400; color:#1C1917;">
+                                    Tudo certo, {{PATIENT_FIRST_NAME}}.
+                                </h1>
+                                <p style="margin:0; font-size:16px; line-height:1.7; color:#57534E;">
+                                    Seu pagamento foi processado com sucesso. Agora falta só escolher o melhor horário para sua videoconsulta com a Dra. Lorraine.
+                                </p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:0 36px 8px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#1C1917; color:#FAF6F0;">
+                                    <tr>
+                                        <td style="padding:28px;">
+                                            <div style="font-size:11px; line-height:1.4; letter-spacing:0.22em; text-transform:uppercase; color:#E4B5AC; font-weight:700;">
+                                                Próximo passo
+                                            </div>
+                                            <p style="margin:16px 0 0; font-size:22px; line-height:1.35; font-weight:400; color:#FAF6F0;">
+                                                Agende sua consulta para garantir o horário que funciona melhor para você.
+                                            </p>
+                                            <p style="margin:12px 0 0; font-size:14px; line-height:1.65; color:#D8D0C7;">
+                                                O link abaixo leva você de volta ao fluxo de agendamento, com seus dados salvos.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 8px;">
+                                <a href="{{SCHEDULING_URL}}" style="display:inline-block; background:#1C1917; color:#FAF6F0; text-decoration:none; padding:15px 24px; font-size:14px; font-weight:700;">
+                                    Escolher meu horário
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 8px;">
+                                <h2 style="margin:0 0 14px; font-size:18px; line-height:1.35; font-weight:400; color:#1C1917;">
+                                    Resumo da sua consulta
+                                </h2>
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Nome</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_NAME}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Email</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_MAIL}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Telefone</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_PHONE}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Valor</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{CONSULTATION_PRICE}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Consulta ID</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{CONSULTATION_ID}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 8px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#FAF6F0; border-left:2px solid #9A4639;">
+                                    <tr>
+                                        <td style="padding:18px 20px;">
+                                            <p style="margin:0; font-size:14px; line-height:1.7; color:#57534E;">
+                                                Para deixar a experiência mais fluida, separe alguns minutos em um ambiente tranquilo para escolher o horário. Depois do agendamento, você receberá as instruções finais para a videoconsulta.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 36px;">
+                                <p style="margin:0; font-size:15px; line-height:1.7; color:#57534E;">
+                                    Obrigada por confiar na Dra. Lorraine. Agora vamos preparar uma consulta tranquila, objetiva e bem personalizada para o que você precisa.
+                                </p>
+                                <p style="margin:20px 0 0; font-size:13px; line-height:1.6; color:#8A8178;">
+                                    Se o botão não funcionar, copie este link no navegador: {{SCHEDULING_URL}}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
