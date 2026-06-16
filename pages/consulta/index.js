@@ -49,10 +49,28 @@ const indications = [
     "Revisão de tratamentos",
 ];
 
+const focusAreas = [
+    {
+        title: "Cosmiatria",
+        description:
+            "Planejamento de cuidados e procedimentos estéticos, como toxina botulínica, preenchimentos, lasers, bioestimuladores e melhora global da qualidade da pele.",
+    },
+    {
+        title: "Dermatologia clínica",
+        description:
+            "Avaliação de acne, rosácea, melasma, dermatites, queda de cabelo, alergias, manchas, pintas e outras queixas comuns da pele, cabelos e unhas.",
+    },
+    {
+        title: "Dermatologia cirúrgica",
+        description:
+            "Orientação sobre câncer de pele, cistos, verrugas, lipomas e lesões que podem precisar de exame presencial, biópsia ou retirada cirúrgica.",
+    },
+];
+
 const nonIndications = [
-    "Lesões suspeitas que exijam biópsia presencial",
-    "Procedimentos estéticos (botox, preenchimento, lasers)",
-    "Cirurgias dermatológicas",
+    "Biópsias e retirada de lesões",
+    "Aplicação de toxina botulínica, preenchimentos, lasers e outros procedimentos",
+    "Cirurgias dermatológicas presenciais",
     "Urgências ou emergências médicas",
 ];
 
@@ -242,6 +260,56 @@ export default function ConsultaPage() {
                     </div>
                 </section>
 
+                {/* ============ FOCUS AREAS ============ */}
+                <section className="py-20 lg:py-24 border-t border-[#E7E2D9]">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
+                            <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
+                                <div>
+                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                        Foco do atendimento
+                                    </div>
+                                    <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                        Dermatologia para tratar, prevenir e{" "}
+                                        <span className="italic text-[#9A4639]">
+                                            planejar
+                                        </span>
+                                        .
+                                    </h2>
+                                    <p className="text-lg text-[#57534E] leading-relaxed">
+                                        Na videoconsulta, a Dra. Lorraine avalia sua
+                                        história, suas fotos e seus objetivos para
+                                        orientar o melhor caminho. Quando houver
+                                        necessidade de procedimento ou cirurgia, você
+                                        recebe uma indicação clara dos próximos passos.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    {focusAreas.map((area, i) => (
+                                        <MotionBTTContainer
+                                            key={area.title}
+                                            transition={{
+                                                delay: 0.2 + i * 0.08,
+                                                duration: 0.5,
+                                            }}
+                                        >
+                                            <div className="border-t border-[#1C1917] pt-6">
+                                                <h3 className="text-xl font-medium tracking-tight text-[#1C1917] mb-3">
+                                                    {area.title}
+                                                </h3>
+                                                <p className="text-[#57534E] leading-relaxed">
+                                                    {area.description}
+                                                </p>
+                                            </div>
+                                        </MotionBTTContainer>
+                                    ))}
+                                </div>
+                            </div>
+                        </MotionBTTContainer>
+                    </div>
+                </section>
+
                 {/* ============ FOR WHOM ============ */}
                 <section className="py-20 lg:py-24 border-t border-[#E7E2D9] bg-[#F3EADB]">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -289,7 +357,7 @@ export default function ConsultaPage() {
                             >
                                 <div>
                                     <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mb-5 pb-5 border-b border-[#E7E2D9]">
-                                        Requer avaliação presencial
+                                        Pode exigir etapa presencial
                                     </div>
                                     <ul className="space-y-3 text-[#1C1917] mb-8">
                                         {nonIndications.map((item, i) => (
@@ -305,9 +373,10 @@ export default function ConsultaPage() {
                                         ))}
                                     </ul>
                                     <p className="text-sm text-[#57534E] leading-relaxed border-t border-[#E7E2D9] pt-6">
-                                        Se identificarmos a necessidade de uma avaliação
-                                        presencial, você é orientado sobre os próximos
-                                        passos — sem custo adicional.
+                                        A teleconsulta ajuda a entender o caso e planejar
+                                        a conduta. Se houver necessidade de exame,
+                                        procedimento ou cirurgia, você recebe orientação
+                                        sobre os próximos passos.
                                     </p>
                                 </div>
                             </MotionBTTContainer>
