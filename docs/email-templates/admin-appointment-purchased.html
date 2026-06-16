@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Nova consulta comprada</title>
+    </head>
+    <body style="margin:0; padding:0; background:#FAF6F0; color:#1C1917; font-family:Arial, Helvetica, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#FAF6F0; margin:0; padding:0;">
+            <tr>
+                <td align="center" style="padding:32px 16px;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px; background:#FFFFFF; border:1px solid #E7E2D9;">
+                        <tr>
+                            <td style="padding:36px 36px 24px;">
+                                <div style="font-size:12px; line-height:1.4; letter-spacing:0.22em; text-transform:uppercase; color:#9A4639; font-weight:700;">
+                                    Agendamento recebido
+                                </div>
+                                <h1 style="margin:18px 0 12px; font-size:30px; line-height:1.15; font-weight:400; color:#1C1917;">
+                                    Nova consulta comprada pelo site.
+                                </h1>
+                                <p style="margin:0; font-size:16px; line-height:1.65; color:#57534E;">
+                                    O pagamento de {{PATIENT_NAME}} foi processado. O próximo passo da paciente é escolher o horário da videoconsulta.
+                                </p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:0 36px 8px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#1C1917; color:#FAF6F0;">
+                                    <tr>
+                                        <td style="padding:28px;">
+                                            <div style="font-size:11px; line-height:1.4; letter-spacing:0.22em; text-transform:uppercase; color:#E4B5AC; font-weight:700;">
+                                                Resumo do pagamento
+                                            </div>
+                                            <p style="margin:16px 0 0; font-size:26px; line-height:1.25; font-weight:400; color:#FAF6F0;">
+                                                {{CONSULTATION_PRICE}}
+                                            </p>
+                                            <p style="margin:8px 0 0; font-size:13px; line-height:1.6; color:#D8D0C7;">
+                                                Consulta ID {{CONSULTATION_ID}} · {{PAYMENT_PROVIDER}} {{PAYMENT_PROVIDER_REF}}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 8px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Paciente</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_NAME}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Email</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_MAIL}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Telefone</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_PHONE}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Cidade</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{PATIENT_CITY}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#57534E; font-size:13px;">Queixa principal</td>
+                                        <td align="right" style="padding:12px 0; border-bottom:1px solid #E7E2D9; color:#1C1917; font-size:14px; font-weight:700;">{{MAIN_CONCERN}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:24px 36px 36px;">
+                                <p style="margin:0; font-size:13px; line-height:1.6; color:#57534E;">
+                                    Este email foi enviado automaticamente quando o pagamento da consulta foi confirmado.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

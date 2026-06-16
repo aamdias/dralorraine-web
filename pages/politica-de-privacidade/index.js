@@ -84,7 +84,7 @@ export default function PrivacyPolicy() {
                                 </h2>
                                 <ul className="list-disc pl-6 space-y-1">
                                     <li>
-                                        Prestar o atendimento em cosmeatria
+                                        Prestar o atendimento em dermatologia
                                         solicitado.
                                     </li>
                                     <li>

@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { getSchedulingProvider } from "@utils/integrations/scheduling";
+import { safeNotifyConsultaCompleted } from "@utils/consultaNotifications";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -18,7 +19,7 @@ export default async function handler(req, res) {
     try {
         const provider = getSchedulingProvider();
         const { rows } = await sql`
-            SELECT id, name, email, phone, payment_status
+            SELECT id, name, email, phone, payment_status, status, scheduling_status
             FROM consultations
             WHERE id = ${consultationId}
             LIMIT 1;
@@ -53,6 +54,22 @@ export default async function handler(req, res) {
                 scheduling_metadata = ${JSON.stringify(booking.metadata || {})}::jsonb
             WHERE id = ${consultationId};
         `;
+
+        if (
+            consultation.status !== "scheduled" &&
+            consultation.scheduling_status !== "scheduled"
+        ) {
+            await safeNotifyConsultaCompleted({
+                id: consultation.id,
+                name: consultation.name,
+                email: consultation.email,
+                phone: consultation.phone,
+                scheduledAt: booking.scheduledAt,
+                scheduledTimezone: booking.scheduledTimezone,
+                schedulingProvider: booking.provider,
+                schedulingProviderRef: booking.providerRef
+            });
+        }
 
         res.status(200).json(booking);
     } catch (err) {
