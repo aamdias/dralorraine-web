@@ -5,15 +5,15 @@ import { Layout } from "@components/Layout";
 import SEO from "@components/SEO/SEO";
 
 const STORAGE_KEY = "consulta_agendamento_v1";
+const FLOW_VERSION = 2;
 
 const steps = [
     { id: 1, label: "Você" },
     { id: 2, label: "Queixa" },
-    { id: 3, label: "Saúde" },
-    { id: 4, label: "Fotos" },
-    { id: 5, label: "Termos" },
-    { id: 6, label: "Pagamento" },
-    { id: 7, label: "Agenda" }
+    { id: 3, label: "Fotos" },
+    { id: 4, label: "Termos" },
+    { id: 5, label: "Pagamento" },
+    { id: 6, label: "Agenda" }
 ];
 
 const CONSULTATION_PRICE_LABEL = "R$ 350";
@@ -34,8 +34,19 @@ const initialData = {
     consentTelemedicine: false,
     consentLgpd: false,
     consentTerms: false,
-    consultaId: null // set after /api/consulta insert at Step 5 → 6
+    consultaId: null, // set after /api/consulta insert at Terms → Payment
+    initiationNotifiedAt: ""
 };
+
+function normalizeRestoredStep(step, savedFlowVersion) {
+    const parsedStep = Number(step) || 1;
+
+    if (savedFlowVersion !== FLOW_VERSION && parsedStep > 2) {
+        return parsedStep - 1;
+    }
+
+    return parsedStep;
+}
 
 export default function AgendarPage() {
     const [step, setStep] = useState(1);
@@ -53,7 +64,12 @@ export default function AgendarPage() {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 restoredData = { ...initialData, ...parsed.data };
-                if (parsed.step) restoredStep = parsed.step;
+                if (parsed.step) {
+                    restoredStep = normalizeRestoredStep(
+                        parsed.step,
+                        parsed.flowVersion
+                    );
+                }
             }
         } catch (e) {
             // ignore
@@ -66,11 +82,11 @@ export default function AgendarPage() {
 
         if (consultaId) {
             restoredData = { ...restoredData, consultaId };
-            restoredStep = 6;
+            restoredStep = 5;
         }
 
         if (payment === "stripe_cancel") {
-            restoredStep = 6;
+            restoredStep = 5;
         }
 
         setData(restoredData);
@@ -108,7 +124,7 @@ export default function AgendarPage() {
                     if (!active) return;
 
                     if (confirmationBody.paid) {
-                        setStep(7);
+                        setStep(6);
                         return;
                     }
                 }
@@ -123,12 +139,12 @@ export default function AgendarPage() {
                     body.status === "paid" ||
                     body.status === "scheduled"
                 ) {
-                    setStep(7);
-                } else {
                     setStep(6);
+                } else {
+                    setStep(5);
                 }
             } catch (e) {
-                if (active) setStep(6);
+                if (active) setStep(5);
             }
         };
 
@@ -144,7 +160,11 @@ export default function AgendarPage() {
         try {
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify({ step, data: getSerializableData(data) })
+                JSON.stringify({
+                    flowVersion: FLOW_VERSION,
+                    step,
+                    data: getSerializableData(data)
+                })
             );
         } catch (e) {
             // ignore
@@ -205,14 +225,6 @@ export default function AgendarPage() {
                             />
                         )}
                         {step === 3 && (
-                            <StepHealth
-                                data={data}
-                                update={update}
-                                onNext={next}
-                                onBack={back}
-                            />
-                        )}
-                        {step === 4 && (
                             <StepPhotos
                                 data={data}
                                 update={update}
@@ -220,7 +232,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 5 && (
+                        {step === 4 && (
                             <StepConsent
                                 data={data}
                                 update={update}
@@ -228,7 +240,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 6 && (
+                        {step === 5 && (
                             <StepPayment
                                 data={data}
                                 paymentReturn={paymentReturn}
@@ -237,7 +249,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 7 && (
+                        {step === 6 && (
                             <StepSchedule data={data} onBack={back} />
                         )}
                     </div>
@@ -549,9 +561,44 @@ function LockGlyph() {
 function StepAboutYou({ data, update, onNext }) {
     const valid =
         data.name && data.email && data.phone && data.dob && data.city;
-    const submit = (e) => {
+    const [submitting, setSubmitting] = useState(false);
+
+    const submit = async (e) => {
         e.preventDefault();
-        if (valid) onNext();
+        if (!valid || submitting) return;
+
+        if (data.initiationNotifiedAt) {
+            onNext();
+            return;
+        }
+
+        setSubmitting(true);
+        try {
+            const response = await fetch("/api/consulta/started", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    data: {
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        city: data.city
+                    }
+                })
+            });
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                console.warn("[consulta started notification failed]", body);
+            }
+
+            update({ initiationNotifiedAt: new Date().toISOString() });
+        } catch (err) {
+            console.warn("[consulta started notification failed]", err);
+        } finally {
+            setSubmitting(false);
+            onNext();
+        }
     };
     return (
         <form onSubmit={submit}>
@@ -611,7 +658,10 @@ function StepAboutYou({ data, update, onNext }) {
                     />
                 </Field>
             </div>
-            <StepActions nextDisabled={!valid} />
+            <StepActions
+                nextDisabled={!valid || submitting}
+                nextLabel={submitting ? "Continuando..." : undefined}
+            />
         </form>
     );
 }
@@ -677,70 +727,7 @@ function StepConcern({ data, update, onNext, onBack }) {
     );
 }
 
-/* ─── Step 3 · Health ────────────────────────────────────────────────── */
-
-function StepHealth({ data, update, onNext, onBack }) {
-    const submit = (e) => {
-        e.preventDefault();
-        onNext();
-    };
-    return (
-        <form onSubmit={submit}>
-            <StepHeader
-                eyebrow="Passo 03 · Saúde"
-                title="Sua saúde em geral."
-                description="Essas informações ajudam a Dra. Lorraine a escolher o tratamento mais seguro para você."
-            />
-            <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
-                <div className="sm:col-span-2">
-                    <Field
-                        label="Alergias conhecidas"
-                        hint="Medicamentos, cosméticos, alimentos"
-                    >
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Nenhuma / Ex: dipirona, níquel..."
-                            value={data.allergies}
-                            onChange={(e) =>
-                                update({ allergies: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-                <div className="sm:col-span-2">
-                    <Field label="Medicamentos de uso contínuo">
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Nenhum / Liste nome e dose..."
-                            value={data.medications}
-                            onChange={(e) =>
-                                update({ medications: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-                <div className="sm:col-span-2">
-                    <Field label="Condições de saúde relevantes">
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Ex: diabetes, hipotireoidismo, gestação..."
-                            value={data.conditions}
-                            onChange={(e) =>
-                                update({ conditions: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-            </div>
-            <StepActions onBack={onBack} />
-        </form>
-    );
-}
-
-/* ─── Step 4 · Photos (Vercel Blob upload) ───────────────────────────── */
+/* ─── Step 3 · Photos (Vercel Blob upload) ───────────────────────────── */
 
 const MAX_PHOTOS = 6;
 const MAX_PHOTO_SIZE = 10 * 1024 * 1024;
@@ -871,6 +858,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                         access: "private",
                         contentType: getPhotoContentType(file),
                         handleUploadUrl: "/api/photos/upload",
+                        multipart: file.size > 4 * 1024 * 1024,
                         abortSignal: controller.signal,
                         onUploadProgress: ({ percentage }) => {
                             setUploadStatus(
@@ -939,7 +927,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
     return (
         <div>
             <StepHeader
-                eyebrow="Passo 04 · Fotos"
+                eyebrow="Passo 03 · Fotos"
                 title="Fotos da área de interesse."
                 description="Fotos claras fazem muita diferença na consulta. Você pode enviar até 6 imagens — ou pular este passo se preferir."
             />
@@ -1135,7 +1123,7 @@ function CameraGlyph() {
     );
 }
 
-/* ─── Step 5 · Consent ───────────────────────────────────────────────── */
+/* ─── Step 4 · Consent ───────────────────────────────────────────────── */
 
 function StepConsent({ data, update, onNext, onBack }) {
     const valid =
@@ -1182,7 +1170,7 @@ function StepConsent({ data, update, onNext, onBack }) {
     return (
         <form onSubmit={submit}>
             <StepHeader
-                eyebrow="Passo 05 · Consentimento"
+                eyebrow="Passo 04 · Consentimento"
                 title="Antes de seguir."
                 description="Precisamos do seu consentimento para o atendimento e o tratamento dos seus dados."
             />
@@ -1274,7 +1262,7 @@ function ConsentCheckbox({ checked, onChange, children }) {
     );
 }
 
-/* ─── Step 6 · Payment ───────────────────────────────────────────────── */
+/* ─── Step 5 · Payment ───────────────────────────────────────────────── */
 
 function StepPayment({
     data,
@@ -1411,7 +1399,7 @@ function StepPayment({
     return (
         <div>
             <StepHeader
-                eyebrow="Passo 06 · Pagamento"
+                eyebrow="Passo 05 · Pagamento"
                 title="Quase lá."
                 description="Concluído o pagamento, você terá acesso à agenda da Dra. Lorraine para escolher seu horário."
             />
@@ -1493,7 +1481,7 @@ function StepPayment({
     );
 }
 
-/* ─── Step 7 · Schedule ──────────────────────────────────────────────── */
+/* ─── Step 6 · Schedule ──────────────────────────────────────────────── */
 
 function StepSchedule({ data, onBack }) {
     const [option, setOption] = useState(null);
@@ -1541,7 +1529,7 @@ function StepSchedule({ data, onBack }) {
         <div>
             <div className="mb-10">
                 <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-4">
-                    Passo 07 · Agenda
+                    Passo 06 · Agenda
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-[#1C1917] mb-3 text-balance">
                     Tudo certo,{" "}

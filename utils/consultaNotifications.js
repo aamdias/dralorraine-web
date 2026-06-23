@@ -115,6 +115,20 @@ export function getConsultaPaymentTemplateVariables(consultation) {
     };
 }
 
+function getConsultaStartedTemplateVariables(lead) {
+    return {
+        PATIENT_NAME: lead.name || "Nao informado",
+        PATIENT_MAIL: lead.email || "Nao informado",
+        PATIENT_PHONE: lead.phone || "Nao informado",
+        PATIENT_CITY: lead.city || "Nao informado",
+        STARTED_AT: formatDateTime(
+            lead.startedAt || new Date().toISOString(),
+            "America/Sao_Paulo"
+        ),
+        SCHEDULING_URL: `${siteUrl()}/consulta/agendar`
+    };
+}
+
 function buildFallbackHtml(variables) {
     const rows = [
         ["Paciente", variables.PATIENT_NAME],
@@ -149,6 +163,118 @@ function buildFallbackHtml(variables) {
             }
         </div>
     `;
+}
+
+function buildStartedFallbackHtml(variables) {
+    const rows = [
+        ["Paciente", variables.PATIENT_NAME],
+        ["Email", variables.PATIENT_MAIL],
+        ["Telefone", variables.PATIENT_PHONE],
+        ["Cidade", variables.PATIENT_CITY],
+        ["Inicio", variables.STARTED_AT]
+    ];
+
+    return `
+        <div style="font-family: Arial, sans-serif; color: #1c1917; line-height: 1.5;">
+            <h1 style="font-size: 20px;">Paciente iniciou agendamento de consulta</h1>
+            <table style="border-collapse: collapse;">
+                <tbody>
+                    ${rows
+                        .map(
+                            ([label, value]) => `
+                                <tr>
+                                    <td style="padding: 6px 16px 6px 0; color: #57534e;">${escapeHtml(label)}</td>
+                                    <td style="padding: 6px 0; font-weight: 600;">${escapeHtml(value)}</td>
+                                </tr>
+                            `
+                        )
+                        .join("")}
+                </tbody>
+            </table>
+            <p>Essa pessoa completou o primeiro passo do fluxo, mas ainda nao concluiu o pagamento.</p>
+        </div>
+    `;
+}
+
+export async function notifyConsultaStarted(lead) {
+    const apiKey = process.env.RESEND_API_KEY;
+    const from =
+        process.env.RESEND_FROM ||
+        "Dra. Lorraine <notificacoes@dralorraine.com>";
+    const to = parseRecipients(
+        process.env.CONSULTA_STARTED_EMAIL_TO ||
+            process.env.CONSULTA_ADMIN_EMAIL_TO ||
+            "adias7882@gmail.com,lorraine.tfc@gmail.com"
+    );
+    const templateId = process.env.RESEND_CONSULTA_STARTED_TEMPLATE_ID;
+
+    if (!apiKey || !to.length) {
+        return {
+            skipped: true,
+            missing: [
+                !apiKey ? "RESEND_API_KEY" : null,
+                !to.length
+                    ? "CONSULTA_STARTED_EMAIL_TO or CONSULTA_ADMIN_EMAIL_TO"
+                    : null
+            ].filter(Boolean)
+        };
+    }
+
+    const variables = getConsultaStartedTemplateVariables(lead);
+    const subject = `Agendamento iniciado: ${variables.PATIENT_NAME}`;
+    const payload = {
+        from,
+        to,
+        subject,
+        tags: [{ name: "event", value: "consulta_started" }]
+    };
+
+    if (templateId) {
+        payload.template = {
+            id: templateId,
+            variables
+        };
+    } else {
+        payload.text = [
+            "Paciente iniciou agendamento de consulta",
+            `Paciente: ${variables.PATIENT_NAME}`,
+            `Email: ${variables.PATIENT_MAIL}`,
+            `Telefone: ${variables.PATIENT_PHONE}`,
+            `Cidade: ${variables.PATIENT_CITY}`,
+            `Inicio: ${variables.STARTED_AT}`
+        ].join("\n");
+        payload.html = buildStartedFallbackHtml(variables);
+    }
+
+    const idempotencyEmail = String(lead.email || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9@._-]+/g, "-");
+    const idempotencyDate = new Date(
+        lead.startedAt || Date.now()
+    ).toISOString().slice(0, 10);
+
+    const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "Idempotency-Key": `consulta-started-${
+                idempotencyEmail || "unknown"
+            }-${idempotencyDate}`
+        },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(
+            body?.message || `Resend notification failed with ${response.status}`
+        );
+    }
+
+    const body = await response.json().catch(() => ({}));
+    return { ok: true, id: body.id };
 }
 
 export async function notifyConsultaCompleted(consultation) {
@@ -311,6 +437,15 @@ export async function safeNotifyConsultaPaymentConfirmed(consultation, options =
     } catch (err) {
         console.error("[consulta payment notification error]", err);
         return { error: err?.message || "Payment notification failed" };
+    }
+}
+
+export async function safeNotifyConsultaStarted(lead) {
+    try {
+        return await notifyConsultaStarted(lead);
+    } catch (err) {
+        console.error("[consulta started notification error]", err);
+        return { error: err?.message || "Started notification failed" };
     }
 }
 
