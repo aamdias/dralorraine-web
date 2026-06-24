@@ -1445,7 +1445,7 @@ function StepPayment({
                 </div>
 
                 <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">
-                    <div className="flex items-baseline gap-3">
+                    <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-baseline">
                         <span className="text-5xl lg:text-6xl font-light text-[#FAF6F0] tracking-tight">
                             {CONSULTATION_PRICE_LABEL}
                         </span>
