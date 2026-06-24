@@ -1081,7 +1081,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                 </button>
                 <button
                     type="button"
-                    onClick={onNext}
+                    onClick={() => onNext()}
                     disabled={uploading}
                     className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
                 >
