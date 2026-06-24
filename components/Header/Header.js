@@ -35,7 +35,7 @@ export const Header = () => {
                     : "bg-[#FAF6F0] border-b border-transparent"
             }`}
         >
-            <SectionContainer className="header--container wrap wrap-px">
+            <SectionContainer className="header--container max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8">
                 <div className="header-logo--container">
                     <h1 className="logo mb-0">
                         <Link

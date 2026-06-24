@@ -26,6 +26,14 @@ export default async function handler(req, res) {
         return;
     }
 
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+        res.status(503).json({
+            error:
+                "Upload de fotos não configurado. Defina BLOB_READ_WRITE_TOKEN no ambiente."
+        });
+        return;
+    }
+
     try {
         const jsonResponse = await handleUpload({
             body: req.body,
@@ -56,6 +64,10 @@ export default async function handler(req, res) {
         res.status(200).json(jsonResponse);
     } catch (err) {
         console.error("[upload handler error]", err);
-        res.status(400).json({ error: err?.message || "Upload failed" });
+        res.status(400).json({
+            error:
+                err?.message ||
+                "Não foi possível preparar o upload das fotos."
+        });
     }
 }

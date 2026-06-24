@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { upload } from "@vercel/blob/client";
 import { Layout } from "@components/Layout";
 import SEO from "@components/SEO/SEO";
 
 const STORAGE_KEY = "consulta_agendamento_v1";
+const FLOW_VERSION = 2;
 
 const steps = [
     { id: 1, label: "Você" },
     { id: 2, label: "Queixa" },
-    { id: 3, label: "Saúde" },
-    { id: 4, label: "Fotos" },
-    { id: 5, label: "Termos" },
-    { id: 6, label: "Pagamento" },
-    { id: 7, label: "Agenda" }
+    { id: 3, label: "Fotos" },
+    { id: 4, label: "Termos" },
+    { id: 5, label: "Pagamento" },
+    { id: 6, label: "Agenda" }
 ];
 
 const CONSULTATION_PRICE_LABEL = "R$ 350";
@@ -34,8 +34,19 @@ const initialData = {
     consentTelemedicine: false,
     consentLgpd: false,
     consentTerms: false,
-    consultaId: null // set after /api/consulta insert at Step 5 → 6
+    consultaId: null, // set after /api/consulta insert at Terms → Payment
+    initiationNotifiedAt: ""
 };
+
+function normalizeRestoredStep(step, savedFlowVersion) {
+    const parsedStep = Number(step) || 1;
+
+    if (savedFlowVersion !== FLOW_VERSION && parsedStep > 2) {
+        return parsedStep - 1;
+    }
+
+    return parsedStep;
+}
 
 export default function AgendarPage() {
     const [step, setStep] = useState(1);
@@ -53,7 +64,12 @@ export default function AgendarPage() {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 restoredData = { ...initialData, ...parsed.data };
-                if (parsed.step) restoredStep = parsed.step;
+                if (parsed.step) {
+                    restoredStep = normalizeRestoredStep(
+                        parsed.step,
+                        parsed.flowVersion
+                    );
+                }
             }
         } catch (e) {
             // ignore
@@ -66,11 +82,11 @@ export default function AgendarPage() {
 
         if (consultaId) {
             restoredData = { ...restoredData, consultaId };
-            restoredStep = 6;
+            restoredStep = 5;
         }
 
         if (payment === "stripe_cancel") {
-            restoredStep = 6;
+            restoredStep = 5;
         }
 
         setData(restoredData);
@@ -108,7 +124,7 @@ export default function AgendarPage() {
                     if (!active) return;
 
                     if (confirmationBody.paid) {
-                        setStep(7);
+                        setStep(6);
                         return;
                     }
                 }
@@ -123,12 +139,12 @@ export default function AgendarPage() {
                     body.status === "paid" ||
                     body.status === "scheduled"
                 ) {
-                    setStep(7);
-                } else {
                     setStep(6);
+                } else {
+                    setStep(5);
                 }
             } catch (e) {
-                if (active) setStep(6);
+                if (active) setStep(5);
             }
         };
 
@@ -144,7 +160,11 @@ export default function AgendarPage() {
         try {
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify({ step, data: getSerializableData(data) })
+                JSON.stringify({
+                    flowVersion: FLOW_VERSION,
+                    step,
+                    data: getSerializableData(data)
+                })
             );
         } catch (e) {
             // ignore
@@ -152,7 +172,12 @@ export default function AgendarPage() {
     }, [step, data, hydrated]);
 
     const update = (patch) => setData((d) => ({ ...d, ...patch }));
-    const next = () => setStep((s) => Math.min(steps.length, s + 1));
+    const next = (patch) => {
+        if (patch) {
+            setData((d) => ({ ...d, ...patch }));
+        }
+        setStep((s) => Math.min(steps.length, s + 1));
+    };
     const back = () => setStep((s) => Math.max(1, s - 1));
 
     return (
@@ -205,14 +230,6 @@ export default function AgendarPage() {
                             />
                         )}
                         {step === 3 && (
-                            <StepHealth
-                                data={data}
-                                update={update}
-                                onNext={next}
-                                onBack={back}
-                            />
-                        )}
-                        {step === 4 && (
                             <StepPhotos
                                 data={data}
                                 update={update}
@@ -220,7 +237,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 5 && (
+                        {step === 4 && (
                             <StepConsent
                                 data={data}
                                 update={update}
@@ -228,7 +245,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 6 && (
+                        {step === 5 && (
                             <StepPayment
                                 data={data}
                                 paymentReturn={paymentReturn}
@@ -237,7 +254,7 @@ export default function AgendarPage() {
                                 onBack={back}
                             />
                         )}
-                        {step === 7 && (
+                        {step === 6 && (
                             <StepSchedule data={data} onBack={back} />
                         )}
                     </div>
@@ -549,9 +566,44 @@ function LockGlyph() {
 function StepAboutYou({ data, update, onNext }) {
     const valid =
         data.name && data.email && data.phone && data.dob && data.city;
-    const submit = (e) => {
+    const [submitting, setSubmitting] = useState(false);
+
+    const submit = async (e) => {
         e.preventDefault();
-        if (valid) onNext();
+        if (!valid || submitting) return;
+
+        if (data.initiationNotifiedAt) {
+            onNext();
+            return;
+        }
+
+        setSubmitting(true);
+        try {
+            const response = await fetch("/api/consulta/started", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    data: {
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        city: data.city
+                    }
+                })
+            });
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                console.warn("[consulta started notification failed]", body);
+            }
+
+            update({ initiationNotifiedAt: new Date().toISOString() });
+        } catch (err) {
+            console.warn("[consulta started notification failed]", err);
+        } finally {
+            setSubmitting(false);
+            onNext();
+        }
     };
     return (
         <form onSubmit={submit}>
@@ -611,7 +663,10 @@ function StepAboutYou({ data, update, onNext }) {
                     />
                 </Field>
             </div>
-            <StepActions nextDisabled={!valid} />
+            <StepActions
+                nextDisabled={!valid || submitting}
+                nextLabel={submitting ? "Continuando..." : undefined}
+            />
         </form>
     );
 }
@@ -677,70 +732,7 @@ function StepConcern({ data, update, onNext, onBack }) {
     );
 }
 
-/* ─── Step 3 · Health ────────────────────────────────────────────────── */
-
-function StepHealth({ data, update, onNext, onBack }) {
-    const submit = (e) => {
-        e.preventDefault();
-        onNext();
-    };
-    return (
-        <form onSubmit={submit}>
-            <StepHeader
-                eyebrow="Passo 03 · Saúde"
-                title="Sua saúde em geral."
-                description="Essas informações ajudam a Dra. Lorraine a escolher o tratamento mais seguro para você."
-            />
-            <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
-                <div className="sm:col-span-2">
-                    <Field
-                        label="Alergias conhecidas"
-                        hint="Medicamentos, cosméticos, alimentos"
-                    >
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Nenhuma / Ex: dipirona, níquel..."
-                            value={data.allergies}
-                            onChange={(e) =>
-                                update({ allergies: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-                <div className="sm:col-span-2">
-                    <Field label="Medicamentos de uso contínuo">
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Nenhum / Liste nome e dose..."
-                            value={data.medications}
-                            onChange={(e) =>
-                                update({ medications: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-                <div className="sm:col-span-2">
-                    <Field label="Condições de saúde relevantes">
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Ex: diabetes, hipotireoidismo, gestação..."
-                            value={data.conditions}
-                            onChange={(e) =>
-                                update({ conditions: e.target.value })
-                            }
-                        />
-                    </Field>
-                </div>
-            </div>
-            <StepActions onBack={onBack} />
-        </form>
-    );
-}
-
-/* ─── Step 4 · Photos (Vercel Blob upload) ───────────────────────────── */
+/* ─── Step 3 · Photos (Vercel Blob upload) ───────────────────────────── */
 
 const MAX_PHOTOS = 6;
 const MAX_PHOTO_SIZE = 10 * 1024 * 1024;
@@ -871,6 +863,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                         access: "private",
                         contentType: getPhotoContentType(file),
                         handleUploadUrl: "/api/photos/upload",
+                        multipart: file.size > 4 * 1024 * 1024,
                         abortSignal: controller.signal,
                         onUploadProgress: ({ percentage }) => {
                             setUploadStatus(
@@ -939,7 +932,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
     return (
         <div>
             <StepHeader
-                eyebrow="Passo 04 · Fotos"
+                eyebrow="Passo 03 · Fotos"
                 title="Fotos da área de interesse."
                 description="Fotos claras fazem muita diferença na consulta. Você pode enviar até 6 imagens — ou pular este passo se preferir."
             />
@@ -1135,7 +1128,7 @@ function CameraGlyph() {
     );
 }
 
-/* ─── Step 5 · Consent ───────────────────────────────────────────────── */
+/* ─── Step 4 · Consent ───────────────────────────────────────────────── */
 
 function StepConsent({ data, update, onNext, onBack }) {
     const valid =
@@ -1167,8 +1160,7 @@ function StepConsent({ data, update, onNext, onBack }) {
                 throw new Error(body.error || "Falha ao enviar");
             }
             const { id } = await r.json();
-            update({ consultaId: id });
-            onNext();
+            onNext({ consultaId: id });
         } catch (err) {
             setError(
                 err.message ||
@@ -1182,7 +1174,7 @@ function StepConsent({ data, update, onNext, onBack }) {
     return (
         <form onSubmit={submit}>
             <StepHeader
-                eyebrow="Passo 05 · Consentimento"
+                eyebrow="Passo 04 · Consentimento"
                 title="Antes de seguir."
                 description="Precisamos do seu consentimento para o atendimento e o tratamento dos seus dados."
             />
@@ -1274,7 +1266,7 @@ function ConsentCheckbox({ checked, onChange, children }) {
     );
 }
 
-/* ─── Step 6 · Payment ───────────────────────────────────────────────── */
+/* ─── Step 5 · Payment ───────────────────────────────────────────────── */
 
 function StepPayment({
     data,
@@ -1286,57 +1278,64 @@ function StepPayment({
     const [checkout, setCheckout] = useState(null);
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(false);
+    const [openingCheckout, setOpeningCheckout] = useState(false);
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
 
-    useEffect(() => {
+    const loadCheckout = useCallback(async () => {
         if (!data.consultaId) {
             setError("Salve o formulário antes de iniciar o pagamento.");
-            return;
+            return null;
         }
 
-        const loadCheckout = async () => {
-            if (paymentReturn === "stripe_success") {
-                setCheckout(null);
-                setLoading(false);
-                return;
+        if (paymentReturn === "stripe_success") {
+            setCheckout(null);
+            setLoading(false);
+            return null;
+        }
+
+        setLoading(true);
+        setError("");
+        setNotice("");
+
+        try {
+            const response = await fetch("/api/payments/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ consultationId: data.consultaId })
+            });
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(
+                    body.missing?.length
+                        ? `Configure: ${body.missing.join(", ")}`
+                        : body.error || "Não foi possível preparar o checkout."
+                );
             }
 
-            setLoading(true);
-            setError("");
-            setNotice("");
-
-            try {
-                const response = await fetch("/api/payments/checkout", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ consultationId: data.consultaId })
-                });
-                const body = await response.json().catch(() => ({}));
-
-                if (!response.ok) {
-                    throw new Error(
-                        body.missing?.length
-                            ? `Configure: ${body.missing.join(", ")}`
-                            : body.error || "Não foi possível preparar o checkout."
-                    );
-                }
-
-                if (body.alreadyPaid) {
-                    onNext();
-                    return;
-                }
-
-                setCheckout(body);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+            if (body.alreadyPaid) {
+                onNext();
+                return null;
             }
-        };
 
-        loadCheckout();
+            setCheckout(body);
+            return body;
+        } catch (err) {
+            setCheckout(null);
+            setError(
+                err.message ||
+                    "Não foi possível preparar o checkout. Tente novamente."
+            );
+            return null;
+        } finally {
+            setLoading(false);
+        }
     }, [data.consultaId, onNext, paymentReturn]);
+
+    useEffect(() => {
+        loadCheckout();
+    }, [loadCheckout]);
 
     useEffect(() => {
         if (paymentReturn === "stripe_success") {
@@ -1408,10 +1407,34 @@ function StepPayment({
         }
     };
 
+    const openCheckout = async () => {
+        if (openingCheckout) return;
+
+        setOpeningCheckout(true);
+        setError("");
+
+        try {
+            const preparedCheckout = checkout?.checkoutUrl
+                ? checkout
+                : await loadCheckout();
+
+            if (!preparedCheckout?.checkoutUrl) {
+                setError(
+                    "Não conseguimos abrir o checkout agora. Tente novamente em instantes."
+                );
+                return;
+            }
+
+            window.location.assign(preparedCheckout.checkoutUrl);
+        } finally {
+            setOpeningCheckout(false);
+        }
+    };
+
     return (
         <div>
             <StepHeader
-                eyebrow="Passo 06 · Pagamento"
+                eyebrow="Passo 05 · Pagamento"
                 title="Quase lá."
                 description="Concluído o pagamento, você terá acesso à agenda da Dra. Lorraine para escolher seu horário."
             />
@@ -1422,7 +1445,7 @@ function StepPayment({
                 </div>
 
                 <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">
-                    <div className="flex items-baseline gap-3">
+                    <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-baseline">
                         <span className="text-5xl lg:text-6xl font-light text-[#FAF6F0] tracking-tight">
                             {CONSULTATION_PRICE_LABEL}
                         </span>
@@ -1444,7 +1467,7 @@ function StepPayment({
             <div className="mt-6 border-l-2 border-[#9A4639] pl-5 py-2 text-sm text-[#57534E] leading-relaxed">
                 {loading
                     ? "Preparando checkout seguro..."
-                    : "O pagamento é confirmado por webhook. Depois de concluir o checkout, volte aqui para verificar a confirmação e liberar a agenda."}
+                    : "Você será direcionada para um checkout seguro. Ao finalizar, a agenda será liberada automaticamente."}
             </div>
 
             {error && (
@@ -1469,16 +1492,20 @@ function StepPayment({
                 </button>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                    {checkout?.checkoutUrl && (
-                        <a
-                            href={checkout.checkoutUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
-                        >
-                            Abrir checkout
-                        </a>
-                    )}
+                    <button
+                        type="button"
+                        onClick={openCheckout}
+                        disabled={
+                            !data.consultaId || loading || openingCheckout
+                        }
+                        className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] disabled:cursor-not-allowed text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
+                    >
+                        {openingCheckout
+                            ? "Abrindo checkout..."
+                            : loading
+                            ? "Preparando..."
+                            : "Pagar consulta"}
+                    </button>
                     <button
                         type="button"
                         onClick={checkPayment}
@@ -1487,13 +1514,23 @@ function StepPayment({
                     >
                         {checking ? "Verificando..." : "Verificar pagamento →"}
                     </button>
+                    {error && (
+                        <button
+                            type="button"
+                            onClick={loadCheckout}
+                            disabled={!data.consultaId || loading}
+                            className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                        >
+                            Tentar novamente
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
     );
 }
 
-/* ─── Step 7 · Schedule ──────────────────────────────────────────────── */
+/* ─── Step 6 · Schedule ──────────────────────────────────────────────── */
 
 function StepSchedule({ data, onBack }) {
     const [option, setOption] = useState(null);
@@ -1541,7 +1578,7 @@ function StepSchedule({ data, onBack }) {
         <div>
             <div className="mb-10">
                 <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-4">
-                    Passo 07 · Agenda
+                    Passo 06 · Agenda
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-[#1C1917] mb-3 text-balance">
                     Tudo certo,{" "}

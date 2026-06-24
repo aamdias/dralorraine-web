@@ -121,17 +121,17 @@ export default function ConsultaPage() {
             />
             <div className="main-wrapper relative z-10 bg-[#FAF6F0] text-[#1C1917]">
                 {/* ============ HERO ============ */}
-                <section className="pt-28 lg:pt-32 pb-16 lg:pb-20">
+                <section className="pt-32 pb-14 md:pb-16 lg:pb-20">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-20 items-center">
-                            <div className="order-1">
+                        <div className="grid md:grid-cols-[minmax(0,1.02fr)_minmax(260px,0.72fr)] min-[900px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.78fr)] lg:grid-cols-[1.05fr_0.9fr] gap-12 md:gap-7 min-[900px]:gap-8 lg:gap-16 items-center">
+                            <div className="order-1 md:max-w-[560px] min-[900px]:max-w-[620px]">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-8">
+                                    <div className="text-xs uppercase tracking-[0.24em] sm:tracking-[0.28em] text-[#9A4639] font-medium mb-6 md:mb-7 lg:mb-8">
                                         Dermatologia · Teleconsulta
                                     </div>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
-                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
+                                    <h1 className="max-w-[11.5em] text-[2.6rem] sm:text-5xl md:text-[3rem] min-[900px]:text-[3.35rem] lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-7 lg:mb-8 text-balance">
                                         Cuide da sua pele com atenção e{" "}
                                         <span className="italic font-normal text-[#9A4639]">
                                             ciência
@@ -141,9 +141,9 @@ export default function ConsultaPage() {
                                 </MotionBTTContainer>
                                 <MotionBTTContainer
                                     transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-14 lg:mb-20"
+                                    className="mb-10 md:mb-12 lg:mb-16"
                                 >
-                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                    <p className="text-lg md:text-base min-[900px]:text-[1.05rem] lg:text-lg text-[#57534E] leading-relaxed max-w-lg min-[900px]:max-w-[34rem]">
                                         Videoconsulta com a Dra. Lorraine Souza,
                                         médica formada na UNICAMP e R3 em
                                         Dermatologia na UNICAMP. Atendimento
@@ -152,10 +152,10 @@ export default function ConsultaPage() {
                                     </p>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.6 }}>
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 md:gap-5 min-[900px]:gap-6 py-2">
                                         <Button
                                             href="/consulta/agendar"
-                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 sm:px-9 md:px-6 min-[900px]:px-7 lg:px-9 py-[17px] sm:py-[18px] md:py-4 lg:py-[18px] rounded-none transition-colors duration-300"
                                         >
                                             Agendar consulta
                                         </Button>
@@ -173,10 +173,10 @@ export default function ConsultaPage() {
                                 transition={{ delay: 0.3, duration: 0.7 }}
                                 className="order-2"
                             >
-                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
+                                <div className="relative max-w-[420px] mx-auto md:max-w-[300px] md:mr-0 min-[900px]:max-w-[340px] lg:max-w-[440px]">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                        className="absolute -inset-4 sm:-inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
                                     />
                                     <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.35)]">
                                         <Image
