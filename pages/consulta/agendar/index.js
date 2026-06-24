@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { upload } from "@vercel/blob/client";
 import { Layout } from "@components/Layout";
@@ -172,7 +172,12 @@ export default function AgendarPage() {
     }, [step, data, hydrated]);
 
     const update = (patch) => setData((d) => ({ ...d, ...patch }));
-    const next = () => setStep((s) => Math.min(steps.length, s + 1));
+    const next = (patch) => {
+        if (patch) {
+            setData((d) => ({ ...d, ...patch }));
+        }
+        setStep((s) => Math.min(steps.length, s + 1));
+    };
     const back = () => setStep((s) => Math.max(1, s - 1));
 
     return (
@@ -1155,8 +1160,7 @@ function StepConsent({ data, update, onNext, onBack }) {
                 throw new Error(body.error || "Falha ao enviar");
             }
             const { id } = await r.json();
-            update({ consultaId: id });
-            onNext();
+            onNext({ consultaId: id });
         } catch (err) {
             setError(
                 err.message ||
@@ -1274,57 +1278,64 @@ function StepPayment({
     const [checkout, setCheckout] = useState(null);
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(false);
+    const [openingCheckout, setOpeningCheckout] = useState(false);
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
 
-    useEffect(() => {
+    const loadCheckout = useCallback(async () => {
         if (!data.consultaId) {
             setError("Salve o formulário antes de iniciar o pagamento.");
-            return;
+            return null;
         }
 
-        const loadCheckout = async () => {
-            if (paymentReturn === "stripe_success") {
-                setCheckout(null);
-                setLoading(false);
-                return;
+        if (paymentReturn === "stripe_success") {
+            setCheckout(null);
+            setLoading(false);
+            return null;
+        }
+
+        setLoading(true);
+        setError("");
+        setNotice("");
+
+        try {
+            const response = await fetch("/api/payments/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ consultationId: data.consultaId })
+            });
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(
+                    body.missing?.length
+                        ? `Configure: ${body.missing.join(", ")}`
+                        : body.error || "Não foi possível preparar o checkout."
+                );
             }
 
-            setLoading(true);
-            setError("");
-            setNotice("");
-
-            try {
-                const response = await fetch("/api/payments/checkout", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ consultationId: data.consultaId })
-                });
-                const body = await response.json().catch(() => ({}));
-
-                if (!response.ok) {
-                    throw new Error(
-                        body.missing?.length
-                            ? `Configure: ${body.missing.join(", ")}`
-                            : body.error || "Não foi possível preparar o checkout."
-                    );
-                }
-
-                if (body.alreadyPaid) {
-                    onNext();
-                    return;
-                }
-
-                setCheckout(body);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+            if (body.alreadyPaid) {
+                onNext();
+                return null;
             }
-        };
 
-        loadCheckout();
+            setCheckout(body);
+            return body;
+        } catch (err) {
+            setCheckout(null);
+            setError(
+                err.message ||
+                    "Não foi possível preparar o checkout. Tente novamente."
+            );
+            return null;
+        } finally {
+            setLoading(false);
+        }
     }, [data.consultaId, onNext, paymentReturn]);
+
+    useEffect(() => {
+        loadCheckout();
+    }, [loadCheckout]);
 
     useEffect(() => {
         if (paymentReturn === "stripe_success") {
@@ -1396,6 +1407,30 @@ function StepPayment({
         }
     };
 
+    const openCheckout = async () => {
+        if (openingCheckout) return;
+
+        setOpeningCheckout(true);
+        setError("");
+
+        try {
+            const preparedCheckout = checkout?.checkoutUrl
+                ? checkout
+                : await loadCheckout();
+
+            if (!preparedCheckout?.checkoutUrl) {
+                setError(
+                    "Não conseguimos abrir o checkout agora. Tente novamente em instantes."
+                );
+                return;
+            }
+
+            window.location.assign(preparedCheckout.checkoutUrl);
+        } finally {
+            setOpeningCheckout(false);
+        }
+    };
+
     return (
         <div>
             <StepHeader
@@ -1432,7 +1467,7 @@ function StepPayment({
             <div className="mt-6 border-l-2 border-[#9A4639] pl-5 py-2 text-sm text-[#57534E] leading-relaxed">
                 {loading
                     ? "Preparando checkout seguro..."
-                    : "O pagamento é confirmado por webhook. Depois de concluir o checkout, volte aqui para verificar a confirmação e liberar a agenda."}
+                    : "Você será direcionada para um checkout seguro. Ao finalizar, a agenda será liberada automaticamente."}
             </div>
 
             {error && (
@@ -1457,16 +1492,20 @@ function StepPayment({
                 </button>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                    {checkout?.checkoutUrl && (
-                        <a
-                            href={checkout.checkoutUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
-                        >
-                            Abrir checkout
-                        </a>
-                    )}
+                    <button
+                        type="button"
+                        onClick={openCheckout}
+                        disabled={
+                            !data.consultaId || loading || openingCheckout
+                        }
+                        className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] disabled:cursor-not-allowed text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
+                    >
+                        {openingCheckout
+                            ? "Abrindo checkout..."
+                            : loading
+                            ? "Preparando..."
+                            : "Pagar consulta"}
+                    </button>
                     <button
                         type="button"
                         onClick={checkPayment}
@@ -1475,6 +1514,16 @@ function StepPayment({
                     >
                         {checking ? "Verificando..." : "Verificar pagamento →"}
                     </button>
+                    {error && (
+                        <button
+                            type="button"
+                            onClick={loadCheckout}
+                            disabled={!data.consultaId || loading}
+                            className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                        >
+                            Tentar novamente
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
