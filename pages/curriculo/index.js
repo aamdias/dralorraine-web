@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { Chevron } from "@components/Chevron";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { FAQ } from "@components/FAQ";
@@ -110,7 +111,7 @@ export default function Curriculo() {
             },
             {
                 "@type": "Person",
-                name: "Dra. Lorraine Almeida",
+                name: "Dra. Lorraine Souza",
                 jobTitle:
                     "Médica e Mentora para Residência Médica",
                 description:
@@ -143,8 +144,8 @@ export default function Curriculo() {
                 name: "Dra. Lorraine - Serviços para Residência Médica",
                 description:
                     "Serviços para aprovação em residência médica: elaboração de currículo profissional, mentoria individual e material de estudo.",
-                url: "https://dralaorraine.com.br",
-                logo: "https://dralaorraine.com.br/newlogo-dralorraine-web.svg",
+                url: "https://www.dralorraine.com",
+                logo: "https://www.dralorraine.com/ls-monogram.svg",
                 address: {
                     "@type": "PostalAddress",
                     addressLocality: "São Paulo",
@@ -153,7 +154,7 @@ export default function Curriculo() {
                 },
                 founder: {
                     "@type": "Person",
-                    name: "Dra. Lorraine Almeida"
+                    name: "Dra. Lorraine Souza"
                 },
                 areaServed: {
                     "@type": "State",
@@ -213,9 +214,10 @@ export default function Curriculo() {
                 title="Currículo Profissional para Residência Médica | Dra. Lorraine"
                 description="Currículo premium para residência médica em São Paulo. Experiência comprovada com notas 10 em UNICAMP e USP-SP e 9.5 em UNIFESP."
                 keywords="currículo residência médica, UNICAMP residência, USP residência, UNIFESP residência, PUC residência"
+                url="/curriculo"
             />
 
-            <div className="bg-[#FAF6F0] text-[#1C1917]">
+            <div className="bg-paper text-ink">
                 {/* ============ HERO ============ */}
                 <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -225,7 +227,7 @@ export default function Curriculo() {
                                     transition={{ delay: 0.1, duration: 0.5 }}
                                     className="mb-8"
                                 >
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                         Serviço especializado
                                     </div>
                                 </MotionBTTContainer>
@@ -235,7 +237,7 @@ export default function Curriculo() {
                                 >
                                     <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
                                         Currículo profissional para{" "}
-                                        <span className="italic text-[#9A4639]">
+                                        <span className="italic text-copper-dark">
                                             residência médica
                                         </span>
                                         .
@@ -246,7 +248,7 @@ export default function Curriculo() {
                                     transition={{ delay: 0.3, duration: 0.6 }}
                                     className="mb-14 lg:mb-16"
                                 >
-                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                    <p className="text-lg text-stone leading-relaxed max-w-lg">
                                         Um currículo estrategicamente
                                         elaborado, próximo ao que me levou às
                                         melhores notas em UNICAMP, USP-SP e
@@ -260,13 +262,13 @@ export default function Curriculo() {
                                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
                                         <Button
                                             href="#servico"
-                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
                                         >
                                             Quero meu currículo
                                         </Button>
                                         <a
                                             href="#resultados"
-                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
                                         >
                                             Ver resultados
                                         </a>
@@ -280,13 +282,13 @@ export default function Curriculo() {
                                 <div className="relative max-w-[440px] mx-auto lg:max-w-none">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                        className="absolute -inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
                                     />
                                     <div
                                         ref={containerRef}
                                         onTouchStart={handleTouchStart}
                                         onTouchEnd={handleTouchEnd}
-                                        className="relative bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)] cursor-grab active:cursor-grabbing"
+                                        className="relative bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)] cursor-grab active:cursor-grabbing"
                                         style={{ aspectRatio: "21/29.7" }}
                                     >
                                         <img
@@ -294,7 +296,7 @@ export default function Curriculo() {
                                             alt={`Exemplo de currículo ${
                                                 currentIndex + 1
                                             }`}
-                                            className="w-full h-full object-contain bg-[#FAF6F0]"
+                                            className="w-full h-full object-contain bg-paper"
                                             draggable="false"
                                         />
                                     </div>
@@ -310,8 +312,8 @@ export default function Curriculo() {
                                                 }`}
                                                 className={`h-1.5 transition-all ${
                                                     index === currentIndex
-                                                        ? "bg-[#9A4639] w-8"
-                                                        : "bg-[#1C1917]/20 w-2 hover:bg-[#1C1917]/40"
+                                                        ? "bg-copper w-8"
+                                                        : "bg-ink/20 w-2 hover:bg-ink/40"
                                                 }`}
                                             />
                                         ))}
@@ -323,14 +325,14 @@ export default function Curriculo() {
                 </section>
 
                 {/* ============ BENEFITS ============ */}
-                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB]">
+                <section className="py-20 lg:py-28 border-t border-line bg-sand">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-20">
                             <MotionBTTContainer
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                     Por que investir
                                 </div>
                             </MotionBTTContainer>
@@ -348,7 +350,7 @@ export default function Curriculo() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <p className="text-lg text-[#3C3833] leading-relaxed">
+                                <p className="text-lg text-slate leading-relaxed">
                                     Em instituições concorridas, cada ponto
                                     conta. Um documento bem elaborado garante
                                     que nenhuma conquista fique de fora.
@@ -365,14 +367,14 @@ export default function Curriculo() {
                                         duration: 0.5
                                     }}
                                 >
-                                    <div className="border-t border-[#1C1917]/25 pt-6">
-                                        <div className="text-sm font-mono text-[#9A4639] tracking-[0.15em] mb-4">
+                                    <div className="border-t border-ink/25 pt-6">
+                                        <div className="text-sm font-mono text-copper-dark tracking-[0.15em] mb-4">
                                             {b.n}
                                         </div>
-                                        <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-3 text-[#1C1917]">
+                                        <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-3 text-ink">
                                             {b.title}
                                         </h3>
-                                        <p className="text-[#3C3833] leading-relaxed">
+                                        <p className="text-slate leading-relaxed">
                                             {b.description}
                                         </p>
                                     </div>
@@ -385,7 +387,7 @@ export default function Curriculo() {
                 {/* ============ RESULTS / SCORES ============ */}
                 <section
                     id="resultados"
-                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0] scroll-mt-24"
+                    className="py-20 lg:py-28 border-t border-line bg-paper scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-20">
@@ -393,7 +395,7 @@ export default function Curriculo() {
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                     Resultados alcançados
                                 </div>
                             </MotionBTTContainer>
@@ -409,7 +411,7 @@ export default function Curriculo() {
                             </MotionBTTContainer>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-0 border-t border-[#E7E2D9]">
+                        <div className="grid md:grid-cols-3 gap-0 border-t border-line">
                             {scores.map((s, i) => (
                                 <MotionBTTContainer
                                     key={s.institution}
@@ -418,7 +420,7 @@ export default function Curriculo() {
                                         duration: 0.5
                                     }}
                                 >
-                                    <div className="border-b border-[#E7E2D9] md:border-b-0 md:border-r last:border-r-0 py-10 lg:py-14 px-4 lg:px-8 flex flex-col items-center text-center">
+                                    <div className="border-b border-line md:border-b-0 md:border-r last:border-r-0 py-10 lg:py-14 px-4 lg:px-8 flex flex-col items-center text-center">
                                         <div className="w-16 h-16 mb-6 flex items-center justify-center">
                                             <img
                                                 src={s.logo}
@@ -426,13 +428,13 @@ export default function Curriculo() {
                                                 className="max-w-full max-h-full object-contain"
                                             />
                                         </div>
-                                        <div className="text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium mb-3">
+                                        <div className="text-xs uppercase tracking-[0.24em] text-stone font-medium mb-3">
                                             {s.institution}
                                         </div>
-                                        <div className="text-6xl lg:text-7xl font-light text-[#9A4639] tracking-tight leading-none">
+                                        <div className="text-6xl lg:text-7xl font-light text-copper tracking-tight leading-none">
                                             {s.score}
                                         </div>
-                                        <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mt-4">
+                                        <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mt-4">
                                             Nota em currículo
                                         </div>
                                     </div>
@@ -443,8 +445,8 @@ export default function Curriculo() {
                         <MotionBTTContainer
                             transition={{ delay: 0.4, duration: 0.5 }}
                         >
-                            <p className="mt-12 text-sm text-[#57534E] leading-relaxed max-w-3xl">
-                                <span className="font-medium text-[#1C1917]">
+                            <p className="mt-12 text-sm text-stone leading-relaxed max-w-3xl">
+                                <span className="font-medium text-ink">
                                     Importante:
                                 </span>{" "}
                                 garantimos um currículo profissionalmente
@@ -460,7 +462,7 @@ export default function Curriculo() {
                 {/* ============ SERVICE / PRICING ============ */}
                 <section
                     id="servico"
-                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#1C1917] text-[#FAF6F0] scroll-mt-24"
+                    className="py-20 lg:py-28 border-t border-line bg-ink text-paper scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20">
@@ -468,7 +470,7 @@ export default function Curriculo() {
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-rose font-medium">
                                     Invista na sua aprovação
                                 </div>
                             </MotionBTTContainer>
@@ -478,7 +480,7 @@ export default function Curriculo() {
                             >
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
                                     Currículo{" "}
-                                    <span className="italic text-[#E4B5AC]">
+                                    <span className="italic text-rose">
                                         premium
                                     </span>
                                     .
@@ -488,7 +490,7 @@ export default function Curriculo() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <p className="text-lg text-[#FAF6F0]/70 leading-relaxed">
+                                <p className="text-lg text-paper/70 leading-relaxed">
                                     Um processo colaborativo, conduzido por
                                     quem conquistou as melhores notas nas
                                     bancas de São Paulo.
@@ -500,24 +502,24 @@ export default function Curriculo() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.2, duration: 0.5 }}
                             >
-                                <div className="bg-[#2A2724] border border-[#FAF6F0]/10 p-8 lg:p-14">
-                                    <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 items-start mb-12 pb-12 border-b border-[#FAF6F0]/15">
+                                <div className="bg-[#2A2724] border border-paper/10 p-8 lg:p-14">
+                                    <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 items-start mb-12 pb-12 border-b border-paper/15">
                                         <div>
-                                            <div className="text-xs uppercase tracking-[0.24em] text-[#E4B5AC] font-medium mb-4">
+                                            <div className="text-xs uppercase tracking-[0.24em] text-rose font-medium mb-4">
                                                 Investimento único
                                             </div>
                                             <div className="flex items-baseline gap-3">
-                                                <span className="text-6xl lg:text-7xl font-light text-[#FAF6F0] tracking-tight leading-none">
+                                                <span className="text-6xl lg:text-7xl font-light text-paper tracking-tight leading-none">
                                                     R$ 1.500
                                                 </span>
                                             </div>
-                                            <div className="text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/50 font-medium mt-4">
+                                            <div className="text-xs uppercase tracking-[0.22em] text-paper/50 font-medium mt-4">
                                                 Até 3 currículos
                                             </div>
                                         </div>
 
                                         <div>
-                                            <p className="text-[#FAF6F0]/80 leading-relaxed mb-6">
+                                            <p className="text-paper/80 leading-relaxed mb-6">
                                                 Currículos personalizados para
                                                 até 3 instituições à sua
                                                 escolha, acompanhados de
@@ -530,7 +532,7 @@ export default function Curriculo() {
                                                     (label) => (
                                                         <div
                                                             key={label}
-                                                            className="border border-[#FAF6F0]/15 p-3 text-center text-xs uppercase tracking-[0.18em] text-[#FAF6F0]/70 font-medium"
+                                                            className="border border-paper/15 p-3 text-center text-xs uppercase tracking-[0.18em] text-paper/70 font-medium"
                                                         >
                                                             {label}
                                                         </div>
@@ -540,10 +542,10 @@ export default function Curriculo() {
                                         </div>
                                     </div>
 
-                                    <div className="text-xs uppercase tracking-[0.24em] text-[#E4B5AC] font-medium mb-6">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-rose font-medium mb-6">
                                         O que está incluído
                                     </div>
-                                    <ul className="grid md:grid-cols-2 gap-x-10 gap-y-4 text-[#FAF6F0]/85 mb-12">
+                                    <ul className="grid md:grid-cols-2 gap-x-10 gap-y-4 text-paper/85 mb-12">
                                         {inclusions.map((item, i) => (
                                             <li
                                                 key={i}
@@ -551,7 +553,7 @@ export default function Curriculo() {
                                             >
                                                 <span
                                                     aria-hidden
-                                                    className="text-[#E4B5AC] mt-[2px]"
+                                                    className="text-rose mt-[2px]"
                                                 >
                                                     —
                                                 </span>
@@ -562,12 +564,12 @@ export default function Curriculo() {
 
                                     <Button
                                         href="https://aamdias.notion.site/28499f313a2a80ee9f21d7cdd02a0212?pvs=105"
-                                        className="bg-[#FAF6F0] hover:bg-[#9A4639] text-[#1C1917] hover:text-[#FAF6F0] font-medium w-full justify-center py-[18px] rounded-none transition-colors duration-300"
+                                        className="bg-paper hover:bg-copper-dark text-ink hover:text-paper font-medium w-full justify-center py-[18px] rounded-none transition-colors duration-300"
                                     >
                                         Quero meu currículo
                                     </Button>
 
-                                    <div className="text-center mt-6 text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/40 font-medium">
+                                    <div className="text-center mt-6 text-xs uppercase tracking-[0.22em] text-paper/40 font-medium">
                                         Processo 100% online · Pagamento
                                         facilitado
                                     </div>
@@ -578,14 +580,14 @@ export default function Curriculo() {
                 </section>
 
                 {/* ============ CROSS-LINKS ============ */}
-                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0]">
+                <section className="py-20 lg:py-28 border-t border-line bg-paper">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-16">
                             <MotionBTTContainer
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                     Outros serviços
                                 </div>
                             </MotionBTTContainer>
@@ -603,32 +605,29 @@ export default function Curriculo() {
                             </MotionBTTContainer>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-0 border-t border-[#E7E2D9]">
+                        <div className="grid md:grid-cols-2 gap-0 border-t border-line">
                             <MotionBTTContainer
                                 transition={{ delay: 0.2, duration: 0.5 }}
                             >
                                 <Link
                                     href="/mentoria"
-                                    className="group block border-b md:border-b-0 md:border-r border-[#E7E2D9] py-10 lg:py-14 px-2 lg:px-8 hover:bg-[#F3EADB]/40 transition-colors duration-300 h-full"
+                                    className="group block border-b md:border-b-0 md:border-r border-line py-10 lg:py-14 px-2 lg:px-8 hover:bg-sand/40 transition-colors duration-300 h-full"
                                 >
-                                    <div className="text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium mb-4">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-stone font-medium mb-4">
                                         Mentoria individual
                                     </div>
-                                    <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] text-[#1C1917] group-hover:text-[#9A4639] transition-colors duration-300 mb-4">
+                                    <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] text-ink group-hover:text-copper-dark transition-colors duration-300 mb-4">
                                         Orientação completa para sua preparação.
                                     </h3>
-                                    <p className="text-[#57534E] leading-relaxed mb-6">
+                                    <p className="text-stone leading-relaxed mb-6">
                                         Estratégias de estudo, organização de
                                         rotina e preparação específica para as
                                         instituições de São Paulo.
                                     </p>
-                                    <div className="text-sm font-medium text-[#1C1917] group-hover:text-[#9A4639] transition-colors">
+                                    <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors">
                                         Conhecer a mentoria
-                                        <span
-                                            aria-hidden
-                                            className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1"
-                                        >
-                                            →
+                                        <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
+                                            <Chevron />
                                         </span>
                                     </div>
                                 </Link>
@@ -639,27 +638,24 @@ export default function Curriculo() {
                             >
                                 <Link
                                     href="/anotacoes"
-                                    className="group block border-b md:border-b-0 border-[#E7E2D9] py-10 lg:py-14 px-2 lg:px-8 hover:bg-[#F3EADB]/40 transition-colors duration-300 h-full"
+                                    className="group block border-b md:border-b-0 border-line py-10 lg:py-14 px-2 lg:px-8 hover:bg-sand/40 transition-colors duration-300 h-full"
                                 >
-                                    <div className="text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium mb-4">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-stone font-medium mb-4">
                                         Anotações originais
                                     </div>
-                                    <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] text-[#1C1917] group-hover:text-[#9A4639] transition-colors duration-300 mb-4">
+                                    <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] text-ink group-hover:text-copper-dark transition-colors duration-300 mb-4">
                                         +140 anotações que me aprovaram.
                                     </h3>
-                                    <p className="text-[#57534E] leading-relaxed mb-6">
+                                    <p className="text-stone leading-relaxed mb-6">
                                         Material completo organizado por
                                         especialidade, cobrindo Clínica
                                         Médica, Cirurgia, GO, Pediatria e
                                         Preventiva.
                                     </p>
-                                    <div className="text-sm font-medium text-[#1C1917] group-hover:text-[#9A4639] transition-colors">
+                                    <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors">
                                         Conhecer as anotações
-                                        <span
-                                            aria-hidden
-                                            className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1"
-                                        >
-                                            →
+                                        <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
+                                            <Chevron />
                                         </span>
                                     </div>
                                 </Link>
@@ -669,14 +665,14 @@ export default function Curriculo() {
                 </section>
 
                 {/* ============ FAQ ============ */}
-                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB]">
+                <section className="py-20 lg:py-28 border-t border-line bg-sand">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="mb-14 lg:mb-20">
                             <MotionBTTContainer
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                     Perguntas frequentes
                                 </div>
                             </MotionBTTContainer>

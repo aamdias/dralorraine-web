@@ -77,9 +77,10 @@ export default function Anotacoes() {
             <SEO
                 title="Anotações Originais | Dra. Lorraine Souza"
                 description="+140 anotações originais que levaram a Dra. Lorraine ao 1º lugar em Dermato na UNICAMP. Material organizado e focado no essencial."
+                url="/anotacoes"
             />
 
-            <div className="bg-[#FAF6F0] text-[#1C1917]">
+            <div className="bg-paper text-ink">
                 {/* ============ HERO ============ */}
                 <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +90,7 @@ export default function Anotacoes() {
                                     transition={{ delay: 0.1, duration: 0.5 }}
                                     className="mb-8"
                                 >
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                         Material exclusivo · +140 temas
                                     </div>
                                 </MotionBTTContainer>
@@ -99,7 +100,7 @@ export default function Anotacoes() {
                                 >
                                     <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
                                         As anotações que me levaram ao{" "}
-                                        <span className="italic text-[#9A4639]">
+                                        <span className="italic text-copper-dark">
                                             1º lugar
                                         </span>{" "}
                                         em Dermato.
@@ -110,7 +111,7 @@ export default function Anotacoes() {
                                     transition={{ delay: 0.3, duration: 0.6 }}
                                     className="mb-14 lg:mb-16"
                                 >
-                                    <p className="text-lg text-[#57534E] leading-relaxed max-w-lg">
+                                    <p className="text-lg text-stone leading-relaxed max-w-lg">
                                         +140 anotações originais, o mesmo
                                         material que levou à aprovação em
                                         UNICAMP, USP-RP, USP-SP e PUC Campinas.
@@ -125,13 +126,13 @@ export default function Anotacoes() {
                                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
                                         <Button
                                             href="#cta-anotacoes"
-                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
+                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
                                         >
                                             Quero garantir meu acesso
                                         </Button>
                                         <a
                                             href="#conteudo"
-                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
                                         >
                                             Ver o que está incluído
                                         </a>
@@ -145,9 +146,9 @@ export default function Anotacoes() {
                                 <div className="relative max-w-[440px] mx-auto lg:max-w-none">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                        className="absolute -inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
                                     />
-                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
+                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
                                         <Image
                                             src={PREVIEW_SRC}
                                             alt="Preview das anotações da Dra. Lorraine"
@@ -166,7 +167,7 @@ export default function Anotacoes() {
                 {/* ============ FEATURES ============ */}
                 <section
                     id="conteudo"
-                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#F3EADB] scroll-mt-24"
+                    className="py-20 lg:py-28 border-t border-line bg-sand scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-20">
@@ -174,7 +175,7 @@ export default function Anotacoes() {
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                     O que está incluído
                                 </div>
                             </MotionBTTContainer>
@@ -191,7 +192,7 @@ export default function Anotacoes() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <p className="text-lg text-[#3C3833] leading-relaxed">
+                                <p className="text-lg text-slate leading-relaxed">
                                     Material completo e organizado para
                                     maximizar seu aprendizado.
                                 </p>
@@ -207,19 +208,19 @@ export default function Anotacoes() {
                                         duration: 0.5
                                     }}
                                 >
-                                    <div className="border-t border-[#1C1917]/25 pt-6">
+                                    <div className="border-t border-ink/25 pt-6">
                                         <div className="flex items-baseline justify-between mb-3">
-                                            <div className="text-sm font-mono text-[#9A4639] tracking-[0.15em]">
+                                            <div className="text-sm font-mono text-copper-dark tracking-[0.15em]">
                                                 {f.n}
                                             </div>
-                                            <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
+                                            <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium">
                                                 {f.count}
                                             </div>
                                         </div>
-                                        <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-3 text-[#1C1917]">
+                                        <h3 className="text-2xl lg:text-3xl font-light tracking-[-0.01em] mb-3 text-ink">
                                             {f.area}
                                         </h3>
-                                        <p className="text-[#3C3833] leading-relaxed">
+                                        <p className="text-slate leading-relaxed">
                                             {f.description}
                                         </p>
                                     </div>
@@ -230,7 +231,7 @@ export default function Anotacoes() {
                 </section>
 
                 {/* ============ ABOUT ============ */}
-                <section className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0]">
+                <section className="py-20 lg:py-28 border-t border-line bg-paper">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20 items-center">
                             <MotionBTTContainer
@@ -239,9 +240,9 @@ export default function Anotacoes() {
                                 <div className="relative max-w-[360px] mx-auto lg:max-w-none">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-6 bg-[#9A4639]/[0.05] rounded-[4px]"
+                                        className="absolute -inset-6 bg-copper/[0.05] rounded-[4px]"
                                     />
-                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.25)]">
+                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.25)]">
                                         <Image
                                             src={PORTRAIT_SRC}
                                             alt="Dra. Lorraine Souza"
@@ -258,7 +259,7 @@ export default function Anotacoes() {
                                     transition={{ delay: 0.1, duration: 0.5 }}
                                     className="mb-6"
                                 >
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
                                         Quem escreveu
                                     </div>
                                 </MotionBTTContainer>
@@ -274,7 +275,7 @@ export default function Anotacoes() {
                                 <MotionBTTContainer
                                     transition={{ delay: 0.3, duration: 0.5 }}
                                 >
-                                    <p className="text-lg text-[#57534E] leading-relaxed">
+                                    <p className="text-lg text-stone leading-relaxed">
                                         Médica formada pela UNICAMP. Após muito
                                         esforço, alcancei um dos melhores
                                         resultados de aprovação para residência
@@ -293,7 +294,7 @@ export default function Anotacoes() {
                 {/* ============ PRICING ============ */}
                 <section
                     id="cta-anotacoes"
-                    className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#1C1917] text-[#FAF6F0] scroll-mt-24"
+                    className="py-20 lg:py-28 border-t border-line bg-ink text-paper scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20">
@@ -301,7 +302,7 @@ export default function Anotacoes() {
                                 transition={{ delay: 0.1, duration: 0.5 }}
                                 className="mb-6"
                             >
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium">
+                                <div className="text-xs uppercase tracking-[0.28em] text-rose font-medium">
                                     Condições especiais de lançamento
                                 </div>
                             </MotionBTTContainer>
@@ -311,7 +312,7 @@ export default function Anotacoes() {
                             >
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
                                     Garanta o seu{" "}
-                                    <span className="italic text-[#E4B5AC]">
+                                    <span className="italic text-rose">
                                         acesso
                                     </span>
                                     .
@@ -321,7 +322,7 @@ export default function Anotacoes() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <p className="text-lg text-[#FAF6F0]/70 leading-relaxed">
+                                <p className="text-lg text-paper/70 leading-relaxed">
                                     O mesmo material que me ajudou a conquistar
                                     a aprovação na residência médica.
                                 </p>
@@ -333,29 +334,29 @@ export default function Anotacoes() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.2, duration: 0.5 }}
                             >
-                                <div className="bg-[#FAF6F0] text-[#1C1917] h-full flex flex-col p-8 lg:p-10">
-                                    <div className="text-xs uppercase tracking-[0.24em] text-[#9A4639] font-medium mb-6">
+                                <div className="bg-paper text-ink h-full flex flex-col p-8 lg:p-10">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-copper-dark font-medium mb-6">
                                         Somente anotações
                                     </div>
 
-                                    <div className="border-t border-[#E7E2D9] pt-6 mb-8">
+                                    <div className="border-t border-line pt-6 mb-8">
                                         <div className="flex items-baseline gap-3">
-                                            <span className="text-sm text-[#57534E] line-through">
+                                            <span className="text-sm text-stone line-through">
                                                 R$199
                                             </span>
-                                            <span className="text-5xl font-light text-[#1C1917] tracking-tight">
+                                            <span className="text-5xl font-light text-ink tracking-tight">
                                                 R$ 149
                                             </span>
-                                            <span className="text-sm text-[#57534E]">
+                                            <span className="text-sm text-stone">
                                                 ,90
                                             </span>
                                         </div>
-                                        <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mt-3">
+                                        <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mt-3">
                                             Pagamento único · Acesso vitalício
                                         </div>
                                     </div>
 
-                                    <ul className="space-y-3 text-[#3C3833] flex-grow mb-10">
+                                    <ul className="space-y-3 text-slate flex-grow mb-10">
                                         {anotacoesInclusions.map((item, i) => (
                                             <li
                                                 key={i}
@@ -363,7 +364,7 @@ export default function Anotacoes() {
                                             >
                                                 <span
                                                     aria-hidden
-                                                    className="text-[#9A4639] mt-[2px]"
+                                                    className="text-copper-dark mt-[2px]"
                                                 >
                                                     —
                                                 </span>
@@ -377,7 +378,7 @@ export default function Anotacoes() {
                                         onClick={
                                             trackFacebookInitiateCheckoutAnotacoes
                                         }
-                                        className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
+                                        className="bg-ink hover:bg-copper-dark text-paper font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
                                     >
                                         Quero as anotações
                                     </Button>
@@ -388,32 +389,32 @@ export default function Anotacoes() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
-                                <div className="bg-[#2A2724] border border-[#FAF6F0]/10 text-[#FAF6F0] h-full flex flex-col p-8 lg:p-10 relative">
-                                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#9A4639] text-[#FAF6F0] text-xs uppercase tracking-[0.22em] font-medium px-3 py-1.5">
+                                <div className="bg-[#2A2724] border border-paper/10 text-paper h-full flex flex-col p-8 lg:p-10 relative">
+                                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-copper text-paper text-xs uppercase tracking-[0.22em] font-medium px-3 py-1.5">
                                         Mais vendido
                                     </div>
-                                    <div className="text-xs uppercase tracking-[0.24em] text-[#E4B5AC] font-medium mb-6">
+                                    <div className="text-xs uppercase tracking-[0.24em] text-rose font-medium mb-6">
                                         Combo completo
                                     </div>
 
-                                    <div className="border-t border-[#FAF6F0]/15 pt-6 mb-8">
+                                    <div className="border-t border-paper/15 pt-6 mb-8">
                                         <div className="flex items-baseline gap-3">
-                                            <span className="text-sm text-[#FAF6F0]/50 line-through">
+                                            <span className="text-sm text-paper/50 line-through">
                                                 R$299
                                             </span>
-                                            <span className="text-5xl font-light text-[#FAF6F0] tracking-tight">
+                                            <span className="text-5xl font-light text-paper tracking-tight">
                                                 R$ 199
                                             </span>
-                                            <span className="text-sm text-[#FAF6F0]/60">
+                                            <span className="text-sm text-paper/60">
                                                 ,90
                                             </span>
                                         </div>
-                                        <div className="text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/50 font-medium mt-3">
+                                        <div className="text-xs uppercase tracking-[0.22em] text-paper/50 font-medium mt-3">
                                             Anotações + Template Notion
                                         </div>
                                     </div>
 
-                                    <ul className="space-y-3 text-[#FAF6F0]/85 flex-grow mb-10">
+                                    <ul className="space-y-3 text-paper/85 flex-grow mb-10">
                                         {comboInclusions.map((item, i) => (
                                             <li
                                                 key={i}
@@ -421,7 +422,7 @@ export default function Anotacoes() {
                                             >
                                                 <span
                                                     aria-hidden
-                                                    className="text-[#E4B5AC] mt-[2px]"
+                                                    className="text-rose mt-[2px]"
                                                 >
                                                     —
                                                 </span>
@@ -435,7 +436,7 @@ export default function Anotacoes() {
                                         onClick={
                                             trackFacebookInitiateCheckoutCombo
                                         }
-                                        className="bg-[#FAF6F0] hover:bg-[#9A4639] text-[#1C1917] hover:text-[#FAF6F0] font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
+                                        className="bg-paper hover:bg-copper-dark text-ink hover:text-paper font-medium w-full justify-center py-[16px] rounded-none transition-colors duration-300"
                                     >
                                         Quero o combo
                                     </Button>
@@ -443,7 +444,7 @@ export default function Anotacoes() {
                             </MotionBTTContainer>
                         </div>
 
-                        <div className="text-center mt-10 text-xs uppercase tracking-[0.22em] text-[#FAF6F0]/40 font-medium">
+                        <div className="text-center mt-10 text-xs uppercase tracking-[0.22em] text-paper/40 font-medium">
                             Pagamento 100% seguro · Hotmart
                         </div>
                     </div>

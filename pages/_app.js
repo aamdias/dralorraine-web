@@ -1,5 +1,6 @@
 import "@styles/globals.scss";
 import Head from "next/head";
+import { inter, cormorantGaramond } from "@utils/fonts";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -48,6 +49,14 @@ export default function App({ Component, pageProps }) {
 
     return (
         <PostHogProvider client={posthog}>
+            {/* Fontes da marca (docs/brandbook.md §03). As variáveis precisam
+                ser declaradas aqui: next/font não funciona em _document.js. */}
+            <style jsx global>{`
+                :root {
+                    --font-body: ${inter.style.fontFamily};
+                    --font-display: ${cormorantGaramond.style.fontFamily};
+                }
+            `}</style>
             <Head>
                 <script async src="https://tally.so/widgets/embed.js"></script>
             </Head>

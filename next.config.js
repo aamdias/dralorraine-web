@@ -16,7 +16,7 @@ const nextConfig = {
         siteTitle: "Dra. Lorraine - Mentoria e Serviços para Residência Médica",
         siteDescription: "Serviços especializados para aprovação na residência médica em São Paulo: currículo profissional, mentoria individual e anotações de estudo. Aprovada em UNICAMP, USP, UNIFESP e PUC.",
         siteKeywords: "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo",
-        siteUrl: "https://dralorraine.com.br",
+        siteUrl: "https://www.dralorraine.com",
         siteImagePreviewUrl: "/lolo-portrait-home-page.png",
         twitterHandle: "@dralaorraine"
     },

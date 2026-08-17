@@ -1,17 +1,30 @@
 import Link from "next/link";
 import { SectionContainer } from "@components/Section";
-import { Nav } from "@components/Nav";
+import { Nav, NavToggle, MobileNav } from "@components/Nav";
 import { Logo } from "@components/Logo";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
+/**
+ * Header — brandbook §04.
+ * Lockup horizontal + fio divisor + navegação + CTA.
+ * O CTA "Agendar" mora no header: é a ação primária da marca. Abaixo de lg
+ * ele desce para dentro do painel mobile, nunca some.
+ */
 export const Header = () => {
     const router = useRouter();
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isNavOpen, setIsNavOpen] = useState(false);
 
     // Pages with intentionally dark/alt hero backgrounds
     const darkHeroPages = [];
     const hasDarkHero = darkHeroPages.includes(router.pathname);
+
+    // Páginas cuja primeira dobra já traz o campo de fundo da marca: no topo
+    // o header não pinta fundo nenhum e a dobra sobe atrás dele. A marca
+    // continua em cobre porque o campo é claro.
+    const softHeroPages = ["/"];
+    const hasSoftHero = softHeroPages.includes(router.pathname);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -22,7 +35,30 @@ export const Header = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const isTransparent = hasDarkHero && !isScrolled;
+    // Fecha o painel ao navegar (inclui âncoras na mesma página).
+    useEffect(() => {
+        const close = () => setIsNavOpen(false);
+        router.events.on("routeChangeComplete", close);
+        router.events.on("hashChangeComplete", close);
+        return () => {
+            router.events.off("routeChangeComplete", close);
+            router.events.off("hashChangeComplete", close);
+        };
+    }, [router.events]);
+
+    // Esc fecha o painel.
+    useEffect(() => {
+        if (!isNavOpen) return undefined;
+        const onKeyDown = (event) => {
+            if (event.key === "Escape") setIsNavOpen(false);
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [isNavOpen]);
+
+    // O painel aberto sempre usa o fundo sólido, mesmo em hero escuro.
+    const isTransparent = hasDarkHero && !isScrolled && !isNavOpen;
+    const isFloating = hasSoftHero && !isScrolled && !isNavOpen;
 
     return (
         <header
@@ -30,30 +66,63 @@ export const Header = () => {
             className={`header fixed py-3 left-0 w-full z-30 top-0 transition-all duration-300 ${
                 isTransparent
                     ? "bg-transparent header--transparent"
-                    : isScrolled
-                    ? "bg-[#FAF6F0]/90 backdrop-blur-md border-b border-[#E7E2D9]"
-                    : "bg-[#FAF6F0] border-b border-transparent"
+                    : isFloating
+                    ? "bg-transparent header--floating"
+                    : isScrolled || isNavOpen
+                    ? "bg-paper/95 backdrop-blur-md border-b border-line"
+                    : "bg-paper border-b border-transparent"
             }`}
         >
-            <SectionContainer className="header--container max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+            <SectionContainer className="header--container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
                 <div className="header-logo--container">
-                    <h1 className="logo mb-0">
-                        <Link
-                            href="/"
-                            aria-label="Ir para a página inicial"
-                            className="inline-flex items-center"
-                        >
+                    <Link
+                        href="/"
+                        aria-label="Ir para a página inicial"
+                        className="inline-flex items-center"
+                    >
+                        {/* Lockup completo a partir de sm; abaixo disso o
+                            monograma isolado, que é legível a 24px. */}
+                        <span className="hidden sm:block">
                             <Logo
-                                variant={isTransparent ? "light" : "dark"}
-                                className="h-6 w-auto"
+                                lockup="horizontal"
+                                tone={isTransparent ? "rose" : "copper"}
+                                markClassName="h-[38px] w-auto"
                             />
-                        </Link>
-                    </h1>
+                        </span>
+                        <span className="block sm:hidden">
+                            <Logo
+                                lockup="monogram"
+                                tone={isTransparent ? "rose" : "copper"}
+                                markClassName="h-8 w-auto"
+                            />
+                        </span>
+                    </Link>
                 </div>
-                <SectionContainer className="flex items-center ml-auto">
+                <div className="flex items-center gap-3 lg:gap-6 ml-auto">
                     <Nav isTransparent={isTransparent} />
-                </SectionContainer>
+                    <Link
+                        href="/consulta/agendar"
+                        role="button"
+                        className={`hidden lg:inline-flex items-center px-6 py-3 text-sm font-medium rounded-none transition-colors duration-300 ${
+                            isTransparent
+                                ? "bg-paper text-ink hover:bg-rose"
+                                : "bg-ink text-paper hover:bg-copper-dark"
+                        }`}
+                    >
+                        Agendar
+                    </Link>
+                    <NavToggle
+                        isOpen={isNavOpen}
+                        isTransparent={isTransparent}
+                        onToggle={() => setIsNavOpen((open) => !open)}
+                    />
+                </div>
             </SectionContainer>
+
+            <MobileNav
+                isOpen={isNavOpen}
+                onNavigate={() => setIsNavOpen(false)}
+            />
         </header>
     );
 };

@@ -4,6 +4,11 @@
 ** Custom Fonts styling
 =========================================================
 
-**/
+As famílias da marca (Inter + Cormorant Garamond) são carregadas por
+`next/font/google` em utils/fonts.js e expostas como as CSS variables
+`--font-body` e `--font-display` em pages/_document.js.
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+Não reintroduzir `@import url(fonts.googleapis.com)` aqui: duplicaria o
+download e reintroduziria o render-blocking que o next/font elimina.
+
+**/

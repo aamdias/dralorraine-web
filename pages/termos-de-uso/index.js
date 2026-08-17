@@ -8,6 +8,7 @@ export default function TermsOfUse() {
             <SEO
                 title="Termos de Uso | Dra. Lorraine"
                 description="Termos e condições do serviço de consulta online de dermatologia."
+                url="/termos-de-uso"
             />
             <div className="main-wrapper bg-[#FBF7F2] pt-28 pb-20 min-h-screen">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">

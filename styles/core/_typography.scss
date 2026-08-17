@@ -16,6 +16,19 @@
     @apply mb-8;
   }
 
+  // Cormorant Garamond assume os títulos (brandbook §03). h5/h6 permanecem
+  // em Inter: abaixo de 20px a serifa fina deixa de ser legível.
+  h1,
+  h2,
+  h3,
+  h4,
+  .h1,
+  .h2,
+  .h3,
+  .h4 {
+    @apply font-display font-light;
+  }
+
   h1,
   .h1 {
     @apply text-h1;
@@ -47,14 +60,25 @@
 
   p {
     @apply my-8;
-    &:last-child,
-    &:first-child {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    + p {
-      margin-top: 0;
-    }
+  }
+
+  // As pseudo-classes vão dentro de :where() de propósito.
+  //
+  // Escrito como `p:last-child`, o seletor tem especificidade 0-1-1 e vence
+  // qualquer utilitário `mt-*` (0-1-0), independentemente da ordem das
+  // layers — um `mt-10` no componente simplesmente não acontece, e sem erro
+  // nenhum. Com `p:where(...)` a especificidade cai para 0-0-1: ainda vence
+  // o `p { my-8 }` acima (mesma especificidade, vem depois), mas perde para
+  // o utilitário, que é quem deve mandar.
+  //
+  // `p + p` fica fora do :where(): 0-0-2 já perde para o utilitário.
+  p:where(:last-child, :first-child) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  p + p {
+    margin-top: 0;
   }
 
   p,
