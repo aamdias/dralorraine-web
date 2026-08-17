@@ -25,7 +25,7 @@ const modalities = [
             "Agenda combinada direto comigo, pelo WhatsApp.",
         ],
         note: "Valor conforme o caso · combinamos antes",
-        cta: "Ver atendimento presencial",
+        cta: "Tenho interesse",
         primary: true,
     },
     {
@@ -403,7 +403,7 @@ export default function ConsultaPage() {
                                                                 </li>
                                                             ))}
                                                         </ul>
-                                                        <p className="mt-5 text-sm text-stone leading-relaxed">
+                                                        <p className="mt-7 pt-6 border-t border-line text-sm text-stone leading-relaxed">
                                                             {area.procedureNote}
                                                         </p>
                                                     </div>

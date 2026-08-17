@@ -437,7 +437,7 @@ function ModalityChoice({ onChoose }) {
                         onClick={() => onChoose("presencial")}
                         className="inline-flex items-center justify-center w-full px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
                     >
-                        Consulta presencial
+                        Tenho interesse
                         <span className="ml-2 inline-block align-middle">
                             <Chevron />
                         </span>

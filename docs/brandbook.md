@@ -184,6 +184,22 @@ Uma única ênfase por título, **em itálico**. O cobre escuro marca a palavra 
 
 Não faça: serifa em caixa alta, peso alto, ou cobre puro em texto. Caixa alta só em labels de 12px.
 
+### Espaçamento de parágrafo: cuidado com a especificidade
+
+`styles/core/_typography.scss` dá a todo `<p>` um `my-8` e zera a margem no primeiro e no
+último filho. Essa regra de reset **precisa** ficar em `p:where(:first-child, :last-child)`.
+
+Escrita como `p:last-child`, ela tem especificidade 0-1-1 e vence qualquer `mt-*` (0-1-0)
+— ordem de layer não resolve, especificidade vem antes. O sintoma é cruel: você escreve
+`mt-10` no componente, o build passa, a classe aparece no HTML e a margem simplesmente não
+acontece. Vários ajustes de respiro ficaram mortos assim.
+
+Se um espaçamento em `<p>` não estiver valendo, confira antes de aumentar o número:
+
+```js
+getComputedStyle(document.querySelector("p.mt-10")).marginTop;
+```
+
 ### Duas armadilhas já pagas
 
 1. **`next/font` não funciona em `pages/_document.js`.** As variáveis precisam ser declaradas
@@ -228,6 +244,10 @@ página perde o prumo. Blocos de leitura (prose, formulário) se estreitam **por
 (`max-w-2xl`, `max-w-3xl`), nunca trocando o container externo.
 
 ### Chevron, não seta
+
+Rótulo de botão cabe em **uma linha**. No mobile os cards têm ~280px úteis; "Ver atendimento
+presencial" quebrava em duas. Prefira o verbo curto — "Tenho interesse" — a espremer a
+tipografia ou deixar o botão com duas alturas diferentes lado a lado.
 
 Ações que avançam usam o chevron de traço fino de
 [`components/Chevron`](../components/Chevron/Chevron.js), não `→`. O traço de 1,5 conversa com
