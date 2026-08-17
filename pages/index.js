@@ -5,6 +5,12 @@ import { Results } from "@components/Results";
 import { Monogram } from "@components/Logo";
 import { Chevron } from "@components/Chevron";
 import SEO from "@components/SEO/SEO";
+import {
+    StructuredData,
+    personSchema,
+    practiceSchema,
+    webSiteSchema
+} from "@components/StructuredData";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -87,8 +93,13 @@ export default function Home() {
     return (
         <Layout>
             <SEO
-                title="Dra. Lorraine Souza | Dermatologia · Mentoria · Residência"
-                description="Médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Consulta em dermatologia, mentoria para residência médica, anotações e currículo."
+                title="Dra. Lorraine Souza | Dermatologista em Campinas e videoconsulta"
+                description="Dermatologista formada pela UNICAMP e R3 em Dermatologia na UNICAMP. Consulta presencial em Campinas, São Paulo, e videoconsulta. Também mentoria para residência médica."
+                url="/"
+                type="profile"
+            />
+            <StructuredData
+                graph={[personSchema(), practiceSchema(), webSiteSchema()]}
             />
 
             <div className="bg-paper text-ink">

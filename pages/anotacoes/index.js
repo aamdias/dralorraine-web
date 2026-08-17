@@ -77,6 +77,7 @@ export default function Anotacoes() {
             <SEO
                 title="Anotações Originais | Dra. Lorraine Souza"
                 description="+140 anotações originais que levaram a Dra. Lorraine ao 1º lugar em Dermato na UNICAMP. Material organizado e focado no essencial."
+                url="/anotacoes"
             />
 
             <div className="bg-paper text-ink">

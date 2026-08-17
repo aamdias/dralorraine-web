@@ -1,29 +1,85 @@
-# Allow AI bots for Answer Engine Optimization (AEO)
+# GPTBot
 User-agent: GPTBot
 Allow: /
 
+# OAI-SearchBot
+User-agent: OAI-SearchBot
+Allow: /
+
+# ChatGPT-User
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
-
+# ClaudeBot
 User-agent: ClaudeBot
 Allow: /
 
-User-agent: Google-Extended
+# Claude-User
+User-agent: Claude-User
 Allow: /
 
+# Claude-SearchBot
+User-agent: Claude-SearchBot
+Allow: /
+
+# anthropic-ai
 User-agent: anthropic-ai
 Allow: /
 
+# PerplexityBot
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity-User
+User-agent: Perplexity-User
+Allow: /
+
+# Google-Extended
+User-agent: Google-Extended
+Allow: /
+
+# Applebot
+User-agent: Applebot
+Allow: /
+
+# Applebot-Extended
 User-agent: Applebot-Extended
 Allow: /
 
-# Allow all other bots
-User-agent: *
+# Bingbot
+User-agent: Bingbot
 Allow: /
 
-# Sitemap location
-Sitemap: https://dralaorraine.com.br/sitemap.xml
+# meta-externalagent
+User-agent: meta-externalagent
+Allow: /
 
+# Amazonbot
+User-agent: Amazonbot
+Allow: /
+
+# cohere-ai
+User-agent: cohere-ai
+Allow: /
+
+# DuckAssistBot
+User-agent: DuckAssistBot
+Allow: /
+
+# MistralAI-User
+User-agent: MistralAI-User
+Allow: /
+
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /consulta/agendar
+Disallow: /mentoria/check-out
+
+# Host
+Host: https://www.dralorraine.com
+
+# Sitemaps
+Sitemap: https://www.dralorraine.com/sitemap.xml

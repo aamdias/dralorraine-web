@@ -219,16 +219,17 @@ export default function AgendarPage() {
                 description="Agende sua videoconsulta de dermatologia em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
                 image="/lolo-portrait-consulta.jpg"
                 url="/consulta/agendar"
+                noindex
             />
 
             {/* Alinhado ao mesmo container do header (max-w-7xl). No desktop
                 o fluxo vira duas colunas: contexto e passos à esquerda,
                 formulário à direita — a coluna única de 3xl deixava metade
                 da tela vazia. */}
-            <div className="bg-paper text-ink min-h-screen pt-36 pb-24">
+            <div className="bg-paper text-ink min-h-screen pt-32 pb-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
-                    <div className="mb-12 lg:mb-16 max-w-3xl">
+                    <div className="mb-10 lg:mb-12 max-w-3xl">
                         <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
                             {modality === "presencial"
                                 ? "Agendamento · Presencial"
@@ -236,7 +237,7 @@ export default function AgendarPage() {
                                 ? "Agendamento · Videoconsulta"
                                 : "Agendamento"}
                         </div>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-4 text-balance">
+                        <h1 className="text-3xl lg:text-4xl font-light leading-[1.15] tracking-[-0.02em] mb-4 text-balance">
                             {modality ? (
                                 <>
                                     Vamos agendar sua{" "}
@@ -294,7 +295,7 @@ export default function AgendarPage() {
 
                             <div className="min-w-0">
                     {/* Card */}
-                    <div className="bg-[#FBF8F2] border border-line mt-10 lg:mt-0 p-6 sm:p-10 lg:p-12">
+                    <div className="bg-[#FBF8F2] border border-line mt-10 lg:mt-0 p-6 sm:p-10 lg:px-12 lg:py-10">
                         {step === 1 && (
                             <StepAboutYou
                                 data={data}
@@ -492,53 +493,70 @@ function ModalityChoice({ onChoose }) {
 
 /* ─── Presencial ─────────────────────────────────────────────────────── */
 
+/**
+ * Painel presencial em duas colunas no desktop.
+ *
+ * A pitch e o CTA ficam à esquerda, a lista de procedimentos à direita: em
+ * coluna única o botão do WhatsApp caía abaixo da dobra em 1440x1000, e a
+ * ação primária desta tela não pode exigir rolagem. O título da página já
+ * diz "Atendo presencialmente em Campinas", então o painel não repete.
+ */
 function StepPresencial({ onChooseVideo }) {
     return (
-        <div className="max-w-3xl bg-[#FBF8F2] border border-line p-6 sm:p-10 lg:p-12">
-            <StepHeader
-                eyebrow="Presencial · Campinas, SP"
-                title="Atendo presencialmente em Campinas."
-                description="A consulta presencial permite examinar a pele de perto e, quando fizer sentido, já realizar o procedimento na mesma visita."
-            />
+        <div className="bg-[#FBF8F2] border border-line p-6 sm:p-10 lg:p-12">
+            <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] gap-10 lg:gap-16">
+                <div className="flex flex-col">
+                    <div className="text-xs uppercase tracking-label text-copper-dark font-medium">
+                        Presencial · Campinas, SP
+                    </div>
+                    <p className="mt-5 text-lg text-slate leading-relaxed">
+                        A consulta presencial permite examinar a pele de perto
+                        e, quando fizer sentido, já realizar o procedimento na
+                        mesma visita.
+                    </p>
+                    <p className="mt-6 text-sm text-stone leading-relaxed">
+                        A agenda do consultório não é fechada por aqui. Me chame
+                        no WhatsApp e combinamos data, endereço e valor conforme
+                        o que você precisa.
+                    </p>
 
-            <div className="border-t border-line pt-8">
-                <div className="text-xs uppercase tracking-label text-stone font-medium mb-5">
-                    Procedimentos realizados
-                </div>
-                <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-ink">
-                    {PRESENCIAL_PROCEDURES.map((item) => (
-                        <li key={item} className="flex items-baseline gap-3">
-                            <span aria-hidden className="text-copper-dark">
-                                —
+                    <div className="mt-auto pt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                        <a
+                            href={WHATSAPP_PRESENCIAL_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
+                        >
+                            Agendar pelo WhatsApp
+                            <span className="ml-2 inline-block align-middle">
+                                <Chevron />
                             </span>
-                            <span>{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                        </a>
+                        <button
+                            type="button"
+                            onClick={onChooseVideo}
+                            className="text-sm text-stone hover:text-copper-dark underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors text-center sm:text-left"
+                        >
+                            Prefiro a videoconsulta
+                        </button>
+                    </div>
+                </div>
 
-            <p className="mt-8 text-sm text-stone leading-relaxed border-t border-line pt-6">
-                A agenda do consultório não é fechada por aqui. Me chame no
-                WhatsApp e combinamos data, endereço e valor conforme o que você
-                precisa.
-            </p>
-
-            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                <a
-                    href={WHATSAPP_PRESENCIAL_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
-                >
-                    Agendar pelo WhatsApp
-                </a>
-                <button
-                    type="button"
-                    onClick={onChooseVideo}
-                    className="text-sm text-stone hover:text-copper-dark underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors text-center sm:text-left"
-                >
-                    Prefiro a videoconsulta
-                </button>
+                <div className="border-t lg:border-t-0 lg:border-l border-line pt-8 lg:pt-0 lg:pl-16">
+                    <div className="text-xs uppercase tracking-label text-stone font-medium mb-5">
+                        Procedimentos realizados
+                    </div>
+                    <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-x-8 gap-y-3 text-ink">
+                        {PRESENCIAL_PROCEDURES.map((item) => (
+                            <li key={item} className="flex items-baseline gap-3">
+                                <span aria-hidden className="text-copper-dark">
+                                    —
+                                </span>
+                                <span>{item}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );
@@ -818,7 +836,7 @@ function StepActions({
     nextType = "submit"
 }) {
     return (
-        <div className="flex items-center justify-between pt-8 mt-10 border-t border-line">
+        <div className="flex items-center justify-between pt-7 mt-8 border-t border-line">
             {onBack ? (
                 <button
                     type="button"
@@ -844,7 +862,7 @@ function StepActions({
 
 function StepHeader({ eyebrow, title, description }) {
     return (
-        <div className="mb-10">
+        <div className="mb-8">
             {eyebrow && (
                 <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-4">
                     {eyebrow}
@@ -933,7 +951,7 @@ function StepAboutYou({ data, update, onNext }) {
                 title="Seus dados básicos."
                 description="Começamos com as informações essenciais para identificar o atendimento."
             />
-            <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
+            <div className="grid sm:grid-cols-2 gap-x-10 gap-y-7">
                 <div className="sm:col-span-2">
                     <Field label="Nome completo" required>
                         <input
@@ -1378,7 +1396,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                 </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-8 mt-10 border-t border-line">
+            <div className="flex items-center justify-between pt-7 mt-8 border-t border-line">
                 <button
                     type="button"
                     onClick={onBack}

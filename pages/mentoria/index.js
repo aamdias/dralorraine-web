@@ -78,6 +78,7 @@ export default function MentorshipPage() {
             <SEO
                 title="Mentoria para Residência Médica | Dra. Lorraine Souza"
                 description="Mentoria personalizada com quem conquistou o 1º lugar em Dermato na UNICAMP. Planejamento, rotina e preparação até a aprovação."
+                url="/mentoria"
             />
 
             <div className="bg-paper text-ink">

@@ -50,7 +50,7 @@ function siteUrl() {
         process.env.NEXT_PUBLIC_SITE_URL ||
         process.env.SITE_URL ||
         process.env.siteUrl ||
-        "https://dralorraine.com.br"
+        "https://www.dralorraine.com"
     ).replace(/\/$/, "");
 }
 

@@ -111,7 +111,7 @@ export default function Curriculo() {
             },
             {
                 "@type": "Person",
-                name: "Dra. Lorraine Almeida",
+                name: "Dra. Lorraine Souza",
                 jobTitle:
                     "Médica e Mentora para Residência Médica",
                 description:
@@ -144,8 +144,8 @@ export default function Curriculo() {
                 name: "Dra. Lorraine - Serviços para Residência Médica",
                 description:
                     "Serviços para aprovação em residência médica: elaboração de currículo profissional, mentoria individual e material de estudo.",
-                url: "https://dralaorraine.com.br",
-                logo: "https://dralaorraine.com.br/newlogo-dralorraine-web.svg",
+                url: "https://www.dralorraine.com",
+                logo: "https://www.dralorraine.com/ls-monogram.svg",
                 address: {
                     "@type": "PostalAddress",
                     addressLocality: "São Paulo",
@@ -154,7 +154,7 @@ export default function Curriculo() {
                 },
                 founder: {
                     "@type": "Person",
-                    name: "Dra. Lorraine Almeida"
+                    name: "Dra. Lorraine Souza"
                 },
                 areaServed: {
                     "@type": "State",
@@ -214,6 +214,7 @@ export default function Curriculo() {
                 title="Currículo Profissional para Residência Médica | Dra. Lorraine"
                 description="Currículo premium para residência médica em São Paulo. Experiência comprovada com notas 10 em UNICAMP e USP-SP e 9.5 em UNIFESP."
                 keywords="currículo residência médica, UNICAMP residência, USP residência, UNIFESP residência, PUC residência"
+                url="/curriculo"
             />
 
             <div className="bg-paper text-ink">

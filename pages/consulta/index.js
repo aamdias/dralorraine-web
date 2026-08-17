@@ -4,6 +4,13 @@ import { Button } from "@components/Button";
 import { Chevron } from "@components/Chevron";
 import { Disclosure, DisclosureList } from "@components/Disclosure";
 import SEO from "@components/SEO/SEO";
+import {
+    StructuredData,
+    personSchema,
+    practiceSchema,
+    faqSchema,
+    breadcrumbSchema
+} from "@components/StructuredData";
 import Image from "next/image";
 
 const stats = [
@@ -135,8 +142,20 @@ export default function ConsultaPage() {
     return (
         <Layout>
             <SEO
-                title="Consulta Online de Dermatologia | Dra. Lorraine"
-                description="Consulta de dermatologia com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Por videoconsulta ou presencialmente em Campinas, São Paulo."
+                title="Consulta de Dermatologia em Campinas e Online | Dra. Lorraine Souza"
+                description="Consulta de dermatologia com a Dra. Lorraine Souza, médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Presencial em Campinas, São Paulo, com procedimentos de cosmiatria, ou por videoconsulta."
+                url="/consulta"
+            />
+            <StructuredData
+                graph={[
+                    personSchema(),
+                    practiceSchema(),
+                    faqSchema(faqs),
+                    breadcrumbSchema([
+                        { name: "Início", path: "/" },
+                        { name: "Consulta", path: "/consulta" }
+                    ])
+                ]}
             />
             <div className="main-wrapper relative z-10 bg-paper text-ink">
                 {/* ============ HERO ============ */}

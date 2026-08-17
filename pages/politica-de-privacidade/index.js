@@ -8,6 +8,7 @@ export default function PrivacyPolicy() {
             <SEO
                 title="Política de Privacidade | Dra. Lorraine"
                 description="Como tratamos seus dados pessoais, incluindo dados sensíveis de saúde, em conformidade com a LGPD."
+                url="/politica-de-privacidade"
             />
             <div className="main-wrapper bg-[#FBF7F2] pt-28 pb-20 min-h-screen">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">

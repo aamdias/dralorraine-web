@@ -9,7 +9,8 @@ está implementado, onde mora cada decisão e o que não pode ser quebrado.
 
 Índice: [01 Marca](#01-marca) · [02 Cores](#02-cores) · [03 Tipografia](#03-tipografia) ·
 [04 Componentes](#04-componentes) · [05 Fotografia](#05-fotografia) · [06 Voz](#06-tom-de-voz) ·
-[07 Aplicações](#07-aplicações) · [08 Para o dev](#08-para-o-dev) · [Pendências](#pendências-conhecidas)
+[07 Aplicações](#07-aplicações) ·
+[08 Descoberta](#08-descoberta-busca-e-llms) · [09 Para o dev](#09-para-o-dev) · [Pendências](#pendências-conhecidas)
 
 ---
 
@@ -421,7 +422,63 @@ Mesmo sistema fora do site: monograma, cobre, fio de 1px e muito papel.
 
 ---
 
-## 08 Para o dev
+## 08 Descoberta: busca e LLMs
+
+O site precisa ser achável tanto por buscador quanto por assistente de IA. As duas coisas
+dependem da mesma base: uma identidade declarada com clareza e uma URL só por página.
+
+### Uma fonte de verdade para o domínio
+
+Toda URL absoluta sai de [`utils/site.js`](../utils/site.js). O domínio canônico é
+**https://www.dralorraine.com**. Antes disso ele aparecia em três grafias pelo repositório
+(`dralorraine.com.br`, `www.dralorraine.com` e o typo `dralaorraine.com.br`), o que quebrava
+sitemap, canonical e dados estruturados ao mesmo tempo. Nunca escreva o domínio à mão.
+
+### Metadados
+
+`components/SEO/SEO.js` cuida de title, description, canonical, Open Graph e Twitter.
+**Sempre passe `url`** com o caminho da página — sem ele toda página se declara como a home e
+o buscador trata isso como conteúdo duplicado. Use `noindex` em fluxo de agendamento,
+checkout e área restrita.
+
+### Dados estruturados
+
+[`components/StructuredData`](../components/StructuredData/StructuredData.js) monta o JSON-LD.
+Um `@graph` por página, nunca dois blocos. Os `@id` são estáveis e compartilhados entre as
+páginas para que tudo se resolva como **uma** entidade:
+
+| Schema | Onde | Para quê |
+| --- | --- | --- |
+| `Physician` | home, consulta | Quem é a médica, especialidade, formação, o que domina |
+| `MedicalBusiness` | home, consulta | Consultório em Campinas e os procedimentos oferecidos |
+| `FAQPage` | consulta, currículo | Formato que mais aparece em resposta de LLM e rich result |
+| `BreadcrumbList` | páginas internas | Hierarquia do site |
+| `WebSite` | home | Identidade do site |
+
+Endereço de rua e telefone ficam **fora** do schema até serem confirmados. Cidade e estado já
+sustentam a busca local. Se a verba de dados locais aumentar (endereço completo, horário de
+atendimento, `telephone`), é aqui que entra.
+
+### robots.txt, sitemap e llms.txt
+
+- `next-sitemap.config.js` gera os dois no `postbuild`. O script não existia: o sitemap
+  simplesmente nunca era gerado.
+- Rastreadores de LLM (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, …) são liberados de
+  propósito — é o que permite que o site seja citado em resposta gerada por IA. Bloquear
+  qualquer um deles tira a marca desse canal.
+- [`public/llms.txt`](../public/llms.txt) descreve o consultório em texto corrido para
+  assistentes. **Mantenha sincronizado com o site**: se o preço, a cidade ou as modalidades
+  mudarem, mude lá também — é dali que sai a resposta que a pessoa lê.
+
+### Ao criar uma página nova
+
+- [ ] `<SEO>` com `title`, `description` e `url` próprios.
+- [ ] Um `<h1>` só, descrevendo a página.
+- [ ] JSON-LD quando houver entidade ou FAQ.
+- [ ] Entrou no sitemap? Se for página de fluxo, adicione a `exclude` e marque `noindex`.
+- [ ] Vale citar em `llms.txt`?
+
+## 09 Para o dev
 
 ### Onde mora cada coisa
 
