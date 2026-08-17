@@ -25,7 +25,7 @@ const services = [
         description:
             "Uma hora de avaliação completa, conduta personalizada e 14 dias de suporte.",
         href: "/consulta",
-        cta: "Agendar consulta"
+        cta: "Ver a consulta"
     },
     {
         n: "02",
@@ -65,7 +65,11 @@ const paths = [
             "Conduta por escrito, baseada em evidência, com o porquê de cada passo.",
             "14 dias de suporte direto comigo para ajustar o tratamento."
         ],
-        cta: { label: "Agendar consulta", href: "/consulta", primary: true }
+        cta: {
+            label: "Agendar consulta",
+            href: "/consulta/agendar",
+            primary: true
+        }
     },
     {
         eyebrow: "Para médicos em preparação",
@@ -89,9 +93,42 @@ export default function Home() {
 
             <div className="bg-paper text-ink">
                 {/* ============ HERO ============ */}
-                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* O campo de fundo sobe atrás do header fixo (que fica
+                    transparente no topo da home), então header e primeira
+                    dobra leem como um bloco só. Papel prensado: gradiente
+                    quente + grão + um halo de cobre atrás do retrato.
+                    Nada de sombra — ver docs/brandbook.md §04. */}
+                <section className="relative isolate overflow-hidden pt-36 pb-20 lg:pt-48 lg:pb-28">
+                    <div
+                        aria-hidden
+                        className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
+                    />
+                    <div
+                        aria-hidden
+                        className="absolute -z-20 -top-[28%] right-[-45%] w-[150%] sm:right-[-10%] sm:w-[68%] h-[145%] rounded-full bg-[radial-gradient(closest-side,rgba(180,137,103,0.32),rgba(180,137,103,0.10)_55%,transparent_100%)]"
+                    />
+                    <div
+                        aria-hidden
+                        className="absolute -z-20 -top-[10%] -left-[18%] h-[95%] w-[58%] rounded-full bg-[radial-gradient(closest-side,rgba(231,211,196,0.55),transparent_100%)]"
+                    />
+                    {/* Grão de papel: dá a textura de letterpress que a marca pede */}
+                    <div
+                        aria-hidden
+                        className="absolute inset-0 -z-10 opacity-[0.35] mix-blend-multiply bg-[url('/noise.webp')] bg-repeat bg-[length:220px_220px]"
+                    />
+                    {/* Fio de cobre fechando a dobra */}
+                    <div
+                        aria-hidden
+                        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
+                    />
+
+                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-[88px] items-center">
+                            {/* Fio de margem: âncora editorial da coluna de texto */}
+                            <div
+                                aria-hidden
+                                className="hidden lg:block absolute left-0 top-2 bottom-2 w-px bg-[linear-gradient(180deg,transparent,rgba(180,137,103,0.55)_18%,rgba(180,137,103,0.55)_82%,transparent)]"
+                            />
                             <div>
                                 <MotionBTTContainer
                                     transition={{ delay: 0.1, duration: 0.5 }}
@@ -133,7 +170,7 @@ export default function Home() {
                                 >
                                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-9 py-2">
                                         <Button
-                                            href="/consulta"
+                                            href="/consulta/agendar"
                                             className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
                                         >
                                             Agendar consulta
@@ -183,7 +220,7 @@ export default function Home() {
                 </section>
 
                 {/* ============ STATS STRIP ============ */}
-                <section className="border-t border-line bg-paper">
+                <section className="bg-paper">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
                             {stats.map((s, i) => (
@@ -211,7 +248,7 @@ export default function Home() {
                 {/* ============ PERSONAL HISTORY ============ */}
                 <section
                     id="personal-history"
-                    className="py-20 lg:py-28 border-t border-line bg-sand scroll-mt-24"
+                    className="py-20 lg:py-28 bg-sand scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[1fr_1.35fr] gap-12 lg:gap-[88px]">
@@ -292,7 +329,7 @@ export default function Home() {
                 {/* ============ SOLUTIONS ============ */}
                 <section
                     id="solutions"
-                    className="py-20 lg:py-28 border-t border-line bg-paper scroll-mt-24"
+                    className="py-20 lg:py-28 bg-paper scroll-mt-24"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-[72px]">
@@ -386,15 +423,14 @@ export default function Home() {
                                     className="h-14 lg:h-[60px] w-auto"
                                 />
                                 <h2 className="font-display font-light text-4xl lg:text-[3.75rem] leading-[1.06] tracking-[-0.02em] mt-9 mb-0 text-paper max-w-3xl">
-                                    A mesma exigência que me levou ao{" "}
+                                    Comece por onde fizer{" "}
                                     <span className="italic text-rose">
-                                        1º lugar na UNICAMP
+                                        mais sentido
                                     </span>{" "}
-                                    está em cada consulta.
+                                    para você.
                                 </h2>
-                                <p className="text-lg text-paper/70 leading-[1.7] max-w-lg mt-6">
-                                    Escolha por onde começar. Nos dois caminhos,
-                                    você fala direto comigo.
+                                <p className="text-lg text-paper/70 leading-[1.7] max-w-lg mt-8 lg:mt-10">
+                                    Nos dois caminhos, você fala direto comigo.
                                 </p>
                             </div>
                         </MotionBTTContainer>
@@ -447,7 +483,7 @@ export default function Home() {
                             </div>
                         </MotionBTTContainer>
 
-                        <p className="text-center text-[13px] text-paper/45 leading-[1.7] mt-8 mx-auto max-w-xl">
+                        <p className="text-center text-[13px] text-paper/45 leading-[1.7] mt-14 lg:mt-16 mx-auto max-w-xl">
                             Não sabe qual caminho é o seu? Escreva para{" "}
                             <a
                                 href="mailto:contato@dralorraine.com"

@@ -24,6 +24,14 @@
                 background: rgba(250, 246, 240, 0.18);
             }
         }
+
+        // Sobre a primeira dobra da home o header não desenha fio nenhum:
+        // o campo de fundo passa por baixo dele sem costura.
+        &.header--floating {
+            &:after {
+                background: transparent;
+            }
+        }
     }
 
     .header--container {

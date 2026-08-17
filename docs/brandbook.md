@@ -215,6 +215,32 @@ também resolve para 0px.
 
 O CTA no header é parte da identidade nova: a ação primária da marca fica sempre visível.
 
+### Primeira dobra: o campo de papel
+
+Home e Consulta abrem com o mesmo campo de fundo, e ele **sobe atrás do header**. Na home o
+header não pinta fundo enquanto está no topo (`header--floating`), então header e primeira
+dobra leem como um bloco só; ao rolar, ele assume papel + blur + fio.
+
+A composição, de baixo para cima:
+
+1. Gradiente quente diagonal, de Areia funda até Papel — a dobra resolve na cor do resto da página.
+2. Halo de cobre atrás do retrato e um halo de rosa pálido atrás do título. **Responsivos**:
+   em telas estreitas o halo precisa ser mais largo que a viewport, senão a borda da elipse
+   vira uma emenda visível.
+3. Grão de papel (`/noise.webp`) em `mix-blend-multiply` — é o que dá a leitura de letterpress.
+4. Fio de cobre de 1px fechando a dobra, esmaecendo nas pontas.
+
+Continua valendo: nada de sombra, nada de raio. A profundidade vem da luz, não de elevação.
+
+### Divisores: menos é mais
+
+Fio de 1px **não** se acumula com troca de fundo. Quando a seção seguinte muda de superfície
+(Papel → Areia → Tinta), a própria mudança separa: um `border-t` ali por cima endurece a
+emenda. Use fio de seção só entre duas seções da mesma cor, e prefira resolver com respiro.
+
+Dentro do conteúdo os fios continuam: linhas de serviço, tabela de aprovações, disclosures.
+Ali eles são estrutura, não separação.
+
 ### Revelação progressiva
 
 A página não despeja texto de uma vez. Blocos longos ficam fechados por padrão em
@@ -278,6 +304,10 @@ Consulta **não** enumera as duas opções de antemão — quem clica em "Agenda
   microagulhamento) **não** são "o que a consulta não cobre": são o que a modalidade
   presencial oferece. Qualquer lista de limitações precisa apontar para o presencial, e não
   soar como recusa.
+- Todo CTA escrito "Agendar consulta" leva para `/consulta/agendar`, que abre na escolha.
+  CTAs que levam para a página informativa usam verbo de leitura ("Ver a consulta").
+- Depois de escolher, a `ModalityBar` fica no topo com a modalidade e o "Trocar tipo de
+  consulta". Voltar para a escolha não pode depender de achar um link no fim da página.
 
 ---
 

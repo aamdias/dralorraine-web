@@ -32,7 +32,7 @@ export const Results = () => {
     return (
         <section
             id="results"
-            className="py-20 lg:py-28 border-t border-line bg-paper scroll-mt-24"
+            className="py-20 lg:py-28 bg-paper scroll-mt-24"
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-2xl mb-14 lg:mb-[72px]">
@@ -53,10 +53,28 @@ export const Results = () => {
                             <span className="italic">Dermatologia</span> nas
                             instituições mais concorridas do país.
                         </h2>
+                        <p className="text-lg text-stone leading-[1.7] mt-8">
+                            Os números são a minha colocação em cada processo
+                            seletivo.
+                        </p>
                     </MotionBTTContainer>
                 </div>
 
-                <div className="border-t border-line">
+                {/* Cabeçalho da tabela: sem ele, "1º" e "2º" viram números
+                    soltos e ninguém sabe que são a colocação. */}
+                <div className="grid grid-cols-[64px_1fr] sm:grid-cols-[92px_1fr_auto] gap-5 sm:gap-9 pb-4 border-b border-line">
+                    <div className="text-xs uppercase tracking-label text-stone font-medium">
+                        Colocação
+                    </div>
+                    <div className="text-xs uppercase tracking-label text-stone font-medium">
+                        Instituição
+                    </div>
+                    <div className="hidden sm:block text-xs uppercase tracking-label text-stone font-medium">
+                        Chamada
+                    </div>
+                </div>
+
+                <div>
                     {approvals.map((a, i) => (
                         <MotionBTTContainer
                             key={i}
@@ -67,7 +85,10 @@ export const Results = () => {
                         >
                             <div className="grid grid-cols-[64px_1fr] sm:grid-cols-[92px_1fr_auto] gap-5 sm:gap-9 items-baseline py-6 lg:py-8 border-b border-line">
                                 <div className="font-display font-light text-[2.75rem] lg:text-[4rem] text-copper leading-none">
-                                    {a.rank}
+                                    <span className="sr-only">
+                                        {`${a.rank} lugar em `}
+                                    </span>
+                                    <span aria-hidden>{a.rank}</span>
                                 </div>
                                 <div>
                                     <div className="font-display font-normal text-2xl lg:text-[1.75rem] text-ink leading-[1.2]">

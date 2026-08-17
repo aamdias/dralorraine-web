@@ -143,7 +143,7 @@ export const MobileNav = ({ isOpen, onNavigate }) => {
             </nav>
             <div className="px-4 sm:px-6 py-5 border-t border-line">
                 <Link
-                    href="/consulta"
+                    href="/consulta/agendar"
                     role="button"
                     onClick={onNavigate}
                     className="flex items-center justify-center w-full px-6 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"

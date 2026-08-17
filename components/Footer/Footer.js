@@ -43,7 +43,7 @@ export const Footer = () => {
     return (
         <footer
             id="footer"
-            className="bg-paper text-ink border-t border-line"
+            className="bg-paper text-ink"
         >
             <SectionContainer className="wrap wrap-px">
                 <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12">

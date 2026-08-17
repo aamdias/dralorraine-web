@@ -12,30 +12,34 @@ const stats = [
     { figure: "14 dias", label: "de suporte pós-consulta" },
 ];
 
-const steps = [
+const modalities = [
     {
-        n: "01",
-        title: "Conte sua história",
+        eyebrow: "Onde você estiver",
+        title: "Videoconsulta",
         description:
-            "Um formulário curto: seus dados e, se quiser, a queixa que te trouxe até aqui.",
+            "Uma hora por vídeo, com análise prévia das suas fotos e conduta por escrito. Agendamento e pagamento pelo site.",
+        items: [
+            "Formulário curto e envio de fotos antes do encontro.",
+            "Prescrição digital com assinatura válida, quando indicada.",
+            "14 dias de suporte por mensagem para ajustar o tratamento.",
+        ],
+        note: "R$ 350 · pagamento único",
+        cta: "Agendar videoconsulta",
+        primary: true,
     },
     {
-        n: "02",
-        title: "Envie fotos da sua pele",
+        eyebrow: "Campinas · São Paulo",
+        title: "Consulta presencial",
         description:
-            "Fotos nítidas em boa iluminação ajudam a Dra. Lorraine a entender seu caso antes do encontro.",
-    },
-    {
-        n: "03",
-        title: "Efetue o pagamento",
-        description:
-            "Pagamento seguro via PIX, cartão ou boleto. Confirmação em tempo real.",
-    },
-    {
-        n: "04",
-        title: "Agende sua videoconsulta",
-        description:
-            "Escolha o horário ideal. Você recebe lembretes e o link do Google Meet por e-mail.",
+            "No consultório, com exame de pele presencial e a possibilidade de realizar o procedimento na mesma visita.",
+        items: [
+            "Exame presencial de pele, cabelos e unhas.",
+            "Procedimentos de cosmiatria feitos na própria consulta.",
+            "Agenda combinada direto comigo, pelo WhatsApp.",
+        ],
+        note: "Valor conforme o caso · combinamos antes",
+        cta: "Ver atendimento presencial",
+        primary: false,
     },
 ];
 
@@ -50,21 +54,28 @@ const indications = [
     "Revisão de tratamentos",
 ];
 
+// Dois focos, não três: cosmiatria e dermatologia clínica. A cirúrgica saiu
+// do destaque porque não é o que atendo — casos assim recebem orientação e
+// encaminhamento, e isso já está dito na seção "Para quem é".
 const focusAreas = [
     {
         title: "Cosmiatria",
         description:
-            "Planejamento de cuidados e procedimentos estéticos, como toxina botulínica, preenchimentos, lasers, bioestimuladores e melhora global da qualidade da pele.",
+            "Planejamento de cuidados e procedimentos estéticos: qualidade da pele, textura, manchas e sinais de envelhecimento. Na consulta a gente decide o que faz sentido para a sua pele, em que ordem e com qual expectativa. Sem pacote pronto.",
+        procedures: [
+            "Toxina botulínica (Botox)",
+            "Bioestimulador de colágeno",
+            "Preenchimento com ácido hialurônico",
+            "Peelings",
+            "Microagulhamento",
+        ],
+        procedureNote:
+            "Realizo esses procedimentos presencialmente, no consultório em Campinas, São Paulo.",
     },
     {
         title: "Dermatologia clínica",
         description:
-            "Avaliação de acne, rosácea, melasma, dermatites, queda de cabelo, alergias, manchas, pintas e outras queixas comuns da pele, cabelos e unhas.",
-    },
-    {
-        title: "Dermatologia cirúrgica",
-        description:
-            "Orientação sobre câncer de pele, cistos, verrugas, lipomas e lesões que podem precisar de exame presencial, biópsia ou retirada cirúrgica.",
+            "Avaliação e tratamento de acne, rosácea, melasma, dermatites, queda de cabelo, alergias, manchas, pintas e outras queixas de pele, cabelos e unhas. Conduta baseada em evidência, explicada passo a passo.",
     },
 ];
 
@@ -128,8 +139,28 @@ export default function ConsultaPage() {
             />
             <div className="main-wrapper relative z-10 bg-paper text-ink">
                 {/* ============ HERO ============ */}
-                <section className="pt-32 pb-14 md:pb-16 lg:pb-20">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Mesmo campo de fundo da home: gradiente quente, grão de
+                    papel e fio de cobre fechando a dobra. O respiro superior
+                    é maior porque o header é fixo — o retrato estava colado
+                    nele. Ver docs/brandbook.md §04. */}
+                <section className="relative isolate overflow-hidden pt-36 pb-20 md:pb-24 lg:pt-48 lg:pb-28">
+                    <div
+                        aria-hidden
+                        className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
+                    />
+                    <div
+                        aria-hidden
+                        className="absolute -z-20 -top-[28%] right-[-45%] w-[150%] sm:right-[-10%] sm:w-[68%] h-[145%] rounded-full bg-[radial-gradient(closest-side,rgba(180,137,103,0.30),rgba(180,137,103,0.09)_55%,transparent_100%)]"
+                    />
+                    <div
+                        aria-hidden
+                        className="absolute inset-0 -z-10 opacity-[0.35] mix-blend-multiply bg-[url('/noise.webp')] bg-repeat bg-[length:220px_220px]"
+                    />
+                    <div
+                        aria-hidden
+                        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
+                    />
+                    <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid md:grid-cols-[minmax(0,1.02fr)_minmax(260px,0.72fr)] min-[900px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.78fr)] lg:grid-cols-[1.05fr_0.9fr] gap-12 md:gap-7 min-[900px]:gap-8 lg:gap-16 items-center">
                             <div className="order-1 md:max-w-[560px] min-[900px]:max-w-[620px]">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
@@ -167,10 +198,10 @@ export default function ConsultaPage() {
                                             Agendar consulta
                                         </Button>
                                         <a
-                                            href="#como-funciona"
+                                            href="#modalidades"
                                             className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
                                         >
-                                            Saiba como funciona
+                                            Ver as duas opções
                                         </a>
                                     </div>
                                 </MotionBTTContainer>
@@ -183,9 +214,17 @@ export default function ConsultaPage() {
                                 <div className="relative max-w-[420px] mx-auto md:max-w-[300px] md:mr-0 min-[900px]:max-w-[340px] lg:max-w-[440px]">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-4 sm:-inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
+                                        className="absolute -inset-4 lg:-inset-7 bg-copper/[0.08]"
                                     />
-                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.35)]">
+                                    <div
+                                        aria-hidden
+                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-16 lg:w-[88px] h-px bg-copper"
+                                    />
+                                    <div
+                                        aria-hidden
+                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-px h-16 lg:h-[88px] bg-copper"
+                                    />
+                                    <div className="relative aspect-[3/4] bg-line overflow-hidden">
                                         <Image
                                             src={PORTRAIT_SRC}
                                             alt="Dra. Lorraine Souza"
@@ -226,40 +265,73 @@ export default function ConsultaPage() {
                     </div>
                 </section>
 
-                {/* ============ HOW IT WORKS ============ */}
-                <section id="como-funciona" className="py-20 lg:py-24 scroll-mt-24">
+                {/* ============ AS DUAS MODALIDADES ============ */}
+                {/* Substitui o antigo "Como funciona", que descrevia só o
+                    fluxo da videoconsulta. Aqui as duas formas de atendimento
+                    aparecem lado a lado, e a escolha acontece no agendamento. */}
+                <section id="modalidades" className="py-20 lg:py-24 scroll-mt-24">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="max-w-2xl mb-14 lg:mb-16">
-                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
-                                    Como funciona
+                                <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
+                                    Duas formas de atendimento
                                 </div>
-                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
-                                    Um caminho simples,
-                                    <br className="hidden sm:block" />
-                                    em <span className="italic">quatro passos</span>.
+                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
+                                    Por vídeo ou{" "}
+                                    <span className="italic">no consultório</span>.
                                 </h2>
+                                <p className="text-lg text-stone leading-relaxed">
+                                    Você escolhe o formato no primeiro passo do
+                                    agendamento.
+                                </p>
                             </div>
                         </MotionBTTContainer>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-                            {steps.map((step, i) => (
+
+                        <div className="grid md:grid-cols-2 gap-px bg-line border border-line">
+                            {modalities.map((modality, i) => (
                                 <MotionBTTContainer
-                                    key={i}
+                                    key={modality.title}
                                     transition={{
                                         delay: 0.2 + i * 0.1,
                                         duration: 0.5,
                                     }}
                                 >
-                                    <div className="border-t border-ink pt-6">
-                                        <div className="text-sm font-medium text-copper-dark tracking-wider mb-8">
-                                            {step.n}
+                                    <div className="bg-paper h-full p-8 lg:p-10 flex flex-col">
+                                        <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
+                                            {modality.eyebrow}
                                         </div>
-                                        <h3 className="text-xl font-medium text-ink mb-4 tracking-tight">
-                                            {step.title}
+                                        <h3 className="text-2xl lg:text-[1.75rem] font-normal leading-[1.2] text-ink mt-4 mb-0">
+                                            {modality.title}
                                         </h3>
-                                        <p className="text-stone leading-relaxed">
-                                            {step.description}
+                                        <p className="mt-3 text-stone leading-relaxed">
+                                            {modality.description}
                                         </p>
+                                        <ul className="mt-7 space-y-3 text-[15px] text-slate leading-relaxed">
+                                            {modality.items.map((item) => (
+                                                <li key={item} className="flex gap-3.5">
+                                                    <span
+                                                        aria-hidden
+                                                        className="w-3.5 h-px bg-copper mt-[11px] flex-none"
+                                                    />
+                                                    <span>{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <div className="mt-auto pt-10">
+                                            <div className="text-sm text-stone mb-5">
+                                                {modality.note}
+                                            </div>
+                                            <Button
+                                                href="/consulta/agendar"
+                                                className={
+                                                    modality.primary
+                                                        ? "bg-ink hover:bg-copper-dark text-paper font-medium w-full justify-center py-4 rounded-none transition-colors duration-300"
+                                                        : "border border-ink text-ink hover:bg-ink hover:text-paper font-medium w-full justify-center py-4 rounded-none transition-colors duration-300"
+                                                }
+                                            >
+                                                {modality.cta}
+                                            </Button>
+                                        </div>
                                     </div>
                                 </MotionBTTContainer>
                             ))}
@@ -284,16 +356,17 @@ export default function ConsultaPage() {
                                         .
                                     </h2>
                                     <p className="text-lg text-stone leading-relaxed">
-                                        Na videoconsulta, a Dra. Lorraine avalia sua
-                                        história, suas fotos e seus objetivos para
-                                        orientar o melhor caminho. Quando houver
-                                        necessidade de procedimento ou cirurgia, você
-                                        recebe uma indicação clara dos próximos passos.
+                                        Dois focos de atendimento: cuidar da
+                                        saúde da pele e planejar o que melhora
+                                        a sua qualidade. Os procedimentos de
+                                        cosmiatria são realizados
+                                        presencialmente, em Campinas, São
+                                        Paulo.
                                     </p>
                                 </div>
 
-                                {/* Revelação progressiva: os três títulos dão
-                                    o mapa; o detalhe abre sob demanda. */}
+                                {/* Revelação progressiva: os títulos dão o
+                                    mapa; o detalhe abre sob demanda. */}
                                 <DisclosureList>
                                     {focusAreas.map((area, i) => (
                                         <MotionBTTContainer
@@ -304,7 +377,33 @@ export default function ConsultaPage() {
                                             }}
                                         >
                                             <Disclosure title={area.title}>
-                                                {area.description}
+                                                <p>{area.description}</p>
+                                                {area.procedures && (
+                                                    <div className="mt-7 border-t border-line pt-6">
+                                                        <div className="text-xs uppercase tracking-label text-stone font-medium mb-4">
+                                                            Procedimentos que realizo
+                                                        </div>
+                                                        <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-ink">
+                                                            {area.procedures.map((item) => (
+                                                                <li
+                                                                    key={item}
+                                                                    className="flex items-baseline gap-3"
+                                                                >
+                                                                    <span
+                                                                        aria-hidden
+                                                                        className="text-copper-dark"
+                                                                    >
+                                                                        —
+                                                                    </span>
+                                                                    <span>{item}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                        <p className="mt-5 text-sm text-stone leading-relaxed">
+                                                            {area.procedureNote}
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </Disclosure>
                                         </MotionBTTContainer>
                                     ))}
@@ -502,7 +601,7 @@ export default function ConsultaPage() {
                                     >
                                         Agendar consulta
                                     </Button>
-                                    <p className="text-xs text-stone mt-6">
+                                    <p className="text-xs text-stone mt-10 leading-relaxed max-w-sm">
                                         Você escolhe entre videoconsulta e
                                         atendimento presencial em Campinas no
                                         primeiro passo do agendamento.
@@ -563,7 +662,7 @@ export default function ConsultaPage() {
                                     Agendar minha consulta
                                 </Button>
                                 <a
-                                    href="#como-funciona"
+                                    href="#modalidades"
                                     className="text-ink hover:text-copper-dark font-medium underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors"
                                 >
                                     Rever como funciona

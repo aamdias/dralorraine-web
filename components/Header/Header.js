@@ -20,6 +20,12 @@ export const Header = () => {
     const darkHeroPages = [];
     const hasDarkHero = darkHeroPages.includes(router.pathname);
 
+    // Páginas cuja primeira dobra já traz o campo de fundo da marca: no topo
+    // o header não pinta fundo nenhum e a dobra sobe atrás dele. A marca
+    // continua em cobre porque o campo é claro.
+    const softHeroPages = ["/"];
+    const hasSoftHero = softHeroPages.includes(router.pathname);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 80);
@@ -52,6 +58,7 @@ export const Header = () => {
 
     // O painel aberto sempre usa o fundo sólido, mesmo em hero escuro.
     const isTransparent = hasDarkHero && !isScrolled && !isNavOpen;
+    const isFloating = hasSoftHero && !isScrolled && !isNavOpen;
 
     return (
         <header
@@ -59,6 +66,8 @@ export const Header = () => {
             className={`header fixed py-3 left-0 w-full z-30 top-0 transition-all duration-300 ${
                 isTransparent
                     ? "bg-transparent header--transparent"
+                    : isFloating
+                    ? "bg-transparent header--floating"
                     : isScrolled || isNavOpen
                     ? "bg-paper/95 backdrop-blur-md border-b border-line"
                     : "bg-paper border-b border-transparent"
@@ -92,7 +101,7 @@ export const Header = () => {
                 <div className="flex items-center gap-3 lg:gap-6 ml-auto">
                     <Nav isTransparent={isTransparent} />
                     <Link
-                        href="/consulta"
+                        href="/consulta/agendar"
                         role="button"
                         className={`hidden lg:inline-flex items-center px-6 py-3 text-sm font-medium rounded-none transition-colors duration-300 ${
                             isTransparent

@@ -263,6 +263,13 @@ export default function AgendarPage() {
                         <ModalityChoice onChoose={(value) => setModality(value)} />
                     )}
 
+                    {modality && (
+                        <ModalityBar
+                            modality={modality}
+                            onReset={() => setModality("")}
+                        />
+                    )}
+
                     {modality === "presencial" && (
                         <StepPresencial
                             onChooseVideo={() => setModality("video")}
@@ -321,16 +328,6 @@ export default function AgendarPage() {
                         )}
                     </div>
 
-                    {step === 1 && (
-                        <button
-                            type="button"
-                            onClick={() => setModality("presencial")}
-                            className="mt-8 text-sm text-stone hover:text-copper-dark underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors"
-                        >
-                            Prefiro a consulta presencial
-                        </button>
-                    )}
-
                     <div className="mt-24 lg:mt-32 pt-10 border-t border-line">
                         <p className="text-center text-xs uppercase tracking-label text-stone/70 font-medium flex items-center justify-center gap-2">
                             <LockGlyph />
@@ -346,6 +343,33 @@ export default function AgendarPage() {
 }
 
 /* ─── Modality choice ────────────────────────────────────────────────── */
+
+/**
+ * Barra de contexto: mostra a modalidade escolhida e devolve para a escolha.
+ * Fica no topo, sempre visível — voltar para a tela de escolha não pode
+ * depender de achar um link no fim da página.
+ */
+function ModalityBar({ modality, onReset }) {
+    return (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-between border-t border-b border-line py-4 mb-10">
+            <span className="text-xs uppercase tracking-label text-stone font-medium">
+                {modality === "presencial"
+                    ? "Consulta presencial · Campinas, SP"
+                    : "Videoconsulta"}
+            </span>
+            <button
+                type="button"
+                onClick={onReset}
+                className="inline-flex items-center gap-2 text-sm text-ink hover:text-copper-dark transition-colors"
+            >
+                <span aria-hidden className="text-copper">
+                    ←
+                </span>
+                Trocar tipo de consulta
+            </button>
+        </div>
+    );
+}
 
 const Rule = () => (
     <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
