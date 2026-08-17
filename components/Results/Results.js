@@ -34,7 +34,7 @@ export const Results = () => {
             id="results"
             className="py-20 lg:py-28 bg-paper scroll-mt-24"
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-2xl mb-14 lg:mb-[72px]">
                     <MotionBTTContainer
                         transition={{ delay: 0.1, duration: 0.5 }}
@@ -61,18 +61,23 @@ export const Results = () => {
                 </div>
 
                 {/* Cabeçalho da tabela: sem ele, "1º" e "2º" viram números
-                    soltos e ninguém sabe que são a colocação. */}
-                <div className="grid grid-cols-[64px_1fr] sm:grid-cols-[92px_1fr_auto] gap-5 sm:gap-9 pb-4 border-b border-line">
+                    soltos e ninguém sabe que são a colocação.
+                    Só a partir de sm — na coluna de 64px do mobile os rótulos
+                    em caixa alta com 0,24em de tracking se sobrepõem. No
+                    mobile quem explica é a frase acima da tabela. */}
+                <div className="hidden sm:grid sm:grid-cols-[92px_1fr_auto] gap-9 pb-4 border-b border-line">
                     <div className="text-xs uppercase tracking-label text-stone font-medium">
                         Colocação
                     </div>
                     <div className="text-xs uppercase tracking-label text-stone font-medium">
                         Instituição
                     </div>
-                    <div className="hidden sm:block text-xs uppercase tracking-label text-stone font-medium">
+                    <div className="text-xs uppercase tracking-label text-stone font-medium">
                         Chamada
                     </div>
                 </div>
+                {/* No mobile a tabela ainda precisa de uma linha superior */}
+                <div aria-hidden className="sm:hidden border-b border-line" />
 
                 <div>
                     {approvals.map((a, i) => (

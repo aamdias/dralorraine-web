@@ -45,7 +45,7 @@ export const Footer = () => {
             id="footer"
             className="bg-paper text-ink"
         >
-            <SectionContainer className="wrap wrap-px">
+            <SectionContainer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12">
                     {/* Identity */}
                     <div className="lg:col-span-5">

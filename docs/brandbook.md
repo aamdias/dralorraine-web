@@ -215,6 +215,25 @@ também resolve para 0px.
 
 O CTA no header é parte da identidade nova: a ação primária da marca fica sempre visível.
 
+### Grade: uma largura só
+
+Header, seções e rodapé compartilham o mesmo container:
+
+```
+max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+```
+
+Não misture larguras entre header e conteúdo — a marca fica recuada em relação ao texto e a
+página perde o prumo. Blocos de leitura (prose, formulário) se estreitam **por dentro**
+(`max-w-2xl`, `max-w-3xl`), nunca trocando o container externo.
+
+### Chevron, não seta
+
+Ações que avançam usam o chevron de traço fino de
+[`components/Chevron`](../components/Chevron/Chevron.js), não `→`. O traço de 1,5 conversa com
+os fios do sistema; a seta cheia é pesada demais para a marca. Ele herda `currentColor` — em
+linha de serviço o rótulo fica em tinta e o chevron em cobre.
+
 ### Primeira dobra: o campo de papel
 
 Home e Consulta abrem com o mesmo campo de fundo, e ele **sobe atrás do header**. Na home o
@@ -292,8 +311,16 @@ Consulta **não** enumera as duas opções de antemão — quem clica em "Agenda
 
 | Modalidade | Como funciona | Onde vive |
 | --- | --- | --- |
-| Videoconsulta | Fluxo de 6 passos, pagamento online. É a única com preço publicado (R$ 350). | `StepAboutYou` → `StepSchedule` |
 | Presencial · Campinas, SP | Sem agendamento online: procedimentos listados e CTA para o WhatsApp. | `StepPresencial` |
+| Videoconsulta | Fluxo de 6 passos, pagamento online. É a única com preço publicado (R$ 350). | `StepAboutYou` → `StepSchedule` |
+
+**A presencial vem primeiro e leva o botão primário** — é o atendimento completo, onde o exame
+de pele e os procedimentos acontecem. A videoconsulta fica em secundário (contorno). A ordem
+é a mesma na página de Consulta e na tela de agendamento; não deixe as duas divergirem.
+
+No desktop o fluxo de vídeo é de duas colunas: trilha de passos (vertical, sticky) à esquerda,
+formulário à direita. Abaixo de `lg` a trilha vira horizontal e, no mobile, uma barra de
+progresso com "passo N de M".
 
 - O **preço só aparece na videoconsulta**. R$ 350 é o valor do atendimento remoto; publicá-lo
   em página que cobre as duas modalidades induz a erro.

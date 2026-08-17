@@ -1,6 +1,7 @@
 import { Layout } from "@components/Layout";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
+import { Chevron } from "@components/Chevron";
 import { Disclosure, DisclosureList } from "@components/Disclosure";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
@@ -14,20 +15,6 @@ const stats = [
 
 const modalities = [
     {
-        eyebrow: "Onde você estiver",
-        title: "Videoconsulta",
-        description:
-            "Uma hora por vídeo, com análise prévia das suas fotos e conduta por escrito. Agendamento e pagamento pelo site.",
-        items: [
-            "Formulário curto e envio de fotos antes do encontro.",
-            "Prescrição digital com assinatura válida, quando indicada.",
-            "14 dias de suporte por mensagem para ajustar o tratamento.",
-        ],
-        note: "R$ 350 · pagamento único",
-        cta: "Agendar videoconsulta",
-        primary: true,
-    },
-    {
         eyebrow: "Campinas · São Paulo",
         title: "Consulta presencial",
         description:
@@ -39,6 +26,20 @@ const modalities = [
         ],
         note: "Valor conforme o caso · combinamos antes",
         cta: "Ver atendimento presencial",
+        primary: true,
+    },
+    {
+        eyebrow: "Onde você estiver",
+        title: "Videoconsulta",
+        description:
+            "Uma hora por vídeo, com análise prévia das suas fotos e conduta por escrito. Agendamento e pagamento pelo site.",
+        items: [
+            "Formulário curto e envio de fotos antes do encontro.",
+            "Prescrição digital com assinatura válida, quando indicada.",
+            "14 dias de suporte por mensagem para ajustar o tratamento.",
+        ],
+        note: "R$ 350 · pagamento único",
+        cta: "Agendar videoconsulta",
         primary: false,
     },
 ];
@@ -160,7 +161,7 @@ export default function ConsultaPage() {
                         aria-hidden
                         className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
                     />
-                    <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid md:grid-cols-[minmax(0,1.02fr)_minmax(260px,0.72fr)] min-[900px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.78fr)] lg:grid-cols-[1.05fr_0.9fr] gap-12 md:gap-7 min-[900px]:gap-8 lg:gap-16 items-center">
                             <div className="order-1 md:max-w-[560px] min-[900px]:max-w-[620px]">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
@@ -242,7 +243,7 @@ export default function ConsultaPage() {
 
                 {/* ============ STATS ============ */}
                 <section className="border-y border-line">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8">
                             {stats.map((s, i) => (
                                 <div
@@ -270,7 +271,7 @@ export default function ConsultaPage() {
                     fluxo da videoconsulta. Aqui as duas formas de atendimento
                     aparecem lado a lado, e a escolha acontece no agendamento. */}
                 <section id="modalidades" className="py-20 lg:py-24 scroll-mt-24">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="max-w-2xl mb-14 lg:mb-16">
                                 <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
@@ -330,6 +331,9 @@ export default function ConsultaPage() {
                                                 }
                                             >
                                                 {modality.cta}
+                                                <span className="ml-2 inline-block align-middle">
+                                                    <Chevron />
+                                                </span>
                                             </Button>
                                         </div>
                                     </div>
@@ -341,7 +345,7 @@ export default function ConsultaPage() {
 
                 {/* ============ FOCUS AREAS ============ */}
                 <section className="py-20 lg:py-24 border-t border-line">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
                                 <div>
@@ -415,7 +419,7 @@ export default function ConsultaPage() {
 
                 {/* ============ FOR WHOM ============ */}
                 <section className="py-20 lg:py-24 border-t border-line bg-sand">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="max-w-2xl mb-14 lg:mb-16">
                                 <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
@@ -490,7 +494,7 @@ export default function ConsultaPage() {
 
                 {/* ============ ABOUT ============ */}
                 <section className="py-20 lg:py-24 border-t border-line">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[0.85fr_1fr] gap-12 lg:gap-20 items-center">
                             <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
                                 <div className="relative aspect-[3/4] max-w-[440px] mx-auto lg:max-w-none">

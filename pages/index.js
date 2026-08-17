@@ -3,7 +3,7 @@ import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { Results } from "@components/Results";
 import { Monogram } from "@components/Logo";
-import { Disclosure, DisclosureList } from "@components/Disclosure";
+import { Chevron } from "@components/Chevron";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
 import Link from "next/link";
@@ -157,11 +157,11 @@ export default function Home() {
                                 >
                                     <p className="text-lg text-stone leading-[1.7] max-w-lg">
                                         Sou médica pela UNICAMP e R3 em
-                                        Dermatologia na UNICAMP. Atendo pacientes
-                                        por videoconsulta e acompanho médicos em
-                                        preparação para residência,
-                                        compartilhando o que aprendi ao longo da
-                                        jornada.
+                                        Dermatologia na UNICAMP. Atendo no
+                                        consultório, em Campinas, e por
+                                        videoconsulta, de onde você estiver.
+                                        Também acompanho médicos em preparação
+                                        para a residência.
                                     </p>
                                 </MotionBTTContainer>
 
@@ -250,7 +250,7 @@ export default function Home() {
                     id="personal-history"
                     className="py-20 lg:py-28 bg-sand scroll-mt-24"
                 >
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[1fr_1.35fr] gap-12 lg:gap-[88px]">
                             <div>
                                 <MotionBTTContainer
@@ -287,10 +287,8 @@ export default function Home() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.3, duration: 0.6 }}
                             >
-                                {/* O primeiro parágrafo fica aberto; o resto
-                                    da trajetória abre sob demanda. */}
-                                <div className="text-slate text-lg leading-[1.7]">
-                                    <p className="mb-10">
+                                <div className="space-y-6 text-slate text-lg leading-[1.7]">
+                                    <p>
                                         Sou médica formada pela UNICAMP, onde a
                                         dermatologia se tornou meu foco desde a
                                         graduação. Minha trajetória combina
@@ -298,25 +296,23 @@ export default function Home() {
                                         curiosidade constante de cuidar melhor
                                         da pele de cada pessoa.
                                     </p>
-                                    <DisclosureList>
-                                        <Disclosure title="Como cheguei à Dermatologia">
-                                            Na preparação para a residência,
-                                            conquistei o 1º lugar em
-                                            Dermatologia na UNICAMP, além de
-                                            aprovações em USP-RP, USP-SP e PUC
-                                            Campinas. Esse resultado nasceu de
-                                            método, consistência e escolhas bem
-                                            feitas ao longo do caminho.
-                                        </Disclosure>
-                                        <Disclosure title="O que faço hoje">
-                                            Como R3 em Dermatologia na UNICAMP,
-                                            levo essa mesma combinação de
-                                            ciência, organização e escuta para
-                                            as consultas e para a mentoria de
-                                            médicos que também estão
-                                            construindo seus próximos passos.
-                                        </Disclosure>
-                                    </DisclosureList>
+                                    <p>
+                                        Na preparação para a residência,
+                                        conquistei o 1º lugar em Dermatologia
+                                        na UNICAMP, além de aprovações em
+                                        USP-RP, USP-SP e PUC Campinas. Esse
+                                        resultado nasceu de método,
+                                        consistência e escolhas bem feitas ao
+                                        longo do caminho.
+                                    </p>
+                                    <p>
+                                        Hoje, como R3 em Dermatologia na
+                                        UNICAMP, levo essa mesma combinação de
+                                        ciência, organização e escuta para as
+                                        consultas e para a mentoria de médicos
+                                        que também estão construindo seus
+                                        próximos passos.
+                                    </p>
                                 </div>
                             </MotionBTTContainer>
                         </div>
@@ -331,7 +327,7 @@ export default function Home() {
                     id="solutions"
                     className="py-20 lg:py-28 bg-paper scroll-mt-24"
                 >
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-2xl mb-14 lg:mb-[72px]">
                             <MotionBTTContainer
                                 transition={{ delay: 0.1, duration: 0.5 }}
@@ -395,11 +391,8 @@ export default function Home() {
                                             </div>
                                             <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors whitespace-nowrap">
                                                 {s.cta}
-                                                <span
-                                                    aria-hidden
-                                                    className="ml-2 inline-block text-copper transition-transform duration-300 group-hover:translate-x-1"
-                                                >
-                                                    →
+                                                <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
+                                                    <Chevron />
                                                 </span>
                                             </div>
                                         </div>

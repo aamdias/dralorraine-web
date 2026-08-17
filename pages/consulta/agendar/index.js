@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { upload } from "@vercel/blob/client";
 import { Layout } from "@components/Layout";
+import { Chevron } from "@components/Chevron";
 import SEO from "@components/SEO/SEO";
 
 const STORAGE_KEY = "consulta_agendamento_v1";
@@ -220,10 +221,14 @@ export default function AgendarPage() {
                 url="/consulta/agendar"
             />
 
-            <div className="bg-paper text-ink min-h-screen pt-32 pb-24">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Alinhado ao mesmo container do header (max-w-7xl). No desktop
+                o fluxo vira duas colunas: contexto e passos à esquerda,
+                formulário à direita — a coluna única de 3xl deixava metade
+                da tela vazia. */}
+            <div className="bg-paper text-ink min-h-screen pt-36 pb-24">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
-                    <div className="mb-12 lg:mb-16">
+                    <div className="mb-12 lg:mb-16 max-w-3xl">
                         <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
                             {modality === "presencial"
                                 ? "Agendamento · Presencial"
@@ -277,12 +282,19 @@ export default function AgendarPage() {
                     )}
 
                     {modality === "video" && (
-                        <>
-                    {/* Progress */}
-                    <StepProgress currentStep={step} />
+                        <div className="grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-16 xl:gap-20 items-start">
+                            {/* Coluna de contexto — acompanha a rolagem no desktop */}
+                            <aside className="lg:sticky lg:top-28">
+                                <StepProgress currentStep={step} />
+                                <p className="hidden lg:flex items-center gap-2 mt-10 pt-8 border-t border-line text-xs uppercase tracking-label text-stone/70 font-medium">
+                                    <LockGlyph />
+                                    Criptografado · LGPD
+                                </p>
+                            </aside>
 
+                            <div className="min-w-0">
                     {/* Card */}
-                    <div className="bg-[#FBF8F2] border border-line mt-10 p-6 sm:p-10 lg:p-12">
+                    <div className="bg-[#FBF8F2] border border-line mt-10 lg:mt-0 p-6 sm:p-10 lg:p-12">
                         {step === 1 && (
                             <StepAboutYou
                                 data={data}
@@ -328,13 +340,14 @@ export default function AgendarPage() {
                         )}
                     </div>
 
-                    <div className="mt-24 lg:mt-32 pt-10 border-t border-line">
+                    <div className="mt-16 pt-10 border-t border-line lg:hidden">
                         <p className="text-center text-xs uppercase tracking-label text-stone/70 font-medium flex items-center justify-center gap-2">
                             <LockGlyph />
                             Informações criptografadas · LGPD
                         </p>
                     </div>
-                        </>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>
@@ -351,7 +364,7 @@ export default function AgendarPage() {
  */
 function ModalityBar({ modality, onReset }) {
     return (
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-between border-t border-b border-line py-4 mb-10">
+        <div className="max-w-3xl lg:max-w-none flex flex-wrap items-center gap-x-4 gap-y-2 justify-between border-t border-b border-line py-4 mb-10">
             <span className="text-xs uppercase tracking-label text-stone font-medium">
                 {modality === "presencial"
                     ? "Consulta presencial · Campinas, SP"
@@ -382,46 +395,9 @@ const Rule = () => (
  */
 function ModalityChoice({ onChoose }) {
     return (
-        <div className="grid md:grid-cols-2 gap-px bg-line border border-line">
-            <div className="bg-[#FBF8F2] p-8 lg:p-10 flex flex-col">
-                <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
-                    Onde você estiver
-                </div>
-                <h2 className="text-2xl lg:text-[1.75rem] font-normal leading-[1.2] text-ink mt-4 mb-0">
-                    Videoconsulta
-                </h2>
-                <p className="mt-3 text-stone leading-relaxed">
-                    Uma hora por vídeo, com avaliação completa e conduta por
-                    escrito. Agendamento e pagamento por aqui.
-                </p>
-                <ul className="mt-6 space-y-3 text-[15px] text-slate leading-relaxed">
-                    <li className="flex gap-3.5">
-                        <Rule />
-                        <span>Análise prévia do seu caso e das suas fotos.</span>
-                    </li>
-                    <li className="flex gap-3.5">
-                        <Rule />
-                        <span>Prescrição digital quando indicada.</span>
-                    </li>
-                    <li className="flex gap-3.5">
-                        <Rule />
-                        <span>14 dias de suporte por mensagem.</span>
-                    </li>
-                </ul>
-                <div className="mt-auto pt-8">
-                    <div className="text-sm text-stone mb-5">
-                        {CONSULTATION_PRICE_LABEL} · pagamento único
-                    </div>
-                    <button
-                        type="button"
-                        onClick={() => onChoose("video")}
-                        className="inline-flex items-center justify-center w-full px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
-                    >
-                        Agendar videoconsulta
-                    </button>
-                </div>
-            </div>
-
+        <div className="max-w-4xl grid md:grid-cols-2 gap-px bg-line border border-line">
+            {/* Presencial primeiro e com o botão primário: é o atendimento
+                completo, onde o exame de pele e os procedimentos acontecem. */}
             <div className="bg-[#FBF8F2] p-8 lg:p-10 flex flex-col">
                 <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
                     Campinas · São Paulo
@@ -459,9 +435,54 @@ function ModalityChoice({ onChoose }) {
                     <button
                         type="button"
                         onClick={() => onChoose("presencial")}
+                        className="inline-flex items-center justify-center w-full px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
+                    >
+                        Consulta presencial
+                        <span className="ml-2 inline-block align-middle">
+                            <Chevron />
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div className="bg-[#FBF8F2] p-8 lg:p-10 flex flex-col">
+                <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
+                    Onde você estiver
+                </div>
+                <h2 className="text-2xl lg:text-[1.75rem] font-normal leading-[1.2] text-ink mt-4 mb-0">
+                    Videoconsulta
+                </h2>
+                <p className="mt-3 text-stone leading-relaxed">
+                    Uma hora por vídeo, com avaliação completa e conduta por
+                    escrito. Agendamento e pagamento por aqui.
+                </p>
+                <ul className="mt-6 space-y-3 text-[15px] text-slate leading-relaxed">
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>Análise prévia do seu caso e das suas fotos.</span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>Prescrição digital quando indicada.</span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>14 dias de suporte por mensagem.</span>
+                    </li>
+                </ul>
+                <div className="mt-auto pt-8">
+                    <div className="text-sm text-stone mb-5">
+                        {CONSULTATION_PRICE_LABEL} · pagamento único
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => onChoose("video")}
                         className="inline-flex items-center justify-center w-full px-8 py-4 border border-ink text-ink text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-ink hover:text-paper"
                     >
-                        Ver atendimento presencial
+                        Agendar videoconsulta
+                        <span className="ml-2 inline-block align-middle">
+                            <Chevron />
+                        </span>
                     </button>
                 </div>
             </div>
@@ -473,7 +494,7 @@ function ModalityChoice({ onChoose }) {
 
 function StepPresencial({ onChooseVideo }) {
     return (
-        <div className="bg-[#FBF8F2] border border-line p-6 sm:p-10 lg:p-12">
+        <div className="max-w-3xl bg-[#FBF8F2] border border-line p-6 sm:p-10 lg:p-12">
             <StepHeader
                 eyebrow="Presencial · Campinas, SP"
                 title="Atendo presencialmente em Campinas."
@@ -525,11 +546,59 @@ function StepPresencial({ onChooseVideo }) {
 
 /* ─── Progress ───────────────────────────────────────────────────────── */
 
+/**
+ * Progresso do agendamento.
+ *  - mobile: barra compacta com "passo N de M"
+ *  - sm–lg: trilha horizontal
+ *  - lg+: trilha vertical na coluna lateral, onde há espaço para respirar
+ */
 function StepProgress({ currentStep }) {
     return (
         <div>
-            {/* Desktop: thin dots + labels */}
-            <div className="hidden sm:block">
+            {/* lg+: trilha vertical */}
+            <ol className="hidden lg:block list-none m-0 p-0">
+                {steps.map((s, i) => {
+                    const isDone = s.id < currentStep;
+                    const isActive = s.id === currentStep;
+                    return (
+                        <li key={s.id} className="relative flex gap-4 pb-7 last:pb-0">
+                            {i < steps.length - 1 && (
+                                <span
+                                    aria-hidden
+                                    className={`absolute left-[7px] top-4 bottom-0 w-px ${
+                                        isDone ? "bg-copper" : "bg-line"
+                                    }`}
+                                />
+                            )}
+                            <span
+                                aria-hidden
+                                className={`relative z-10 mt-[3px] w-4 h-4 flex-none transition-colors ${
+                                    isDone
+                                        ? "bg-copper"
+                                        : isActive
+                                        ? "bg-paper border-[2px] border-copper"
+                                        : "bg-paper border border-line"
+                                }`}
+                            />
+                            <span
+                                aria-current={isActive ? "step" : undefined}
+                                className={`text-[11px] uppercase tracking-[0.18em] font-medium transition-colors ${
+                                    isActive
+                                        ? "text-copper-dark"
+                                        : isDone
+                                        ? "text-ink"
+                                        : "text-[#A8A29E]"
+                                }`}
+                            >
+                                {s.label}
+                            </span>
+                        </li>
+                    );
+                })}
+            </ol>
+
+            {/* sm–lg: trilha horizontal */}
+            <div className="hidden sm:block lg:hidden">
                 <div className="flex items-center justify-between">
                     {steps.map((s, i) => {
                         const isDone = s.id < currentStep;
@@ -1750,7 +1819,16 @@ function StepPayment({
                         disabled={!data.consultaId || checking}
                         className="border border-ink hover:border-copper disabled:border-line disabled:text-[#A8A29E] text-ink hover:text-copper-dark font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
                     >
-                        {checking ? "Verificando..." : "Verificar pagamento →"}
+                        {checking ? (
+                        "Verificando..."
+                    ) : (
+                        <>
+                            Verificar pagamento
+                            <span className="ml-2 inline-block align-middle">
+                                <Chevron />
+                            </span>
+                        </>
+                    )}
                     </button>
                     {error && (
                         <button

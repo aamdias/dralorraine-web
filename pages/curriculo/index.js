@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { Chevron } from "@components/Chevron";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { FAQ } from "@components/FAQ";
@@ -624,11 +625,8 @@ export default function Curriculo() {
                                     </p>
                                     <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors">
                                         Conhecer a mentoria
-                                        <span
-                                            aria-hidden
-                                            className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1"
-                                        >
-                                            →
+                                        <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
+                                            <Chevron />
                                         </span>
                                     </div>
                                 </Link>
@@ -655,11 +653,8 @@ export default function Curriculo() {
                                     </p>
                                     <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors">
                                         Conhecer as anotações
-                                        <span
-                                            aria-hidden
-                                            className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1"
-                                        >
-                                            →
+                                        <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
+                                            <Chevron />
                                         </span>
                                     </div>
                                 </Link>
