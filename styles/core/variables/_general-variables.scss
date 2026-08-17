@@ -22,6 +22,7 @@
 // $small-size: rem(14);
 // $mini-size: rem(12);
 
-$title-font : "Inter", sans-serif;
-$body-font : "Inter", sans-serif;
+// Ver docs/brandbook.md §03. As variáveis vêm de next/font (utils/fonts.js).
+$title-font : var(--font-display, "Cormorant Garamond"), serif;
+$body-font : var(--font-body, "Inter"), sans-serif;
 

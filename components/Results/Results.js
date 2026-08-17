@@ -8,7 +8,7 @@ const approvals = [
     },
     {
         rank: "2º",
-        institution: "USP — Ribeirão Preto",
+        institution: "USP Ribeirão Preto",
         note: "Dermatologia · Faculdade de Medicina de Ribeirão Preto"
     },
     {
@@ -18,24 +18,29 @@ const approvals = [
     },
     {
         rank: "3º",
-        institution: "USP — São Paulo",
+        institution: "USP São Paulo",
         note: "Dermatologia · Faculdade de Medicina da USP"
     }
 ];
 
+/**
+ * Aprovações — brandbook §03/§04.
+ * Os números grandes usam cobre puro: são elemento gráfico acima de 32px,
+ * onde o contraste 2,9:1 é aceitável. Texto pequeno nunca em cobre puro.
+ */
 export const Results = () => {
     return (
         <section
             id="results"
-            className="py-20 lg:py-28 border-t border-[#E7E2D9] bg-[#FAF6F0] scroll-mt-24"
+            className="py-20 lg:py-28 border-t border-line bg-paper scroll-mt-24"
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-2xl mb-14 lg:mb-20">
+                <div className="max-w-2xl mb-14 lg:mb-[72px]">
                     <MotionBTTContainer
                         transition={{ delay: 0.1, duration: 0.5 }}
                         className="mb-6"
                     >
-                        <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                        <div className="text-xs uppercase tracking-label text-copper-dark font-medium">
                             Aprovações · 2023
                         </div>
                     </MotionBTTContainer>
@@ -43,7 +48,7 @@ export const Results = () => {
                     <MotionBTTContainer
                         transition={{ delay: 0.2, duration: 0.6 }}
                     >
-                        <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
+                        <h2 className="font-display font-light text-4xl lg:text-[3.5rem] leading-[1.06] tracking-[-0.015em] mb-0">
                             Quatro aprovações em{" "}
                             <span className="italic">Dermatologia</span> nas
                             instituições mais concorridas do país.
@@ -51,7 +56,7 @@ export const Results = () => {
                     </MotionBTTContainer>
                 </div>
 
-                <div className="border-t border-[#E7E2D9]">
+                <div className="border-t border-line">
                     {approvals.map((a, i) => (
                         <MotionBTTContainer
                             key={i}
@@ -60,19 +65,19 @@ export const Results = () => {
                                 duration: 0.5
                             }}
                         >
-                            <div className="grid grid-cols-[auto_1fr] sm:grid-cols-[80px_1fr_auto] gap-4 sm:gap-8 items-baseline py-7 lg:py-8 border-b border-[#E7E2D9]">
-                                <div className="text-5xl lg:text-6xl font-light text-[#9A4639] tracking-tight leading-none">
+                            <div className="grid grid-cols-[64px_1fr] sm:grid-cols-[92px_1fr_auto] gap-5 sm:gap-9 items-baseline py-6 lg:py-8 border-b border-line">
+                                <div className="font-display font-light text-[2.75rem] lg:text-[4rem] text-copper leading-none">
                                     {a.rank}
                                 </div>
                                 <div>
-                                    <div className="text-xl lg:text-2xl font-light text-[#1C1917] tracking-[-0.01em]">
+                                    <div className="font-display font-normal text-2xl lg:text-[1.75rem] text-ink leading-[1.2]">
                                         {a.institution}
                                     </div>
-                                    <div className="mt-1 text-sm text-[#57534E]">
+                                    <div className="mt-1.5 text-sm text-stone">
                                         {a.note}
                                     </div>
                                 </div>
-                                <div className="hidden sm:block text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium">
+                                <div className="hidden sm:block text-xs uppercase tracking-label text-stone font-medium">
                                     Aprovada em 1ª chamada
                                 </div>
                             </div>

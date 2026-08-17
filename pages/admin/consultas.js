@@ -86,12 +86,12 @@ export default function AdminConsultas({ rows, error }) {
                 <title>Consultas · Admin</title>
                 <meta name="robots" content="noindex, nofollow" />
             </Head>
-            <main className="min-h-screen bg-[#FAF6F0] text-[#1C1917]">
+            <main className="min-h-screen bg-paper text-ink">
                 {/* Top bar */}
-                <header className="border-b border-[#E7E2D9] bg-[#FBF8F2]">
+                <header className="border-b border-line bg-[#FBF8F2]">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between gap-4">
                         <div>
-                            <div className="text-[10px] uppercase tracking-[0.28em] text-[#9A4639] font-medium">
+                            <div className="text-[10px] uppercase tracking-[0.28em] text-copper-dark font-medium">
                                 Painel · Dra. Lorraine
                             </div>
                             <div className="text-lg font-light tracking-[-0.01em]">
@@ -100,7 +100,7 @@ export default function AdminConsultas({ rows, error }) {
                         </div>
                         <button
                             onClick={logout}
-                            className="text-xs uppercase tracking-[0.24em] text-[#57534E] hover:text-[#9A4639] transition-colors"
+                            className="text-xs uppercase tracking-[0.24em] text-stone hover:text-copper-dark transition-colors"
                         >
                             Sair
                         </button>
@@ -111,7 +111,7 @@ export default function AdminConsultas({ rows, error }) {
                     {/* Filters */}
                     <div className="mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                         <div>
-                            <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-2">
+                            <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-2">
                                 {filtered.length}{" "}
                                 {filtered.length === 1
                                     ? "agendamento"
@@ -119,14 +119,14 @@ export default function AdminConsultas({ rows, error }) {
                             </div>
                             <h1 className="text-3xl sm:text-4xl font-light leading-[1.1] tracking-[-0.02em]">
                                 Intake de{" "}
-                                <span className="italic text-[#9A4639]">
+                                <span className="italic text-copper-dark">
                                     pacientes
                                 </span>
                                 .
                             </h1>
                         </div>
                         <div className="w-full sm:w-80">
-                            <label className="block text-xs uppercase tracking-[0.24em] text-[#57534E] font-medium mb-3">
+                            <label className="block text-xs uppercase tracking-[0.24em] text-stone font-medium mb-3">
                                 Buscar
                             </label>
                             <input
@@ -134,7 +134,7 @@ export default function AdminConsultas({ rows, error }) {
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder="nome, email, telefone, queixa…"
-                                className="w-full bg-transparent border-b border-[#E7E2D9] focus:border-[#9A4639] outline-none py-2 text-sm placeholder:text-[#B8AFA3] transition-colors"
+                                className="w-full bg-transparent border-b border-line focus:border-copper outline-none py-2 text-sm placeholder:text-[#B8AFA3] transition-colors"
                             />
                         </div>
                     </div>
@@ -146,7 +146,7 @@ export default function AdminConsultas({ rows, error }) {
                     )}
 
                     {!error && filtered.length === 0 && (
-                        <div className="py-20 text-center text-[#57534E]">
+                        <div className="py-20 text-center text-stone">
                             <div className="text-xs uppercase tracking-[0.28em] mb-3">
                                 Nenhum registro
                             </div>
@@ -160,9 +160,9 @@ export default function AdminConsultas({ rows, error }) {
 
                     {/* Table */}
                     {filtered.length > 0 && (
-                        <div className="bg-[#FBF8F2] border border-[#E7E2D9]">
+                        <div className="bg-[#FBF8F2] border border-line">
                             {/* Desktop header */}
-                            <div className="hidden lg:grid grid-cols-[160px_1.3fr_1.5fr_120px_1.4fr_90px] gap-6 px-6 py-4 border-b border-[#E7E2D9] text-[10px] uppercase tracking-[0.24em] text-[#57534E] font-medium">
+                            <div className="hidden lg:grid grid-cols-[160px_1.3fr_1.5fr_120px_1.4fr_90px] gap-6 px-6 py-4 border-b border-line text-[10px] uppercase tracking-[0.24em] text-stone font-medium">
                                 <div>Data</div>
                                 <div>Paciente</div>
                                 <div>Contato</div>
@@ -188,7 +188,7 @@ export default function AdminConsultas({ rows, error }) {
                         </div>
                     )}
 
-                    <p className="mt-16 text-center text-xs uppercase tracking-[0.24em] text-[#57534E]/70 font-medium">
+                    <p className="mt-16 text-center text-xs uppercase tracking-[0.24em] text-stone/70 font-medium">
                         Dados sensíveis · Acesso auditado · LGPD
                     </p>
                 </div>
@@ -213,33 +213,33 @@ function Row({ r, expanded, onToggle }) {
     const photos = Array.isArray(r.photos) ? r.photos : [];
 
     return (
-        <li className="border-b border-[#E7E2D9] last:border-b-0">
+        <li className="border-b border-line last:border-b-0">
             <button
                 onClick={onToggle}
-                className="w-full text-left px-6 py-5 hover:bg-[#F3EADB]/40 transition-colors"
+                className="w-full text-left px-6 py-5 hover:bg-sand/40 transition-colors"
             >
                 {/* Desktop row */}
                 <div className="hidden lg:grid grid-cols-[160px_1.3fr_1.5fr_120px_1.4fr_90px] gap-6 items-center">
                     <div className="text-sm">
-                        <div className="text-[#1C1917]">{dateStr}</div>
-                        <div className="text-xs text-[#57534E]">
+                        <div className="text-ink">{dateStr}</div>
+                        <div className="text-xs text-stone">
                             {timeStr}
                         </div>
                     </div>
                     <div>
-                        <div className="text-sm text-[#1C1917] font-medium">
+                        <div className="text-sm text-ink font-medium">
                             {r.name}
                         </div>
                         {r.city && (
-                            <div className="text-xs text-[#57534E]">
+                            <div className="text-xs text-stone">
                                 {r.city}
                             </div>
                         )}
                     </div>
-                    <div className="text-sm text-[#3C3833]">
+                    <div className="text-sm text-slate">
                         <div className="truncate">{r.email}</div>
                         {r.phone && (
-                            <div className="text-xs text-[#57534E]">
+                            <div className="text-xs text-stone">
                                 {r.phone}
                             </div>
                         )}
@@ -247,7 +247,7 @@ function Row({ r, expanded, onToggle }) {
                     <div>
                         <PhotoBadge count={photos.length} />
                     </div>
-                    <div className="text-sm text-[#3C3833] line-clamp-2">
+                    <div className="text-sm text-slate line-clamp-2">
                         {r.main_concern || (
                             <span className="text-[#A8A096] italic">
                                 não informado
@@ -263,21 +263,21 @@ function Row({ r, expanded, onToggle }) {
                 <div className="lg:hidden">
                     <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                            <div className="text-sm font-medium text-[#1C1917] truncate">
+                            <div className="text-sm font-medium text-ink truncate">
                                 {r.name}
                             </div>
-                            <div className="text-xs text-[#57534E] truncate">
+                            <div className="text-xs text-stone truncate">
                                 {r.email}
                             </div>
                         </div>
                         <div className="text-right flex-shrink-0">
-                            <div className="text-xs text-[#57534E]">
+                            <div className="text-xs text-stone">
                                 {dateStr}
                             </div>
                             <StatusPill status={r.status} />
                         </div>
                     </div>
-                    <div className="mt-3 flex items-center gap-3 text-xs text-[#57534E]">
+                    <div className="mt-3 flex items-center gap-3 text-xs text-stone">
                         <PhotoBadge count={photos.length} />
                         {r.phone && <span>·</span>}
                         {r.phone && <span>{r.phone}</span>}
@@ -299,7 +299,7 @@ function PhotoBadge({ count }) {
         );
     }
     return (
-        <span className="inline-flex items-center gap-1.5 text-xs text-[#57534E]">
+        <span className="inline-flex items-center gap-1.5 text-xs text-stone">
             <svg
                 aria-hidden="true"
                 width="14"
@@ -309,7 +309,7 @@ function PhotoBadge({ count }) {
             >
                 <path
                     d="M4 6h2l1-1.5h6L14 6h2a1 1 0 011 1v8a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1zm6 8a3 3 0 100-6 3 3 0 000 6z"
-                    stroke="#9A4639"
+                    stroke="#B48967"
                     strokeWidth="1.1"
                     strokeLinejoin="round"
                 />
@@ -331,10 +331,10 @@ function StatusPill({ status }) {
         tone: "muted"
     };
     const tones = {
-        amber: "text-[#9A4639] border-[#9A4639]/40",
+        amber: "text-copper-dark border-copper/40",
         green: "text-[#3F6A3C] border-[#3F6A3C]/40",
-        ink: "text-[#1C1917] border-[#1C1917]/40",
-        muted: "text-[#57534E] border-[#57534E]/30"
+        ink: "text-ink border-ink/40",
+        muted: "text-stone border-stone/30"
     };
     return (
         <span
@@ -350,7 +350,7 @@ function StatusPill({ status }) {
 function Detail({ r }) {
     const photos = Array.isArray(r.photos) ? r.photos : [];
     return (
-        <div className="border-t border-[#E7E2D9] bg-[#FAF6F0] px-6 py-8 lg:px-10 lg:py-10">
+        <div className="border-t border-line bg-paper px-6 py-8 lg:px-10 lg:py-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div>
                     <SectionTitle>Paciente</SectionTitle>
@@ -404,7 +404,7 @@ function Detail({ r }) {
                                 href={p.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block aspect-square bg-[#FBF8F2] border border-[#E7E2D9] hover:border-[#9A4639] transition-colors overflow-hidden"
+                                className="block aspect-square bg-[#FBF8F2] border border-line hover:border-copper transition-colors overflow-hidden"
                             >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
@@ -415,7 +415,7 @@ function Detail({ r }) {
                             </a>
                         ))}
                     </div>
-                    <p className="mt-3 text-[11px] uppercase tracking-[0.24em] text-[#57534E]/70">
+                    <p className="mt-3 text-[11px] uppercase tracking-[0.24em] text-stone/70">
                         Clique para abrir em tamanho real
                     </p>
                 </div>
@@ -426,7 +426,7 @@ function Detail({ r }) {
 
 function SectionTitle({ children }) {
     return (
-        <div className="text-[10px] uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-4 pb-3 border-b border-[#E7E2D9]">
+        <div className="text-[10px] uppercase tracking-[0.28em] text-copper-dark font-medium mb-4 pb-3 border-b border-line">
             {children}
         </div>
     );
@@ -435,11 +435,11 @@ function SectionTitle({ children }) {
 function Field({ label, value, multiline }) {
     return (
         <div className="mb-4 last:mb-0">
-            <div className="text-[10px] uppercase tracking-[0.24em] text-[#57534E]/70 font-medium mb-1">
+            <div className="text-[10px] uppercase tracking-[0.24em] text-stone/70 font-medium mb-1">
                 {label}
             </div>
             <div
-                className={`text-sm text-[#1C1917] ${
+                className={`text-sm text-ink ${
                     multiline ? "whitespace-pre-wrap leading-relaxed" : ""
                 }`}
             >

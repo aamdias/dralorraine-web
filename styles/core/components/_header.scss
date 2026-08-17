@@ -8,6 +8,7 @@
 
 @layer components {
     .header {
+        // Fio de 1px na cor Linha (brandbook §02) — nunca sombra.
         &:after {
             content: "";
             position: absolute;
@@ -15,12 +16,12 @@
             left: 0px;
             right: 0px;
             height: 1px;
-            background: rgba(0, 0, 0, 0.08);
+            background: #e7e2d9;
         }
 
         &.header--transparent {
             &:after {
-                background: rgba(255, 255, 255, 0.15);
+                background: rgba(250, 246, 240, 0.18);
             }
         }
     }

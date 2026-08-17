@@ -56,6 +56,11 @@ const SEO = ({ title, description, keywords, image, url }) => {
                 sizes="180x180"
                 href="/apple-touch-icon.png"
             />
+            {/* Monograma em SVG: é o que navegadores modernos usam.
+                Os PNGs abaixo seguem como fallback legado — ainda carregam a
+                marca antiga e devem ser regerados a partir de favicon.svg.
+                Ver docs/brandbook.md §01. */}
+            <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
             <link
                 rel="icon"
                 type="image/png"
@@ -72,13 +77,13 @@ const SEO = ({ title, description, keywords, image, url }) => {
             <link
                 rel="mask-icon"
                 href="/safari-pinned-tab.svg"
-                color="#5bbad5"
+                color="#B48967"
             />
             {/* Title */}
             <title>{title}</title>
 
-            <meta name="msapplication-TileColor" content="#da532c" />
-            <meta name="theme-color" content="#ffffff" />
+            <meta name="msapplication-TileColor" content="#B48967" />
+            <meta name="theme-color" content="#FAF6F0" />
         </Head>
     );
 };

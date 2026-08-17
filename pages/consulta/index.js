@@ -1,13 +1,14 @@
 import { Layout } from "@components/Layout";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
+import { Disclosure, DisclosureList } from "@components/Disclosure";
 import SEO from "@components/SEO/SEO";
 import Image from "next/image";
 
 const stats = [
     { figure: "UNICAMP", label: "Formação em Medicina" },
     { figure: "1º lugar", label: "em Dermatologia" },
-    { figure: "1 hora", label: "de videoconsulta" },
+    { figure: "1 hora", label: "de consulta" },
     { figure: "14 dias", label: "de suporte pós-consulta" },
 ];
 
@@ -16,7 +17,7 @@ const steps = [
         n: "01",
         title: "Conte sua história",
         description:
-            "Preencha um formulário clínico guiado com suas queixas, histórico e rotina de cuidados.",
+            "Um formulário curto: seus dados e, se quiser, a queixa que te trouxe até aqui.",
     },
     {
         n: "02",
@@ -67,15 +68,17 @@ const focusAreas = [
     },
 ];
 
+// Estes itens não são "não atendemos": são o que pede consulta presencial
+// (Campinas). Emergência é a única exceção real.
 const nonIndications = [
     "Biópsias e retirada de lesões",
-    "Aplicação de toxina botulínica, preenchimentos, lasers e outros procedimentos",
-    "Cirurgias dermatológicas presenciais",
-    "Urgências ou emergências médicas",
+    "Toxina botulínica, preenchimentos, peelings e microagulhamento",
+    "Bioestimuladores de colágeno",
+    "Cirurgias dermatológicas",
 ];
 
 const included = [
-    "Videoconsulta de 1 hora",
+    "Uma hora de consulta",
     "Análise prévia do seu caso e das fotos",
     "Plano de tratamento personalizado",
     "Prescrição digital quando indicada",
@@ -84,6 +87,10 @@ const included = [
 ];
 
 const faqs = [
+    {
+        q: "A consulta pode ser presencial?",
+        a: "Sim. Atendo presencialmente em Campinas, São Paulo, com exame de pele e procedimentos como toxina botulínica, bioestimulador de colágeno, preenchimento com ácido hialurônico, peelings e microagulhamento. Escolha o formato no primeiro passo do agendamento: a videoconsulta é fechada por aqui, e a agenda presencial combinamos pelo WhatsApp.",
+    },
     {
         q: "A Dra. Lorraine pode emitir receita?",
         a: "Sim. Quando indicado, a receita é enviada com assinatura digital válida, conforme a regulamentação do CFM.",
@@ -117,23 +124,23 @@ export default function ConsultaPage() {
         <Layout>
             <SEO
                 title="Consulta Online de Dermatologia | Dra. Lorraine"
-                description="Agende uma videoconsulta de dermatologia com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP."
+                description="Consulta de dermatologia com a Dra. Lorraine, médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Por videoconsulta ou presencialmente em Campinas, São Paulo."
             />
-            <div className="main-wrapper relative z-10 bg-[#FAF6F0] text-[#1C1917]">
+            <div className="main-wrapper relative z-10 bg-paper text-ink">
                 {/* ============ HERO ============ */}
                 <section className="pt-32 pb-14 md:pb-16 lg:pb-20">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid md:grid-cols-[minmax(0,1.02fr)_minmax(260px,0.72fr)] min-[900px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.78fr)] lg:grid-cols-[1.05fr_0.9fr] gap-12 md:gap-7 min-[900px]:gap-8 lg:gap-16 items-center">
                             <div className="order-1 md:max-w-[560px] min-[900px]:max-w-[620px]">
                                 <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
-                                    <div className="text-xs uppercase tracking-[0.24em] sm:tracking-[0.28em] text-[#9A4639] font-medium mb-6 md:mb-7 lg:mb-8">
-                                        Dermatologia · Teleconsulta
+                                    <div className="text-xs uppercase tracking-[0.24em] sm:tracking-[0.28em] text-copper-dark font-medium mb-6 md:mb-7 lg:mb-8">
+                                        Dermatologia · Consulta
                                     </div>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
                                     <h1 className="max-w-[11.5em] text-[2.6rem] sm:text-5xl md:text-[3rem] min-[900px]:text-[3.35rem] lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-7 lg:mb-8 text-balance">
                                         Cuide da sua pele com atenção e{" "}
-                                        <span className="italic font-normal text-[#9A4639]">
+                                        <span className="italic font-normal text-copper-dark">
                                             ciência
                                         </span>
                                         .
@@ -143,25 +150,25 @@ export default function ConsultaPage() {
                                     transition={{ delay: 0.3, duration: 0.6 }}
                                     className="mb-10 md:mb-12 lg:mb-16"
                                 >
-                                    <p className="text-lg md:text-base min-[900px]:text-[1.05rem] lg:text-lg text-[#57534E] leading-relaxed max-w-lg min-[900px]:max-w-[34rem]">
-                                        Videoconsulta com a Dra. Lorraine Souza,
+                                    <p className="text-lg md:text-base min-[900px]:text-[1.05rem] lg:text-lg text-stone leading-relaxed max-w-lg min-[900px]:max-w-[34rem]">
+                                        Consulta com a Dra. Lorraine Souza,
                                         médica formada na UNICAMP e R3 em
                                         Dermatologia na UNICAMP. Atendimento
-                                        humanizado, sem filas, do conforto da sua
-                                        casa.
+                                        humanizado, sem filas, com tempo para
+                                        escutar o seu caso.
                                     </p>
                                 </MotionBTTContainer>
                                 <MotionBTTContainer transition={{ delay: 0.4, duration: 0.6 }}>
                                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 md:gap-5 min-[900px]:gap-6 py-2">
                                         <Button
                                             href="/consulta/agendar"
-                                            className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 sm:px-9 md:px-6 min-[900px]:px-7 lg:px-9 py-[17px] sm:py-[18px] md:py-4 lg:py-[18px] rounded-none transition-colors duration-300"
+                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-8 sm:px-9 md:px-6 min-[900px]:px-7 lg:px-9 py-[17px] sm:py-[18px] md:py-4 lg:py-[18px] rounded-none transition-colors duration-300"
                                         >
                                             Agendar consulta
                                         </Button>
                                         <a
                                             href="#como-funciona"
-                                            className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-[6px] decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors py-2"
+                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
                                         >
                                             Saiba como funciona
                                         </a>
@@ -176,9 +183,9 @@ export default function ConsultaPage() {
                                 <div className="relative max-w-[420px] mx-auto md:max-w-[300px] md:mr-0 min-[900px]:max-w-[340px] lg:max-w-[440px]">
                                     <div
                                         aria-hidden
-                                        className="absolute -inset-4 sm:-inset-6 lg:-inset-10 bg-[#9A4639]/[0.06] rounded-[4px]"
+                                        className="absolute -inset-4 sm:-inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
                                     />
-                                    <div className="relative aspect-[3/4] bg-[#E7E2D9] overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.35)]">
+                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.35)]">
                                         <Image
                                             src={PORTRAIT_SRC}
                                             alt="Dra. Lorraine Souza"
@@ -195,7 +202,7 @@ export default function ConsultaPage() {
                 </section>
 
                 {/* ============ STATS ============ */}
-                <section className="border-y border-[#E7E2D9]">
+                <section className="border-y border-line">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8">
                             {stats.map((s, i) => (
@@ -203,14 +210,14 @@ export default function ConsultaPage() {
                                     key={i}
                                     className={
                                         i > 0
-                                            ? "md:pl-8 md:border-l md:border-[#E7E2D9]"
+                                            ? "md:pl-8 md:border-l md:border-line"
                                             : ""
                                     }
                                 >
-                                    <div className="text-2xl lg:text-3xl font-light tracking-tight text-[#1C1917] mb-1">
+                                    <div className="text-2xl lg:text-3xl font-light tracking-tight text-ink mb-1">
                                         {s.figure}
                                     </div>
-                                    <div className="text-sm text-[#57534E]">
+                                    <div className="text-sm text-stone">
                                         {s.label}
                                     </div>
                                 </div>
@@ -224,7 +231,7 @@ export default function ConsultaPage() {
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="max-w-2xl mb-14 lg:mb-16">
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
                                     Como funciona
                                 </div>
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
@@ -243,14 +250,14 @@ export default function ConsultaPage() {
                                         duration: 0.5,
                                     }}
                                 >
-                                    <div className="border-t border-[#1C1917] pt-6">
-                                        <div className="text-sm font-medium text-[#9A4639] tracking-wider mb-8">
+                                    <div className="border-t border-ink pt-6">
+                                        <div className="text-sm font-medium text-copper-dark tracking-wider mb-8">
                                             {step.n}
                                         </div>
-                                        <h3 className="text-xl font-medium text-[#1C1917] mb-4 tracking-tight">
+                                        <h3 className="text-xl font-medium text-ink mb-4 tracking-tight">
                                             {step.title}
                                         </h3>
-                                        <p className="text-[#57534E] leading-relaxed">
+                                        <p className="text-stone leading-relaxed">
                                             {step.description}
                                         </p>
                                     </div>
@@ -261,22 +268,22 @@ export default function ConsultaPage() {
                 </section>
 
                 {/* ============ FOCUS AREAS ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9]">
+                <section className="py-20 lg:py-24 border-t border-line">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
                                 <div>
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
                                         Foco do atendimento
                                     </div>
                                     <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
                                         Dermatologia para tratar, prevenir e{" "}
-                                        <span className="italic text-[#9A4639]">
+                                        <span className="italic text-copper-dark">
                                             planejar
                                         </span>
                                         .
                                     </h2>
-                                    <p className="text-lg text-[#57534E] leading-relaxed">
+                                    <p className="text-lg text-stone leading-relaxed">
                                         Na videoconsulta, a Dra. Lorraine avalia sua
                                         história, suas fotos e seus objetivos para
                                         orientar o melhor caminho. Quando houver
@@ -285,7 +292,9 @@ export default function ConsultaPage() {
                                     </p>
                                 </div>
 
-                                <div className="space-y-6">
+                                {/* Revelação progressiva: os três títulos dão
+                                    o mapa; o detalhe abre sob demanda. */}
+                                <DisclosureList>
                                     {focusAreas.map((area, i) => (
                                         <MotionBTTContainer
                                             key={area.title}
@@ -294,35 +303,30 @@ export default function ConsultaPage() {
                                                 duration: 0.5,
                                             }}
                                         >
-                                            <div className="border-t border-[#1C1917] pt-6">
-                                                <h3 className="text-xl font-medium tracking-tight text-[#1C1917] mb-3">
-                                                    {area.title}
-                                                </h3>
-                                                <p className="text-[#57534E] leading-relaxed">
-                                                    {area.description}
-                                                </p>
-                                            </div>
+                                            <Disclosure title={area.title}>
+                                                {area.description}
+                                            </Disclosure>
                                         </MotionBTTContainer>
                                     ))}
-                                </div>
+                                </DisclosureList>
                             </div>
                         </MotionBTTContainer>
                     </div>
                 </section>
 
                 {/* ============ FOR WHOM ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9] bg-[#F3EADB]">
+                <section className="py-20 lg:py-24 border-t border-line bg-sand">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="max-w-2xl mb-14 lg:mb-16">
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
                                     Para quem é
                                 </div>
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
                                     A teleconsulta é{" "}
                                     <span className="italic">para você</span>?
                                 </h2>
-                                <p className="text-lg text-[#57534E] leading-relaxed max-w-xl">
+                                <p className="text-lg text-stone leading-relaxed max-w-xl">
                                     A maioria das queixas dermatológicas pode ser
                                     avaliada com excelência por vídeo. Alguns casos,
                                     porém, pedem avaliação presencial.
@@ -334,16 +338,16 @@ export default function ConsultaPage() {
                                 transition={{ delay: 0.2, duration: 0.5 }}
                             >
                                 <div>
-                                    <div className="text-xs uppercase tracking-[0.22em] text-[#9A4639] font-medium mb-5 pb-5 border-b border-[#E7E2D9]">
+                                    <div className="text-xs uppercase tracking-[0.22em] text-copper-dark font-medium mb-5 pb-5 border-b border-line">
                                         Indicado para
                                     </div>
-                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-[#1C1917]">
+                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-ink">
                                         {indications.map((item, i) => (
                                             <li
                                                 key={i}
                                                 className="flex items-baseline gap-3"
                                             >
-                                                <span className="text-[#9A4639]">
+                                                <span className="text-copper-dark">
                                                     —
                                                 </span>
                                                 <span>{item}</span>
@@ -356,27 +360,28 @@ export default function ConsultaPage() {
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
                                 <div>
-                                    <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mb-5 pb-5 border-b border-[#E7E2D9]">
-                                        Pode exigir etapa presencial
+                                    <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mb-5 pb-5 border-b border-line">
+                                        Atendo presencialmente, em Campinas
                                     </div>
-                                    <ul className="space-y-3 text-[#1C1917] mb-8">
+                                    <ul className="space-y-3 text-ink mb-8">
                                         {nonIndications.map((item, i) => (
                                             <li
                                                 key={i}
                                                 className="flex items-baseline gap-3"
                                             >
-                                                <span className="text-[#57534E]">
+                                                <span className="text-stone">
                                                     —
                                                 </span>
                                                 <span>{item}</span>
                                             </li>
                                         ))}
                                     </ul>
-                                    <p className="text-sm text-[#57534E] leading-relaxed border-t border-[#E7E2D9] pt-6">
-                                        A teleconsulta ajuda a entender o caso e planejar
-                                        a conduta. Se houver necessidade de exame,
-                                        procedimento ou cirurgia, você recebe orientação
-                                        sobre os próximos passos.
+                                    <p className="text-sm text-stone leading-relaxed border-t border-line pt-6">
+                                        Estes pedem consulta presencial, no
+                                        consultório em Campinas, São Paulo. Você
+                                        escolhe a modalidade no primeiro passo do
+                                        agendamento. Urgências e emergências
+                                        precisam de pronto-atendimento.
                                     </p>
                                 </div>
                             </MotionBTTContainer>
@@ -385,7 +390,7 @@ export default function ConsultaPage() {
                 </section>
 
                 {/* ============ ABOUT ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9]">
+                <section className="py-20 lg:py-24 border-t border-line">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-[0.85fr_1fr] gap-12 lg:gap-20 items-center">
                             <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
@@ -401,13 +406,13 @@ export default function ConsultaPage() {
                             </MotionBTTContainer>
                             <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
                                 <div>
-                                    <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
                                         Sobre a Dra. Lorraine
                                     </div>
                                     <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-8">
                                         Quem vai <span className="italic">cuidar de você</span>.
                                     </h2>
-                                    <div className="space-y-6 text-[#1C1917] leading-relaxed text-lg mb-10">
+                                    <div className="space-y-6 text-ink leading-relaxed text-lg mb-10">
                                         <p>
                                             Formada em Medicina pela{" "}
                                             <strong className="font-medium">UNICAMP</strong>,
@@ -417,7 +422,7 @@ export default function ConsultaPage() {
                                             <strong className="font-medium">1º lugar</strong>{" "}
                                             em aprovação.
                                         </p>
-                                        <p className="italic text-[#57534E] border-l border-[#9A4639] pl-5 py-1">
+                                        <p className="italic text-stone border-l border-copper pl-5 py-1">
                                             &ldquo;Cada pele conta uma história. Meu trabalho
                                             é te ajudar a cuidar bem da sua.&rdquo;
                                         </p>
@@ -428,21 +433,21 @@ export default function ConsultaPage() {
                                             objetivos.
                                         </p>
                                     </div>
-                                    <dl className="grid grid-cols-3 gap-6 border-t border-[#E7E2D9] pt-6">
+                                    <dl className="grid grid-cols-3 gap-6 border-t border-line pt-6">
                                         <div>
-                                            <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
+                                            <dt className="text-xs uppercase tracking-[0.15em] text-stone mb-1.5">
                                                 Formação
                                             </dt>
                                             <dd className="font-medium">UNICAMP</dd>
                                         </div>
                                         <div>
-                                            <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
+                                            <dt className="text-xs uppercase tracking-[0.15em] text-stone mb-1.5">
                                                 CRM
                                             </dt>
                                             <dd className="font-medium">218676 CRM-SP</dd>
                                         </div>
                                         <div>
-                                            <dt className="text-xs uppercase tracking-[0.15em] text-[#57534E] mb-1.5">
+                                            <dt className="text-xs uppercase tracking-[0.15em] text-stone mb-1.5">
                                                 Foco
                                             </dt>
                                             <dd className="font-medium">Dermatologia</dd>
@@ -454,73 +459,66 @@ export default function ConsultaPage() {
                     </div>
                 </section>
 
-                {/* ============ PRICING ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9] bg-[#F3EADB]">
-                    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                {/* ============ WHAT'S INCLUDED ============ */}
+                {/* O valor saiu daqui de propósito: R$ 350 é o preço da
+                    videoconsulta, e esta página cobre as duas modalidades.
+                    O preço aparece na escolha de modalidade, em /consulta/agendar. */}
+                <section className="py-20 lg:py-24 border-t border-line bg-sand">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer
                             transition={{ delay: 0.1, duration: 0.5 }}
                             className="mb-14"
                         >
-                            <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
-                                Valor da consulta
+                            <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
+                                O que está incluso
                             </div>
                             <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-8">
-                                Um investimento na{" "}
-                                <span className="italic text-[#9A4639]">sua saúde</span>
-                                .
+                                Uma consulta que{" "}
+                                <span className="italic text-copper-dark">
+                                    não termina
+                                </span>{" "}
+                                quando a chamada acaba.
                             </h2>
-                            <p className="text-lg text-[#57534E] leading-relaxed max-w-xl mx-auto">
-                                Um único valor, sem mensalidades, sem surpresas.
-                            </p>
                         </MotionBTTContainer>
                         <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>
-                            <div className="border-t border-[#1C1917] pt-10 max-w-xl mx-auto">
-                                <div className="flex items-baseline justify-center gap-2 mb-3">
-                                    <span className="text-xl text-[#57534E]">R$</span>
-                                    <span className="text-7xl lg:text-8xl font-light tracking-tight">
-                                        350
-                                    </span>
+                            <div className="border-t border-ink pt-8">
+                                <ul className="space-y-3 text-ink mb-10">
+                                    {included.map((item, i) => (
+                                        <li
+                                            key={i}
+                                            className="flex items-baseline gap-3"
+                                        >
+                                            <span aria-hidden className="text-copper-dark">
+                                                —
+                                            </span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="border-t border-line pt-8">
+                                    <Button
+                                        href="/consulta/agendar"
+                                        className="bg-ink hover:bg-copper-dark text-paper font-medium px-8 py-4 rounded-none transition-colors duration-300"
+                                    >
+                                        Agendar consulta
+                                    </Button>
+                                    <p className="text-xs text-stone mt-6">
+                                        Você escolhe entre videoconsulta e
+                                        atendimento presencial em Campinas no
+                                        primeiro passo do agendamento.
+                                    </p>
                                 </div>
-                                <div className="text-sm text-[#57534E] mb-12">
-                                    Pagamento único · PIX, cartão ou boleto
-                                </div>
-                                <div className="text-left border-t border-[#E7E2D9] pt-8 mb-10">
-                                    <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mb-5">
-                                        Incluso na consulta
-                                    </div>
-                                    <ul className="space-y-3 text-[#1C1917]">
-                                        {included.map((item, i) => (
-                                            <li
-                                                key={i}
-                                                className="flex items-baseline gap-3"
-                                            >
-                                                <span className="text-[#9A4639]">—</span>
-                                                <span>{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <Button
-                                    href="/consulta/agendar"
-                                    className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-4 rounded-none transition-colors duration-300 w-full justify-center"
-                                >
-                                    Agendar consulta
-                                </Button>
-                                <p className="text-xs text-[#57534E] mt-6">
-                                    Cancelamento gratuito até 24h antes · Reembolso
-                                    integral
-                                </p>
                             </div>
                         </MotionBTTContainer>
                     </div>
                 </section>
 
                 {/* ============ FAQ ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9]">
+                <section className="py-20 lg:py-24 border-t border-line">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <div className="mb-14">
-                                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
+                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-6">
                                     Dúvidas frequentes
                                 </div>
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
@@ -529,42 +527,30 @@ export default function ConsultaPage() {
                                 </h2>
                             </div>
                         </MotionBTTContainer>
-                        <div className="border-t border-[#1C1917]">
+                        <DisclosureList>
                             {faqs.map((faq, i) => (
                                 <MotionBTTContainer
                                     key={i}
                                     transition={{ delay: 0.1 + i * 0.04, duration: 0.4 }}
                                 >
-                                    <details className="group border-b border-[#E7E2D9]">
-                                        <summary className="cursor-pointer py-6 flex items-baseline justify-between gap-6 list-none">
-                                            <span className="font-medium text-lg text-[#1C1917]">
-                                                {faq.q}
-                                            </span>
-                                            <span className="text-[#9A4639] text-2xl font-light transition-transform group-open:rotate-45 flex-shrink-0 leading-none">
-                                                +
-                                            </span>
-                                        </summary>
-                                        <div className="pb-6 pr-10 text-[#57534E] leading-relaxed">
-                                            {faq.a}
-                                        </div>
-                                    </details>
+                                    <Disclosure title={faq.q}>{faq.a}</Disclosure>
                                 </MotionBTTContainer>
                             ))}
-                        </div>
+                        </DisclosureList>
                     </div>
                 </section>
 
                 {/* ============ FINAL CTA ============ */}
-                <section className="py-20 lg:py-24 border-t border-[#E7E2D9]">
+                <section className="py-20 lg:py-24 border-t border-line">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <MotionBTTContainer transition={{ delay: 0.1, duration: 0.5 }}>
                             <h2 className="text-4xl lg:text-6xl font-light leading-[1.05] tracking-[-0.02em] mb-8">
                                 Pronto para cuidar da
                                 <br />
-                                <span className="italic text-[#9A4639]">sua pele</span>{" "}
+                                <span className="italic text-copper-dark">sua pele</span>{" "}
                                 com atenção?
                             </h2>
-                            <p className="text-lg text-[#57534E] leading-relaxed mb-10 max-w-xl mx-auto">
+                            <p className="text-lg text-stone leading-relaxed mb-10 max-w-xl mx-auto">
                                 Leva menos de cinco minutos para iniciar seu
                                 agendamento. Você pode salvar o progresso e continuar
                                 depois.
@@ -572,13 +558,13 @@ export default function ConsultaPage() {
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                                 <Button
                                     href="/consulta/agendar"
-                                    className="bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-4 rounded-none transition-colors duration-300"
+                                    className="bg-ink hover:bg-copper-dark text-paper font-medium px-8 py-4 rounded-none transition-colors duration-300"
                                 >
                                     Agendar minha consulta
                                 </Button>
                                 <a
                                     href="#como-funciona"
-                                    className="text-[#1C1917] hover:text-[#9A4639] font-medium underline underline-offset-4 decoration-1 decoration-[#9A4639]/40 hover:decoration-[#9A4639] transition-colors"
+                                    className="text-ink hover:text-copper-dark font-medium underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors"
                                 >
                                     Rever como funciona
                                 </a>

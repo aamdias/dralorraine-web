@@ -9,7 +9,6 @@ const NAV_COLUMNS = [
             { label: "Consulta", href: "/consulta" },
             { label: "Mentoria", href: "/mentoria" },
             { label: "Anotações", href: "/anotacoes" },
-            { label: "Notion", href: "/notion" },
             { label: "Currículo", href: "/curriculo" }
         ]
     },
@@ -33,16 +32,21 @@ const NAV_COLUMNS = [
     }
 ];
 
+/**
+ * Footer — assinatura da marca sobre Papel (brandbook §02, §04).
+ * O bloco escuro do site é o CTA final; o rodapé volta ao papel para
+ * fechar a página no mesmo tom em que ela começa.
+ */
 export const Footer = () => {
     const year = new Date().getFullYear();
 
     return (
         <footer
             id="footer"
-            className="bg-[#1C1917] text-[#FAF6F0] border-t border-[#2A2724]"
+            className="bg-paper text-ink border-t border-line"
         >
             <SectionContainer className="wrap wrap-px">
-                <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+                <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12">
                     {/* Identity */}
                     <div className="lg:col-span-5">
                         <Link
@@ -50,16 +54,20 @@ export const Footer = () => {
                             aria-label="Ir para a página inicial"
                             className="inline-block"
                         >
-                            <Logo variant="light" className="h-7 w-auto" />
+                            <Logo
+                                lockup="horizontal"
+                                tone="copper"
+                                markClassName="h-[52px] w-auto"
+                            />
                         </Link>
-                        <p className="text-[#FAF6F0]/70 text-base leading-relaxed max-w-sm mt-6">
+                        <p className="text-stone text-base leading-relaxed max-w-sm mt-7">
                             Dra. Lorraine Souza
                             <br />
-                            <span className="text-[#FAF6F0]/50 text-sm">
+                            <span className="text-stone text-sm">
                                 Dermatologia · R3 em Dermatologia na UNICAMP
                             </span>
                         </p>
-                        <p className="text-[#FAF6F0]/40 text-xs leading-relaxed mt-8 max-w-sm">
+                        <p className="text-stone text-xs leading-relaxed mt-7 max-w-sm">
                             Conteúdo educativo e atendimento clínico. Este site
                             não substitui avaliação médica presencial quando
                             indicada.
@@ -70,7 +78,7 @@ export const Footer = () => {
                     <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
                         {NAV_COLUMNS.map((col) => (
                             <div key={col.title}>
-                                <h3 className="text-xs uppercase tracking-[0.24em] text-[#FAF6F0]/50 font-medium mb-5">
+                                <h3 className="font-sans text-xs uppercase tracking-label text-copper-dark font-medium mb-5">
                                     {col.title}
                                 </h3>
                                 <ul className="space-y-3">
@@ -78,7 +86,7 @@ export const Footer = () => {
                                         <li key={item.label}>
                                             <a
                                                 href={item.href}
-                                                className="text-[#FAF6F0]/80 hover:text-[#FAF6F0] text-sm transition-colors"
+                                                className="text-slate hover:text-copper-dark text-sm transition-colors"
                                             >
                                                 {item.label}
                                             </a>
@@ -90,9 +98,12 @@ export const Footer = () => {
                     </div>
                 </div>
 
-                <div className="border-t border-[#FAF6F0]/10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#FAF6F0]/40">
-                    <span>© {year} Dra. Lorraine Souza. Todos os direitos reservados.</span>
-                    <span className="tracking-[0.24em] uppercase">
+                <div className="border-t border-line py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-stone">
+                    <span>
+                        © {year} Dra. Lorraine Souza. Todos os direitos
+                        reservados.
+                    </span>
+                    <span className="tracking-label uppercase">
                         Dermatologia · Mentoria · Conteúdo
                     </span>
                 </div>

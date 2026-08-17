@@ -3,9 +3,9 @@ import { Analytics } from "@vercel/analytics/react";
 
 export default function Document() {
     return (
-        <Html lang="en" className="scroll-smooth">
+        <Html lang="pt-BR" className="scroll-smooth">
             <Head />
-            <body>
+            <body className="bg-paper text-ink font-sans antialiased">
                 <Main />
                 <NextScript />
                 <Analytics />

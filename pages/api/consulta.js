@@ -49,6 +49,9 @@ export default async function handler(req, res) {
         // Normalize empty date strings to null so Postgres doesn't choke.
         const dob = data.dob && data.dob.length > 0 ? data.dob : null;
 
+        // prior_treatments, allergies, medications e conditions não são mais
+        // coletados no formulário de agendamento — gravam null. As colunas
+        // continuam para os registros históricos e caso voltem ao fluxo.
         const result = await sql`
             INSERT INTO consultations (
                 name, email, phone, dob, city,

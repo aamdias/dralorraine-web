@@ -18,6 +18,23 @@ const steps = [
 
 const CONSULTATION_PRICE_LABEL = "R$ 350";
 
+/**
+ * Atendimento presencial (Campinas, SP) não passa pelo fluxo online: a agenda
+ * do consultório é combinada direto com a Dra. Lorraine pelo WhatsApp.
+ */
+export const WHATSAPP_NUMBER = "5512992057736";
+export const WHATSAPP_PRESENCIAL_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    "Olá, Dra. Lorraine! Gostaria de agendar uma consulta presencial em Campinas."
+)}`;
+
+const PRESENCIAL_PROCEDURES = [
+    "Toxina botulínica (Botox)",
+    "Bioestimulador de colágeno",
+    "Preenchimento com ácido hialurônico",
+    "Peelings",
+    "Microagulhamento"
+];
+
 const initialData = {
     name: "",
     email: "",
@@ -26,7 +43,6 @@ const initialData = {
     city: "",
     mainConcern: "",
     concernDuration: "",
-    priorTreatments: "",
     allergies: "",
     medications: "",
     conditions: "",
@@ -54,10 +70,14 @@ export default function AgendarPage() {
     const [paymentReturn, setPaymentReturn] = useState("");
     const [paymentSessionId, setPaymentSessionId] = useState("");
     const [hydrated, setHydrated] = useState(false);
+    // "" → escolha de modalidade; "video" → fluxo de 6 passos;
+    // "presencial" → painel com WhatsApp (não há agendamento online).
+    const [modality, setModality] = useState("");
 
     useEffect(() => {
         let restoredData = initialData;
         let restoredStep = 1;
+        let restoredModality = "";
 
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
@@ -69,6 +89,13 @@ export default function AgendarPage() {
                         parsed.step,
                         parsed.flowVersion
                     );
+                }
+                restoredModality = parsed.modality || "";
+                // Agendamentos salvos antes da escolha de modalidade existir
+                // só podiam ser videoconsulta — não devolve essa pessoa
+                // para a tela de escolha.
+                if (!restoredModality && restoredStep > 1) {
+                    restoredModality = "video";
                 }
             }
         } catch (e) {
@@ -83,13 +110,16 @@ export default function AgendarPage() {
         if (consultaId) {
             restoredData = { ...restoredData, consultaId };
             restoredStep = 5;
+            restoredModality = "video";
         }
 
         if (payment === "stripe_cancel") {
             restoredStep = 5;
+            restoredModality = "video";
         }
 
         setData(restoredData);
+        setModality(restoredModality);
         setStep(Math.min(steps.length, Math.max(1, restoredStep)));
         setPaymentReturn(payment);
         setPaymentSessionId(sessionId);
@@ -163,13 +193,14 @@ export default function AgendarPage() {
                 JSON.stringify({
                     flowVersion: FLOW_VERSION,
                     step,
+                    modality,
                     data: getSerializableData(data)
                 })
             );
         } catch (e) {
             // ignore
         }
-    }, [step, data, hydrated]);
+    }, [step, data, modality, hydrated]);
 
     const update = (patch) => setData((d) => ({ ...d, ...patch }));
     const next = (patch) => {
@@ -189,31 +220,62 @@ export default function AgendarPage() {
                 url="/consulta/agendar"
             />
 
-            <div className="bg-[#FAF6F0] text-[#1C1917] min-h-screen pt-32 pb-24">
+            <div className="bg-paper text-ink min-h-screen pt-32 pb-24">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="mb-12 lg:mb-16">
-                        <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-6">
-                            Agendamento · Videoconsulta
+                        <div className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
+                            {modality === "presencial"
+                                ? "Agendamento · Presencial"
+                                : modality === "video"
+                                ? "Agendamento · Videoconsulta"
+                                : "Agendamento"}
                         </div>
                         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-4 text-balance">
-                            Vamos agendar sua{" "}
-                            <span className="italic text-[#9A4639]">
-                                consulta
-                            </span>
-                            .
+                            {modality ? (
+                                <>
+                                    Vamos agendar sua{" "}
+                                    <span className="italic text-copper-dark">
+                                        consulta
+                                    </span>
+                                    .
+                                </>
+                            ) : (
+                                <>
+                                    Como você prefere a sua{" "}
+                                    <span className="italic text-copper-dark">
+                                        consulta
+                                    </span>
+                                    ?
+                                </>
+                            )}
                         </h1>
-                        <p className="text-[#57534E] leading-relaxed max-w-xl">
-                            Suas respostas ficam salvas a cada passo — você
-                            pode voltar depois para continuar de onde parou.
+                        <p className="text-stone leading-relaxed max-w-xl">
+                            {modality === "video"
+                                ? "Suas respostas ficam salvas a cada passo — você pode voltar depois para continuar de onde parou."
+                                : modality === "presencial"
+                                ? "O consultório fica em Campinas, São Paulo. A agenda presencial é combinada direto comigo."
+                                : "Escolha o formato que funciona melhor para você. Dá para trocar depois."}
                         </p>
                     </div>
 
+                    {!modality && (
+                        <ModalityChoice onChoose={(value) => setModality(value)} />
+                    )}
+
+                    {modality === "presencial" && (
+                        <StepPresencial
+                            onChooseVideo={() => setModality("video")}
+                        />
+                    )}
+
+                    {modality === "video" && (
+                        <>
                     {/* Progress */}
                     <StepProgress currentStep={step} />
 
                     {/* Card */}
-                    <div className="bg-[#FBF8F2] border border-[#E7E2D9] mt-10 p-6 sm:p-10 lg:p-12">
+                    <div className="bg-[#FBF8F2] border border-line mt-10 p-6 sm:p-10 lg:p-12">
                         {step === 1 && (
                             <StepAboutYou
                                 data={data}
@@ -259,15 +321,181 @@ export default function AgendarPage() {
                         )}
                     </div>
 
-                    <div className="mt-24 lg:mt-32 pt-10 border-t border-[#E7E2D9]">
-                        <p className="text-center text-xs uppercase tracking-[0.24em] text-[#57534E]/70 font-medium flex items-center justify-center gap-2">
+                    {step === 1 && (
+                        <button
+                            type="button"
+                            onClick={() => setModality("presencial")}
+                            className="mt-8 text-sm text-stone hover:text-copper-dark underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors"
+                        >
+                            Prefiro a consulta presencial
+                        </button>
+                    )}
+
+                    <div className="mt-24 lg:mt-32 pt-10 border-t border-line">
+                        <p className="text-center text-xs uppercase tracking-label text-stone/70 font-medium flex items-center justify-center gap-2">
                             <LockGlyph />
                             Informações criptografadas · LGPD
                         </p>
                     </div>
+                        </>
+                    )}
                 </div>
             </div>
         </Layout>
+    );
+}
+
+/* ─── Modality choice ────────────────────────────────────────────────── */
+
+const Rule = () => (
+    <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
+);
+
+/**
+ * Primeira decisão do agendamento. Só a videoconsulta é agendável online;
+ * o presencial é combinado por WhatsApp. Um primário e um secundário —
+ * nunca dois botões primários lado a lado (brandbook §04).
+ */
+function ModalityChoice({ onChoose }) {
+    return (
+        <div className="grid md:grid-cols-2 gap-px bg-line border border-line">
+            <div className="bg-[#FBF8F2] p-8 lg:p-10 flex flex-col">
+                <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
+                    Onde você estiver
+                </div>
+                <h2 className="text-2xl lg:text-[1.75rem] font-normal leading-[1.2] text-ink mt-4 mb-0">
+                    Videoconsulta
+                </h2>
+                <p className="mt-3 text-stone leading-relaxed">
+                    Uma hora por vídeo, com avaliação completa e conduta por
+                    escrito. Agendamento e pagamento por aqui.
+                </p>
+                <ul className="mt-6 space-y-3 text-[15px] text-slate leading-relaxed">
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>Análise prévia do seu caso e das suas fotos.</span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>Prescrição digital quando indicada.</span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>14 dias de suporte por mensagem.</span>
+                    </li>
+                </ul>
+                <div className="mt-auto pt-8">
+                    <div className="text-sm text-stone mb-5">
+                        {CONSULTATION_PRICE_LABEL} · pagamento único
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => onChoose("video")}
+                        className="inline-flex items-center justify-center w-full px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
+                    >
+                        Agendar videoconsulta
+                    </button>
+                </div>
+            </div>
+
+            <div className="bg-[#FBF8F2] p-8 lg:p-10 flex flex-col">
+                <div className="text-[11px] uppercase tracking-label text-copper-dark font-medium">
+                    Campinas · São Paulo
+                </div>
+                <h2 className="text-2xl lg:text-[1.75rem] font-normal leading-[1.2] text-ink mt-4 mb-0">
+                    Consulta presencial
+                </h2>
+                <p className="mt-3 text-stone leading-relaxed">
+                    No consultório, com exame de pele presencial e a
+                    possibilidade de procedimentos na própria consulta.
+                </p>
+                <ul className="mt-6 space-y-3 text-[15px] text-slate leading-relaxed">
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>
+                            Avaliação clínica completa, com exame presencial.
+                        </span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>
+                            Procedimentos como toxina botulínica, preenchimento
+                            e peelings.
+                        </span>
+                    </li>
+                    <li className="flex gap-3.5">
+                        <Rule />
+                        <span>Agenda combinada direto comigo.</span>
+                    </li>
+                </ul>
+                <div className="mt-auto pt-8">
+                    <div className="text-sm text-stone mb-5">
+                        Valor conforme o caso · combinamos antes
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => onChoose("presencial")}
+                        className="inline-flex items-center justify-center w-full px-8 py-4 border border-ink text-ink text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-ink hover:text-paper"
+                    >
+                        Ver atendimento presencial
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ─── Presencial ─────────────────────────────────────────────────────── */
+
+function StepPresencial({ onChooseVideo }) {
+    return (
+        <div className="bg-[#FBF8F2] border border-line p-6 sm:p-10 lg:p-12">
+            <StepHeader
+                eyebrow="Presencial · Campinas, SP"
+                title="Atendo presencialmente em Campinas."
+                description="A consulta presencial permite examinar a pele de perto e, quando fizer sentido, já realizar o procedimento na mesma visita."
+            />
+
+            <div className="border-t border-line pt-8">
+                <div className="text-xs uppercase tracking-label text-stone font-medium mb-5">
+                    Procedimentos realizados
+                </div>
+                <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-ink">
+                    {PRESENCIAL_PROCEDURES.map((item) => (
+                        <li key={item} className="flex items-baseline gap-3">
+                            <span aria-hidden className="text-copper-dark">
+                                —
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <p className="mt-8 text-sm text-stone leading-relaxed border-t border-line pt-6">
+                A agenda do consultório não é fechada por aqui. Me chame no
+                WhatsApp e combinamos data, endereço e valor conforme o que você
+                precisa.
+            </p>
+
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                <a
+                    href={WHATSAPP_PRESENCIAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-8 py-4 bg-ink text-paper text-[15px] font-medium rounded-none transition-colors duration-300 hover:bg-copper-dark"
+                >
+                    Agendar pelo WhatsApp
+                </a>
+                <button
+                    type="button"
+                    onClick={onChooseVideo}
+                    className="text-sm text-stone hover:text-copper-dark underline underline-offset-4 decoration-1 decoration-copper/40 hover:decoration-copper transition-colors text-center sm:text-left"
+                >
+                    Prefiro a videoconsulta
+                </button>
+            </div>
+        </div>
     );
 }
 
@@ -291,26 +519,26 @@ function StepProgress({ currentStep }) {
                                     <div
                                         className={`absolute right-1/2 top-[7px] h-px w-full ${
                                             isDone || isActive
-                                                ? "bg-[#9A4639]"
-                                                : "bg-[#E7E2D9]"
+                                                ? "bg-copper"
+                                                : "bg-line"
                                         }`}
                                     />
                                 )}
                                 <div
                                     className={`relative z-10 w-4 h-4 flex items-center justify-center transition-colors ${
                                         isDone
-                                            ? "bg-[#9A4639]"
+                                            ? "bg-copper"
                                             : isActive
-                                            ? "bg-[#FAF6F0] border-[2px] border-[#9A4639]"
-                                            : "bg-[#FAF6F0] border border-[#E7E2D9]"
+                                            ? "bg-paper border-[2px] border-copper"
+                                            : "bg-paper border border-line"
                                     }`}
                                 />
                                 <div
                                     className={`mt-3 text-[11px] uppercase tracking-[0.18em] font-medium text-center transition-colors ${
                                         isActive
-                                            ? "text-[#9A4639]"
+                                            ? "text-copper-dark"
                                             : isDone
-                                            ? "text-[#1C1917]"
+                                            ? "text-ink"
                                             : "text-[#A8A29E]"
                                     }`}
                                 >
@@ -325,16 +553,16 @@ function StepProgress({ currentStep }) {
             {/* Mobile: compact current/total + bar */}
             <div className="sm:hidden">
                 <div className="flex items-baseline justify-between mb-3">
-                    <span className="text-xs uppercase tracking-[0.22em] text-[#9A4639] font-medium">
+                    <span className="text-xs uppercase tracking-[0.22em] text-copper-dark font-medium">
                         {steps[currentStep - 1].label}
                     </span>
-                    <span className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
+                    <span className="text-xs uppercase tracking-[0.22em] text-stone font-medium">
                         Passo {currentStep} de {steps.length}
                     </span>
                 </div>
-                <div className="relative h-px bg-[#E7E2D9]">
+                <div className="relative h-px bg-line">
                     <div
-                        className="absolute left-0 top-0 h-px bg-[#9A4639] transition-all duration-500"
+                        className="absolute left-0 top-0 h-px bg-copper transition-all duration-500"
                         style={{
                             width: `${
                                 ((currentStep - 1) / (steps.length - 1)) * 100
@@ -353,10 +581,10 @@ function Field({ label, required, hint, children }) {
     return (
         <div className="block">
             <div className="flex items-baseline justify-between mb-2">
-                <span className="text-xs uppercase tracking-[0.2em] text-[#1C1917] font-medium">
+                <span className="text-xs uppercase tracking-[0.2em] text-ink font-medium">
                     {label}
                     {required && (
-                        <span className="text-[#9A4639] ml-1.5">*</span>
+                        <span className="text-copper-dark ml-1.5">*</span>
                     )}
                 </span>
                 {hint && (
@@ -371,10 +599,10 @@ function Field({ label, required, hint, children }) {
 }
 
 const inputClass =
-    "w-full px-0 py-3 bg-transparent border-0 border-b border-[#E7E2D9] rounded-none text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#9A4639] transition-colors";
+    "w-full px-0 py-3 bg-transparent border-0 border-b border-line rounded-none text-ink placeholder:text-[#A8A29E] focus:outline-none focus:border-copper transition-colors";
 
 const textareaClass =
-    "w-full px-4 py-3 bg-[#FAF6F0] border border-[#E7E2D9] rounded-none text-[#1C1917] placeholder:text-[#A8A29E] focus:outline-none focus:border-[#9A4639] transition-colors resize-none";
+    "w-full px-4 py-3 bg-paper border border-line rounded-none text-ink placeholder:text-[#A8A29E] focus:outline-none focus:border-copper transition-colors resize-none";
 
 function getSerializableData(data) {
     const { skinType, ...serializableData } = data;
@@ -426,14 +654,14 @@ function FormSelect({
                 onKeyDown={(event) => {
                     if (event.key === "Escape") setOpen(false);
                 }}
-                className="group flex w-full items-center justify-between gap-4 border-0 border-b border-[#E7E2D9] bg-transparent px-0 py-3 text-left text-[#1C1917] transition-colors hover:border-[#CBB9AE] focus:outline-none focus:border-[#9A4639]"
+                className="group flex w-full items-center justify-between gap-4 border-0 border-b border-line bg-transparent px-0 py-3 text-left text-ink transition-colors hover:border-[#CBB9AE] focus:outline-none focus:border-copper"
             >
                 <span className={selected ? "" : "text-[#A8A29E]"}>
                     {selected?.label || placeholder}
                 </span>
                 <span
                     aria-hidden
-                    className={`h-2 w-2 shrink-0 border-b border-r border-[#9A4639] transition-transform ${
+                    className={`h-2 w-2 shrink-0 border-b border-r border-copper transition-transform ${
                         open
                             ? "rotate-[225deg] translate-y-1"
                             : "rotate-45 -translate-y-0.5"
@@ -444,7 +672,7 @@ function FormSelect({
             {open && (
                 <div
                     role="listbox"
-                    className="absolute left-0 right-0 top-full z-30 mt-2 border border-[#E7E2D9] bg-[#FAF6F0] shadow-[0_18px_40px_rgba(28,25,23,0.08)]"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 border border-line bg-paper shadow-[0_18px_40px_rgba(28,25,23,0.08)]"
                 >
                     <button
                         type="button"
@@ -453,8 +681,8 @@ function FormSelect({
                         onClick={() => choose("")}
                         className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
                             value === ""
-                                ? "bg-[#F3EADB] text-[#9A4639]"
-                                : "text-[#A8A29E] hover:bg-[#F3EADB]/70 hover:text-[#1C1917]"
+                                ? "bg-sand text-copper-dark"
+                                : "text-[#A8A29E] hover:bg-sand/70 hover:text-ink"
                         }`}
                     >
                         {placeholder}
@@ -468,8 +696,8 @@ function FormSelect({
                             onClick={() => choose(option.value)}
                             className={`block w-full px-4 py-3 text-left text-sm transition-colors ${
                                 value === option.value
-                                    ? "bg-[#F3EADB] text-[#9A4639]"
-                                    : "text-[#1C1917] hover:bg-[#F3EADB]/70 hover:text-[#9A4639]"
+                                    ? "bg-sand text-copper-dark"
+                                    : "text-ink hover:bg-sand/70 hover:text-copper-dark"
                             }`}
                         >
                             {option.label}
@@ -497,12 +725,12 @@ function StepActions({
     nextType = "submit"
 }) {
     return (
-        <div className="flex items-center justify-between pt-8 mt-10 border-t border-[#E7E2D9]">
+        <div className="flex items-center justify-between pt-8 mt-10 border-t border-line">
             {onBack ? (
                 <button
                     type="button"
                     onClick={onBack}
-                    className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                    className="text-sm font-medium text-stone hover:text-copper-dark transition-colors py-3"
                 >
                     ← Voltar
                 </button>
@@ -513,7 +741,7 @@ function StepActions({
                 type={nextType}
                 onClick={nextType === "button" ? onNext : undefined}
                 disabled={nextDisabled}
-                className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] disabled:cursor-not-allowed text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                className="bg-ink hover:bg-copper-dark disabled:bg-line disabled:text-[#A8A29E] disabled:cursor-not-allowed text-paper font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
             >
                 {nextLabel}
             </button>
@@ -525,15 +753,15 @@ function StepHeader({ eyebrow, title, description }) {
     return (
         <div className="mb-10">
             {eyebrow && (
-                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-4">
+                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-4">
                     {eyebrow}
                 </div>
             )}
-            <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-[#1C1917] mb-3 text-balance">
+            <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-ink mb-3 text-balance">
                 {title}
             </h2>
             {description && (
-                <p className="text-[#57534E] leading-relaxed max-w-xl">
+                <p className="text-stone leading-relaxed max-w-xl">
                     {description}
                 </p>
             )}
@@ -552,7 +780,7 @@ function LockGlyph() {
         >
             <path
                 d="M3 6V4a3 3 0 016 0v2m-7 0h8v7H2V6z"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -710,20 +938,6 @@ function StepConcern({ data, update, onNext, onBack }) {
                             update({ concernDuration: value })
                         }
                         options={concernDurationOptions}
-                    />
-                </Field>
-                <Field
-                    label="Já fez algum tratamento para isso?"
-                    hint="Opcional"
-                >
-                    <textarea
-                        className={textareaClass}
-                        rows="3"
-                        placeholder="Medicamentos, cremes, procedimentos, outras consultas..."
-                        value={data.priorTreatments}
-                        onChange={(e) =>
-                            update({ priorTreatments: e.target.value })
-                        }
                     />
                 </Field>
             </div>
@@ -939,13 +1153,13 @@ function StepPhotos({ data, update, onNext, onBack }) {
 
             {/* Dropzone / picker */}
             <div
-                className={`border border-dashed bg-[#FAF6F0] p-10 text-center transition-colors ${
+                className={`border border-dashed bg-paper p-10 text-center transition-colors ${
                     uploading
                         ? "opacity-60"
                         : dragActive
-                        ? "border-[#9A4639] bg-[#F3EADB]"
+                        ? "border-copper bg-sand"
                         : slotsLeft > 0
-                        ? "border-[#9A4639]/40 hover:bg-[#F3EADB]/60 cursor-pointer"
+                        ? "border-copper/40 hover:bg-sand/60 cursor-pointer"
                         : "opacity-60 cursor-not-allowed"
                 }`}
                 role="button"
@@ -990,26 +1204,26 @@ function StepPhotos({ data, update, onNext, onBack }) {
                     }}
                 />
                 <CameraGlyph />
-                <div className="mt-4 text-sm font-medium text-[#1C1917]">
+                <div className="mt-4 text-sm font-medium text-ink">
                     {uploading
                         ? "Enviando..."
                         : slotsLeft === 0
                         ? "Limite de 6 fotos atingido"
                         : "Clique para selecionar ou arraste suas fotos"}
                 </div>
-                <div className="mt-1 text-xs text-[#57534E]">
+                <div className="mt-1 text-xs text-stone">
                     JPG · PNG · HEIC · até 10 MB por imagem
                 </div>
             </div>
 
             {uploadStatus && (
-                <div className="mt-4 border-l-2 border-[#9A4639] pl-4 py-3 text-sm text-[#57534E]">
+                <div className="mt-4 border-l-2 border-copper pl-4 py-3 text-sm text-stone">
                     {uploadStatus}
                 </div>
             )}
 
             {error && (
-                <div className="mt-4 border-l-2 border-[#9A4639] pl-4 py-3 text-sm text-[#9A4639]">
+                <div className="mt-4 border-l-2 border-copper pl-4 py-3 text-sm text-copper-dark">
                     {error}
                 </div>
             )}
@@ -1017,14 +1231,14 @@ function StepPhotos({ data, update, onNext, onBack }) {
             {/* Uploaded previews */}
             {data.photos.length > 0 && (
                 <div className="mt-8">
-                    <div className="text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium mb-4">
+                    <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mb-4">
                         {data.photos.length} de {MAX_PHOTOS} fotos enviadas
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {data.photos.map((p) => (
                             <div
                                 key={p.pathname}
-                                className="relative group aspect-square bg-[#E7E2D9] overflow-hidden border border-[#E7E2D9]"
+                                className="relative group aspect-square bg-line overflow-hidden border border-line"
                             >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
@@ -1036,7 +1250,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                                     type="button"
                                     onClick={() => removePhoto(p.pathname)}
                                     aria-label={`Remover ${p.name}`}
-                                    className="absolute top-2 right-2 bg-[#1C1917]/80 hover:bg-[#9A4639] text-[#FAF6F0] w-7 h-7 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+                                    className="absolute top-2 right-2 bg-ink/80 hover:bg-copper-dark text-paper w-7 h-7 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
                                 >
                                     ✕
                                 </button>
@@ -1047,35 +1261,35 @@ function StepPhotos({ data, update, onNext, onBack }) {
             )}
 
             {/* Tips */}
-            <div className="mt-10 border-t border-[#E7E2D9] pt-8">
-                <div className="text-xs uppercase tracking-[0.22em] text-[#9A4639] font-medium mb-4">
+            <div className="mt-10 border-t border-line pt-8">
+                <div className="text-xs uppercase tracking-[0.22em] text-copper-dark font-medium mb-4">
                     Dicas para boas fotos
                 </div>
-                <ul className="space-y-2 text-[#3C3833] text-sm leading-relaxed">
+                <ul className="space-y-2 text-slate text-sm leading-relaxed">
                     <li className="flex items-start gap-3">
-                        <span className="text-[#9A4639] mt-[2px]">—</span>
+                        <span className="text-copper-dark mt-[2px]">—</span>
                         <span>Luz natural, sem flash direto na pele</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-[#9A4639] mt-[2px]">—</span>
+                        <span className="text-copper-dark mt-[2px]">—</span>
                         <span>Uma foto de perto e outra mais afastada</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-[#9A4639] mt-[2px]">—</span>
+                        <span className="text-copper-dark mt-[2px]">—</span>
                         <span>Pele limpa, sem maquiagem ou filtros</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-[#9A4639] mt-[2px]">—</span>
+                        <span className="text-copper-dark mt-[2px]">—</span>
                         <span>Fundo neutro e foco nítido</span>
                     </li>
                 </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-8 mt-10 border-t border-[#E7E2D9]">
+            <div className="flex items-center justify-between pt-8 mt-10 border-t border-line">
                 <button
                     type="button"
                     onClick={onBack}
-                    className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                    className="text-sm font-medium text-stone hover:text-copper-dark transition-colors py-3"
                 >
                     ← Voltar
                 </button>
@@ -1083,7 +1297,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
                     type="button"
                     onClick={() => onNext()}
                     disabled={uploading}
-                    className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                    className="bg-ink hover:bg-copper-dark disabled:bg-line disabled:text-[#A8A29E] text-paper font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
                 >
                     {data.photos.length > 0 ? "Continuar" : "Pular por agora"}
                 </button>
@@ -1107,23 +1321,23 @@ function CameraGlyph() {
                 y="10"
                 width="32"
                 height="22"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
             />
             <circle
                 cx="20"
                 cy="21"
                 r="6"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
             />
             <path
                 d="M14 10l2-3h8l2 3"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
                 strokeLinejoin="round"
             />
-            <circle cx="30" cy="15" r="1" fill="#9A4639" />
+            <circle cx="30" cy="15" r="1" fill="#B48967" />
         </svg>
     );
 }
@@ -1188,7 +1402,7 @@ function StepConsent({ data, update, onNext, onBack }) {
                     <Link
                         href="/consentimento-telemedicina"
                         target="_blank"
-                        className="text-[#9A4639] underline underline-offset-4 decoration-1 font-medium"
+                        className="text-copper-dark underline underline-offset-4 decoration-1 font-medium"
                     >
                         Termo de Consentimento para Telemedicina
                     </Link>{" "}
@@ -1206,7 +1420,7 @@ function StepConsent({ data, update, onNext, onBack }) {
                     <Link
                         href="/politica-de-privacidade"
                         target="_blank"
-                        className="text-[#9A4639] underline underline-offset-4 decoration-1 font-medium"
+                        className="text-copper-dark underline underline-offset-4 decoration-1 font-medium"
                     >
                         Política de Privacidade (LGPD)
                     </Link>
@@ -1221,7 +1435,7 @@ function StepConsent({ data, update, onNext, onBack }) {
                     <Link
                         href="/termos-de-uso"
                         target="_blank"
-                        className="text-[#9A4639] underline underline-offset-4 decoration-1 font-medium"
+                        className="text-copper-dark underline underline-offset-4 decoration-1 font-medium"
                     >
                         Termos de Uso
                     </Link>{" "}
@@ -1249,17 +1463,17 @@ function ConsentCheckbox({ checked, onChange, children }) {
         <label
             className={`flex items-start gap-4 p-5 border cursor-pointer transition-colors ${
                 checked
-                    ? "border-[#9A4639] bg-[#F3EADB]/60"
-                    : "border-[#E7E2D9] bg-[#FAF6F0] hover:border-[#9A4639]/50"
+                    ? "border-copper bg-sand/60"
+                    : "border-line bg-paper hover:border-copper/50"
             }`}
         >
             <input
                 type="checkbox"
                 checked={checked}
                 onChange={(e) => onChange(e.target.checked)}
-                className="mt-1 w-5 h-5 accent-[#9A4639] flex-shrink-0 cursor-pointer"
+                className="mt-1 w-5 h-5 accent-copper flex-shrink-0 cursor-pointer"
             />
-            <span className="text-sm text-[#3C3833] leading-relaxed">
+            <span className="text-sm text-slate leading-relaxed">
                 {children}
             </span>
         </label>
@@ -1439,32 +1653,32 @@ function StepPayment({
                 description="Concluído o pagamento, você terá acesso à agenda da Dra. Lorraine para escolher seu horário."
             />
 
-            <div className="bg-[#1C1917] text-[#FAF6F0] p-8 lg:p-10">
-                <div className="text-xs uppercase tracking-[0.28em] text-[#E4B5AC] font-medium mb-6">
+            <div className="bg-ink text-paper p-8 lg:p-10">
+                <div className="text-xs uppercase tracking-[0.28em] text-rose font-medium mb-6">
                     Videoconsulta · Dermatologia
                 </div>
 
-                <div className="border-t border-[#FAF6F0]/15 pt-6 mb-6">
+                <div className="border-t border-paper/15 pt-6 mb-6">
                     <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-baseline">
-                        <span className="text-5xl lg:text-6xl font-light text-[#FAF6F0] tracking-tight">
+                        <span className="text-5xl lg:text-6xl font-light text-paper tracking-tight">
                             {CONSULTATION_PRICE_LABEL}
                         </span>
-                        <span className="text-sm text-[#FAF6F0]/60 uppercase tracking-[0.22em]">
+                        <span className="text-sm text-paper/60 uppercase tracking-[0.22em]">
                             Pagamento único
                         </span>
                     </div>
                 </div>
 
-                <div className="text-sm text-[#FAF6F0]/80">
+                <div className="text-sm text-paper/80">
                     Olá,{" "}
-                    <span className="text-[#FAF6F0]">
+                    <span className="text-paper">
                         {data.name?.split(" ")[0] || "paciente"}
                     </span>
                     . Seus dados estão salvos e prontos para a consulta.
                 </div>
             </div>
 
-            <div className="mt-6 border-l-2 border-[#9A4639] pl-5 py-2 text-sm text-[#57534E] leading-relaxed">
+            <div className="mt-6 border-l-2 border-copper pl-5 py-2 text-sm text-stone leading-relaxed">
                 {loading
                     ? "Preparando checkout seguro..."
                     : "Você será direcionada para um checkout seguro. Ao finalizar, a agenda será liberada automaticamente."}
@@ -1477,16 +1691,16 @@ function StepPayment({
             )}
 
             {notice && (
-                <div className="mt-6 p-4 border border-[#E7E2D9] bg-[#FAF6F0] text-sm text-[#57534E] leading-relaxed">
+                <div className="mt-6 p-4 border border-line bg-paper text-sm text-stone leading-relaxed">
                     {notice}
                 </div>
             )}
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-8 mt-10 border-t border-[#E7E2D9]">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-8 mt-10 border-t border-line">
                 <button
                     type="button"
                     onClick={onBack}
-                    className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                    className="text-sm font-medium text-stone hover:text-copper-dark transition-colors py-3"
                 >
                     ← Voltar
                 </button>
@@ -1498,7 +1712,7 @@ function StepPayment({
                         disabled={
                             !data.consultaId || loading || openingCheckout
                         }
-                        className="bg-[#1C1917] hover:bg-[#9A4639] disabled:bg-[#E7E2D9] disabled:text-[#A8A29E] disabled:cursor-not-allowed text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
+                        className="bg-ink hover:bg-copper-dark disabled:bg-line disabled:text-[#A8A29E] disabled:cursor-not-allowed text-paper font-medium px-8 py-3.5 rounded-none transition-colors duration-300 text-center"
                     >
                         {openingCheckout
                             ? "Abrindo checkout..."
@@ -1510,7 +1724,7 @@ function StepPayment({
                         type="button"
                         onClick={checkPayment}
                         disabled={!data.consultaId || checking}
-                        className="border border-[#1C1917] hover:border-[#9A4639] disabled:border-[#E7E2D9] disabled:text-[#A8A29E] text-[#1C1917] hover:text-[#9A4639] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                        className="border border-ink hover:border-copper disabled:border-line disabled:text-[#A8A29E] text-ink hover:text-copper-dark font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
                     >
                         {checking ? "Verificando..." : "Verificar pagamento →"}
                     </button>
@@ -1519,7 +1733,7 @@ function StepPayment({
                             type="button"
                             onClick={loadCheckout}
                             disabled={!data.consultaId || loading}
-                            className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                            className="text-sm font-medium text-stone hover:text-copper-dark transition-colors py-3"
                         >
                             Tentar novamente
                         </button>
@@ -1577,26 +1791,26 @@ function StepSchedule({ data, onBack }) {
     return (
         <div>
             <div className="mb-10">
-                <div className="text-xs uppercase tracking-[0.28em] text-[#9A4639] font-medium mb-4">
+                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-4">
                     Passo 06 · Agenda
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-[#1C1917] mb-3 text-balance">
+                <h2 className="text-2xl sm:text-3xl font-light tracking-[-0.015em] text-ink mb-3 text-balance">
                     Tudo certo,{" "}
-                    <span className="italic text-[#9A4639]">
+                    <span className="italic text-copper-dark">
                         {data.name?.split(" ")[0] || "paciente"}
                     </span>
                     .
                 </h2>
-                <p className="text-[#57534E] leading-relaxed max-w-xl">
+                <p className="text-stone leading-relaxed max-w-xl">
                     Agora é só escolher o melhor horário na agenda da Dra.
                     Lorraine. A disponibilidade é controlada no provedor de
                     agenda conectado.
                 </p>
             </div>
 
-            <div className="border border-[#E7E2D9] bg-[#FAF6F0] p-12 text-center">
+            <div className="border border-line bg-paper p-12 text-center">
                 <CalendarGlyph />
-                <div className="mt-4 text-xs uppercase tracking-[0.22em] text-[#57534E] font-medium">
+                <div className="mt-4 text-xs uppercase tracking-[0.22em] text-stone font-medium">
                     {loading
                         ? "Carregando agenda..."
                         : `Agendamento · ${
@@ -1608,7 +1822,7 @@ function StepSchedule({ data, onBack }) {
                         href={option.bookingUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-6 inline-flex bg-[#1C1917] hover:bg-[#9A4639] text-[#FAF6F0] font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
+                        className="mt-6 inline-flex bg-ink hover:bg-copper-dark text-paper font-medium px-8 py-3.5 rounded-none transition-colors duration-300"
                     >
                         Escolher horário
                     </a>
@@ -1621,11 +1835,11 @@ function StepSchedule({ data, onBack }) {
                 </div>
             )}
 
-            <div className="flex justify-start pt-8 mt-10 border-t border-[#E7E2D9]">
+            <div className="flex justify-start pt-8 mt-10 border-t border-line">
                 <button
                     type="button"
                     onClick={onBack}
-                    className="text-sm font-medium text-[#57534E] hover:text-[#9A4639] transition-colors py-3"
+                    className="text-sm font-medium text-stone hover:text-copper-dark transition-colors py-3"
                 >
                     ← Voltar
                 </button>
@@ -1649,23 +1863,23 @@ function CalendarGlyph() {
                 y="9"
                 width="28"
                 height="25"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
             />
             <path
                 d="M6 16h28"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
             />
             <path
                 d="M14 6v6M26 6v6"
-                stroke="#9A4639"
+                stroke="#B48967"
                 strokeWidth="1.2"
                 strokeLinecap="round"
             />
-            <circle cx="14" cy="23" r="1.5" fill="#9A4639" />
-            <circle cx="20" cy="23" r="1.5" fill="#9A4639" />
-            <circle cx="26" cy="23" r="1.5" fill="#9A4639" />
+            <circle cx="14" cy="23" r="1.5" fill="#B48967" />
+            <circle cx="20" cy="23" r="1.5" fill="#B48967" />
+            <circle cx="26" cy="23" r="1.5" fill="#B48967" />
         </svg>
     );
 }

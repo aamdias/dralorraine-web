@@ -12,6 +12,16 @@ O projeto está hospedado em produção via [www.dralorraine.com](https://www.dr
 - Vercel
 - FontAwesome
 
+## Identidade visual
+
+A marca segue o **Manual de marca v1.0 (2026)**. Antes de mexer em cor, tipografia, logo ou
+espaçamento, leia [`docs/brandbook.md`](docs/brandbook.md) — ele documenta a paleta, a escala
+tipográfica, as regras de aplicação do monograma LS e o checklist de revisão.
+
+Regras curtas: cores só via tokens (`paper`, `sand`, `line`, `rose`, `copper`, `copper-dark`,
+`stone`, `slate`, `ink`), títulos em `font-display` (Cormorant Garamond), corpo em Inter, raio
+zero em tudo, e a marca sempre pelo componente `@components/Logo`.
+
 ## Consulta notifications
 
 Set these env vars in Vercel to send consultation emails through Resend:
