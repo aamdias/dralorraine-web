@@ -59,7 +59,7 @@ const SEO = ({
             <meta property="og:image" content={imagePreview} key="ogimage" />
             <meta
                 property="og:image:alt"
-                content={`${SITE.name} — ${SITE.specialty}`}
+                content={`${SITE.name} · ${SITE.specialty}`}
                 key="ogimagealt"
             />
             <meta

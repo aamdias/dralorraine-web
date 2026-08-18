@@ -83,7 +83,7 @@ export const Logo = ({
     tone = "copper",
     className = "",
     markClassName,
-    ariaLabel = "Dra. Lorraine Souza — Dermatologia"
+    ariaLabel = "Dra. Lorraine Souza, Dermatologia"
 }) => {
     const { rule } = TONES[tone] || TONES.copper;
 

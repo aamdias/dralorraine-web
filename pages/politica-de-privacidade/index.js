@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
                                     trata os dados pessoais dos
                                     pacientes atendidos através deste site em
                                     conformidade com a Lei Geral de Proteção de
-                                    Dados (Lei nº 13.709/2018 — LGPD) e a
+                                    Dados (Lei nº 13.709/2018, a LGPD) e a
                                     Resolução CFM nº 2.314/2022.
                                 </p>
                             </section>
