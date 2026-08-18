@@ -45,7 +45,7 @@ export const personSchema = () => ({
     areaServed: AREA_SERVED,
     alumniOf: {
         "@type": "CollegeOrUniversity",
-        name: "UNICAMP — Universidade Estadual de Campinas"
+        name: "UNICAMP (Universidade Estadual de Campinas)"
     },
     knowsAbout: [
         "Dermatologia",

@@ -360,14 +360,9 @@ export default function Anotacoes() {
                                         {anotacoesInclusions.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-start gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span
-                                                    aria-hidden
-                                                    className="text-copper-dark mt-[2px]"
-                                                >
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -418,14 +413,9 @@ export default function Anotacoes() {
                                         {comboInclusions.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-start gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span
-                                                    aria-hidden
-                                                    className="text-rose mt-[2px]"
-                                                >
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-rose mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}

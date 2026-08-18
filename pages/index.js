@@ -109,7 +109,7 @@ export default function Home() {
                     dobra leem como um bloco só. Papel prensado: gradiente
                     quente + grão + um halo de cobre atrás do retrato.
                     Nada de sombra — ver docs/brandbook.md §04. */}
-                <section className="relative isolate overflow-hidden pt-36 pb-20 lg:pt-48 lg:pb-28">
+                <section className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-[7.5rem] lg:pb-20">
                     <div
                         aria-hidden
                         className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
@@ -134,7 +134,7 @@ export default function Home() {
                     />
 
                     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-[88px] items-center">
+                        <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 items-center">
                             {/* Fio de margem: âncora editorial da coluna de texto */}
                             <div
                                 aria-hidden
@@ -143,7 +143,7 @@ export default function Home() {
                             <div>
                                 <MotionBTTContainer
                                     transition={{ delay: 0.1, duration: 0.5 }}
-                                    className="mb-7"
+                                    className="mb-6"
                                 >
                                     <div className="text-xs uppercase tracking-label text-copper-dark font-medium leading-relaxed">
                                         Dermatologia · Campinas e videoconsulta
@@ -153,7 +153,7 @@ export default function Home() {
                                 <MotionBTTContainer
                                     transition={{ delay: 0.2, duration: 0.6 }}
                                 >
-                                    <h1 className="font-display font-light text-[2.75rem] sm:text-5xl lg:text-[5rem] leading-[1.03] tracking-[-0.02em] mb-8 text-balance">
+                                    <h1 className="font-display font-light text-[2.75rem] sm:text-5xl lg:text-[5rem] leading-[1.03] tracking-[-0.02em] mb-7 text-balance">
                                         Dermatologia com ciência, escuta e{" "}
                                         <span className="italic text-copper-dark">
                                             cuidado
@@ -164,7 +164,7 @@ export default function Home() {
 
                                 <MotionBTTContainer
                                     transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-11 lg:mb-14"
+                                    className="mb-10 lg:mb-11"
                                 >
                                     <p className="text-lg text-stone leading-[1.7] max-w-lg">
                                         Sou médica pela UNICAMP e R3 em
@@ -201,7 +201,7 @@ export default function Home() {
                             >
                                 {/* Fio de canto + tinta de cobre: enquadramento
                                     editorial, sem sombra (brandbook §04/§05). */}
-                                <div className="relative max-w-[420px] mx-auto lg:max-w-none">
+                                <div className="relative max-w-[420px] mx-auto lg:max-w-[440px] lg:mr-0 lg:ml-auto">
                                     <div
                                         aria-hidden
                                         className="absolute -inset-4 lg:-inset-7 bg-copper/[0.08]"

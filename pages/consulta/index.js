@@ -91,7 +91,7 @@ const focusAreas = [
 // (Campinas). Emergência é a única exceção real.
 const nonIndications = [
     "Biópsias e retirada de lesões",
-    "Toxina botulínica, preenchimentos, peelings e microagulhamento",
+    "Toxina botulínica, peelings e microagulhamento",
     "Bioestimuladores de colágeno",
     "Cirurgias dermatológicas",
 ];
@@ -108,7 +108,7 @@ const included = [
 const faqs = [
     {
         q: "A consulta pode ser presencial?",
-        a: "Sim. Atendo presencialmente em Campinas, São Paulo, com exame de pele e procedimentos como toxina botulínica, bioestimulador de colágeno, preenchimento com ácido hialurônico, peelings e microagulhamento. Escolha o formato no primeiro passo do agendamento: a videoconsulta é fechada por aqui, e a agenda presencial combinamos pelo WhatsApp.",
+        a: "Sim. Atendo presencialmente em Campinas, São Paulo, com exame de pele e procedimentos como toxina botulínica, bioestimulador de colágeno, peelings e microagulhamento. Escolha o formato no primeiro passo do agendamento: a videoconsulta é fechada por aqui, e a agenda presencial combinamos pelo WhatsApp.",
     },
     {
         q: "A Dra. Lorraine pode emitir receita?",
@@ -410,14 +410,9 @@ export default function ConsultaPage() {
                                                             {area.procedures.map((item) => (
                                                                 <li
                                                                     key={item}
-                                                                    className="flex items-baseline gap-3"
+                                                                    className="flex items-start gap-3.5"
                                                                 >
-                                                                    <span
-                                                                        aria-hidden
-                                                                        className="text-copper-dark"
-                                                                    >
-                                                                        —
-                                                                    </span>
+                                                                    <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                                                     <span>{item}</span>
                                                                 </li>
                                                             ))}
@@ -467,11 +462,9 @@ export default function ConsultaPage() {
                                         {indications.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-baseline gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span className="text-copper-dark">
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -489,11 +482,9 @@ export default function ConsultaPage() {
                                         {nonIndications.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-baseline gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span className="text-stone">
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-stone mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -539,8 +530,8 @@ export default function ConsultaPage() {
                                             Formada em Medicina pela{" "}
                                             <strong className="font-medium">UNICAMP</strong>,
                                             a Dra. Lorraine é residente de Dermatologia na
-                                            UNICAMP — uma das instituições mais concorridas
-                                            do Brasil — onde conquistou o{" "}
+                                            UNICAMP, uma das instituições mais concorridas
+                                            do Brasil, onde conquistou o{" "}
                                             <strong className="font-medium">1º lugar</strong>{" "}
                                             em aprovação.
                                         </p>
@@ -608,11 +599,9 @@ export default function ConsultaPage() {
                                     {included.map((item, i) => (
                                         <li
                                             key={i}
-                                            className="flex items-baseline gap-3"
+                                            className="flex items-start gap-3.5"
                                         >
-                                            <span aria-hidden className="text-copper-dark">
-                                                —
-                                            </span>
+                                            <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                             <span>{item}</span>
                                         </li>
                                     ))}

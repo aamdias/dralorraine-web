@@ -216,7 +216,7 @@ export default function AgendarPage() {
         <Layout>
             <SEO
                 title="Agendar Consulta | Dra. Lorraine Souza"
-                description="Agende sua videoconsulta de dermatologia em poucos passos. Suas respostas ficam salvas — você pode voltar depois para continuar."
+                description="Agende sua videoconsulta de dermatologia em poucos passos. Suas respostas ficam salvas e você pode voltar depois para continuar."
                 image="/lolo-portrait-consulta.jpg"
                 url="/consulta/agendar"
                 noindex
@@ -258,7 +258,7 @@ export default function AgendarPage() {
                         </h1>
                         <p className="text-stone leading-relaxed max-w-xl">
                             {modality === "video"
-                                ? "Suas respostas ficam salvas a cada passo — você pode voltar depois para continuar de onde parou."
+                                ? "Suas respostas ficam salvas a cada passo, então você pode voltar depois para continuar de onde parou."
                                 : modality === "presencial"
                                 ? "O consultório fica em Campinas, São Paulo. A agenda presencial é combinada direto comigo."
                                 : "Escolha o formato que funciona melhor para você. Dá para trocar depois."}
@@ -420,8 +420,8 @@ function ModalityChoice({ onChoose }) {
                     <li className="flex gap-3.5">
                         <Rule />
                         <span>
-                            Procedimentos como toxina botulínica, preenchimento
-                            e peelings.
+                            Procedimentos como toxina botulínica,
+                            bioestimulador e peelings.
                         </span>
                     </li>
                     <li className="flex gap-3.5">
@@ -548,10 +548,8 @@ function StepPresencial({ onChooseVideo }) {
                     </div>
                     <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-x-8 gap-y-3 text-ink">
                         {PRESENCIAL_PROCEDURES.map((item) => (
-                            <li key={item} className="flex items-baseline gap-3">
-                                <span aria-hidden className="text-copper-dark">
-                                    —
-                                </span>
+                            <li key={item} className="flex items-start gap-3.5">
+                                <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                 <span>{item}</span>
                             </li>
                         ))}
@@ -1259,7 +1257,7 @@ function StepPhotos({ data, update, onNext, onBack }) {
             <StepHeader
                 eyebrow="Passo 03 · Fotos"
                 title="Fotos da área de interesse."
-                description="Fotos claras fazem muita diferença na consulta. Você pode enviar até 6 imagens — ou pular este passo se preferir."
+                description="Fotos claras fazem muita diferença na consulta. Você pode enviar até 6 imagens, ou pular este passo se preferir."
             />
 
             {/* Dropzone / picker */}
@@ -1378,19 +1376,19 @@ function StepPhotos({ data, update, onNext, onBack }) {
                 </div>
                 <ul className="space-y-2 text-slate text-sm leading-relaxed">
                     <li className="flex items-start gap-3">
-                        <span className="text-copper-dark mt-[2px]">—</span>
+                        <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                         <span>Luz natural, sem flash direto na pele</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-copper-dark mt-[2px]">—</span>
+                        <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                         <span>Uma foto de perto e outra mais afastada</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-copper-dark mt-[2px]">—</span>
+                        <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                         <span>Pele limpa, sem maquiagem ou filtros</span>
                     </li>
                     <li className="flex items-start gap-3">
-                        <span className="text-copper-dark mt-[2px]">—</span>
+                        <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                         <span>Fundo neutro e foco nítido</span>
                     </li>
                 </ul>
@@ -1556,7 +1554,7 @@ function StepConsent({ data, update, onNext, onBack }) {
 
             {error && (
                 <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
-                    — {error}
+                    {error}
                 </div>
             )}
 
@@ -1797,7 +1795,7 @@ function StepPayment({
 
             {error && (
                 <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
-                    — {error}
+                    {error}
                 </div>
             )}
 
@@ -1951,7 +1949,7 @@ function StepSchedule({ data, onBack }) {
 
             {error && (
                 <div className="mt-6 p-4 border border-[#E7D5D0] bg-[#FBEDEA] text-sm text-[#7A2E26] leading-relaxed">
-                    — {error}
+                    {error}
                 </div>
             )}
 

@@ -36,12 +36,12 @@ const benefits = [
     {
         title: "Tempo de estudo mais eficiente",
         description:
-            "Tomada de decisão sobre resolução de questões e priorização — o fator que mais pesa na hora da aprovação."
+            "Tomada de decisão sobre resolução de questões e priorização, o fator que mais pesa na hora da aprovação."
     },
     {
         title: "Conhecimento das instituições",
         description:
-            "UNICAMP, USP, UNIFESP, PUCC — cada prova tem estilo próprio. Você vai conhecer o que importa em cada uma."
+            "UNICAMP, USP, UNIFESP, PUCC: cada prova tem estilo próprio. Você vai conhecer o que importa em cada uma."
     },
     {
         title: "Rotina que sustenta a constância",
@@ -99,7 +99,7 @@ export default function MentorshipPage() {
                             transition={{ delay: 0.2, duration: 0.6 }}
                         >
                             <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4.5rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                Sua aprovação em{" "}
+                                Sua aprovação na{" "}
                                 <span className="italic text-copper-dark">
                                     residência
                                 </span>{" "}
@@ -190,7 +190,7 @@ export default function MentorshipPage() {
                             >
                                 <p className="text-lg text-slate leading-relaxed">
                                     Esses desafios são mais comuns do que você
-                                    imagina — e eu sei exatamente como
+                                    imagina, e eu sei exatamente como
                                     superá-los.
                                 </p>
                             </MotionBTTContainer>
@@ -263,7 +263,7 @@ export default function MentorshipPage() {
                                 </div>
                                 <p className="text-2xl lg:text-[2rem] font-light leading-[1.35] tracking-[-0.01em] text-ink pl-8 lg:pl-14">
                                     Você foi o melhor investimento. Um guia pra
-                                    calcular a rota — pra me acelerar quando eu
+                                    calcular a rota, pra me acelerar quando eu
                                     tava parando, pra me frear quando eu tava
                                     rápido demais.
                                 </p>
@@ -361,7 +361,7 @@ export default function MentorshipPage() {
                             >
                                 <p className="text-lg text-slate leading-relaxed">
                                     Programa anual completo ou sessão individual
-                                    para um ponto específico — você decide.
+                                    para um ponto específico. Você decide.
                                 </p>
                             </MotionBTTContainer>
                         </div>
@@ -387,14 +387,9 @@ export default function MentorshipPage() {
                                         {mentorshipInclusions.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-start gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span
-                                                    aria-hidden
-                                                    className="text-rose mt-[2px]"
-                                                >
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-rose mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -444,14 +439,9 @@ export default function MentorshipPage() {
                                         {avulsaInclusions.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-start gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span
-                                                    aria-hidden
-                                                    className="text-copper-dark mt-[2px]"
-                                                >
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}

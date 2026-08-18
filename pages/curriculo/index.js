@@ -17,7 +17,7 @@ const images = [
 
 const scores = [
     { institution: "UNICAMP", score: "10", logo: "/unicamp.png" },
-    { institution: "USP — São Paulo", score: "10", logo: "/usp-sp.png" },
+    { institution: "USP São Paulo", score: "10", logo: "/usp-sp.png" },
     { institution: "UNIFESP", score: "9.5", logo: "/unifesp-sp.png" }
 ];
 
@@ -32,7 +32,7 @@ const benefits = [
         n: "02",
         title: "Valorização",
         description:
-            "Suas conquistas e experiências apresentadas de forma impactante — nenhuma atividade relevante subestimada."
+            "Suas conquistas e experiências apresentadas de forma impactante, sem nenhuma atividade relevante subestimada."
     },
     {
         n: "03",
@@ -50,7 +50,7 @@ const benefits = [
         n: "05",
         title: "Profissionalismo",
         description:
-            "Design moderno e layout adequado aos padrões profissionais da área médica — sem excessos, sem ruído."
+            "Design moderno e layout adequado aos padrões profissionais da área médica, sem excessos e sem ruído."
     },
     {
         n: "06",
@@ -549,14 +549,9 @@ export default function Curriculo() {
                                         {inclusions.map((item, i) => (
                                             <li
                                                 key={i}
-                                                className="flex items-start gap-3"
+                                                className="flex items-start gap-3.5"
                                             >
-                                                <span
-                                                    aria-hidden
-                                                    className="text-rose mt-[2px]"
-                                                >
-                                                    —
-                                                </span>
+                                                <span aria-hidden className="w-3.5 h-px bg-rose mt-[11px] flex-none" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
