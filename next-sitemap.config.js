@@ -3,7 +3,7 @@
 // O sitemap só era gerado se alguém rodasse next-sitemap à mão — não havia
 // script de postbuild, então nunca existiu sitemap.xml em produção.
 // O package.json agora roda isto depois do build.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.dralorraine.com";
+const { SITE_URL } = require("./config/site");
 
 // Rastreadores de LLM. Estar aqui é o que permite que o site seja citado em
 // resposta gerada por IA — bloquear (ou omitir) tira a marca desse canal.
@@ -31,7 +31,7 @@ const AI_CRAWLERS = [
 module.exports = {
     siteUrl: SITE_URL,
     generateRobotsTxt: true,
-    generateIndexSitemap: false,
+    generateIndexSitemap: true,
     changefreq: "monthly",
     autoLastmod: true,
     // Fluxo de agendamento, área restrita e rotas de API não entram no índice.
@@ -59,7 +59,6 @@ module.exports = {
                 allow: "/",
                 disallow: ["/admin", "/api", "/consulta/agendar", "/mentoria/check-out"]
             }
-        ],
-        additionalSitemaps: [`${SITE_URL}/sitemap.xml`]
+        ]
     }
 };

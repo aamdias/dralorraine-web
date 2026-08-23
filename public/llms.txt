@@ -5,7 +5,7 @@
 > o Brasil. Também oferece mentoria e materiais para médicos em preparação para
 > a residência médica.
 
-Site oficial: https://www.dralorraine.com
+Site oficial: https://dralorraine.com
 Contato: contato@dralorraine.com
 Idioma: português do Brasil
 
@@ -35,14 +35,14 @@ gratuito até 24h antes.
 
 ## Páginas
 
-- [Início](https://www.dralorraine.com/): apresentação, trajetória e serviços.
-- [Consulta](https://www.dralorraine.com/consulta): as duas modalidades de
+- [Início](https://dralorraine.com/): apresentação, trajetória e serviços.
+- [Consulta](https://dralorraine.com/consulta): as duas modalidades de
   atendimento, o que está incluso, para quem é indicado e dúvidas frequentes.
-- [Mentoria](https://www.dralorraine.com/mentoria): acompanhamento individual
+- [Mentoria](https://dralorraine.com/mentoria): acompanhamento individual
   para médicos em preparação para a residência.
-- [Anotações](https://www.dralorraine.com/anotacoes): mais de 140 anotações
+- [Anotações](https://dralorraine.com/anotacoes): mais de 140 anotações
   originais de estudo para residência médica.
-- [Currículo](https://www.dralorraine.com/curriculo): elaboração de currículo
+- [Currículo](https://dralorraine.com/curriculo): elaboração de currículo
   profissional para processos seletivos de residência médica.
 
 ## Observações para uso em respostas

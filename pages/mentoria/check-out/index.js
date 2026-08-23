@@ -114,6 +114,7 @@ export default function MentorshipCheckoutPage() {
       <SEO
         title="Checkout Mentoria | Dra Lô R1 Dermato UNICAMP"
         description="Finalize sua inscrição para mentoria personalizada de residência médica"
+        noindex
       />
       <div className="main-wrapper bg-[#F3F5F8] relative z-10 pb-20 pt-32">
         <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>

@@ -144,8 +144,8 @@ export default function Curriculo() {
                 name: "Dra. Lorraine - Serviços para Residência Médica",
                 description:
                     "Serviços para aprovação em residência médica: elaboração de currículo profissional, mentoria individual e material de estudo.",
-                url: "https://www.dralorraine.com",
-                logo: "https://www.dralorraine.com/ls-monogram.svg",
+                url: "https://dralorraine.com",
+                logo: "https://dralorraine.com/ls-monogram.svg",
                 address: {
                     "@type": "PostalAddress",
                     addressLocality: "São Paulo",

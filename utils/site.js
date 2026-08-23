@@ -7,15 +7,11 @@
  * Qualquer URL absoluta — canonical, Open Graph, JSON-LD, e-mail — sai daqui.
  */
 
-const FALLBACK_URL = "https://www.dralorraine.com";
-
-/** Sem barra no fim: as URLs são montadas como `${SITE.url}${path}`. */
-const normalize = (value) =>
-    (value || FALLBACK_URL).trim().replace(/\/+$/, "");
+import { SITE_NAME, SITE_URL } from "../config/site";
 
 export const SITE = {
-    url: normalize(process.env.NEXT_PUBLIC_SITE_URL || FALLBACK_URL),
-    name: "Dra. Lorraine Souza",
+    url: SITE_URL,
+    name: SITE_NAME,
     fullName: "Dra. Lorraine Souza · Dermatologia",
     specialty: "Dermatologia",
     email: "contato@dralorraine.com",
