@@ -430,7 +430,7 @@ dependem da mesma base: uma identidade declarada com clareza e uma URL só por p
 ### Uma fonte de verdade para o domínio
 
 Toda URL absoluta sai de [`utils/site.js`](../utils/site.js). O domínio canônico é
-**https://www.dralorraine.com**. Antes disso ele aparecia em três grafias pelo repositório
+**https://dralorraine.com**. Antes disso ele aparecia em três grafias pelo repositório
 (`dralorraine.com.br`, `www.dralorraine.com` e o typo `dralaorraine.com.br`), o que quebrava
 sitemap, canonical e dados estruturados ao mesmo tempo. Nunca escreva o domínio à mão.
 

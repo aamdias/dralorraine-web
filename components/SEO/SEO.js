@@ -15,7 +15,8 @@ const SEO = ({
     image,
     url,
     type = "website",
-    noindex = false
+    noindex = false,
+    noIndex = false
 }) => {
     const metaDescription = description || process.env.siteDescription;
     const metaKeywords = keywords || process.env.siteKeywords;
@@ -46,7 +47,7 @@ const SEO = ({
             <meta
                 name="robots"
                 content={
-                    noindex
+                    noindex || noIndex
                         ? "noindex, nofollow"
                         : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
                 }

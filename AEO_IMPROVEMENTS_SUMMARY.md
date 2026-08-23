@@ -117,7 +117,7 @@ Implemented comprehensive Schema.org markup:
 ```json
 "@type": "Organization"
 "name": "Dra. Lorraine - Serviços para Residência Médica"
-"url": "https://dralaorraine.com.br"
+"url": "https://dralorraine.com"
 "areaServed": { São Paulo }
 "serviceType": ["Currículo", "Mentoria", "Material de Estudo"]
 ```
@@ -159,7 +159,7 @@ Updated from placeholders to real data:
 siteTitle: "Dra. Lorraine - Mentoria e Serviços para Residência Médica"
 siteDescription: "Serviços especializados para aprovação na residência médica em São Paulo..."
 siteKeywords: "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo"
-siteUrl: "https://dralaorraine.com.br"
+siteUrl: "https://dralorraine.com"
 twitterHandle: "@dralaorraine"
 ```
 
@@ -253,10 +253,10 @@ twitterHandle: "@dralaorraine"
 ```bash
 # Validate structured data
 https://search.google.com/test/rich-results
-# Paste: https://dralaorraine.com.br/curriculo
+# Paste: https://dralorraine.com/curriculo
 
 # Check robots.txt
-https://dralaorraine.com.br/robots.txt
+https://dralorraine.com/robots.txt
 ```
 
 ### Monitor AI Bot Access
@@ -307,4 +307,3 @@ The page should now have significantly better visibility in LLM-based search res
 ---
 
 **Note:** These improvements follow best practices from Schema.org, Google's structured data guidelines, and emerging AEO principles. Monitor performance over the next 2-4 weeks and iterate based on results.
-

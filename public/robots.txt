@@ -79,7 +79,7 @@ Disallow: /consulta/agendar
 Disallow: /mentoria/check-out
 
 # Host
-Host: https://www.dralorraine.com
+Host: https://dralorraine.com
 
 # Sitemaps
-Sitemap: https://www.dralorraine.com/sitemap.xml
+Sitemap: https://dralorraine.com/sitemap.xml

@@ -22,9 +22,9 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
+        "postbuild": "next-sitemap",
         "start": "next start",
-        "lint": "next lint",
-        "postbuild": "next-sitemap"
+        "lint": "next lint"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.2.1",

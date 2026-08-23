@@ -2,6 +2,7 @@
 
 const { createSecureHeaders } = require("next-secure-headers");
 const path = require("path");
+const { SITE_NAME, SITE_URL } = require("./config/site");
 
 const nextConfig = {
     reactStrictMode: true,
@@ -13,10 +14,10 @@ const nextConfig = {
         domains: ["s.gravatar.com"]
     },
     env: {
-        siteTitle: "Dra. Lorraine - Mentoria e Serviços para Residência Médica",
+        siteTitle: `${SITE_NAME} | Dermatologia e Residência Médica`,
         siteDescription: "Serviços especializados para aprovação na residência médica em São Paulo: currículo profissional, mentoria individual e anotações de estudo. Aprovada em UNICAMP, USP, UNIFESP e PUC.",
         siteKeywords: "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo",
-        siteUrl: "https://www.dralorraine.com",
+        siteUrl: SITE_URL,
         siteImagePreviewUrl: "/lolo-portrait-home-page.png",
         twitterHandle: "@dralaorraine"
     },
