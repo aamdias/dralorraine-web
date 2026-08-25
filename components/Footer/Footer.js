@@ -8,6 +8,22 @@ const NAV_COLUMNS = [
         items: [
             { label: "Consulta", href: "/consulta" },
             { label: "Blog", href: "/blog" },
+            { label: "Tratamentos", href: "/tratamentos" },
+        ]
+    },
+    {
+        title: "Tratamentos",
+        items: [
+            { label: "Botox · toxina botulínica", href: "/tratamentos/toxina-botulinica" },
+            { label: "Bioestimulador de colágeno", href: "/tratamentos/bioestimulador-de-colageno" },
+            { label: "Preenchimento facial", href: "/tratamentos/preenchimento-com-acido-hialuronico" },
+            { label: "Peelings", href: "/tratamentos/peelings" },
+            { label: "Microagulhamento", href: "/tratamentos/microagulhamento" }
+        ]
+    },
+    {
+        title: "Para médicos",
+        items: [
             { label: "Mentoria", href: "/mentoria" },
             { label: "Anotações", href: "/anotacoes" },
             { label: "Currículo", href: "/curriculo" }

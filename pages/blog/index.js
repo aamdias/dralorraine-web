@@ -11,12 +11,12 @@ import {
 const posts = [
     {
         category: "Procedimentos",
-        title: "Botox em Campinas: quando faz sentido e o que esperar do tratamento",
+        title: "Quando fazer Botox? Para quem a toxina botulínica costuma ser indicada",
         excerpt:
-            "Toxina botulínica não precisa apagar expressões. Entenda como uma indicação bem planejada respeita o movimento e as particularidades do seu rosto.",
+            "A decisão não começa pela idade. Entenda o que observar, para quem pode haver indicação e como avaliar expectativas antes da aplicação.",
         href: "/blog/botox",
-        date: "24 de agosto de 2026",
-        readTime: "6 min de leitura"
+        date: "Atualizado em 25 de agosto de 2026",
+        readTime: "7 min de leitura"
     }
 ];
 

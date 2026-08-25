@@ -43,6 +43,8 @@ module.exports = {
                 ? 1.0
                 : path === "/consulta"
                 ? 0.9
+                : path === "/tratamentos" || path.startsWith("/tratamentos/")
+                ? 0.85
                 : path === "/blog" || path.startsWith("/blog/")
                 ? 0.8
                 : 0.7;
