@@ -39,7 +39,13 @@ module.exports = {
     transform: async (config, path) => {
         // A home e a página de consulta são as portas de entrada.
         const priority =
-            path === "/" ? 1.0 : path === "/consulta" ? 0.9 : 0.7;
+            path === "/"
+                ? 1.0
+                : path === "/consulta"
+                ? 0.9
+                : path === "/blog" || path.startsWith("/blog/")
+                ? 0.8
+                : 0.7;
 
         return {
             loc: path,

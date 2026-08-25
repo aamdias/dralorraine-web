@@ -7,6 +7,7 @@ const NAV_COLUMNS = [
         title: "Serviços",
         items: [
             { label: "Consulta", href: "/consulta" },
+            { label: "Blog", href: "/blog" },
             { label: "Mentoria", href: "/mentoria" },
             { label: "Anotações", href: "/anotacoes" },
             { label: "Currículo", href: "/curriculo" }
