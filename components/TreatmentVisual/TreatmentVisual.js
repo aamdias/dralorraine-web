@@ -3,13 +3,18 @@ import Image from "next/image";
 
 const visuals = {
     "toxina-botulinica": {
-        title: "Como a toxina atua nas linhas de movimento",
-        caption: "A animação representa músculos selecionados. Os pontos e doses reais dependem da anatomia de cada pessoa.",
-        mediaLabel: "Animação mostrando a redução temporária da contração muscular após a aplicação de toxina botulínica",
+        title: "Como a toxina age entre o nervo e o músculo",
+        intro: "Para um músculo se contrair, o nervo libera acetilcolina na junção neuromuscular. A toxina reduz temporariamente a liberação dessa mensagem nos pontos tratados.",
+        caption: "Esquema educativo e simplificado. Os músculos tratados, os pontos e as doses dependem da avaliação individual.",
+        mediaLabel: "Sequência em quatro quadros mostrando aplicação em músculo selecionado, redução da liberação de acetilcolina, menor contração muscular e suavização de uma linha dinâmica",
+        image: "/blog-botox-como-age.png",
+        imageWidth: 1792,
+        imageHeight: 896,
         steps: [
-            { title: "Movimento muscular", text: "Algumas linhas aparecem ou ficam mais evidentes quando o músculo se contrai." },
-            { title: "Ação direcionada", text: "A toxina reduz temporariamente a contração dos músculos escolhidos na avaliação." },
-            { title: "Suavização gradual", text: "Com menos força sobre a pele, as linhas dinâmicas podem ficar mais suaves." }
+            { title: "Aplicação direcionada", text: "Depois de observar anatomia e movimento, a médica aplica pequenas quantidades nos músculos selecionados." },
+            { title: "Menos sinal nervoso", text: "No terminal do nervo, a toxina reduz a liberação de acetilcolina. Ela não preenche a pele nem bloqueia os receptores do músculo." },
+            { title: "Menor contração", text: "Com menos mensagem chegando à fibra muscular, o músculo tratado contrai com menos força por um período." },
+            { title: "Linha dinâmica mais suave", text: "Com menos dobra repetida sobre a pele, a linha que aparece com a expressão pode suavizar de forma gradual e temporária." }
         ]
     },
     "bioestimulador-de-colageno": {
@@ -59,6 +64,7 @@ const TreatmentAnimation = ({ slug, visual }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [hasError, setHasError] = useState(false);
     const mediaBase = `/treatment-visuals/${slug}`;
+    const isStaticImage = Boolean(visual.image);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -94,8 +100,16 @@ const TreatmentAnimation = ({ slug, visual }) => {
 
     return (
         <figure className="-mx-4 border border-line bg-[#F7F1E8] sm:mx-0">
-            <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-[#F7F1E8] sm:aspect-[16/10] lg:aspect-video">
-                {hasError ? (
+            <div className={isStaticImage ? "overflow-hidden bg-[#F7F1E8]" : "relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-[#F7F1E8] sm:aspect-[16/10] lg:aspect-video"}>
+                {isStaticImage ? (
+                    <Image
+                        src={visual.image}
+                        alt={visual.mediaLabel}
+                        width={visual.imageWidth}
+                        height={visual.imageHeight}
+                        className="h-auto w-full"
+                    />
+                ) : hasError ? (
                     <Image
                         src={`${mediaBase}.png`}
                         alt={visual.mediaLabel}
@@ -134,7 +148,9 @@ const TreatmentAnimation = ({ slug, visual }) => {
 
             <figcaption className="flex flex-col gap-5 border-t border-line bg-sand px-5 py-5 text-xs leading-5 text-stone sm:flex-row sm:items-center sm:justify-between sm:px-8">
                 <span className="max-w-2xl">{visual.caption}</span>
-                {!hasError && (
+                {isStaticImage ? (
+                    <a href={visual.image} target="_blank" rel="noreferrer" className="w-fit shrink-0 border-b border-copper-dark text-copper-dark hover:text-ink">Ampliar imagem</a>
+                ) : !hasError && (
                     <button
                         type="button"
                         onClick={togglePlayback}
@@ -157,13 +173,14 @@ export const TreatmentVisual = ({ slug }) => {
         <section className="mt-20 border-t border-line pt-16 sm:mt-24 sm:pt-20" aria-labelledby={`visual-${slug}`}>
             <p className="mb-5 text-xs font-medium uppercase tracking-label text-copper-dark">Entenda visualmente</p>
             <h2 id={`visual-${slug}`} className="max-w-5xl font-display text-[2.65rem] font-light leading-[1.02] tracking-[-0.02em] text-ink sm:text-6xl lg:text-[4.5rem]">{visual.title}</h2>
+            {visual.intro && <p className="mt-7 max-w-3xl text-lg leading-8 text-stone">{visual.intro}</p>}
 
             <div className="mt-10 sm:mt-14">
                 <TreatmentAnimation slug={slug} visual={visual} />
 
-                <ol className="-mx-4 m-0 grid list-none border-x border-b border-line bg-sand p-0 sm:mx-0 md:grid-cols-3">
+                <ol className={`-mx-4 m-0 grid list-none gap-px border-x border-b border-line bg-line p-0 sm:mx-0 ${visual.steps.length === 4 ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3"}`}>
                     {visual.steps.map((step, index) => (
-                        <li key={step.title} className="border-b border-line px-5 py-8 last:border-b-0 sm:px-8 md:min-h-[17rem] md:border-b-0 md:border-r md:last:border-r-0 lg:px-10 lg:py-10">
+                        <li key={step.title} className="bg-sand px-5 py-8 sm:px-8 md:min-h-[17rem] lg:px-10 lg:py-10">
                             <span aria-hidden className="font-display text-2xl leading-none text-copper-dark">{String(index + 1).padStart(2, "0")}</span>
                             <h3 className="mt-6 font-display text-[2rem] font-light leading-[1.05] text-ink lg:text-4xl">{step.title}</h3>
                             <p className="mt-5 text-sm leading-7 text-stone sm:text-base">{step.text}</p>
