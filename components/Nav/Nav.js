@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 export const NAV_ITEMS = [
     { name: "Sobre mim", href: "/" },
     { name: "Consulta", href: "/consulta" },
+    { name: "Blog", href: "/blog" },
     { name: "Mentoria", href: "/mentoria" },
     { name: "Anotações", href: "/anotacoes" },
     { name: "Currículo", href: "/curriculo" }

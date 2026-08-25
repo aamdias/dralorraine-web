@@ -13,10 +13,14 @@ const SEO = ({
     description,
     keywords,
     image,
+    imageAlt,
     url,
     type = "website",
     noindex = false,
-    noIndex = false
+    noIndex = false,
+    publishedTime,
+    modifiedTime,
+    section
 }) => {
     const metaDescription = description || process.env.siteDescription;
     const metaKeywords = keywords || process.env.siteKeywords;
@@ -60,7 +64,7 @@ const SEO = ({
             <meta property="og:image" content={imagePreview} key="ogimage" />
             <meta
                 property="og:image:alt"
-                content={`${SITE.name} · ${SITE.specialty}`}
+                content={imageAlt || [SITE.name, SITE.specialty].join(" · ")}
                 key="ogimagealt"
             />
             <meta
@@ -74,6 +78,27 @@ const SEO = ({
                 content={metaDescription}
                 key="ogdesc"
             />
+            {type === "article" && publishedTime && (
+                <meta
+                    property="article:published_time"
+                    content={publishedTime}
+                    key="articlepublishedtime"
+                />
+            )}
+            {type === "article" && modifiedTime && (
+                <meta
+                    property="article:modified_time"
+                    content={modifiedTime}
+                    key="articlemodifiedtime"
+                />
+            )}
+            {type === "article" && section && (
+                <meta
+                    property="article:section"
+                    content={section}
+                    key="articlesection"
+                />
+            )}
 
             {/* { Twitter } */}
             <meta
