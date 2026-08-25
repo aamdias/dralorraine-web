@@ -56,6 +56,16 @@ export const Header = () => {
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [isNavOpen]);
 
+    // Enquanto o menu mobile ocupa o viewport, só a lista interna deve rolar.
+    useEffect(() => {
+        if (!isNavOpen) return undefined;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isNavOpen]);
+
     // O painel aberto sempre usa o fundo sólido, mesmo em hero escuro.
     const isTransparent = hasDarkHero && !isScrolled && !isNavOpen;
     const isFloating = hasSoftHero && !isScrolled && !isNavOpen;

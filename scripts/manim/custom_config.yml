@@ -1,0 +1,3 @@
+directories:
+  cache: ".manim-cache"
+  temporary_storage: ".manim-cache/storage"

@@ -38,6 +38,11 @@ gratuito até 24h antes.
 - [Início](https://dralorraine.com/): apresentação, trajetória e serviços.
 - [Consulta](https://dralorraine.com/consulta): as duas modalidades de
   atendimento, o que está incluso, para quem é indicado e dúvidas frequentes.
+- [Tratamentos](https://dralorraine.com/tratamentos): procedimentos presenciais
+  em Campinas, com páginas sobre toxina botulínica, bioestimulador de colágeno,
+  preenchimento com ácido hialurônico, peelings e microagulhamento.
+- [Para médicos](https://dralorraine.com/para-medicos): mentoria, anotações e
+  currículo para preparação para a residência médica.
 - [Mentoria](https://dralorraine.com/mentoria): acompanhamento individual
   para médicos em preparação para a residência.
 - [Anotações](https://dralorraine.com/anotacoes): mais de 140 anotações

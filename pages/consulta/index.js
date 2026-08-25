@@ -12,6 +12,7 @@ import {
     breadcrumbSchema
 } from "@components/StructuredData";
 import Image from "next/image";
+import Link from "next/link";
 
 const stats = [
     { figure: "UNICAMP", label: "Formação em Medicina" },
@@ -71,11 +72,11 @@ const focusAreas = [
         description:
             "Planejamento de cuidados e procedimentos estéticos: qualidade da pele, textura, manchas e sinais de envelhecimento. Na consulta a gente decide o que faz sentido para a sua pele, em que ordem e com qual expectativa. Sem pacote pronto.",
         procedures: [
-            "Toxina botulínica (Botox)",
-            "Bioestimulador de colágeno",
-            "Preenchimento com ácido hialurônico",
-            "Peelings",
-            "Microagulhamento",
+            { label: "Toxina botulínica (Botox)", href: "/tratamentos/toxina-botulinica" },
+            { label: "Bioestimulador de colágeno", href: "/tratamentos/bioestimulador-de-colageno" },
+            { label: "Preenchimento com ácido hialurônico", href: "/tratamentos/preenchimento-com-acido-hialuronico" },
+            { label: "Peelings", href: "/tratamentos/peelings" },
+            { label: "Microagulhamento", href: "/tratamentos/microagulhamento" },
         ],
         procedureNote:
             "Realizo esses procedimentos presencialmente, no consultório em Campinas, São Paulo.",
@@ -409,11 +410,11 @@ export default function ConsultaPage() {
                                                         <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-ink">
                                                             {area.procedures.map((item) => (
                                                                 <li
-                                                                    key={item}
+                                                                    key={item.href}
                                                                     className="flex items-start gap-3.5"
                                                                 >
                                                                     <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
-                                                                    <span>{item}</span>
+                                                                    <Link href={item.href} className="hover:text-copper-dark underline decoration-copper/60 underline-offset-4">{item.label}</Link>
                                                                 </li>
                                                             ))}
                                                         </ul>
