@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Layout } from "@components/Layout";
 import SEO from "@components/SEO/SEO";
 import {
@@ -9,6 +10,17 @@ import {
 } from "@components/StructuredData";
 
 const posts = [
+    {
+        category: "Dermatologia clínica",
+        title: "O que o goleiro Alisson tem no rosto? Entenda a rosácea",
+        excerpt:
+            "Rosácea não é falta de cuidado nem simplesmente acne. Entenda os sinais, os gatilhos e como a avaliação dermatológica orienta o tratamento.",
+        href: "/blog/rosacea-alisson-becker",
+        date: "Publicado em 26 de agosto de 2026",
+        readTime: "8 min de leitura",
+        image: "/alisson-becker-rosacea.png",
+        imageAlt: "Alisson Becker, goleiro brasileiro, em retrato durante uma partida"
+    },
     {
         category: "Procedimentos",
         title: "Quando fazer Botox? Para quem a toxina botulínica costuma ser indicada",
@@ -86,29 +98,63 @@ export default function Blog() {
                         </div>
 
                         <div className="grid gap-6">
-                            {posts.map((post) => (
+                            {posts.map((post) => post.image ? (
                                 <article
                                     key={post.href}
-                                    className="group border border-line bg-sand p-7 sm:p-10 lg:p-12 transition-colors hover:bg-[#ece4da]"
+                                    className="group relative isolate h-[24rem] cursor-pointer overflow-hidden border border-line bg-[#eee6db] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper"
                                 >
-                                    <div className="grid lg:grid-cols-[0.9fr_2.1fr] gap-7 lg:gap-14">
+                                    <Link href={post.href} aria-label={`Ler ${post.title}`} className="absolute inset-0 z-20 focus:outline-none">
+                                        <span className="sr-only">Ler artigo: {post.title}</span>
+                                    </Link>
+                                    <div aria-hidden className="absolute inset-y-0 right-0 w-full sm:w-[58%]">
+                                        <Image
+                                            src={post.image}
+                                            alt={post.imageAlt}
+                                            fill
+                                            sizes="(min-width: 1024px) 52vw, (min-width: 640px) 58vw, 100vw"
+                                            className="object-cover object-[50%_18%] grayscale sepia-[.18] contrast-125 brightness-[.82] opacity-70 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-75"
+                                        />
+                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,#eee6db_0%,rgba(238,230,219,.96)_16%,rgba(238,230,219,.4)_45%,rgba(238,230,219,.04)_72%)]" />
+                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(180,137,103,.16),transparent_48%)] mix-blend-multiply" />
+                                    </div>
+                                    <div className="relative z-10 flex h-full max-w-3xl flex-col p-7 sm:p-8">
+                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-label text-copper-dark font-medium">
+                                            <span>{post.category}</span>
+                                            <span aria-hidden className="h-1 w-1 rounded-full bg-copper" />
+                                            <span className="normal-case tracking-normal text-stone font-normal">{post.date}</span>
+                                        </div>
+                                        <h3 className="mt-6 max-w-2xl font-display text-[2.45rem] sm:text-[3.1rem] font-light leading-[.98] tracking-[-0.025em]">
+                                            {post.title}
+                                        </h3>
+                                        <p className="mt-4 max-w-xl text-stone leading-7">{post.excerpt}</p>
+                                        <div className="mt-auto flex items-center gap-6 pt-6 text-sm font-medium">
+                                            <span className="underline underline-offset-8 decoration-copper">Ler artigo</span>
+                                            <span className="text-stone">{post.readTime}</span>
+                                        </div>
+                                    </div>
+                                </article>
+                            ) : (
+                                <article
+                                    key={post.href}
+                                    className="group relative h-[24rem] cursor-pointer border border-line bg-sand p-7 sm:p-8 lg:p-10 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper"
+                                >
+                                    <Link href={post.href} aria-label={`Ler ${post.title}`} className="absolute inset-0 z-20 focus:outline-none">
+                                        <span className="sr-only">Ler artigo: {post.title}</span>
+                                    </Link>
+                                    <div className="relative z-10 grid h-full gap-7 lg:grid-cols-[0.9fr_2.1fr] lg:gap-14">
                                         <div>
                                             <p className="text-xs uppercase tracking-label text-copper-dark font-medium">
                                                 {post.category}
                                             </p>
                                             <p className="mt-4 text-sm text-stone">{post.date}</p>
                                         </div>
-                                        <div>
+                                        <div className="flex h-full flex-col">
                                             <h3 className="font-display text-[2.35rem] sm:text-5xl font-light leading-[1.03] tracking-[-0.02em]">
-                                                <Link href={post.href} className="hover:text-copper-dark transition-colors">
-                                                    {post.title}
-                                                </Link>
+                                                {post.title}
                                             </h3>
                                             <p className="mt-6 max-w-2xl text-stone leading-7">{post.excerpt}</p>
-                                            <div className="mt-8 flex items-center gap-6 text-sm font-medium">
-                                                <Link href={post.href} className="underline underline-offset-8 decoration-copper hover:text-copper-dark transition-colors">
-                                                    Ler artigo
-                                                </Link>
+                                            <div className="mt-auto flex items-center gap-6 pt-6 text-sm font-medium">
+                                                <span className="underline underline-offset-8 decoration-copper">Ler artigo</span>
                                                 <span className="text-stone">{post.readTime}</span>
                                             </div>
                                         </div>
