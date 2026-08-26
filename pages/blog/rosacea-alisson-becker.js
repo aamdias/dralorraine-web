@@ -23,8 +23,8 @@ export default function RosaceaAlissonBeckerArticle() {
     return (
         <Layout>
             <SEO
-                title="Rosácea: o que a vermelhidão do Alisson Becker ajuda a entender | Dra. Lorraine"
-                description="A rosácea associada publicamente ao goleiro Alisson Becker chama atenção para uma condição inflamatória comum. Entenda sinais, gatilhos e tratamento com a Dra. Lorraine em Campinas."
+                title="O que Alisson tem no rosto? Entenda a rosácea | Dra. Lorraine"
+                description="O que o goleiro Alisson Becker tem no rosto? Entenda a rosácea, seus sinais, gatilhos e possibilidades de tratamento com a Dra. Lorraine em Campinas."
                 keywords="rosácea, rosácea Alisson Becker, rosto vermelho, dermatologista rosácea Campinas, tratamento rosácea"
                 image="/alisson-becker-rosacea.png"
                 imageAlt="Alisson Becker, goleiro brasileiro, em retrato durante uma partida"
@@ -39,12 +39,12 @@ export default function RosaceaAlissonBeckerArticle() {
                 breadcrumbSchema([
                     { name: "Início", path: "/" },
                     { name: "Blog", path: "/blog" },
-                    { name: "Rosácea: o que a vermelhidão do Alisson Becker ajuda a entender", path: "/blog/rosacea-alisson-becker" }
+                    { name: "O que o goleiro Alisson tem no rosto? Entenda a rosácea", path: "/blog/rosacea-alisson-becker" }
                 ]),
                 {
                     "@type": "BlogPosting",
                     "@id": absoluteUrl("/blog/rosacea-alisson-becker") + "#article",
-                    headline: "Rosácea: o que a vermelhidão no rosto do goleiro Alisson ajuda a entender",
+                    headline: "O que o goleiro Alisson tem no rosto? Entenda a rosácea",
                     description: "Um guia educativo sobre rosácea: sinais, gatilhos, diagnóstico e possibilidades de tratamento dermatológico.",
                     datePublished: "2026-08-26",
                     dateModified: "2026-08-26",
@@ -73,7 +73,7 @@ export default function RosaceaAlissonBeckerArticle() {
                     <Link href="/blog" className="inline-flex text-sm text-stone hover:text-copper-dark transition-colors mb-12">← Voltar para o blog</Link>
                     <div className="max-w-[36rem]">
                         <p className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">Dermatologia clínica · Rosácea</p>
-                        <h1 className="font-display font-light text-[3.05rem] sm:text-[4.8rem] leading-[0.99] tracking-[-0.025em] text-balance">Rosácea: o que a vermelhidão no rosto do goleiro Alisson ajuda a entender.</h1>
+                        <h1 className="font-display font-light text-[3.05rem] sm:text-[4.8rem] leading-[0.99] tracking-[-0.025em] text-balance">O que o goleiro Alisson tem no rosto? Entenda a rosácea.</h1>
                         <p className="mt-8 max-w-2xl text-lg sm:text-xl leading-8 text-stone">O assunto que chamou atenção no futebol abre espaço para falar de uma condição comum, tratável e muito mais complexa do que “ficar vermelho”.</p>
                         <div className="mt-10 pt-6 border-t border-copper/45 flex flex-wrap gap-x-7 gap-y-2 text-sm text-stone"><span>Por Dra. Lorraine Souza</span><span>Publicado em 26 de agosto de 2026</span><span>8 min de leitura</span></div>
                     </div>

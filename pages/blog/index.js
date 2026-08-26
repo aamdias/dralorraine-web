@@ -12,7 +12,7 @@ import {
 const posts = [
     {
         category: "Dermatologia clínica",
-        title: "Rosácea: o que a vermelhidão no rosto do goleiro Alisson ajuda a entender",
+        title: "O que o goleiro Alisson tem no rosto? Entenda a rosácea",
         excerpt:
             "Rosácea não é falta de cuidado nem simplesmente acne. Entenda os sinais, os gatilhos e como a avaliação dermatológica orienta o tratamento.",
         href: "/blog/rosacea-alisson-becker",
