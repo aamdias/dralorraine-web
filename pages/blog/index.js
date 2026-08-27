@@ -101,29 +101,29 @@ export default function Blog() {
                             {posts.map((post) => post.image ? (
                                 <article
                                     key={post.href}
-                                    className="group relative isolate h-[24rem] cursor-pointer overflow-hidden border border-line bg-[#eee6db] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper"
+                                    className="group relative isolate cursor-pointer overflow-hidden border border-line bg-[#eee6db] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper sm:h-[24rem]"
                                 >
                                     <Link href={post.href} aria-label={`Ler ${post.title}`} className="absolute inset-0 z-20 focus:outline-none">
                                         <span className="sr-only">Ler artigo: {post.title}</span>
                                     </Link>
-                                    <div aria-hidden className="absolute inset-y-0 right-0 w-full sm:w-[58%]">
+                                    <div aria-hidden className="absolute inset-x-0 top-0 h-48 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-[58%]">
                                         <Image
                                             src={post.image}
                                             alt={post.imageAlt}
                                             fill
                                             sizes="(min-width: 1024px) 52vw, (min-width: 640px) 58vw, 100vw"
-                                            className="object-cover object-[50%_18%] grayscale sepia-[.18] contrast-125 brightness-[.82] opacity-70 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-75"
+                                            className="object-cover object-[50%_18%] grayscale sepia-[.18] contrast-125 brightness-[.82] opacity-75 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-80 sm:opacity-70 sm:group-hover:opacity-75"
                                         />
-                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,#eee6db_0%,rgba(238,230,219,.96)_16%,rgba(238,230,219,.4)_45%,rgba(238,230,219,.04)_72%)]" />
+                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,#eee6db_0%,rgba(238,230,219,.12)_28%,rgba(238,230,219,.02)_100%)] sm:bg-[linear-gradient(90deg,#eee6db_0%,rgba(238,230,219,.96)_16%,rgba(238,230,219,.4)_45%,rgba(238,230,219,.04)_72%)]" />
                                         <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(180,137,103,.16),transparent_48%)] mix-blend-multiply" />
                                     </div>
-                                    <div className="relative z-10 flex h-full max-w-3xl flex-col p-7 sm:p-8">
+                                    <div className="relative z-10 mt-40 flex min-h-[22rem] max-w-3xl flex-col bg-[#eee6db] p-6 sm:mt-0 sm:h-full sm:min-h-0 sm:bg-transparent sm:p-8">
                                         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-label text-copper-dark font-medium">
                                             <span>{post.category}</span>
                                             <span aria-hidden className="h-1 w-1 rounded-full bg-copper" />
                                             <span className="normal-case tracking-normal text-stone font-normal">{post.date}</span>
                                         </div>
-                                        <h3 className="mt-6 max-w-2xl font-display text-[2.45rem] sm:text-[3.1rem] font-light leading-[.98] tracking-[-0.025em]">
+                                        <h3 className="mt-5 max-w-2xl font-display text-[2.15rem] sm:mt-6 sm:text-[3.1rem] font-light leading-[.98] tracking-[-0.025em]">
                                             {post.title}
                                         </h3>
                                         <p className="mt-4 max-w-xl text-stone leading-7">{post.excerpt}</p>
