@@ -11,6 +11,17 @@ import {
 
 const posts = [
     {
+        category: "Envelhecimento saudável",
+        title: "Bioestimulador de colágeno: o que ele tem a ver com envelhecer bem?",
+        excerpt:
+            "A relação vai além da flacidez. Entenda o que os bioestimuladores podem fazer, o que não prometem e por que a indicação deve ser individual.",
+        href: "/blog/bioestimulador-de-colageno",
+        date: "28 de agosto de 2026",
+        readTime: "6 min de leitura",
+        image: "/blog-bioestimulador-colageno-hero.png",
+        imageAlt: "Mulher adulta em uma clínica dermatológica, com aparência natural e expressão serena"
+    },
+    {
         category: "Dermatologia clínica",
         title: "O que o goleiro Alisson tem no rosto? Entenda a rosácea",
         excerpt:
