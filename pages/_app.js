@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
+import { initializeOpenAIPixel, trackConsultationBookingClick } from "@utils/openaiPixel";
 
 const pixelOptions = {
     autoConfig: true, // set to false if you want to disable automatic config
@@ -14,6 +15,13 @@ const pixelOptions = {
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
+
+    useEffect(() => {
+        initializeOpenAIPixel();
+        // Capture nested CTA clicks before Next.js starts client-side navigation.
+        document.addEventListener("click", trackConsultationBookingClick, true);
+        return () => document.removeEventListener("click", trackConsultationBookingClick, true);
+    }, []);
 
     useEffect(() => {
         // Initialize PostHog
