@@ -126,7 +126,7 @@ Implemented comprehensive Schema.org markup:
 ```json
 "@type": "Service"
 "serviceType": "Elaboração de Currículo para Residência Médica"
-"offers": { price: 1500 BRL }
+"offers": { price: 2490 BRL }
 "audience": "Médicos candidatos a residência médica"
 ```
 
