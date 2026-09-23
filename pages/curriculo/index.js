@@ -146,7 +146,12 @@ const inclusions = [
  * largura), não na barra: um elemento de largura zero não entra em vista
  * de forma confiável.
  */
-const ScoreBar = ({ ratio, delay = 0 }) => {
+const ScoreBar = ({
+    ratio,
+    delay = 0,
+    track = "bg-ink/10",
+    fill = "bg-copper"
+}) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-80px" });
     const reduceMotion = useReducedMotion();
@@ -155,10 +160,10 @@ const ScoreBar = ({ ratio, delay = 0 }) => {
         <div
             ref={ref}
             aria-hidden
-            className="relative h-[3px] bg-ink/10 mb-5 overflow-hidden"
+            className={`relative h-[3px] ${track} mb-5 overflow-hidden`}
         >
             <motion.div
-                className="absolute inset-0 bg-copper origin-left"
+                className={`absolute inset-0 ${fill} origin-left`}
                 initial={{ scaleX: reduceMotion ? ratio : 0 }}
                 animate={{ scaleX: isInView || reduceMotion ? ratio : 0 }}
                 transition={{
@@ -568,71 +573,83 @@ export default function Curriculo() {
                                         }}
                                         className="h-full"
                                     >
-                                        <article className="group relative h-full bg-sand border border-line hover:border-copper/60 p-7 lg:p-9 flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(140,98,72,0.35)]">
+                                        <article className="group relative h-full min-h-[440px] md:min-h-0 md:aspect-[4/5] overflow-hidden bg-ink text-paper isolate">
+                                            {/* Foto do campus: monocromática com
+                                                tinta cobre para unificar as três
+                                                fotos (e disfarçar a de baixa
+                                                resolução); ganha cor no hover. */}
+                                            <Image
+                                                src={s.logo}
+                                                alt={`Campus ${s.institution}`}
+                                                fill
+                                                sizes="(min-width: 1024px) 360px, (min-width: 768px) 33vw, 100vw"
+                                                className="object-cover -z-20 grayscale-[70%] contrast-[1.05] scale-[1.02] transition-all duration-[1200ms] ease-out group-hover:grayscale-0 group-hover:scale-110"
+                                            />
+                                            <div
+                                                aria-hidden
+                                                className="absolute inset-0 -z-10 bg-copper mix-blend-multiply opacity-45 transition-opacity duration-700 group-hover:opacity-20"
+                                            />
+                                            <div
+                                                aria-hidden
+                                                className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/60 to-transparent"
+                                            />
                                             <span
                                                 aria-hidden
                                                 className="absolute top-0 left-0 right-0 h-[3px] bg-copper"
                                             />
 
-                                            <div className="flex items-center justify-between gap-4 mb-10 lg:mb-12">
-                                                <div className="flex items-center gap-4 min-w-0">
-                                                    <div className="w-12 h-12 flex-none flex items-center justify-center bg-paper border border-line p-1.5">
-                                                        <img
-                                                            src={s.logo}
-                                                            alt=""
-                                                            className="max-w-full max-h-full object-contain"
-                                                        />
+                                            <div className="relative h-full flex flex-col p-7 lg:p-8">
+                                                <div className="flex items-start justify-between gap-4">
+                                                    <div className="text-xs uppercase tracking-[0.24em] text-paper font-medium">
+                                                        {s.institution}
                                                     </div>
-                                                    <div className="min-w-0">
-                                                        <div className="text-xs uppercase tracking-[0.22em] text-ink font-medium">
-                                                            {s.institution}
+                                                    {isMax && (
+                                                        <div className="text-[0.6875rem] uppercase tracking-[0.2em] text-ink bg-rose font-medium px-2.5 py-1 whitespace-nowrap">
+                                                            Nota máxima
                                                         </div>
-                                                        <div className="text-sm text-stone mt-1 leading-snug">
-                                                            {s.name}
-                                                        </div>
-                                                    </div>
+                                                    )}
                                                 </div>
-                                            </div>
 
-                                            <div className="flex items-baseline gap-2 mb-8">
-                                                <span className="sr-only">
-                                                    {`Nota ${formatScore(
-                                                        s.score,
-                                                        decimals
-                                                    )} de ${MAX_SCORE} em currículo`}
-                                                </span>
-                                                <span
-                                                    aria-hidden
-                                                    className="font-display font-light text-[6.5rem] lg:text-[8rem] text-copper leading-[0.85] tracking-[-0.03em]"
-                                                >
-                                                    <CountUp
-                                                        value={s.score}
-                                                        decimals={decimals}
+                                                <div className="mt-auto">
+                                                    <div className="flex items-baseline gap-2 mb-6">
+                                                        <span className="sr-only">
+                                                            {`Nota ${formatScore(
+                                                                s.score,
+                                                                decimals
+                                                            )} de ${MAX_SCORE} em currículo`}
+                                                        </span>
+                                                        <span
+                                                            aria-hidden
+                                                            className="font-display font-light text-[7rem] lg:text-[8.5rem] text-paper leading-[0.8] tracking-[-0.03em] drop-shadow-[0_4px_24px_rgba(28,25,23,0.5)]"
+                                                        >
+                                                            <CountUp
+                                                                value={s.score}
+                                                                decimals={decimals}
+                                                                delay={0.2 + i * 0.15}
+                                                            />
+                                                        </span>
+                                                        <span
+                                                            aria-hidden
+                                                            className="font-display font-light text-3xl lg:text-4xl text-rose lining-nums"
+                                                        >
+                                                            /{MAX_SCORE}
+                                                        </span>
+                                                    </div>
+
+                                                    <ScoreBar
+                                                        ratio={s.score / MAX_SCORE}
                                                         delay={0.2 + i * 0.15}
+                                                        track="bg-paper/20"
+                                                        fill="bg-rose"
                                                     />
-                                                </span>
-                                                <span
-                                                    aria-hidden
-                                                    className="font-display font-light text-3xl lg:text-4xl text-stone/60 lining-nums"
-                                                >
-                                                    /{MAX_SCORE}
-                                                </span>
-                                            </div>
 
-                                            <ScoreBar
-                                                ratio={s.score / MAX_SCORE}
-                                                delay={0.2 + i * 0.15}
-                                            />
-
-                                            <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
-                                                <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium whitespace-nowrap">
-                                                    Nota em currículo
-                                                </div>
-                                                {isMax && (
-                                                    <div className="text-[0.6875rem] uppercase tracking-[0.2em] text-copper-dark font-medium border border-copper/50 px-2.5 py-1 whitespace-nowrap">
-                                                        Nota máxima
+                                                    <div className="text-xs uppercase tracking-[0.22em] text-rose font-medium mb-1.5">
+                                                        Nota em currículo
                                                     </div>
-                                                )}
+                                                    <div className="text-sm text-paper/75 leading-snug">
+                                                        {s.name}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </article>
                                     </MotionBTTContainer>
