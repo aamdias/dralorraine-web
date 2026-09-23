@@ -1,4 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import {
+    animate,
+    motion,
+    useInView,
+    useReducedMotion
+} from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,10 +22,76 @@ const images = [
 ];
 
 const scores = [
-    { institution: "UNICAMP", score: "10", logo: "/unicamp.png" },
-    { institution: "USP São Paulo", score: "10", logo: "/usp-sp.png" },
-    { institution: "UNIFESP", score: "9.5", logo: "/unifesp-sp.png" }
+    {
+        institution: "UNICAMP",
+        name: "Universidade Estadual de Campinas",
+        score: 10,
+        logo: "/unicamp.png"
+    },
+    {
+        institution: "USP São Paulo",
+        name: "Faculdade de Medicina da USP",
+        score: 10,
+        logo: "/usp-sp.png"
+    },
+    {
+        institution: "UNIFESP",
+        name: "Universidade Federal de São Paulo",
+        score: 9.5,
+        logo: "/unifesp-sp.png"
+    }
 ];
+
+const MAX_SCORE = 10;
+
+const formatScore = (value, decimals = 0) =>
+    value.toLocaleString("pt-BR", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    });
+
+const decimalsOf = (value) => (Number.isInteger(value) ? 0 : 1);
+
+const averageScore =
+    scores.reduce((sum, s) => sum + s.score, 0) / scores.length;
+
+const maxScoreCount = scores.filter((s) => s.score === MAX_SCORE).length;
+
+/**
+ * Número que conta de 0 até o valor quando entra na tela.
+ * O HTML do servidor já traz o valor final (SEO e sem JS); a contagem só
+ * acontece no cliente e é pulada com prefers-reduced-motion.
+ */
+const CountUp = ({ value, decimals = 0, delay = 0 }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-80px" });
+    const reduceMotion = useReducedMotion();
+    const [display, setDisplay] = useState(value);
+    const [armed, setArmed] = useState(false);
+
+    useEffect(() => {
+        if (reduceMotion) return;
+        setDisplay(0);
+        setArmed(true);
+    }, [reduceMotion]);
+
+    useEffect(() => {
+        if (!armed || !isInView) return;
+        const controls = animate(0, value, {
+            duration: 1.4,
+            delay,
+            ease: [0.16, 1, 0.3, 1],
+            onUpdate: setDisplay
+        });
+        return () => controls.stop();
+    }, [armed, isInView, value, delay]);
+
+    return (
+        <span ref={ref} className="lining-nums tabular-nums">
+            {formatScore(display, decimals)}
+        </span>
+    );
+};
 
 const benefits = [
     {
@@ -68,6 +140,41 @@ const inclusions = [
     "Entrega em até 30 dias após coleta dos certificados",
     "30 dias de suporte pós-entrega para ajustes"
 ];
+
+/**
+ * Barra fina que preenche até a nota. O observer fica no trilho (que tem
+ * largura), não na barra: um elemento de largura zero não entra em vista
+ * de forma confiável.
+ */
+const ScoreBar = ({
+    ratio,
+    delay = 0,
+    track = "bg-ink/10",
+    fill = "bg-copper"
+}) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-80px" });
+    const reduceMotion = useReducedMotion();
+
+    return (
+        <div
+            ref={ref}
+            aria-hidden
+            className={`relative h-[3px] ${track} mb-5 overflow-hidden`}
+        >
+            <motion.div
+                className={`absolute inset-0 ${fill} origin-left`}
+                initial={{ scaleX: reduceMotion ? ratio : 0 }}
+                animate={{ scaleX: isInView || reduceMotion ? ratio : 0 }}
+                transition={{
+                    duration: 1.4,
+                    delay,
+                    ease: [0.16, 1, 0.3, 1]
+                }}
+            />
+        </div>
+    );
+};
 
 export default function Curriculo() {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -190,7 +297,7 @@ export default function Curriculo() {
                 },
                 offers: {
                     "@type": "Offer",
-                    price: "1500",
+                    price: "2490",
                     priceCurrency: "BRL",
                     availability: "https://schema.org/InStock",
                     description:
@@ -387,74 +494,191 @@ export default function Curriculo() {
                 {/* ============ RESULTS / SCORES ============ */}
                 <section
                     id="resultados"
-                    className="py-20 lg:py-28 border-t border-line bg-paper scroll-mt-24"
+                    className="py-20 lg:py-32 border-t border-line bg-paper scroll-mt-24 overflow-hidden"
                 >
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-2xl mb-14 lg:mb-20">
-                            <MotionBTTContainer
-                                transition={{ delay: 0.1, duration: 0.5 }}
-                                className="mb-6"
-                            >
-                                <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
-                                    Resultados alcançados
-                                </div>
-                            </MotionBTTContainer>
+                        <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-end mb-14 lg:mb-20">
+                            <div>
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.1, duration: 0.5 }}
+                                    className="mb-6"
+                                >
+                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
+                                        Resultados alcançados
+                                    </div>
+                                </MotionBTTContainer>
 
+                                <MotionBTTContainer
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                >
+                                    <h2 className="text-4xl lg:text-[3.5rem] font-light leading-[1.06] tracking-[-0.02em] mb-6">
+                                        Notas reais em{" "}
+                                        <span className="italic text-copper-dark">
+                                            bancas de SP
+                                        </span>
+                                        .
+                                    </h2>
+                                    <p className="text-lg text-stone leading-relaxed max-w-xl">
+                                        A nota de currículo que o mesmo
+                                        processo conquistou nas três
+                                        instituições mais disputadas de São
+                                        Paulo.
+                                    </p>
+                                </MotionBTTContainer>
+                            </div>
+
+                            {/* Resumo: média + notas máximas */}
                             <MotionBTTContainer
-                                transition={{ delay: 0.2, duration: 0.6 }}
+                                transition={{ delay: 0.3, duration: 0.6 }}
                             >
-                                <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em]">
-                                    Notas reais em{" "}
-                                    <span className="italic">bancas de SP</span>
-                                    .
-                                </h2>
+                                <div className="grid grid-cols-2 border-y border-ink/20">
+                                    <div className="py-6 pr-4 border-r border-line">
+                                        <div className="font-display font-light text-6xl lg:text-7xl text-copper leading-none tracking-tight">
+                                            <CountUp
+                                                value={averageScore}
+                                                decimals={1}
+                                            />
+                                        </div>
+                                        <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mt-3">
+                                            Média nas 3 bancas
+                                        </div>
+                                    </div>
+                                    <div className="py-6 pl-6">
+                                        <div className="font-display font-light text-6xl lg:text-7xl text-copper leading-none tracking-tight">
+                                            <span className="lining-nums">
+                                                {maxScoreCount}
+                                            </span>
+                                            <span className="text-3xl lg:text-4xl text-stone/60 lining-nums">
+                                                /{scores.length}
+                                            </span>
+                                        </div>
+                                        <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mt-3">
+                                            Notas máximas
+                                        </div>
+                                    </div>
+                                </div>
                             </MotionBTTContainer>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-0 border-t border-line">
-                            {scores.map((s, i) => (
-                                <MotionBTTContainer
-                                    key={s.institution}
-                                    transition={{
-                                        delay: 0.15 + i * 0.08,
-                                        duration: 0.5
-                                    }}
-                                >
-                                    <div className="border-b border-line md:border-b-0 md:border-r last:border-r-0 py-10 lg:py-14 px-4 lg:px-8 flex flex-col items-center text-center">
-                                        <div className="w-16 h-16 mb-6 flex items-center justify-center">
-                                            <img
+                        <div className="grid md:grid-cols-3 gap-5 lg:gap-6">
+                            {scores.map((s, i) => {
+                                const isMax = s.score === MAX_SCORE;
+                                const decimals = decimalsOf(s.score);
+                                return (
+                                    <MotionBTTContainer
+                                        key={s.institution}
+                                        transition={{
+                                            delay: 0.15 + i * 0.1,
+                                            duration: 0.6
+                                        }}
+                                        className="h-full"
+                                    >
+                                        <article className="group relative h-full min-h-[440px] md:min-h-0 md:aspect-[4/5] overflow-hidden bg-ink text-paper isolate">
+                                            {/* Foto do campus: monocromática com
+                                                tinta cobre para unificar as três
+                                                fotos (e disfarçar a de baixa
+                                                resolução); ganha cor no hover. */}
+                                            <Image
                                                 src={s.logo}
-                                                alt={s.institution}
-                                                className="max-w-full max-h-full object-contain"
+                                                alt={`Campus ${s.institution}`}
+                                                fill
+                                                sizes="(min-width: 1024px) 360px, (min-width: 768px) 33vw, 100vw"
+                                                className="object-cover -z-20 grayscale-[70%] contrast-[1.05] scale-[1.02] transition-all duration-[1200ms] ease-out group-hover:grayscale-0 group-hover:scale-110"
                                             />
-                                        </div>
-                                        <div className="text-xs uppercase tracking-[0.24em] text-stone font-medium mb-3">
-                                            {s.institution}
-                                        </div>
-                                        <div className="text-6xl lg:text-7xl font-light text-copper tracking-tight leading-none">
-                                            {s.score}
-                                        </div>
-                                        <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mt-4">
-                                            Nota em currículo
-                                        </div>
-                                    </div>
-                                </MotionBTTContainer>
-                            ))}
+                                            <div
+                                                aria-hidden
+                                                className="absolute inset-0 -z-10 bg-copper mix-blend-multiply opacity-45 transition-opacity duration-700 group-hover:opacity-20"
+                                            />
+                                            <div
+                                                aria-hidden
+                                                className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/60 to-transparent"
+                                            />
+                                            <span
+                                                aria-hidden
+                                                className="absolute top-0 left-0 right-0 h-[3px] bg-copper"
+                                            />
+
+                                            <div className="relative h-full flex flex-col p-7 lg:p-8">
+                                                <div className="flex items-start justify-between gap-4">
+                                                    <div className="text-xs uppercase tracking-[0.24em] text-paper font-medium">
+                                                        {s.institution}
+                                                    </div>
+                                                    {isMax && (
+                                                        <div className="text-[0.6875rem] uppercase tracking-[0.2em] text-ink bg-rose font-medium px-2.5 py-1 whitespace-nowrap">
+                                                            Nota máxima
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <div className="mt-auto">
+                                                    <div className="flex items-baseline gap-2 mb-6">
+                                                        <span className="sr-only">
+                                                            {`Nota ${formatScore(
+                                                                s.score,
+                                                                decimals
+                                                            )} de ${MAX_SCORE} em currículo`}
+                                                        </span>
+                                                        <span
+                                                            aria-hidden
+                                                            className="font-display font-light text-[7rem] lg:text-[8.5rem] text-paper leading-[0.8] tracking-[-0.03em] drop-shadow-[0_4px_24px_rgba(28,25,23,0.5)]"
+                                                        >
+                                                            <CountUp
+                                                                value={s.score}
+                                                                decimals={decimals}
+                                                                delay={0.2 + i * 0.15}
+                                                            />
+                                                        </span>
+                                                        <span
+                                                            aria-hidden
+                                                            className="font-display font-light text-3xl lg:text-4xl text-rose lining-nums"
+                                                        >
+                                                            /{MAX_SCORE}
+                                                        </span>
+                                                    </div>
+
+                                                    <ScoreBar
+                                                        ratio={s.score / MAX_SCORE}
+                                                        delay={0.2 + i * 0.15}
+                                                        track="bg-paper/20"
+                                                        fill="bg-rose"
+                                                    />
+
+                                                    <div className="text-xs uppercase tracking-[0.22em] text-rose font-medium mb-1.5">
+                                                        Nota em currículo
+                                                    </div>
+                                                    <div className="text-sm text-paper/75 leading-snug">
+                                                        {s.name}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </MotionBTTContainer>
+                                );
+                            })}
                         </div>
 
                         <MotionBTTContainer
                             transition={{ delay: 0.4, duration: 0.5 }}
                         >
-                            <p className="mt-12 text-sm text-stone leading-relaxed max-w-3xl">
-                                <span className="font-medium text-ink">
-                                    Importante:
-                                </span>{" "}
-                                garantimos um currículo profissionalmente
-                                elaborado, em total conformidade com os
-                                requisitos de cada instituição. As notas finais
-                                dependem do histórico de cada candidato. Os
-                                resultados acima são exemplos reais.
-                            </p>
+                            <div className="mt-12 lg:mt-14 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 border-t border-line pt-8">
+                                <p className="text-sm text-stone leading-relaxed max-w-3xl flex-1 my-0">
+                                    <span className="font-medium text-ink">
+                                        Importante:
+                                    </span>{" "}
+                                    garantimos um currículo profissionalmente
+                                    elaborado, em total conformidade com os
+                                    requisitos de cada instituição. As notas
+                                    finais dependem do histórico de cada
+                                    candidato. Os resultados acima são
+                                    exemplos reais.
+                                </p>
+                                <a
+                                    href="#servico"
+                                    className="flex-none text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors"
+                                >
+                                    Quero um currículo assim
+                                </a>
+                            </div>
                         </MotionBTTContainer>
                     </div>
                 </section>
@@ -510,7 +734,7 @@ export default function Curriculo() {
                                             </div>
                                             <div className="flex items-baseline gap-3">
                                                 <span className="text-6xl lg:text-7xl font-light text-paper tracking-tight leading-none">
-                                                    R$ 1.500
+                                                    R$ 2.490
                                                 </span>
                                             </div>
                                             <div className="text-xs uppercase tracking-[0.22em] text-paper/50 font-medium mt-4">
@@ -840,7 +1064,7 @@ const faqItems = [
                         melhores notas nas bancas
                     </li>
                     <li>
-                        <strong>Investimento único:</strong> R$ 1.500 por um
+                        <strong>Investimento único:</strong> R$ 2.490 por um
                         serviço que pode definir sua carreira médica
                     </li>
                 </ul>
