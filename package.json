@@ -4,6 +4,9 @@
     "description": "Dra Lorraine - Se prepare para a Residência Médica com a Lô",
     "main": "index.js",
     "private": true,
+    "engines": {
+        "node": "24.x"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/aamdias/dralorraine-web"
