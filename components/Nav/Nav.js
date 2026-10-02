@@ -25,7 +25,8 @@ export const NAV_ITEMS = [
             { name: "Visão geral", href: "/para-medicos" },
             { name: "Mentoria", href: "/mentoria" },
             { name: "Anotações", href: "/anotacoes" },
-            { name: "Currículo", href: "/curriculo" }
+            { name: "Currículo", href: "/curriculo" },
+            { name: "Paciente Zero", href: "https://pacientezero.com.br", external: true }
         ]
     }
 ];
@@ -132,6 +133,8 @@ export const Nav = ({ isTransparent = false }) => {
                                                 <li key={child.href} role="none" className={index === 1 ? "mt-1 border-t border-line pt-1" : ""}>
                                                     <Link
                                                         href={child.href}
+                                                        target={child.external ? "_blank" : undefined}
+                                                        rel={child.external ? "noopener noreferrer" : undefined}
                                                         role="menuitem"
                                                         onClick={() => setOpenMenu(null)}
                                                         className={`flex items-center justify-between gap-4 px-4 py-3 text-sm transition-colors ${
@@ -140,6 +143,7 @@ export const Nav = ({ isTransparent = false }) => {
                                                     >
                                                         <span>{child.name}</span>
                                                         {index === 0 && <span className="text-[10px] uppercase tracking-label text-stone">Todos</span>}
+                                                        {child.external && <span aria-label="Abre em nova aba">↗</span>}
                                                     </Link>
                                                 </li>
                                             );
@@ -221,6 +225,8 @@ export const MobileNav = ({ isOpen, onNavigate }) => {
                                                 <li key={child.href} className="border-b border-line last:border-b-0">
                                                     <Link
                                                         href={child.href}
+                                                        target={child.external ? "_blank" : undefined}
+                                                        rel={child.external ? "noopener noreferrer" : undefined}
                                                         onClick={onNavigate}
                                                         aria-current={childActive ? "page" : undefined}
                                                         className={`flex min-h-[3.25rem] items-center px-8 py-3 sm:px-10 text-[15px] leading-6 transition-colors ${
@@ -228,6 +234,7 @@ export const MobileNav = ({ isOpen, onNavigate }) => {
                                                         }`}
                                                     >
                                                         {child.name}
+                                                        {child.external && <span className="ml-2" aria-label="Abre em nova aba">↗</span>}
                                                     </Link>
                                                 </li>
                                             );
