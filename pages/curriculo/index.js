@@ -308,7 +308,7 @@ export default function Curriculo() {
     };
 
     return (
-        <Layout>
+        <Layout careerPage>
             <Head>
                 <script
                     type="application/ld+json"

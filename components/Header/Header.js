@@ -5,16 +5,24 @@ import { Logo } from "@components/Logo";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
+const CAREER_NAV_ITEMS = [
+    { name: "Currículo", href: "/curriculo" },
+    { name: "Resultados", href: "/curriculo#resultados" },
+    { name: "O serviço", href: "/curriculo#servico" }
+];
+
 /**
  * Header — brandbook §04.
  * Lockup horizontal + fio divisor + navegação + CTA.
  * O CTA "Agendar" mora no header: é a ação primária da marca. Abaixo de lg
  * ele desce para dentro do painel mobile, nunca some.
  */
-export const Header = () => {
+export const Header = ({ careerPage = false }) => {
     const router = useRouter();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const ctaHref = careerPage ? "/curriculo#servico" : "/consulta/agendar";
+    const ctaLabel = careerPage ? "Conhecer o serviço" : "Agendar";
 
     // Pages with intentionally dark/alt hero backgrounds
     const darkHeroPages = [];
@@ -86,8 +94,8 @@ export const Header = () => {
             <SectionContainer className="header--container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
                 <div className="header-logo--container">
                     <Link
-                        href="/"
-                        aria-label="Ir para a página inicial"
+                        href={careerPage ? "/curriculo" : "/"}
+                        aria-label={careerPage ? "Ir para o início da página de currículo" : "Ir para a página inicial"}
                         className="inline-flex items-center"
                     >
                         {/* Lockup completo a partir de sm; abaixo disso o
@@ -109,9 +117,9 @@ export const Header = () => {
                     </Link>
                 </div>
                 <div className="flex items-center gap-3 lg:gap-6 ml-auto">
-                    <Nav isTransparent={isTransparent} />
+                    <Nav isTransparent={isTransparent} items={careerPage ? CAREER_NAV_ITEMS : undefined} />
                     <Link
-                        href="/consulta/agendar"
+                        href={ctaHref}
                         role="button"
                         className={`hidden lg:inline-flex items-center px-6 py-3 text-sm font-medium rounded-none transition-colors duration-300 ${
                             isTransparent
@@ -119,7 +127,7 @@ export const Header = () => {
                                 : "bg-ink text-paper hover:bg-copper-dark"
                         }`}
                     >
-                        Agendar
+                        {ctaLabel}
                     </Link>
                     <NavToggle
                         isOpen={isNavOpen}
@@ -132,6 +140,9 @@ export const Header = () => {
             <MobileNav
                 isOpen={isNavOpen}
                 onNavigate={() => setIsNavOpen(false)}
+                items={careerPage ? CAREER_NAV_ITEMS : undefined}
+                ctaHref={ctaHref}
+                ctaLabel={careerPage ? ctaLabel : "Agendar consulta"}
             />
         </header>
     );
