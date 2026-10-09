@@ -49,12 +49,28 @@ const NAV_COLUMNS = [
     }
 ];
 
+const CAREER_NAV_COLUMNS = [
+    {
+        title: "Currículo para residência",
+        items: [
+            { label: "Resultados", href: "/curriculo#resultados" },
+            { label: "Conheça o serviço", href: "/curriculo#servico" }
+        ]
+    },
+    {
+        title: "Legal",
+        items: NAV_COLUMNS.find((column) => column.title === "Legal").items.filter(
+            (item) => item.href !== "/consentimento-telemedicina"
+        )
+    }
+];
+
 /**
  * Footer — assinatura da marca sobre Papel (brandbook §02, §04).
  * O bloco escuro do site é o CTA final; o rodapé volta ao papel para
  * fechar a página no mesmo tom em que ela começa.
  */
-export const Footer = () => {
+export const Footer = ({ careerPage = false }) => {
     const year = new Date().getFullYear();
 
     return (
@@ -67,8 +83,8 @@ export const Footer = () => {
                     {/* Identity */}
                     <div className="lg:col-span-5">
                         <Link
-                            href="/"
-                            aria-label="Ir para a página inicial"
+                            href={careerPage ? "/curriculo" : "/"}
+                            aria-label={careerPage ? "Ir para o início da página de currículo" : "Ir para a página inicial"}
                             className="inline-block"
                         >
                             <Logo
@@ -85,15 +101,15 @@ export const Footer = () => {
                             </span>
                         </p>
                         <p className="text-stone text-xs leading-relaxed mt-7 max-w-sm">
-                            Conteúdo educativo e atendimento clínico. Este site
-                            não substitui avaliação médica presencial quando
-                            indicada.
+                            {careerPage
+                                ? "Elaboração de currículo e orientação para processos seletivos de residência médica."
+                                : "Conteúdo educativo e atendimento clínico. Este site não substitui avaliação médica presencial quando indicada."}
                         </p>
                     </div>
 
                     {/* Nav columns */}
                     <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
-                        {NAV_COLUMNS.map((col) => (
+                        {(careerPage ? CAREER_NAV_COLUMNS : NAV_COLUMNS).map((col) => (
                             <div key={col.title}>
                                 <h3 className="font-sans text-xs uppercase tracking-label text-copper-dark font-medium mb-5">
                                     {col.title}
@@ -121,7 +137,7 @@ export const Footer = () => {
                         reservados.
                     </span>
                     <span className="tracking-label uppercase">
-                        Dermatologia · Mentoria · Conteúdo
+                        {careerPage ? "Currículo · Residência médica" : "Dermatologia · Mentoria · Conteúdo"}
                     </span>
                 </div>
             </SectionContainer>

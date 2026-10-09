@@ -56,7 +56,7 @@ const navItemClass = (active, isTransparent) => `relative inline-flex h-11 items
 }`;
 
 /** Navegação desktop com dropdowns controlados e fechamento previsível. */
-export const Nav = ({ isTransparent = false }) => {
+export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
     const router = useRouter();
     const isActive = useIsActive();
     const navRef = useRef(null);
@@ -87,7 +87,7 @@ export const Nav = ({ isTransparent = false }) => {
     return (
         <nav ref={navRef} className="hidden lg:block" aria-label="Navegação principal">
             <ul className="flex items-center gap-5 list-none m-0 p-0 whitespace-nowrap">
-                {NAV_ITEMS.map((item) => {
+                {items.map((item) => {
                     const active = isActive(item.href);
 
                     if (!item.children) {
@@ -177,7 +177,7 @@ export const NavToggle = ({ isOpen, onToggle, isTransparent = false }) => (
 );
 
 /** Painel mobile: só existe quando aberto e ocupa o viewport abaixo do header. */
-export const MobileNav = ({ isOpen, onNavigate }) => {
+export const MobileNav = ({ isOpen, onNavigate, items = NAV_ITEMS, ctaHref = "/consulta/agendar", ctaLabel = "Agendar consulta" }) => {
     const isActive = useIsActive();
 
     if (!isOpen) return null;
@@ -189,7 +189,7 @@ export const MobileNav = ({ isOpen, onNavigate }) => {
         >
             <nav aria-label="Navegação principal" className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
                 <ul className="list-none m-0 p-0">
-                    {NAV_ITEMS.map((item) => {
+                    {items.map((item) => {
                         const active = isActive(item.href);
 
                         if (!item.children) {
@@ -249,12 +249,12 @@ export const MobileNav = ({ isOpen, onNavigate }) => {
 
             <div className="shrink-0 border-t border-line bg-paper px-5 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-7">
                 <Link
-                    href="/consulta/agendar"
+                    href={ctaHref}
                     role="button"
                     onClick={onNavigate}
                     className="flex min-h-[3.5rem] w-full items-center justify-center bg-ink px-6 text-[15px] font-medium text-paper transition-colors hover:bg-copper-dark"
                 >
-                    Agendar consulta
+                    {ctaLabel}
                 </Link>
             </div>
         </div>
