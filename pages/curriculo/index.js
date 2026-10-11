@@ -8,6 +8,7 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { Layout } from "@components/Layout";
 import { Chevron } from "@components/Chevron";
 import { MotionBTTContainer } from "@components/Motion";
@@ -43,6 +44,8 @@ const scores = [
 ];
 
 const MAX_SCORE = 10;
+const INTEREST_FORM_ID = "EkjBgl";
+const INTEREST_FORM_URL = `https://tally.so/r/${INTEREST_FORM_ID}`;
 
 const formatScore = (value, decimals = 0) =>
     value.toLocaleString("pt-BR", {
@@ -179,7 +182,33 @@ const ScoreBar = ({
 export default function Curriculo() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [startX, setStartX] = useState(null);
+    const [interestFormHref, setInterestFormHref] = useState(INTEREST_FORM_URL);
     const containerRef = useRef(null);
+
+    useEffect(() => {
+        const formUrl = new URL(INTEREST_FORM_URL);
+        const pageParams = new URLSearchParams(window.location.search);
+        ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
+            const value = pageParams.get(key);
+            if (value) formUrl.searchParams.set(key, value);
+        });
+        setInterestFormHref(formUrl.toString());
+    }, []);
+
+    const openInterestForm = (event) => {
+        if (
+            event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+            typeof window.Tally?.openPopup !== "function"
+        ) return;
+
+        event.preventDefault();
+        window.Tally.openPopup(INTEREST_FORM_ID, {
+            layout: "modal",
+            width: 700,
+            overlay: true,
+            hiddenFields: Object.fromEntries(new URL(interestFormHref).searchParams)
+        });
+    };
 
     const handleTouchStart = (e) => {
         setStartX(e.touches[0].clientX);
@@ -309,6 +338,7 @@ export default function Curriculo() {
 
     return (
         <Layout careerPage>
+            <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
             <Head>
                 <script
                     type="application/ld+json"
@@ -782,7 +812,8 @@ export default function Curriculo() {
                                     </ul>
 
                                     <Button
-                                        href="https://aamdias.notion.site/28499f313a2a80ee9f21d7cdd02a0212?pvs=105"
+                                        href={interestFormHref}
+                                        onClick={openInterestForm}
                                         className="bg-paper hover:bg-copper-dark text-ink hover:text-paper font-medium w-full justify-center py-[18px] rounded-none transition-colors duration-300"
                                     >
                                         Quero meu currículo
