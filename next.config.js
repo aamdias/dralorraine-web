@@ -5,6 +5,7 @@ const path = require("path");
 const { SITE_NAME, SITE_URL } = require("./config/site");
 
 const nextConfig = {
+    distDir: process.env.NEXT_DIST_DIR || ".next",
     reactStrictMode: true,
     sassOptions: {
         includePaths: [path.join(__dirname, "styles")]
@@ -15,8 +16,10 @@ const nextConfig = {
     },
     env: {
         siteTitle: `${SITE_NAME} | Dermatologia e Residência Médica`,
-        siteDescription: "Serviços especializados para aprovação na residência médica em São Paulo: currículo profissional, mentoria individual e anotações de estudo. Aprovada em UNICAMP, USP, UNIFESP e PUC.",
-        siteKeywords: "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo",
+        siteDescription:
+            "Serviços especializados para aprovação na residência médica em São Paulo: currículo profissional, mentoria individual e anotações de estudo. Aprovada em UNICAMP, USP, UNIFESP e PUC.",
+        siteKeywords:
+            "residência médica, currículo residência médica, mentoria residência médica, UNICAMP, USP, UNIFESP, PUC, dermatologia, aprovação residência, São Paulo",
         siteUrl: SITE_URL,
         siteImagePreviewUrl: "/lolo-portrait-home-page.png",
         twitterHandle: "@dralaorraine"

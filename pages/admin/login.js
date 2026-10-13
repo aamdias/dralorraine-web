@@ -1,99 +1,191 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
-
-// Stand-alone page (no Layout wrapper) — the marketing nav doesn't belong
-// on an internal admin login screen.
-
-export default function AdminLogin() {
-    const router = useRouter();
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const next =
-        typeof router.query.next === "string"
-            ? router.query.next
-            : "/admin/consultas";
-
-    const submit = async (e) => {
-        e.preventDefault();
+import { Logo, Monogram } from "@components/Logo";
+import { currentUser } from "@utils/crm/auth.mjs";
+import { isDemo, privateHeaders, safeNext } from "@utils/crm/runtime.mjs";
+import styles from "@components/CRM/CRM.module.scss";
+export async function getServerSideProps(ctx) {
+    privateHeaders(ctx.res);
+    const adminHost =
+        ctx.req.headers.host ===
+        new URL(process.env.ADMIN_SITE_URL || "https://admin.dralorraine.com")
+            .host;
+    let user;
+    try {
+        user = await currentUser(ctx.req, ctx.res);
+    } catch {}
+    if (user)
+        return {
+            redirect: {
+                destination: adminHost ? "/" : "/admin",
+                permanent: false
+            }
+        };
+    return {
+        props: { demo: isDemo(), adminHost, nextPath: safeNext(ctx.query.next) }
+    };
+}
+export default function Login({ demo, adminHost, nextPath }) {
+    const [email, setEmail] = useState(demo ? "alan@example.test" : ""),
+        [code, setCode] = useState(""),
+        [sent, setSent] = useState(false),
+        [demoCode, setDemoCode] = useState(null),
+        [busy, setBusy] = useState(false),
+        [error, setError] = useState("");
+    async function submit(event, action = sent ? "verify" : "send") {
+        event.preventDefault();
+        setBusy(true);
         setError("");
-        setLoading(true);
         try {
-            const r = await fetch("/api/admin/login", {
+            const response = await fetch("/api/admin/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ email, code, action })
             });
-            if (!r.ok) {
-                const body = await r.json().catch(() => ({}));
-                setError(body.error || "Não foi possível entrar.");
-                return;
-            }
-            router.push(next);
-        } catch {
-            setError("Erro de rede. Tente novamente.");
+            const body = await response.json();
+            if (!response.ok) throw new Error(body.error);
+            if (action === "send") {
+                setSent(true);
+                setDemoCode(body.demoCode || null);
+            } else
+                window.location.assign(
+                    adminHost
+                        ? nextPath.replace(/^\/admin/, "") || "/"
+                        : nextPath
+                );
+        } catch (e) {
+            setError(e.message || "Não foi possível entrar.");
         } finally {
-            setLoading(false);
+            setBusy(false);
         }
-    };
-
+    }
     return (
-        <>
+        <main className={`${styles.root} ${styles.login}`}>
             <Head>
-                <title>Admin · Dra. Lorraine Souza</title>
+                <title>Acesso · Lorraine CRM</title>
                 <meta name="robots" content="noindex, nofollow" />
             </Head>
-            <main className="min-h-screen bg-paper text-ink flex items-center justify-center px-4">
-                <div className="w-full max-w-sm">
-                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium mb-5 text-center">
-                        Área Restrita
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl font-light leading-[1.1] tracking-[-0.02em] mb-3 text-center text-balance">
-                        Entrar no{" "}
-                        <span className="italic text-copper-dark">painel</span>.
+            <section className={styles.loginEditorial}>
+                <Logo lockup="horizontal" />
+                <div>
+                    <span className={styles.eyebrow}>
+                        UM CUIDADO QUE CONTINUA
+                    </span>
+                    <h1>
+                        Cada paciente,
+                        <br />
+                        uma <em>história.</em>
                     </h1>
-                    <p className="text-center text-sm text-stone leading-relaxed mb-10">
-                        Acesso exclusivo para a equipe da Dra. Lorraine.
-                    </p>
-
-                    <form onSubmit={submit} className="space-y-6">
-                        <div>
-                            <label className="block text-xs uppercase tracking-[0.24em] text-stone font-medium mb-3">
-                                Senha
-                            </label>
-                            <input
-                                type="password"
-                                autoFocus
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-transparent border-b border-line focus:border-copper outline-none py-3 text-base text-ink placeholder:text-[#B8AFA3] transition-colors"
-                                placeholder="••••••••••"
-                            />
-                        </div>
-
-                        {error && (
-                            <div className="text-sm text-copper-dark flex items-start gap-2">
-                                <span aria-hidden="true">—</span>
-                                <span>{error}</span>
-                            </div>
-                        )}
-
-                        <button
-                            type="submit"
-                            disabled={loading || !password}
-                            className="w-full bg-ink hover:bg-copper-dark disabled:opacity-50 disabled:hover:bg-ink text-paper text-sm uppercase tracking-[0.28em] font-medium py-4 transition-colors"
-                        >
-                            {loading ? "Verificando…" : "Entrar"}
-                        </button>
-                    </form>
-
-                    <p className="mt-12 text-center text-xs uppercase tracking-[0.24em] text-stone/70 font-medium">
-                        Sessão válida por 24h
+                    <p>
+                        Um espaço para acompanhar relações,
+                        <br />
+                        organizar atendimentos e cuidar do próximo passo.
                     </p>
                 </div>
-            </main>
-        </>
+                <span className={styles.small}>
+                    LORRAINE SOUZA · ÁREA PRIVADA
+                </span>
+            </section>
+            <section className={styles.loginForm}>
+                <Monogram className="h-16 w-auto" />
+                <div>
+                    <span className={styles.eyebrow}>ACESSO RESTRITO</span>
+                    <h2>
+                        {sent ? "Confira seu e-mail." : "Bem-vindo ao CRM."}
+                    </h2>
+                    <p>
+                        {sent
+                            ? "Se este e-mail tem acesso, enviamos um código de seis dígitos. Ele é pessoal e expira em poucos minutos."
+                            : "Entre com seu e-mail autorizado. Você receberá um código, sem precisar de senha."}
+                    </p>
+                </div>
+                <form onSubmit={submit}>
+                    <label className={styles.field}>
+                        Seu e-mail
+                        <input
+                            type="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={sent || busy}
+                            required
+                            maxLength={200}
+                        />
+                    </label>
+                    {sent && (
+                        <label className={styles.field}>
+                            Código de acesso
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                pattern="[0-9]{6}"
+                                maxLength={6}
+                                value={code}
+                                onChange={(e) =>
+                                    setCode(e.target.value.replace(/\D/g, ""))
+                                }
+                                autoFocus
+                                required
+                                placeholder="000000"
+                            />
+                        </label>
+                    )}
+                    {error && (
+                        <p role="alert" className={styles.error}>
+                            {error}
+                        </p>
+                    )}
+                    {demoCode && (
+                        <div className={styles.notice}>
+                            Caixa de entrada de demonstração · código{" "}
+                            <strong>{demoCode}</strong>
+                            <br />
+                            Disponível apenas neste servidor local.
+                        </div>
+                    )}
+                    <button className={styles.primary} disabled={busy}>
+                        {busy
+                            ? "Aguarde…"
+                            : sent
+                            ? "Entrar no CRM →"
+                            : "Receber código por e-mail →"}
+                    </button>
+                    {sent && (
+                        <div className={styles.inlineActions}>
+                            <button
+                                type="button"
+                                disabled={busy}
+                                onClick={(e) => submit(e, "send")}
+                            >
+                                Reenviar código
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSent(false);
+                                    setCode("");
+                                    setDemoCode(null);
+                                    setError("");
+                                }}
+                            >
+                                Usar outro e-mail
+                            </button>
+                        </div>
+                    )}
+                </form>
+                {demo && (
+                    <p className={styles.notice}>
+                        Demonstração local com pacientes fictícios.
+                        <br />
+                        Contas: alan@example.test e lorraine@example.test.
+                    </p>
+                )}
+                <p className={styles.small}>
+                    Uso exclusivo de Lorraine e Alan.
+                </p>
+            </section>
+        </main>
     );
 }
+Login.isCRM = true;

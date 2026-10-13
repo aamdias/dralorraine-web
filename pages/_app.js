@@ -6,70 +6,77 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
-import { initializeOpenAIPixel, trackConsultationBookingClick } from "@utils/openaiPixel";
+import {
+    initializeOpenAIPixel,
+    trackConsultationBookingClick
+} from "@utils/openaiPixel";
 
-const pixelOptions = {
-    autoConfig: true, // set to false if you want to disable automatic config
-    debug: false, // set to true if you want to debug
-};
-
-export default function App({ Component, pageProps }) {
+function Marketing({ children }) {
     const router = useRouter();
-
     useEffect(() => {
         initializeOpenAIPixel();
-        // Capture nested CTA clicks before Next.js starts client-side navigation.
         document.addEventListener("click", trackConsultationBookingClick, true);
-        return () => document.removeEventListener("click", trackConsultationBookingClick, true);
-    }, []);
-
-    useEffect(() => {
-        // Initialize PostHog
-        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-            api_host: "/ingest",
-            ui_host: "https://us.posthog.com",
-            defaults: "2025-05-24",
-            capture_exceptions: true,
-            debug: process.env.NODE_ENV === "development"
-        });
-
-        // Initialize Facebook Pixel (client-side only)
-        const initializeFacebookPixel = async () => {
-            if (typeof window !== "undefined") {
-                const FacebookPixel = (await import("react-facebook-pixel")).default;
-                FacebookPixel.init('429829449584135', null, pixelOptions);
-                FacebookPixel.pageView();
-
-                const handleRouteChange = () => {
-                    FacebookPixel.pageView();
-                };
-
-                router.events.on('routeChangeComplete', handleRouteChange);
-
-                return () => {
-                    router.events.off('routeChangeComplete', handleRouteChange);
-                };
-            }
+        if (process.env.NEXT_PUBLIC_POSTHOG_KEY)
+            posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+                api_host: "/ingest",
+                ui_host: "https://us.posthog.com",
+                defaults: "2025-05-24",
+                capture_exceptions: true,
+                debug: process.env.NODE_ENV === "development"
+            });
+        let disposed = false,
+            pixel;
+        const pageView = (url) => {
+            if (!disposed && !url.startsWith("/admin")) pixel?.pageView();
         };
-
-        initializeFacebookPixel();
+        import("react-facebook-pixel").then((module) => {
+            if (disposed) return;
+            pixel = module.default;
+            pixel.init("429829449584135", null, {
+                autoConfig: true,
+                debug: false
+            });
+            pixel.pageView();
+            router.events.on("routeChangeComplete", pageView);
+        });
+        return () => {
+            disposed = true;
+            document.removeEventListener(
+                "click",
+                trackConsultationBookingClick,
+                true
+            );
+            router.events.off("routeChangeComplete", pageView);
+            if (process.env.NEXT_PUBLIC_POSTHOG_KEY)
+                posthog.opt_out_capturing();
+        };
     }, [router.events]);
-
     return (
         <PostHogProvider client={posthog}>
-            {/* Fontes da marca (docs/brandbook.md §03). As variáveis precisam
-                ser declaradas aqui: next/font não funciona em _document.js. */}
+            <Head>
+                <script async src="https://tally.so/widgets/embed.js" />
+            </Head>
+            {children}
+            <GoogleAnalytics gaId="G-7E46RP1M4D" />
+        </PostHogProvider>
+    );
+}
+export default function App({ Component, pageProps }) {
+    const router = useRouter();
+    const privatePage =
+        Component.isCRM ||
+        router.pathname.startsWith("/admin") ||
+        pageProps.adminHost;
+    const content = <Component {...pageProps} />;
+    return (
+        <>
             <style jsx global>{`
                 :root {
                     --font-body: ${inter.style.fontFamily};
                     --font-display: ${cormorantGaramond.style.fontFamily};
                 }
             `}</style>
-            <Head>
-                <script async src="https://tally.so/widgets/embed.js"></script>
-            </Head>
-            <Component {...pageProps} />
-            <GoogleAnalytics gaId="G-7E46RP1M4D" />
-        </PostHogProvider>
+            {privatePage ? content : <Marketing>{content}</Marketing>}
+        </>
     );
 }
