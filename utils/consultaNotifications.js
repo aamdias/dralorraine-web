@@ -71,7 +71,7 @@ function buildCompletedMessage(consultation) {
 }
 
 function getAdminUrl(consultationId) {
-    return `${siteUrl()}/admin/consultas?consulta=${consultationId}`;
+    return `${(process.env.ADMIN_SITE_URL || "https://admin.dralorraine.com").replace(/\/$/, "")}/online?consulta=${consultationId}`;
 }
 
 function getSchedulingUrl(consultationId) {

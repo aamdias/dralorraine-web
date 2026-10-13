@@ -29,13 +29,20 @@ const AI_CRAWLERS = [
 ];
 
 module.exports = {
+    sourceDir: process.env.NEXT_DIST_DIR || ".next",
     siteUrl: SITE_URL,
     generateRobotsTxt: true,
     generateIndexSitemap: true,
     changefreq: "monthly",
     autoLastmod: true,
     // Fluxo de agendamento, área restrita e rotas de API não entram no índice.
-    exclude: ["/consulta/agendar", "/curriculo/interesse", "/mentoria/check-out", "/admin", "/admin/*"],
+    exclude: [
+        "/consulta/agendar",
+        "/curriculo/interesse",
+        "/mentoria/check-out",
+        "/admin",
+        "/admin/*"
+    ],
     transform: async (config, path) => {
         // A home e a página de consulta são as portas de entrada.
         const priority =
@@ -65,7 +72,12 @@ module.exports = {
             {
                 userAgent: "*",
                 allow: "/",
-                disallow: ["/admin", "/api", "/consulta/agendar", "/mentoria/check-out"]
+                disallow: [
+                    "/admin",
+                    "/api",
+                    "/consulta/agendar",
+                    "/mentoria/check-out"
+                ]
             }
         ]
     }
