@@ -27,6 +27,22 @@ export const PAYMENTS = [
 ];
 export const MODALITIES = ["Presencial", "Online"];
 export const TIMEZONE = "America/Sao_Paulo";
+export function appointmentDraft(patientId = "", record = {}, day = today()) {
+    return {
+        patient_id: patientId,
+        date: day,
+        procedure: "Consulta",
+        modality: "Presencial",
+        amount_cents: null,
+        payment_method: "Não informado",
+        status:
+            record.source_consultation_id || record.date > day
+                ? "Agendado"
+                : "Realizado",
+        next_return: "",
+        ...record
+    };
+}
 export function today(reference = new Date()) {
     return new Intl.DateTimeFormat("en-CA", {
         timeZone: TIMEZONE,
