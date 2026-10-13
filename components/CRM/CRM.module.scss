@@ -69,20 +69,33 @@
     flex-direction: column;
     padding: 33px 22px;
     z-index: 20;
+    nav {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
 }
 .logo {
     display: block;
-    padding: 0 6px 38px;
+    padding: 0 0 28px;
     white-space: nowrap;
-    > span {
-        gap: 10px;
-    }
+    flex-shrink: 0;
+}
+.sidebarBrand {
+    width: 100%;
+}
+.sidebarMark {
+    height: 52px;
+    width: 35px;
+    flex-shrink: 0;
 }
 .workspaceLabel {
     @apply text-stone;
     font-size: 12px;
     letter-spacing: 0.2em;
     padding: 0 14px 14px;
+    flex-shrink: 0;
 }
 .navLink {
     @apply text-stone;
@@ -116,6 +129,7 @@
 .sidebarBottom {
     margin-top: auto;
     padding-top: 28px;
+    flex-shrink: 0;
 }
 .privateLabel {
     @apply text-stone;
@@ -137,6 +151,15 @@
     border-top-width: 1px;
     border-top-style: solid;
     padding-top: 22px;
+    > div {
+        min-width: 0;
+    }
+    strong,
+    small {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     strong {
         display: block;
         font-size: 16px;
@@ -144,9 +167,6 @@
     small {
         display: block;
         font-size: 12px;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     button {
         min-width: 44px;
@@ -834,22 +854,32 @@
     font-size: 16px;
 }
 .dialog {
+    background: transparent;
     position: fixed;
     inset: 0;
     z-index: 70;
 }
 .backdrop {
-    @apply bg-ink/30;
+    @apply bg-ink/20;
     position: fixed;
     inset: 0;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 .drawer {
-    @apply bg-paper;
+    @apply bg-paper border-line;
     position: fixed;
     inset: 0 0 0 auto;
     max-width: 660px;
     width: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    border-left-width: 1px;
+    border-left-style: solid;
+    box-shadow: -16px 0 48px rgb(28 25 23 / 8%);
     header {
         @apply border-line bg-paper;
         border-bottom-width: 1px;
@@ -858,9 +888,7 @@
         display: flex;
         justify-content: space-between;
         gap: 15px;
-        position: sticky;
-        top: 0;
-        z-index: 1;
+        flex-shrink: 0;
         h2 {
             @apply font-display;
             font-size: 35px;
@@ -879,7 +907,79 @@
     }
 }
 .drawerBody {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+.intakeBody {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 28px 30px 30px;
+}
+.editorForm {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+.formScroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    padding: 30px;
+    scroll-padding-block: 24px;
+}
+.formSection {
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    legend {
+        @apply text-ink font-display;
+        padding: 0;
+        font-size: 25px;
+        line-height: 1.2;
+        margin-bottom: 6px;
+    }
+    > p {
+        @apply text-stone;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    > .formGrid {
+        margin-top: 18px;
+    }
+    &:not(:first-child) {
+        @apply border-line;
+        border-top-width: 1px;
+        border-top-style: solid;
+        padding-top: 24px;
+        legend {
+            float: left;
+            width: 100%;
+        }
+        > p,
+        > .formGrid {
+            clear: both;
+        }
+    }
+}
+.editorFooter {
+    @apply bg-paper border-line;
+    flex-shrink: 0;
+    padding: 18px 30px max(18px, env(safe-area-inset-bottom));
+    border-top-width: 1px;
+    border-top-style: solid;
+    box-shadow: 0 -8px 24px rgb(28 25 23 / 3%);
+    .error {
+        margin: 0 0 12px !important;
+    }
 }
 .formGrid {
     display: grid;
@@ -888,7 +988,7 @@
 }
 .choices {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 8px;
 }
 .choice {
@@ -902,7 +1002,7 @@
     padding: 12px;
     min-height: 48px;
     text-align: left;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.4;
     &:hover {
@@ -956,6 +1056,7 @@
     overscroll-behavior: contain;
     scrollbar-width: thin;
     .choice {
+        font-size: 16px;
         width: 100%;
         border: 0;
         border-bottom-width: 1px;
@@ -1009,17 +1110,20 @@
     input:disabled {
         @apply bg-sand text-stone;
     }
+    input:focus {
+        @apply border-copper-dark bg-sand/40;
+    }
     small {
         font-weight: 400;
     }
 }
 .checkbox {
-    @apply border-line;
+    @apply border-line bg-sand/60;
     display: flex;
     gap: 12px;
-    padding-top: 23px;
-    border-top-width: 1px;
-    border-top-style: solid;
+    padding: 18px;
+    border-width: 1px;
+    border-style: solid;
     align-items: flex-start;
     input {
         margin-top: 4px;
@@ -1038,14 +1142,9 @@
     }
 }
 .formFooter {
-    @apply border-line;
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 30px;
-    padding-top: 22px;
-    border-top-width: 1px;
-    border-top-style: solid;
 }
 .inlineActions {
     display: flex;
@@ -1296,8 +1395,10 @@
             padding: 0 0 20px;
         }
         nav {
+            flex: initial;
             display: flex;
             overflow-x: auto;
+            overflow-y: hidden;
             scrollbar-width: none;
             &::-webkit-scrollbar {
                 display: none;
@@ -1309,6 +1410,18 @@
         .sidebarBottom {
             display: none;
         }
+    }
+    .sidebarBrand {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 16px;
+        > span {
+            text-align: left;
+        }
+    }
+    .sidebarMark {
+        height: 44px;
+        width: 30px;
     }
     .navLink {
         white-space: nowrap;
@@ -1432,8 +1545,12 @@
     .drawer header {
         padding: 24px 22px 19px;
     }
-    .drawerBody {
+    .formScroll,
+    .intakeBody {
         padding: 25px 22px;
+    }
+    .editorFooter {
+        padding: 16px 22px max(16px, env(safe-area-inset-bottom));
     }
     .formGrid {
         gap: 20px 13px;

@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dialog, RadioGroup } from "@headlessui/react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
     FiGrid,
     FiUsers,
@@ -34,6 +35,7 @@ import {
 import { Logo } from "@components/Logo";
 import {
     patientMetrics,
+    appointmentDraft,
     today,
     weekBounds,
     dateLabel,
@@ -103,16 +105,6 @@ const initialPatient = {
     source: "Não informado",
     referred_by: "",
     contact_consent: false
-};
-const initialAppointment = {
-    patient_id: "",
-    date: "",
-    procedure: "Consulta",
-    modality: "Presencial",
-    amount_cents: null,
-    payment_method: "Não informado",
-    status: "Agendado",
-    next_return: ""
 };
 const initials = (name) =>
     name
@@ -300,12 +292,7 @@ export default function CRM({
         setError("");
         setModal({
             kind: "appointment",
-            record: {
-                ...initialAppointment,
-                date: day,
-                patient_id: pid,
-                ...record
-            }
+            record: appointmentDraft(pid, record, day)
         });
     };
     const patientLink = (p) => (
@@ -547,7 +534,11 @@ export default function CRM({
             </Head>
             <aside className={styles.sidebar}>
                 <Link {...linkTo("/admin")} className={styles.logo}>
-                    <Logo lockup="horizontal" markClassName="h-10 w-auto" />
+                    <Logo
+                        lockup="vertical"
+                        className={styles.sidebarBrand}
+                        markClassName={styles.sidebarMark}
+                    />
                 </Link>
                 <div className={styles.workspaceLabel}>ESPAÇO DE CUIDADO</div>
                 <nav aria-label="CRM">
@@ -588,8 +579,8 @@ export default function CRM({
                             {initials(user.name)}
                         </span>
                         <div>
-                            <strong>{user.name}</strong>
-                            <small>{user.email}</small>
+                            <strong title={user.name}>{user.name}</strong>
+                            <small title={user.email}>{user.email}</small>
                         </div>
                         <button
                             title="Sair"
@@ -950,7 +941,9 @@ export default function CRM({
                                             <button
                                                 className={styles.textButton}
                                                 onClick={() =>
-                                                    createAppointment()
+                                                    createAppointment("", {
+                                                        status: "Agendado"
+                                                    })
                                                 }
                                             >
                                                 <FiPlus /> Agendar
@@ -1317,59 +1310,68 @@ export default function CRM({
                     Carregando consulta…
                 </div>
             )}
-            {modal && (
-                <Editor
-                    modal={modal}
-                    patients={patients}
-                    busy={busy}
-                    error={error}
-                    onClose={() => {
-                        if (!busy) {
-                            setModal(null);
+            <AnimatePresence>
+                {modal && (
+                    <Editor
+                        key="editor"
+                        modal={modal}
+                        patients={patients}
+                        busy={busy}
+                        error={error}
+                        onClose={() => {
+                            if (!busy) {
+                                setModal(null);
+                                setError("");
+                            }
+                        }}
+                        onSave={save}
+                    />
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+                {intake && !modal && (
+                    <IntakeDrawer
+                        key="intake"
+                        intake={intake}
+                        patients={patients}
+                        appointments={data.appointments}
+                        busy={busy}
+                        error={error}
+                        onClose={() => {
+                            setIntake(null);
                             setError("");
+                        }}
+                        onLink={linkIntake}
+                        onCreatePatient={() =>
+                            createPatient({
+                                name: intake.name,
+                                email: intake.email,
+                                phone: intake.phone || "",
+                                dob: intake.dob || "",
+                                source: "Não informado"
+                            })
                         }
-                    }}
-                    onSave={save}
-                />
-            )}
-            {intake && !modal && (
-                <IntakeDrawer
-                    intake={intake}
-                    patients={patients}
-                    appointments={data.appointments}
-                    busy={busy}
-                    error={error}
-                    onClose={() => {
-                        setIntake(null);
-                        setError("");
-                    }}
-                    onLink={linkIntake}
-                    onCreatePatient={() =>
-                        createPatient({
-                            name: intake.name,
-                            email: intake.email,
-                            phone: intake.phone || "",
-                            dob: intake.dob || "",
-                            source: "Não informado"
-                        })
-                    }
-                    onAppointment={() => {
-                        const existing = data.appointments.find(
-                            (a) => a.source_consultation_id === intake.id
-                        );
-                        if (existing)
-                            setModal({ kind: "appointment", record: existing });
-                        else
-                            createAppointment(intake.patient_id, {
-                                modality: "Online",
-                                date: intake.scheduled_at
-                                    ? today(new Date(intake.scheduled_at))
-                                    : day,
-                                source_consultation_id: intake.id
-                            });
-                    }}
-                />
-            )}
+                        onAppointment={() => {
+                            const existing = data.appointments.find(
+                                (a) => a.source_consultation_id === intake.id
+                            );
+                            if (existing)
+                                setModal({
+                                    kind: "appointment",
+                                    record: existing
+                                });
+                            else
+                                createAppointment(intake.patient_id, {
+                                    modality: "Online",
+                                    date: intake.scheduled_at
+                                        ? today(new Date(intake.scheduled_at))
+                                        : day,
+                                    source_consultation_id: intake.id
+                                });
+                        }}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -1705,258 +1707,337 @@ function Editor({ modal, patients, busy, error, onClose, onSave }) {
             subtitle={
                 patientForm
                     ? "Um cadastro, todo o histórico."
-                    : "Você também pode registrar atendimentos antigos."
+                    : "Registre um atendimento realizado ou um próximo agendamento."
             }
         >
-            <form onSubmit={submit}>
-                <div className={styles.formGrid}>
-                    {patientForm ? (
-                        <>
-                            <Field label="Nome completo *" wide>
-                                <input
-                                    value={record.name}
-                                    name="name"
-                                    onChange={change("name")}
-                                    required
-                                    maxLength={200}
-                                    autoFocus
-                                />
-                            </Field>
-                            <Field label="WhatsApp">
-                                <input
-                                    type="tel"
-                                    value={record.phone || ""}
-                                    name="phone"
-                                    onChange={change("phone")}
-                                    maxLength={30}
-                                    placeholder="(11) 99999-9999"
-                                />
-                            </Field>
-                            <Field label="E-mail">
-                                <input
-                                    type="email"
-                                    value={record.email || ""}
-                                    name="email"
-                                    onChange={change("email")}
-                                    maxLength={200}
-                                />
-                            </Field>
-                            <Field label="Instagram">
-                                <input
-                                    value={record.instagram || ""}
-                                    name="instagram"
-                                    onChange={change("instagram")}
-                                    maxLength={80}
-                                    placeholder="@nome"
-                                />
-                            </Field>
-                            <Field label="Data de nascimento">
-                                <input
-                                    type="date"
-                                    max={today()}
-                                    value={record.dob || ""}
-                                    name="dob"
-                                    onChange={change("dob")}
-                                    onInput={change("dob")}
-                                />
-                            </Field>
-                            <Field label="Como conheceu" wide>
-                                <Choice
-                                    value={record.source}
-                                    name="source"
-                                    onChange={change("source")}
-                                    options={SOURCES}
-                                />
-                            </Field>
-                            <Field label="Indicado por" wide>
-                                <Choice
-                                    value={record.referred_by}
-                                    name="referred_by"
-                                    onChange={change("referred_by")}
-                                    options={[
-                                        { value: "", label: "Não informado" },
-                                        ...patients
-                                            .filter((p) => p.id !== record.id)
-                                            .map((p) => ({
-                                                value: p.id,
-                                                label: p.name
-                                            }))
-                                    ]}
-                                />
-                            </Field>
-                            <label
-                                className={`${styles.checkbox} ${styles.wide}`}
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={record.contact_consent}
-                                    name="contact_consent"
-                                    onChange={change("contact_consent")}
-                                />
-                                <span>
-                                    <strong>Consentimento para contato</strong>
-                                    <small>
-                                        Marque apenas se o paciente autorizou
-                                        contatos de relacionamento.
-                                        Consentimento para atendimento é
-                                        separado.
-                                    </small>
-                                </span>
-                            </label>
-                        </>
-                    ) : (
-                        <>
-                            <Field label="Paciente *" wide>
-                                <Choice
-                                    value={record.patient_id}
-                                    name="patient_id"
-                                    onChange={change("patient_id")}
-                                    required
-                                    disabled={Boolean(
-                                        record.source_consultation_id
-                                    )}
-                                    options={[
-                                        {
-                                            value: "",
-                                            label: "Selecione o paciente"
-                                        },
-                                        ...patients.map((p) => ({
-                                            value: p.id,
-                                            label: p.name
-                                        }))
-                                    ]}
-                                />
-                            </Field>
-                            <Field
-                                label={`Data ${
-                                    record.status === "Agendado"
-                                        ? "*"
-                                        : "(opcional para histórico)"
-                                }`}
-                            >
-                                <input
-                                    type="date"
-                                    value={record.date || ""}
-                                    name="date"
-                                    onChange={change("date")}
-                                    onInput={change("date")}
-                                    required={record.status === "Agendado"}
-                                    max={
-                                        record.status === "Realizado"
-                                            ? today()
-                                            : undefined
-                                    }
-                                />
-                            </Field>
-                            <Field label="Procedimento *" wide>
-                                <Choice
-                                    value={record.procedure}
-                                    name="procedure"
-                                    onChange={change("procedure")}
-                                    options={PROCEDURES}
-                                />
-                            </Field>
-                            <Field label="Modalidade" wide>
-                                <Choice
-                                    value={record.modality}
-                                    name="modality"
-                                    onChange={change("modality")}
-                                    options={MODALITIES}
-                                />
-                            </Field>
-                            <Field label="Status" wide>
-                                <Choice
-                                    value={record.status}
-                                    name="status"
-                                    onChange={change("status")}
-                                    options={STATUSES}
-                                />
-                            </Field>
-                            <Field label="Valor (R$)">
-                                <input
-                                    inputMode="decimal"
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    max="1000000"
-                                    name="amount"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    placeholder="Deixe vazio se desconhecido"
-                                />
-                            </Field>
-                            <Field label="Forma de pagamento" wide>
-                                <Choice
-                                    value={record.payment_method}
-                                    name="payment_method"
-                                    onChange={change("payment_method")}
-                                    options={PAYMENTS}
-                                />
-                            </Field>
-                            <Field label="Próximo retorno sugerido" wide>
-                                <input
-                                    type="date"
-                                    min={record.date || undefined}
-                                    value={record.next_return || ""}
-                                    name="next_return"
-                                    onChange={change("next_return")}
-                                    onInput={change("next_return")}
-                                />
-                                <small>
-                                    Esta data é uma sugestão. Ela não cria um
-                                    agendamento.
-                                </small>
-                            </Field>
-                            {record.source_consultation_id && (
-                                <div
-                                    className={`${styles.notice} ${styles.wide}`}
+            <form onSubmit={submit} className={styles.editorForm}>
+                <div className={styles.formScroll}>
+                    <div className={styles.formGrid}>
+                        {patientForm ? (
+                            <>
+                                <FormSection
+                                    title="Identidade e contato"
+                                    description="Os dados essenciais para acompanhar o paciente."
                                 >
-                                    Vinculado à consulta online #
-                                    {record.source_consultation_id}. Data e
-                                    valor precisam ser conferidos; o pagamento
-                                    do site não confirma presença.
-                                </div>
-                            )}
-                        </>
+                                    <Field label="Nome completo *" wide>
+                                        <input
+                                            value={record.name}
+                                            name="name"
+                                            onChange={change("name")}
+                                            required
+                                            maxLength={200}
+                                            autoFocus
+                                        />
+                                    </Field>
+                                    <Field label="WhatsApp">
+                                        <input
+                                            type="tel"
+                                            value={record.phone || ""}
+                                            name="phone"
+                                            onChange={change("phone")}
+                                            maxLength={30}
+                                            placeholder="(11) 99999-9999"
+                                        />
+                                    </Field>
+                                    <Field label="E-mail">
+                                        <input
+                                            type="email"
+                                            value={record.email || ""}
+                                            name="email"
+                                            onChange={change("email")}
+                                            maxLength={200}
+                                        />
+                                    </Field>
+                                    <Field label="Instagram">
+                                        <input
+                                            value={record.instagram || ""}
+                                            name="instagram"
+                                            onChange={change("instagram")}
+                                            maxLength={80}
+                                            placeholder="@nome"
+                                        />
+                                    </Field>
+                                    <Field label="Data de nascimento">
+                                        <input
+                                            type="date"
+                                            max={today()}
+                                            value={record.dob || ""}
+                                            name="dob"
+                                            onChange={change("dob")}
+                                            onInput={change("dob")}
+                                        />
+                                    </Field>
+                                </FormSection>
+                                <FormSection
+                                    title="Relacionamento"
+                                    description="Como esse vínculo começou."
+                                >
+                                    <Field label="Como conheceu" wide>
+                                        <Choice
+                                            value={record.source}
+                                            name="source"
+                                            onChange={change("source")}
+                                            options={SOURCES}
+                                        />
+                                    </Field>
+                                    <Field label="Indicado por" wide>
+                                        <Choice
+                                            value={record.referred_by}
+                                            name="referred_by"
+                                            onChange={change("referred_by")}
+                                            options={[
+                                                {
+                                                    value: "",
+                                                    label: "Não informado"
+                                                },
+                                                ...patients
+                                                    .filter(
+                                                        (p) =>
+                                                            p.id !== record.id
+                                                    )
+                                                    .map((p) => ({
+                                                        value: p.id,
+                                                        label: p.name
+                                                    }))
+                                            ]}
+                                        />
+                                    </Field>
+                                </FormSection>
+                                <label
+                                    className={`${styles.checkbox} ${styles.wide}`}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={record.contact_consent}
+                                        name="contact_consent"
+                                        onChange={change("contact_consent")}
+                                    />
+                                    <span>
+                                        <strong>
+                                            Consentimento para contato
+                                        </strong>
+                                        <small>
+                                            Marque apenas se o paciente
+                                            autorizou contatos de
+                                            relacionamento. Consentimento para
+                                            atendimento é separado.
+                                        </small>
+                                    </span>
+                                </label>
+                            </>
+                        ) : (
+                            <>
+                                <FormSection
+                                    title="Paciente e atendimento"
+                                    description="Confira o status antes de salvar o registro."
+                                >
+                                    <Field label="Paciente *" wide>
+                                        <Choice
+                                            value={record.patient_id}
+                                            name="patient_id"
+                                            onChange={change("patient_id")}
+                                            required
+                                            disabled={Boolean(
+                                                record.source_consultation_id
+                                            )}
+                                            options={[
+                                                {
+                                                    value: "",
+                                                    label: "Selecione o paciente"
+                                                },
+                                                ...patients.map((p) => ({
+                                                    value: p.id,
+                                                    label: p.name
+                                                }))
+                                            ]}
+                                        />
+                                    </Field>
+                                    <Field label="Status" wide>
+                                        <Choice
+                                            value={record.status}
+                                            name="status"
+                                            onChange={change("status")}
+                                            options={STATUSES}
+                                        />
+                                        <small>
+                                            {record.status === "Realizado"
+                                                ? "Este atendimento entra no histórico e seu valor compõe o total recebido."
+                                                : record.status === "Agendado"
+                                                ? "Agendamentos não entram no total recebido. Se o atendimento já aconteceu, selecione Realizado."
+                                                : "Atendimentos cancelados ou com falta não entram no total recebido."}
+                                        </small>
+                                    </Field>
+                                    <Field
+                                        label={`Data ${
+                                            record.status === "Agendado"
+                                                ? "*"
+                                                : "(opcional para histórico)"
+                                        }`}
+                                    >
+                                        <input
+                                            type="date"
+                                            value={record.date || ""}
+                                            name="date"
+                                            onChange={change("date")}
+                                            onInput={change("date")}
+                                            required={
+                                                record.status === "Agendado"
+                                            }
+                                            max={
+                                                record.status === "Realizado"
+                                                    ? today()
+                                                    : undefined
+                                            }
+                                        />
+                                    </Field>
+                                    <Field label="Procedimento *" wide>
+                                        <Choice
+                                            value={record.procedure}
+                                            name="procedure"
+                                            onChange={change("procedure")}
+                                            options={PROCEDURES}
+                                        />
+                                    </Field>
+                                    <Field label="Modalidade" wide>
+                                        <Choice
+                                            value={record.modality}
+                                            name="modality"
+                                            onChange={change("modality")}
+                                            options={MODALITIES}
+                                        />
+                                    </Field>
+                                </FormSection>
+                                <FormSection
+                                    title="Valor e pagamento"
+                                    description="Informe o valor do atendimento, quando conhecido."
+                                >
+                                    <Field label="Valor (R$)">
+                                        <input
+                                            inputMode="decimal"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            max="1000000"
+                                            name="amount"
+                                            value={amount}
+                                            onChange={(e) =>
+                                                setAmount(e.target.value)
+                                            }
+                                            placeholder="Deixe vazio se desconhecido"
+                                        />
+                                    </Field>
+                                    <Field label="Forma de pagamento" wide>
+                                        <Choice
+                                            value={record.payment_method}
+                                            name="payment_method"
+                                            onChange={change("payment_method")}
+                                            options={PAYMENTS}
+                                        />
+                                    </Field>
+                                </FormSection>
+                                <FormSection title="Continuidade do cuidado">
+                                    <Field
+                                        label="Próximo retorno sugerido"
+                                        wide
+                                    >
+                                        <input
+                                            type="date"
+                                            min={record.date || undefined}
+                                            value={record.next_return || ""}
+                                            name="next_return"
+                                            onChange={change("next_return")}
+                                            onInput={change("next_return")}
+                                        />
+                                        <small>
+                                            Esta data é uma sugestão. Ela não
+                                            cria um agendamento.
+                                        </small>
+                                    </Field>
+                                </FormSection>
+                                {record.source_consultation_id && (
+                                    <div
+                                        className={`${styles.notice} ${styles.wide}`}
+                                    >
+                                        Vinculado à consulta online #
+                                        {record.source_consultation_id}. Data e
+                                        valor precisam ser conferidos; o
+                                        pagamento do site não confirma presença.
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+                <footer className={styles.editorFooter}>
+                    {(error || validationError) && (
+                        <p role="alert" className={styles.error}>
+                            {error || validationError}
+                        </p>
                     )}
-                </div>
-                {(error || validationError) && (
-                    <p role="alert" className={styles.error}>
-                        {error || validationError}
-                    </p>
-                )}
-                <div className={styles.formFooter}>
-                    <button
-                        type="button"
-                        className={styles.secondary}
-                        disabled={busy}
-                        onClick={onClose}
-                    >
-                        Cancelar
-                    </button>
-                    <button className={styles.primary} disabled={busy}>
-                        {busy
-                            ? "Salvando…"
-                            : editing
-                            ? "Salvar alterações"
-                            : patientForm
-                            ? "Cadastrar paciente"
-                            : "Registrar atendimento"}
-                    </button>
-                </div>
+                    <div className={styles.formFooter}>
+                        <button
+                            type="button"
+                            className={styles.secondary}
+                            disabled={busy}
+                            onClick={onClose}
+                        >
+                            Cancelar
+                        </button>
+                        <button className={styles.primary} disabled={busy}>
+                            {busy
+                                ? "Salvando…"
+                                : editing
+                                ? "Salvar alterações"
+                                : patientForm
+                                ? "Cadastrar paciente"
+                                : "Registrar atendimento"}
+                        </button>
+                    </div>
+                </footer>
             </form>
         </Drawer>
     );
 }
-function Drawer({ title, subtitle, onClose, children }) {
+function FormSection({ title, description, children }) {
+    return (
+        <fieldset className={styles.formSection}>
+            <legend>{title}</legend>
+            {description && <p>{description}</p>}
+            <div className={styles.formGrid}>{children}</div>
+        </fieldset>
+    );
+}
+function Drawer({ title, subtitle, onClose, children, scrollable = false }) {
+    const reducedMotion = useReducedMotion();
+    const transition = {
+        duration: reducedMotion ? 0 : 0.22,
+        ease: [0.22, 1, 0.36, 1]
+    };
     return (
         <Dialog
             open
             onClose={onClose}
             className={`${styles.root} ${styles.dialog}`}
         >
-            <div className={styles.backdrop} aria-hidden="true" />
-            <Dialog.Panel className={styles.drawer}>
+            <motion.div
+                className={styles.backdrop}
+                aria-hidden="true"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+            />
+            <Dialog.Panel
+                as={motion.div}
+                className={styles.drawer}
+                initial={{
+                    x: reducedMotion ? 0 : "100%",
+                    opacity: reducedMotion ? 1 : 0
+                }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: reducedMotion ? 0 : "100%", opacity: 0 }}
+                transition={transition}
+            >
                 <header>
                     <div>
                         <span className={styles.eyebrow}>LORRAINE CRM</span>
@@ -1973,7 +2054,13 @@ function Drawer({ title, subtitle, onClose, children }) {
                         <FiX />
                     </button>
                 </header>
-                <div className={styles.drawerBody}>{children}</div>
+                <div
+                    className={`${styles.drawerBody} ${
+                        scrollable ? styles.intakeBody : ""
+                    }`}
+                >
+                    {children}
+                </div>
             </Dialog.Panel>
         </Dialog>
     );
@@ -1999,6 +2086,7 @@ function IntakeDrawer({
             title={`Consulta online #${intake.id}`}
             subtitle="Formulário original recebido pelo site."
             onClose={onClose}
+            scrollable
         >
             <h3 className={styles.intakeName}>{intake.name}</h3>
             <dl className={styles.details}>

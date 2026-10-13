@@ -100,18 +100,20 @@ export default function Login({ demo, adminHost, nextPath }) {
                     </p>
                 </div>
                 <form onSubmit={submit}>
-                    <label className={styles.field}>
-                        Seu e-mail
-                        <input
-                            type="email"
-                            autoComplete="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            disabled={sent || busy}
-                            required
-                            maxLength={200}
-                        />
-                    </label>
+                    {!sent && (
+                        <label className={styles.field}>
+                            Seu e-mail
+                            <input
+                                type="email"
+                                autoComplete="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                disabled={sent || busy}
+                                required
+                                maxLength={200}
+                            />
+                        </label>
+                    )}
                     {sent && (
                         <label className={styles.field}>
                             Código de acesso
@@ -162,6 +164,7 @@ export default function Login({ demo, adminHost, nextPath }) {
                             </button>
                             <button
                                 type="button"
+                                disabled={busy}
                                 onClick={() => {
                                     setSent(false);
                                     setCode("");

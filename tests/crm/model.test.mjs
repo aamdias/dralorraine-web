@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
     patientMetrics,
+    appointmentDraft,
     validatePatient,
     validateAppointment,
     monthsBefore,
@@ -26,6 +27,35 @@ const appointment = {
     status: "Realizado",
     next_return: "2026-10-14"
 };
+test("registering a historical encounter contributes to patient totals and relationships", () => {
+    const draft = appointmentDraft(
+        "p1",
+        { date: "2026-02-20", amount_cents: 85000 },
+        day
+    );
+    const saved = validateAppointment(draft, day);
+    const [metrics] = patientMetrics([p], [saved], day);
+    assert.equal(saved.status, "Realizado");
+    assert.equal(metrics.ltv, 85000);
+    assert.equal(metrics.visits, 1);
+    assert.equal(metrics.last_visit, "2026-02-20");
+});
+test("future bookings and online intakes never imply attendance; explicit status is preserved", () => {
+    assert.equal(
+        appointmentDraft("p1", { date: "2026-10-18" }, day).status,
+        "Agendado"
+    );
+    assert.equal(
+        appointmentDraft(
+            "p1",
+            { source_consultation_id: 10, date: "2026-02-20" },
+            day
+        ).status,
+        "Agendado"
+    );
+    for (const status of ["Agendado", "Cancelado", "Faltou", "Realizado"])
+        assert.equal(appointmentDraft("p1", { status }, day).status, status);
+});
 test("LTV and visits count completed encounters only and flag unknown historical values", () => {
     const [metrics] = patientMetrics(
         [p],
