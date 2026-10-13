@@ -579,8 +579,8 @@ export default function CRM({
                             {initials(user.name)}
                         </span>
                         <div>
-                            <strong>{user.name}</strong>
-                            <small>{user.email}</small>
+                            <strong title={user.name}>{user.name}</strong>
+                            <small title={user.email}>{user.email}</small>
                         </div>
                         <button
                             title="Sair"

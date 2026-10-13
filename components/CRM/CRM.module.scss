@@ -69,11 +69,18 @@
     flex-direction: column;
     padding: 33px 22px;
     z-index: 20;
+    nav {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
 }
 .logo {
     display: block;
     padding: 0 0 28px;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 .sidebarBrand {
     width: 100%;
@@ -88,6 +95,7 @@
     font-size: 12px;
     letter-spacing: 0.2em;
     padding: 0 14px 14px;
+    flex-shrink: 0;
 }
 .navLink {
     @apply text-stone;
@@ -121,6 +129,7 @@
 .sidebarBottom {
     margin-top: auto;
     padding-top: 28px;
+    flex-shrink: 0;
 }
 .privateLabel {
     @apply text-stone;
@@ -142,6 +151,15 @@
     border-top-width: 1px;
     border-top-style: solid;
     padding-top: 22px;
+    > div {
+        min-width: 0;
+    }
+    strong,
+    small {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     strong {
         display: block;
         font-size: 16px;
@@ -149,9 +167,6 @@
     small {
         display: block;
         font-size: 12px;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     button {
         min-width: 44px;
@@ -1380,8 +1395,10 @@
             padding: 0 0 20px;
         }
         nav {
+            flex: initial;
             display: flex;
             overflow-x: auto;
+            overflow-y: hidden;
             scrollbar-width: none;
             &::-webkit-scrollbar {
                 display: none;
