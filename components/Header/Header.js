@@ -6,9 +6,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 const CAREER_NAV_ITEMS = [
-    { name: "Currículo", href: "/curriculo" },
+    { name: "Currículo", href: "/curriculo", exact: true },
     { name: "Resultados", href: "/curriculo#resultados" },
-    { name: "O serviço", href: "/curriculo#servico" }
+    { name: "O serviço", href: "/curriculo#servico" },
+    { name: "Guias", href: "/curriculo/blog" }
 ];
 
 /**
