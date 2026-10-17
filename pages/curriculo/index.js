@@ -1,10 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import {
-    animate,
-    motion,
-    useInView,
-    useReducedMotion
-} from "framer-motion";
+import { Children, isValidElement, useState, useRef, useEffect } from "react";
+import { animate, motion, useInView, useReducedMotion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,6 +9,8 @@ import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { FAQ } from "@components/FAQ";
 import SEO from "@components/SEO/SEO";
+import ArticleCard from "@components/CurriculumBlog/ArticleCard";
+import { CURRICULUM_OFFER } from "@data/curriculum";
 
 const images = [
     "/resume-example-1.png",
@@ -41,6 +38,13 @@ const scores = [
         logo: "/unifesp-sp.png"
     }
 ];
+
+const textContent = (node) =>
+    Children.toArray(node)
+        .map((child) =>
+            isValidElement(child) ? textContent(child.props.children) : child
+        )
+        .join(" ");
 
 const MAX_SCORE = 10;
 const INTEREST_FORM_URL = "/curriculo/interesse";
@@ -137,7 +141,7 @@ const inclusions = [
     "Feito pela mesma pessoa que elaborou o currículo da Dra. Lorraine",
     "Design exclusivo de quem tem experiência em tecnologia",
     "100% personalizado para você e para cada instituição",
-    "Até 3 currículos para 3 instituições diferentes",
+    CURRICULUM_OFFER.scope,
     "Entrega em até 30 dias após coleta dos certificados",
     "30 dias de suporte pós-entrega para ajustes"
 ];
@@ -186,12 +190,16 @@ export default function Curriculo() {
     useEffect(() => {
         const formParams = new URLSearchParams();
         const pageParams = new URLSearchParams(window.location.search);
-        ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
-            const value = pageParams.get(key);
-            if (value) formParams.set(key, value);
-        });
+        ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach(
+            (key) => {
+                const value = pageParams.get(key);
+                if (value) formParams.set(key, value);
+            }
+        );
         const query = formParams.toString();
-        setInterestFormHref(query ? `${INTEREST_FORM_URL}?${query}` : INTEREST_FORM_URL);
+        setInterestFormHref(
+            query ? `${INTEREST_FORM_URL}?${query}` : INTEREST_FORM_URL
+        );
     }, []);
 
     const handleTouchStart = (e) => {
@@ -225,15 +233,14 @@ export default function Curriculo() {
                         text:
                             typeof item.answer === "string"
                                 ? item.answer
-                                : item.answer.props.children.join(" ")
+                                : textContent(item.answer)
                     }
                 }))
             },
             {
                 "@type": "Person",
                 name: "Dra. Lorraine Souza",
-                jobTitle:
-                    "Médica e Mentora para Residência Médica",
+                jobTitle: "Médica e Mentora para Residência Médica",
                 description:
                     "Médica pela UNICAMP, R3 em Dermatologia na UNICAMP e aprovada em 1º lugar, com aprovações em USP-SP, USP-RP e UNIFESP.",
                 address: {
@@ -310,11 +317,10 @@ export default function Curriculo() {
                 },
                 offers: {
                     "@type": "Offer",
-                    price: "2490",
+                    price: String(CURRICULUM_OFFER.price),
                     priceCurrency: "BRL",
                     availability: "https://schema.org/InStock",
-                    description:
-                        "Currículo profissional personalizado para residência médica em instituições de São Paulo (UNICAMP, USP, UNIFESP, PUC)"
+                    description: CURRICULUM_OFFER.scope
                 }
             }
         ]
@@ -332,7 +338,7 @@ export default function Curriculo() {
             </Head>
             <SEO
                 title="Currículo Profissional para Residência Médica | Dra. Lorraine"
-                description="Currículo premium para residência médica em São Paulo. Experiência comprovada com notas 10 em UNICAMP e USP-SP e 9.5 em UNIFESP."
+                description="Currículo para residência médica por R$ 829 por instituição. Organização de experiências e comprovantes, elaboração personalizada, revisão e suporte para ajustes."
                 keywords="currículo residência médica, UNICAMP residência, USP residência, UNIFESP residência, PUC residência"
                 url="/curriculo"
             />
@@ -369,10 +375,12 @@ export default function Curriculo() {
                                     className="mb-14 lg:mb-16"
                                 >
                                     <p className="text-lg text-stone leading-relaxed max-w-lg">
-                                        Um currículo estrategicamente
-                                        elaborado, próximo ao que me levou às
-                                        melhores notas em UNICAMP, USP-SP e
-                                        UNIFESP.
+                                        Um currículo estrategicamente elaborado,
+                                        próximo ao que me levou às melhores
+                                        notas em UNICAMP, USP-SP e UNIFESP. Um
+                                        currículo personalizado para a
+                                        instituição escolhida, por{" "}
+                                        {CURRICULUM_OFFER.label}.
                                     </p>
                                 </MotionBTTContainer>
 
@@ -532,10 +540,9 @@ export default function Curriculo() {
                                         .
                                     </h2>
                                     <p className="text-lg text-stone leading-relaxed max-w-xl">
-                                        A nota de currículo que o mesmo
-                                        processo conquistou nas três
-                                        instituições mais disputadas de São
-                                        Paulo.
+                                        A nota de currículo que o mesmo processo
+                                        conquistou nas três instituições mais
+                                        disputadas de São Paulo.
                                     </p>
                                 </MotionBTTContainer>
                             </div>
@@ -637,8 +644,13 @@ export default function Curriculo() {
                                                         >
                                                             <CountUp
                                                                 value={s.score}
-                                                                decimals={decimals}
-                                                                delay={0.2 + i * 0.15}
+                                                                decimals={
+                                                                    decimals
+                                                                }
+                                                                delay={
+                                                                    0.2 +
+                                                                    i * 0.15
+                                                                }
                                                             />
                                                         </span>
                                                         <span
@@ -650,7 +662,9 @@ export default function Curriculo() {
                                                     </div>
 
                                                     <ScoreBar
-                                                        ratio={s.score / MAX_SCORE}
+                                                        ratio={
+                                                            s.score / MAX_SCORE
+                                                        }
                                                         delay={0.2 + i * 0.15}
                                                         track="bg-paper/20"
                                                         fill="bg-rose"
@@ -682,8 +696,8 @@ export default function Curriculo() {
                                     elaborado, em total conformidade com os
                                     requisitos de cada instituição. As notas
                                     finais dependem do histórico de cada
-                                    candidato. Os resultados acima são
-                                    exemplos reais.
+                                    candidato. Os resultados acima são exemplos
+                                    reais.
                                 </p>
                                 <a
                                     href="#servico"
@@ -718,7 +732,7 @@ export default function Curriculo() {
                                 <h2 className="text-3xl lg:text-5xl font-light leading-[1.1] tracking-[-0.02em] mb-6">
                                     Currículo{" "}
                                     <span className="italic text-rose">
-                                        premium
+                                        para a sua banca
                                     </span>
                                     .
                                 </h2>
@@ -728,9 +742,9 @@ export default function Curriculo() {
                                 transition={{ delay: 0.3, duration: 0.5 }}
                             >
                                 <p className="text-lg text-paper/70 leading-relaxed">
-                                    Um processo colaborativo, conduzido por
-                                    quem conquistou as melhores notas nas
-                                    bancas de São Paulo.
+                                    Um processo colaborativo, conduzido por quem
+                                    conquistou as melhores notas nas bancas de
+                                    São Paulo.
                                 </p>
                             </MotionBTTContainer>
                         </div>
@@ -743,39 +757,35 @@ export default function Curriculo() {
                                     <div className="grid lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 items-start mb-12 pb-12 border-b border-paper/15">
                                         <div>
                                             <div className="text-xs uppercase tracking-[0.24em] text-rose font-medium mb-4">
-                                                Investimento único
+                                                Investimento por currículo
                                             </div>
                                             <div className="flex items-baseline gap-3">
                                                 <span className="text-6xl lg:text-7xl font-light text-paper tracking-tight leading-none">
-                                                    R$ 2.490
+                                                    {CURRICULUM_OFFER.label}
                                                 </span>
                                             </div>
                                             <div className="text-xs uppercase tracking-[0.22em] text-paper/50 font-medium mt-4">
-                                                Até 3 currículos
+                                                Para uma instituição
                                             </div>
                                         </div>
 
                                         <div>
                                             <p className="text-paper/80 leading-relaxed mb-6">
-                                                Currículos personalizados para
-                                                até 3 instituições à sua
-                                                escolha, acompanhados de
+                                                Um currículo personalizado para
+                                                a instituição escolhida, com
+                                                organização dos comprovantes e
                                                 mentoria individual com a Dra.
-                                                Lorraine sobre como valorizar
-                                                sua trajetória.
+                                                Lorraine para valorizar sua
+                                                trajetória.
                                             </p>
-                                            <div className="grid grid-cols-3 gap-2">
-                                                {["Currículo 1", "Currículo 2", "Currículo 3"].map(
-                                                    (label) => (
-                                                        <div
-                                                            key={label}
-                                                            className="border border-paper/15 p-3 text-center text-xs uppercase tracking-[0.18em] text-paper/70 font-medium"
-                                                        >
-                                                            {label}
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
+                                            <p className="text-sm text-paper/70 leading-relaxed mb-0">
+                                                Vai prestar mais de uma
+                                                instituição? Cada currículo é
+                                                contratado individualmente por{" "}
+                                                {CURRICULUM_OFFER.label},
+                                                respeitando o edital de cada
+                                                candidatura.
+                                            </p>
                                         </div>
                                     </div>
 
@@ -788,7 +798,10 @@ export default function Curriculo() {
                                                 key={i}
                                                 className="flex items-start gap-3.5"
                                             >
-                                                <span aria-hidden className="w-3.5 h-px bg-rose mt-[11px] flex-none" />
+                                                <span
+                                                    aria-hidden
+                                                    className="w-3.5 h-px bg-rose mt-[11px] flex-none"
+                                                />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -808,6 +821,36 @@ export default function Curriculo() {
                                 </div>
                             </MotionBTTContainer>
                         </div>
+                    </div>
+                </section>
+
+                <section
+                    className="bg-paper py-20 lg:py-28"
+                    aria-labelledby="curriculum-guides"
+                >
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <p className="text-xs uppercase tracking-label text-copper-dark mb-5">
+                            Currículo em foco
+                        </p>
+                        <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
+                            <h2
+                                id="curriculum-guides"
+                                className="text-4xl sm:text-5xl font-light mb-0 max-w-2xl"
+                            >
+                                Entenda o edital antes de{" "}
+                                <span className="italic">
+                                    organizar o currículo
+                                </span>
+                                .
+                            </h2>
+                            <Link
+                                href="/curriculo/blog"
+                                className="text-sm underline underline-offset-8 decoration-copper py-3"
+                            >
+                                Ver o blog de currículo
+                            </Link>
+                        </div>
+                        <ArticleCard />
                     </div>
                 </section>
 
@@ -880,9 +923,8 @@ export default function Curriculo() {
                                     </h3>
                                     <p className="text-stone leading-relaxed mb-6">
                                         Material completo organizado por
-                                        especialidade, cobrindo Clínica
-                                        Médica, Cirurgia, GO, Pediatria e
-                                        Preventiva.
+                                        especialidade, cobrindo Clínica Médica,
+                                        Cirurgia, GO, Pediatria e Preventiva.
                                     </p>
                                     <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors">
                                         Conhecer as anotações
@@ -934,6 +976,10 @@ export default function Curriculo() {
 
 const faqItems = [
     {
+        question: "Quanto custa um currículo para residência médica?",
+        answer: `${CURRICULUM_OFFER.label} por currículo, personalizado para uma instituição. A contratação inclui elaboração, revisão e 30 dias de suporte pós-entrega para ajustes. Para outras instituições, cada currículo é contratado individualmente pelo mesmo valor.`
+    },
+    {
         question:
             "Quais documentos preciso anexar ao meu currículo para residência médica?",
         answer: (
@@ -957,7 +1003,9 @@ const faqItems = [
                         universitária, especializações, workshops
                     </li>
                     <li>
-                        <strong>Comprovantes de participação em eventos:</strong>{" "}
+                        <strong>
+                            Comprovantes de participação em eventos:
+                        </strong>{" "}
                         congressos, simpósios, jornadas científicas
                     </li>
                     <li>
@@ -970,9 +1018,9 @@ const faqItems = [
                 </ul>
                 <p className="mt-3">
                     <strong>Dica importante:</strong> mantenha todos os
-                    documentos digitalizados em alta resolução e organizados
-                    por categoria. Nosso serviço assume que a pessoa
-                    interessada possui os documentos legítimos.
+                    documentos digitalizados em alta resolução e organizados por
+                    categoria. Nosso serviço assume que a pessoa interessada
+                    possui os documentos legítimos.
                 </p>
             </div>
         )
@@ -995,10 +1043,10 @@ const faqItems = [
                 <p>
                     Desde 2024, atua no Jusbrasil desenvolvendo soluções de IA
                     para apoiar advogados na pesquisa jurídica. Atualmente, é
-                    gerente de produto do Jus IA, assistente jurídico baseado
-                    em inteligência artificial generativa que transforma a
-                    forma como profissionais do Direito acessam e utilizam
-                    informação jurídica.
+                    gerente de produto do Jus IA, assistente jurídico baseado em
+                    inteligência artificial generativa que transforma a forma
+                    como profissionais do Direito acessam e utilizam informação
+                    jurídica.
                 </p>
                 <p className="mt-3">
                     <strong>Por que isso importa?</strong> Alan combina
@@ -1031,15 +1079,16 @@ const faqItems = [
                     </li>
                 </ul>
                 <p className="mt-3">
-                    Oferecemos até 3 currículos personalizados para diferentes
-                    instituições, respeitando as particularidades de cada uma.
+                    Cada contratação inclui um currículo personalizado para uma
+                    instituição, respeitando as particularidades do edital. Para
+                    outras instituições, você pode contratar currículos
+                    adicionais.
                 </p>
                 <p className="mt-2">
                     <strong>Atenção:</strong> as notas finais dependem do
                     histórico acadêmico e profissional individual de cada
-                    candidato. Garantimos a qualidade profissional do
-                    documento e a conformidade com os requisitos
-                    institucionais.
+                    candidato. Garantimos a qualidade profissional do documento
+                    e a conformidade com os requisitos institucionais.
                 </p>
             </div>
         )
@@ -1047,8 +1096,7 @@ const faqItems = [
     {
         question:
             "Quanto tempo leva para fazer um currículo profissional para residência?",
-        answer:
-            "O processo leva em média 20 a 30 dias após a coleta completa de todos os certificados e documentos. Este prazo inclui: (1) encontro inicial para entendimento do seu contexto, (2) análise e organização da documentação, (3) elaboração do design e estruturação do conteúdo, (4) revisões e ajustes, (5) entrega final com suporte de 30 dias. É importante iniciar o processo com antecedência em relação aos prazos de inscrição."
+        answer: "O processo leva em média 20 a 30 dias após a coleta completa de todos os certificados e documentos. Este prazo inclui: (1) encontro inicial para entendimento do seu contexto, (2) análise e organização da documentação, (3) elaboração do design e estruturação do conteúdo, (4) revisões e ajustes, (5) entrega final com suporte de 30 dias. É importante iniciar o processo com antecedência em relação aos prazos de inscrição."
     },
     {
         question: "Vale a pena investir em um currículo profissional?",
@@ -1063,13 +1111,13 @@ const faqItems = [
                     </li>
                     <li>
                         <strong>Valorização adequada:</strong> um currículo bem
-                        estruturado garante que nenhuma atividade relevante
-                        seja subestimada
+                        estruturado garante que nenhuma atividade relevante seja
+                        subestimada
                     </li>
                     <li>
                         <strong>Economia de tempo:</strong> evita retrabalho e
-                        garante que o documento esteja correto desde a
-                        primeira entrega
+                        garante que o documento esteja correto desde a primeira
+                        entrega
                     </li>
                     <li>
                         <strong>Experiência comprovada:</strong> prestado pela
@@ -1077,8 +1125,9 @@ const faqItems = [
                         melhores notas nas bancas
                     </li>
                     <li>
-                        <strong>Investimento único:</strong> R$ 2.490 por um
-                        serviço que pode definir sua carreira médica
+                        <strong>Investimento por currículo:</strong>{" "}
+                        {CURRICULUM_OFFER.label} para uma instituição, com
+                        elaboração personalizada, revisão e suporte para ajustes
                     </li>
                 </ul>
             </div>
@@ -1092,13 +1141,13 @@ const faqItems = [
                 <ol className="list-decimal pl-6 space-y-3">
                     <li>
                         <strong>Preenchimento de formulário:</strong> você
-                        preenche o formulário de interesse com suas
-                        informações básicas
+                        preenche o formulário de interesse com suas informações
+                        básicas
                     </li>
                     <li>
-                        <strong>Contato individual:</strong> entramos em
-                        contato via WhatsApp para tirar dúvidas e escolher o
-                        método de pagamento
+                        <strong>Contato individual:</strong> entramos em contato
+                        via WhatsApp para tirar dúvidas e escolher o método de
+                        pagamento
                     </li>
                     <li>
                         <strong>Contratação:</strong> assinatura do contrato e
@@ -1106,21 +1155,19 @@ const faqItems = [
                     </li>
                     <li>
                         <strong>Mentoria com Dra. Lô:</strong> agendamento de
-                        mentoria para te ajudar a se planejar para a
-                        residência
+                        mentoria para te ajudar a se planejar para a residência
                     </li>
                     <li>
-                        <strong>Coleta de informações:</strong> início da
-                        coleta e preparação dos currículos
+                        <strong>Coleta de informações:</strong> início da coleta
+                        e preparação do currículo
                     </li>
                     <li>
                         <strong>Revisões colaborativas:</strong> reuniões e
-                        checkpoints para revisar os currículos em andamento
+                        checkpoints para revisar o currículo em andamento
                     </li>
                     <li>
-                        <strong>Entrega final:</strong> entrega de cada
-                        currículo em PDF em até 30 dias após o envio dos
-                        dados necessários
+                        <strong>Entrega final:</strong> entrega do currículo em
+                        PDF em até 30 dias após o envio dos dados necessários
                     </li>
                 </ol>
                 <p className="mt-3">

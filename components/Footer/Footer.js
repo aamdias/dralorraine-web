@@ -26,7 +26,8 @@ const NAV_COLUMNS = [
         items: [
             { label: "Mentoria", href: "/mentoria" },
             { label: "Anotações", href: "/anotacoes" },
-            { label: "Currículo", href: "/curriculo" }
+            { label: "Currículo", href: "/curriculo" },
+            { label: "Guias de currículo", href: "/curriculo/blog" }
         ]
     },
     {
@@ -54,7 +55,8 @@ const CAREER_NAV_COLUMNS = [
         title: "Currículo para residência",
         items: [
             { label: "Resultados", href: "/curriculo#resultados" },
-            { label: "Conheça o serviço", href: "/curriculo#servico" }
+            { label: "Conheça o serviço", href: "/curriculo#servico" },
+            { label: "Blog de currículo", href: "/curriculo/blog" }
         ]
     },
     {

@@ -33,7 +33,10 @@ export const NAV_ITEMS = [
 
 export const useIsActive = () => {
     const router = useRouter();
-    return (href) => href === "/" ? router.pathname === "/" : router.pathname.startsWith(href);
+    return (href, exact = false) =>
+        exact || href === "/"
+            ? router.pathname === href
+            : router.pathname.startsWith(href);
 };
 
 const ChevronDown = ({ className = "" }) => (
@@ -88,7 +91,7 @@ export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
         <nav ref={navRef} className="hidden lg:block" aria-label="Navegação principal">
             <ul className="flex items-center gap-5 list-none m-0 p-0 whitespace-nowrap">
                 {items.map((item) => {
-                    const active = isActive(item.href);
+                    const active = isActive(item.href, item.exact);
 
                     if (!item.children) {
                         return (
@@ -190,7 +193,7 @@ export const MobileNav = ({ isOpen, onNavigate, items = NAV_ITEMS, ctaHref = "/c
             <nav aria-label="Navegação principal" className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
                 <ul className="list-none m-0 p-0">
                     {items.map((item) => {
-                        const active = isActive(item.href);
+                        const active = isActive(item.href, item.exact);
 
                         if (!item.children) {
                             return (
