@@ -109,7 +109,7 @@ export default function Home() {
                     dobra leem como um bloco só. Papel prensado: gradiente
                     quente + grão + um halo de cobre atrás do retrato.
                     Nada de sombra — ver docs/brandbook.md §04. */}
-                <section className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-[7.5rem] lg:pb-20">
+                <section className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-[7.5rem] lg:pb-20 2xl:flex 2xl:min-h-[clamp(48rem,calc(100svh-12.5rem),60rem)] 2xl:items-center 2xl:pt-36">
                     <div
                         aria-hidden
                         className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
@@ -133,8 +133,8 @@ export default function Home() {
                         className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
                     />
 
-                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 items-center">
+                    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:max-w-[1440px]">
+                        <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 2xl:gap-24 items-center">
                             {/* Fio de margem: âncora editorial da coluna de texto */}
                             <div
                                 aria-hidden
@@ -166,7 +166,7 @@ export default function Home() {
                                     transition={{ delay: 0.3, duration: 0.6 }}
                                     className="mb-10 lg:mb-11"
                                 >
-                                    <p className="text-lg text-stone leading-[1.7] max-w-lg">
+                                    <p className="text-lg text-stone leading-[1.7] max-w-lg 2xl:max-w-xl">
                                         Sou médica pela UNICAMP e R3 em
                                         Dermatologia na UNICAMP. Atendo no
                                         consultório, em Campinas, e por
@@ -201,7 +201,7 @@ export default function Home() {
                             >
                                 {/* Fio de canto + tinta de cobre: enquadramento
                                     editorial, sem sombra (brandbook §04/§05). */}
-                                <div className="relative max-w-[420px] mx-auto lg:max-w-[440px] lg:mr-0 lg:ml-auto">
+                                <div className="relative max-w-[420px] mx-auto lg:max-w-[440px] lg:mr-0 lg:ml-auto 2xl:max-w-[min(30rem,45svh)]">
                                     <div
                                         aria-hidden
                                         className="absolute -inset-4 lg:-inset-7 bg-copper/[0.08]"
@@ -221,7 +221,7 @@ export default function Home() {
                                             fill
                                             className="object-cover"
                                             priority
-                                            sizes="(max-width: 1024px) 90vw, 40vw"
+                                            sizes="(min-width: 1536px) min(480px, 45svh), (min-width: 1024px) 440px, (min-width: 640px) 420px, calc(100vw - 32px)"
                                         />
                                     </div>
                                 </div>
@@ -232,7 +232,7 @@ export default function Home() {
 
                 {/* ============ STATS STRIP ============ */}
                 <section className="bg-paper">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 2xl:max-w-[1440px]">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
                             {stats.map((s, i) => (
                                 <MotionBTTContainer

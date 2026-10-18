@@ -92,7 +92,7 @@ export const Header = ({ careerPage = false }) => {
                     : "bg-paper border-b border-transparent"
             }`}
         >
-            <SectionContainer className="header--container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+            <SectionContainer className={`header--container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 ${router.pathname === "/" ? "2xl:max-w-[1440px]" : ""}`}>
                 <div className="header-logo--container">
                     <Link
                         href="/"
