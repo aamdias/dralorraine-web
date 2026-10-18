@@ -142,7 +142,7 @@ const inclusions = [
     "Design exclusivo de quem tem experiência em tecnologia",
     "100% personalizado para você e para cada instituição",
     CURRICULUM_OFFER.scope,
-    "Entrega em até 30 dias após coleta dos certificados",
+    "Entrega em até 15 dias após coleta dos certificados",
     "30 dias de suporte pós-entrega para ajustes"
 ];
 
@@ -338,7 +338,7 @@ export default function Curriculo() {
             </Head>
             <SEO
                 title="Currículo Profissional para Residência Médica | Dra. Lorraine"
-                description="Currículo para residência médica por R$ 829 por instituição. Organização de experiências e comprovantes, elaboração personalizada, revisão e suporte para ajustes."
+                description={`Currículo para residência médica por ${CURRICULUM_OFFER.label} por instituição. Organização de experiências e comprovantes, elaboração personalizada, revisão e suporte para ajustes.`}
                 keywords="currículo residência médica, UNICAMP residência, USP residência, UNIFESP residência, PUC residência"
                 url="/curriculo"
             />
@@ -1096,7 +1096,7 @@ const faqItems = [
     {
         question:
             "Quanto tempo leva para fazer um currículo profissional para residência?",
-        answer: "O processo leva em média 20 a 30 dias após a coleta completa de todos os certificados e documentos. Este prazo inclui: (1) encontro inicial para entendimento do seu contexto, (2) análise e organização da documentação, (3) elaboração do design e estruturação do conteúdo, (4) revisões e ajustes, (5) entrega final com suporte de 30 dias. É importante iniciar o processo com antecedência em relação aos prazos de inscrição."
+        answer: "O processo leva até 15 dias após a coleta completa de todos os certificados e documentos. Este prazo inclui: (1) encontro inicial para entendimento do seu contexto, (2) análise e organização da documentação, (3) elaboração do design e estruturação do conteúdo, (4) revisões e ajustes, (5) entrega final com suporte de 30 dias. É importante iniciar o processo com antecedência em relação aos prazos de inscrição."
     },
     {
         question: "Vale a pena investir em um currículo profissional?",
@@ -1167,7 +1167,7 @@ const faqItems = [
                     </li>
                     <li>
                         <strong>Entrega final:</strong> entrega do currículo em
-                        PDF em até 30 dias após o envio dos dados necessários
+                        PDF em até 15 dias após o envio dos dados necessários
                     </li>
                 </ol>
                 <p className="mt-3">

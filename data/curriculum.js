@@ -1,6 +1,6 @@
 export const CURRICULUM_OFFER = {
-    price: 829,
-    label: "R$ 829",
+    price: 799,
+    label: "R$ 799",
     unit: "por currículo",
     scope: "Um currículo personalizado para uma instituição"
 };

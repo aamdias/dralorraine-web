@@ -52,6 +52,26 @@ const ChevronDown = ({ className = "" }) => (
     </svg>
 );
 
+const ExternalLinkIndicator = () => (
+    <span className="inline-flex shrink-0">
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+        >
+            <path d="M10 4H4v16h16v-6" />
+            <path d="M14 4h6v6M20 4l-9 9" />
+        </svg>
+        <span className="sr-only"> (abre em nova aba)</span>
+    </span>
+);
+
 const navItemClass = (active, isTransparent) => `relative inline-flex h-11 items-center text-[15px] transition-colors duration-200 ${
     isTransparent
         ? active ? "text-paper" : "text-paper/70 hover:text-paper"
@@ -146,7 +166,7 @@ export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
                                                     >
                                                         <span>{child.name}</span>
                                                         {index === 0 && <span className="text-[10px] uppercase tracking-label text-stone">Todos</span>}
-                                                        {child.external && <span aria-label="Abre em nova aba">↗</span>}
+                                                        {child.external && <ExternalLinkIndicator />}
                                                     </Link>
                                                 </li>
                                             );
@@ -232,12 +252,12 @@ export const MobileNav = ({ isOpen, onNavigate, items = NAV_ITEMS, ctaHref = "/c
                                                         rel={child.external ? "noopener noreferrer" : undefined}
                                                         onClick={onNavigate}
                                                         aria-current={childActive ? "page" : undefined}
-                                                        className={`flex min-h-[3.25rem] items-center px-8 py-3 sm:px-10 text-[15px] leading-6 transition-colors ${
+                                                        className={`flex min-h-[3.25rem] items-center justify-between gap-4 px-8 py-3 sm:px-10 text-[15px] leading-6 transition-colors ${
                                                             childActive ? "font-medium text-copper-dark" : "text-stone hover:text-copper-dark"
                                                         }`}
                                                     >
                                                         {child.name}
-                                                        {child.external && <span className="ml-2" aria-label="Abre em nova aba">↗</span>}
+                                                        {child.external && <ExternalLinkIndicator />}
                                                     </Link>
                                                 </li>
                                             );
