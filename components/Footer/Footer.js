@@ -85,8 +85,8 @@ export const Footer = ({ careerPage = false }) => {
                     {/* Identity */}
                     <div className="lg:col-span-5">
                         <Link
-                            href={careerPage ? "/curriculo" : "/"}
-                            aria-label={careerPage ? "Ir para o início da página de currículo" : "Ir para a página inicial"}
+                            href="/"
+                            aria-label="Ir para a página inicial"
                             className="inline-block"
                         >
                             <Logo
