@@ -23,7 +23,7 @@ export default function InteresseCurriculo({ formUrl }) {
 }
 
 export function getServerSideProps({ query }) {
-    const formUrl = new URL("https://tally.so/r/EkjBgl");
+    const formUrl = new URL("https://tally.so/embed/EkjBgl");
     formUrl.searchParams.set("transparentBackground", "1");
     formUrl.searchParams.set("originPage", "/curriculo/interesse");
     ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
