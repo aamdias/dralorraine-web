@@ -7,6 +7,12 @@ import { useRouter } from "next/router";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import {
+    initializeCurriculumAds,
+    trackCurriculumAdsPage,
+    trackCurriculumClick,
+    trackCurriculumPage
+} from "@utils/curriculumTracking.mjs";
+import {
     initializeOpenAIPixel,
     trackConsultationBookingClick
 } from "@utils/openaiPixel";
@@ -26,21 +32,37 @@ function Marketing({ children }) {
             });
         let disposed = false,
             pixel;
+        const curriculumClick = (event) => trackCurriculumClick(pixel, event);
+        document.addEventListener("click", curriculumClick, true);
+        initializeCurriculumAds();
         const pageView = (url) => {
-            if (!disposed && !url.startsWith("/admin")) pixel?.pageView();
+            if (!disposed && !url.startsWith("/admin")) {
+                pixel?.pageView();
+                trackCurriculumAdsPage(url);
+                trackCurriculumPage(pixel, url);
+            }
         };
+        pageView(window.location.pathname);
+        router.events.on("routeChangeComplete", pageView);
         import("react-facebook-pixel").then((module) => {
             if (disposed) return;
             pixel = module.default;
-            pixel.init("429829449584135", null, {
+            pixel.init("942080827985314", null, {
                 autoConfig: true,
                 debug: false
             });
             pixel.pageView();
-            router.events.on("routeChangeComplete", pageView);
+            if (
+                window.location.pathname.replace(/\/$/, "") ===
+                "/curriculo/interesse"
+            )
+                pixel.trackCustom("CurriculumInterest", {
+                    content_name: "Currículo"
+                });
         });
         return () => {
             disposed = true;
+            document.removeEventListener("click", curriculumClick, true);
             document.removeEventListener(
                 "click",
                 trackConsultationBookingClick,
