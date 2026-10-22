@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import {
+    createCurriculumSubmissionTracker,
     initializeCurriculumAds,
     trackCurriculumAdsPage,
     trackCurriculumClick,
@@ -34,6 +35,12 @@ function Marketing({ children }) {
             pixel;
         const curriculumClick = (event) => trackCurriculumClick(pixel, event);
         document.addEventListener("click", curriculumClick, true);
+        const curriculumSubmission = createCurriculumSubmissionTracker(
+            process.env.NEXT_PUBLIC_POSTHOG_KEY
+                ? (name, parameters) => posthog.capture(name, parameters)
+                : undefined
+        );
+        window.addEventListener("message", curriculumSubmission);
         initializeCurriculumAds();
         const pageView = (url) => {
             if (!disposed && !url.startsWith("/admin")) {
@@ -63,6 +70,7 @@ function Marketing({ children }) {
         return () => {
             disposed = true;
             document.removeEventListener("click", curriculumClick, true);
+            window.removeEventListener("message", curriculumSubmission);
             document.removeEventListener(
                 "click",
                 trackConsultationBookingClick,
