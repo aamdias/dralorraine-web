@@ -11,6 +11,7 @@ export default function InteresseCurriculo({ formUrl }) {
             />
             <main className="fixed inset-0 bg-paper">
                 <iframe
+                    data-curriculum-form="EkjBgl"
                     src={formUrl}
                     title="Interesse em currículo para residência médica"
                     className="block h-full w-full border-0"
@@ -26,11 +27,13 @@ export function getServerSideProps({ query }) {
     const formUrl = new URL("https://tally.so/embed/EkjBgl");
     formUrl.searchParams.set("transparentBackground", "1");
     formUrl.searchParams.set("originPage", "/curriculo/interesse");
-    ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
-        if (typeof query[key] === "string") {
-            formUrl.searchParams.set(key, query[key]);
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content"].forEach(
+        (key) => {
+            if (typeof query[key] === "string") {
+                formUrl.searchParams.set(key, query[key]);
+            }
         }
-    });
+    );
 
     return { props: { formUrl: formUrl.toString() } };
 }
