@@ -10,7 +10,9 @@ const SECTIONS = [
     "reativacao",
     "aniversarios",
     "ranking",
-    "online"
+    "online",
+    "estoque",
+    "receitas"
 ];
 export async function getServerSideProps(ctx) {
     privateHeaders(ctx.res);
@@ -71,7 +73,7 @@ export async function getServerSideProps(ctx) {
                 adminHost,
                 section: parts[0] || "overview",
                 patientId: parts[1] || null,
-                error: "Não foi possível carregar o CRM. Verifique a conexão e execute a migração 003_crm.sql."
+                error: "Não foi possível carregar o CRM. Verifique a conexão e execute as migrações 003_crm.sql e 004_inventory_prescriptions.sql."
             }
         };
     }

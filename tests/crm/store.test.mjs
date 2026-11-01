@@ -10,10 +10,17 @@ test("Postgres migration and CRM writes preserve history, consent, audit records
         for (const file of [
             "001_consultations.sql",
             "002_provider_neutral_payment_scheduling.sql",
-            "003_crm.sql"
+            "003_crm.sql",
+            "004_inventory_prescriptions.sql"
         ])
             await db.exec(await readFile(new URL(file, root), "utf8"));
         await db.exec(await readFile(new URL("003_crm.sql", root), "utf8"));
+        await db.exec(
+            await readFile(
+                new URL("004_inventory_prescriptions.sql", root),
+                "utf8"
+            )
+        );
         const store = createStore({
             demo: () => false,
             connect: async () => ({

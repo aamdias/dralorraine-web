@@ -159,13 +159,13 @@ export class ValidationError extends Error {
         this.status = 400;
     }
 }
-function textField(value, max = 200) {
+export function textField(value, max = 200) {
     if (value == null || value === "") return null;
     if (typeof value !== "string" || value.length > max)
         throw new ValidationError("Texto inválido ou muito longo.");
     return value.trim() || null;
 }
-function dateField(value) {
+export function dateField(value) {
     if (!value) return null;
     if (
         typeof value !== "string" ||
@@ -180,7 +180,7 @@ function choice(value, choices) {
     if (!choices.includes(value)) throw new ValidationError("Opção inválida.");
     return value;
 }
-function idField(value) {
+export function idField(value) {
     if (!value) return null;
     if (typeof value !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(value))
         throw new ValidationError("Identificador inválido.");

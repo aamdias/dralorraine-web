@@ -30,7 +30,9 @@ import {
     FiLogOut,
     FiShield,
     FiCheck,
-    FiChevronRight
+    FiChevronRight,
+    FiPackage,
+    FiFileText
 } from "react-icons/fi";
 import { Logo } from "@components/Logo";
 import {
@@ -48,11 +50,14 @@ import {
     MODALITIES
 } from "@utils/crm/model.mjs";
 import styles from "./CRM.module.scss";
+import CareWorkspace, { UsageEditor } from "./Care";
 
 const NAV = [
     ["overview", "Visão geral", FiGrid, ""],
     ["pacientes", "Pacientes", FiUsers, "pacientes"],
     ["atendimentos", "Atendimentos", FiCalendar, "atendimentos"],
+    ["estoque", "Estoque", FiPackage, "estoque"],
+    ["receitas", "Receitas", FiFileText, "receitas"],
     ["retornos", "Retornos", FiRefreshCw, "retornos"],
     ["reativacao", "Reativação", FiClock, "reativacao"],
     ["aniversarios", "Aniversários", FiGift, "aniversarios"],
@@ -245,6 +250,12 @@ export default function CRM({
                     ? "Paciente cadastrado."
                     : entity === "intake-link"
                     ? "Consulta vinculada ao paciente."
+                    : entity === "product"
+                    ? "Produto cadastrado."
+                    : entity === "purchase"
+                    ? "Compra registrada."
+                    : entity === "prescription"
+                    ? "Receita emitida."
                     : "Atendimento registrado."
             );
             return result;
@@ -811,7 +822,26 @@ export default function CRM({
                                         )
                                     )
                             )}
+                            <CareWorkspace
+                                key={patient.id}
+                                mode="recipes"
+                                embedded
+                                patientId={patient.id}
+                                data={data}
+                                globalError={error}
+                                onSave={save}
+                                Drawer={Drawer}
+                            />
                         </>
+                    ) : ["estoque", "receitas"].includes(section) ? (
+                        <CareWorkspace
+                            key={section}
+                            mode={section === "estoque" ? "stock" : "recipes"}
+                            data={data}
+                            globalError={error}
+                            onSave={save}
+                            Drawer={Drawer}
+                        />
                     ) : section === "overview" ? (
                         <>
                             <div className={styles.pageHeading}>
@@ -1316,6 +1346,7 @@ export default function CRM({
                         key="editor"
                         modal={modal}
                         patients={patients}
+                        data={data}
                         busy={busy}
                         error={error}
                         onClose={() => {
@@ -1660,9 +1691,17 @@ function Choice({
         </div>
     );
 }
-function Editor({ modal, patients, busy, error, onClose, onSave }) {
+function Editor({ modal, patients, data, busy, error, onClose, onSave }) {
     const [validationError, setValidationError] = useState("");
-    const [record, setRecord] = useState(modal.record),
+    const [record, setRecord] = useState(() => ({
+            ...modal.record,
+            usages: (data.usages || [])
+                .filter((u) => u.appointment_id === modal.record.id)
+                .map((u) => ({
+                    purchase_id: u.purchase_id,
+                    quantity: u.quantity
+                }))
+        })),
         [amount, setAmount] = useState(
             modal.record.amount_cents == null
                 ? ""
@@ -1934,6 +1973,23 @@ function Editor({ modal, patients, busy, error, onClose, onSave }) {
                                             options={PAYMENTS}
                                         />
                                     </Field>
+                                </FormSection>
+                                <FormSection
+                                    title="Produtos utilizados"
+                                    description="Acompanhe o custo dos produtos aplicados neste atendimento."
+                                >
+                                    <div className={styles.wide}>
+                                        <UsageEditor
+                                            record={record}
+                                            data={data}
+                                            onChange={(usages) =>
+                                                setRecord((s) => ({
+                                                    ...s,
+                                                    usages
+                                                }))
+                                            }
+                                        />
+                                    </div>
                                 </FormSection>
                                 <FormSection title="Continuidade do cuidado">
                                     <Field

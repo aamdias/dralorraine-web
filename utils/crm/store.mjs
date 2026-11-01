@@ -4,6 +4,13 @@ import path from "node:path";
 import { sql } from "@vercel/postgres";
 import { isDemo } from "./runtime.mjs";
 import {
+    validateProduct,
+    validatePurchase,
+    validatePrescription,
+    validateUsage,
+    quantity
+} from "./care.mjs";
+import {
     validatePatient,
     validateAppointment,
     ValidationError
@@ -114,6 +121,15 @@ export function createStore({
                 demo: true,
                 patients: s.patients,
                 appointments: s.appointments,
+                products: (s.products || []).map(({ image, ...p }) => ({
+                    ...p,
+                    has_image: Boolean(image)
+                })),
+                purchases: s.purchases || [],
+                usages: s.usages || [],
+                prescriptions: (s.prescriptions || []).map(
+                    ({ items, conduct, ...row }) => row
+                ),
                 intakes: s.intakes.map((i) =>
                     summaryIntake({
                         ...i,
@@ -135,10 +151,26 @@ export function createStore({
                 "SELECT c.id,c.name,c.email,c.phone,c.created_at,c.status,c.payment_status,c.payment_paid_at,c.paid_at,c.scheduling_status,c.scheduled_at,l.patient_id,a.id AS appointment_id FROM consultations c LEFT JOIN crm_intake_links l ON l.consultation_id=c.id LEFT JOIN crm_appointments a ON a.source_consultation_id=c.id ORDER BY c.created_at DESC"
             );
             await audit(client, actor, "view", "workspace", null);
+            const products = await client.query(
+                "SELECT id,name,brand,unit,image_source,revision,created_at,updated_at,(image IS NOT NULL) AS has_image FROM crm_products ORDER BY name"
+            );
+            const purchases = await client.query(
+                "SELECT *,quantity::float8 AS quantity,purchased_on::text AS purchased_on,expires_on::text AS expires_on FROM crm_purchases ORDER BY crm_purchases.purchased_on,id"
+            );
+            const usages = await client.query(
+                "SELECT *,quantity::float8 AS quantity FROM crm_product_usages ORDER BY id"
+            );
+            const prescriptions = await client.query(
+                "SELECT id,appointment_id,patient_id,patient_name,date::text AS date,title,doctor,registration,qualification,created_at,created_by FROM crm_prescriptions ORDER BY created_at DESC"
+            );
             return serialize({
                 demo: false,
                 patients: patients.rows,
                 appointments: appointments.rows,
+                products: products.rows,
+                purchases: purchases.rows,
+                usages: usages.rows,
+                prescriptions: prescriptions.rows,
                 intakes: intakes.rows.map(summaryIntake)
             });
         });
@@ -241,6 +273,8 @@ export function createStore({
     }
     async function saveAppointment(input, actor, id = null, expected = null) {
         const record = validateAppointment(input);
+        const requestedUsage =
+            input.usages === undefined ? null : validateUsage(input.usages);
         const target = id || randomUUID();
         const source =
             input.source_consultation_id == null
@@ -256,6 +290,27 @@ export function createStore({
             return demoWrite((s) => {
                 const old = s.appointments.find((a) => a.id === target);
                 if (id) assertVersion(old, expected);
+                const issued = (s.prescriptions || []).some(
+                    (r) => r.appointment_id === target
+                );
+                if (
+                    issued &&
+                    (record.patient_id !== old.patient_id ||
+                        record.status !== "Realizado")
+                )
+                    throw failure(
+                        "Atendimento com receita emitida deve manter o paciente e o status Realizado."
+                    );
+                const usages = buildUsages(
+                    requestedUsage ||
+                        (s.usages || []).filter(
+                            (u) => u.appointment_id === target
+                        ),
+                    s.purchases || [],
+                    s.usages || [],
+                    target,
+                    record
+                );
                 if (!s.patients.some((p) => p.id === record.patient_id))
                     throw new ValidationError("Paciente não encontrado.");
                 if (
@@ -294,6 +349,12 @@ export function createStore({
                 };
                 if (old) s.appointments[s.appointments.indexOf(old)] = row;
                 else s.appointments.push(row);
+                s.usages = [
+                    ...(s.usages || []).filter(
+                        (u) => u.appointment_id !== target
+                    ),
+                    ...usages
+                ];
                 demoAudit(
                     s,
                     actor,
@@ -313,6 +374,18 @@ export function createStore({
                   ).rows[0]
                 : null;
             if (id) assertVersion(old, expected);
+            const issued = await client.query(
+                "SELECT id FROM crm_prescriptions WHERE appointment_id=$1 LIMIT 1",
+                [target]
+            );
+            if (
+                issued.rowCount &&
+                (record.patient_id !== old.patient_id ||
+                    record.status !== "Realizado")
+            )
+                throw failure(
+                    "Atendimento com receita emitida deve manter o paciente e o status Realizado."
+                );
             if (
                 old?.source_consultation_id &&
                 (old.source_consultation_id !== source ||
@@ -364,6 +437,30 @@ export function createStore({
                     "INSERT INTO crm_appointments(id,patient_id,date,procedure,modality,amount_cents,payment_method,status,next_return,source_consultation_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
                     values
                 );
+            // Serialize consumption against purchases to prevent concurrent stock overdrafts.
+            const lots = await client.query(
+                "SELECT *,quantity::float8 AS quantity,purchased_on::text AS purchased_on,expires_on::text AS expires_on FROM crm_purchases ORDER BY id FOR UPDATE"
+            );
+            const previous = await client.query(
+                "SELECT *,quantity::float8 AS quantity FROM crm_product_usages"
+            );
+            const usages = buildUsages(
+                requestedUsage ||
+                    previous.rows.filter((u) => u.appointment_id === target),
+                lots.rows,
+                previous.rows,
+                target,
+                record
+            );
+            await client.query(
+                "DELETE FROM crm_product_usages WHERE appointment_id=$1",
+                [target]
+            );
+            for (const u of usages)
+                await client.query(
+                    "INSERT INTO crm_product_usages(id,appointment_id,purchase_id,quantity,cost_cents) VALUES($1,$2,$3,$4,$5)",
+                    [u.id, target, u.purchase_id, u.quantity, u.cost_cents]
+                );
             await audit(
                 client,
                 actor,
@@ -372,6 +469,295 @@ export function createStore({
                 target
             );
             return { id: target };
+        });
+    }
+    function buildUsages(
+        requested,
+        purchases,
+        previous,
+        appointmentId,
+        appointment
+    ) {
+        if (
+            requested.length &&
+            (appointment.status !== "Realizado" || !appointment.date)
+        )
+            throw new ValidationError(
+                "Consumo exige atendimento Realizado com data. Remova o consumo para alterar o status."
+            );
+        return requested.map((item) => {
+            const lot = purchases.find((l) => l.id === item.purchase_id);
+            if (!lot) throw new ValidationError("Lote não encontrado.");
+            if (
+                lot.purchased_on > appointment.date ||
+                (lot.expires_on && lot.expires_on < appointment.date)
+            )
+                throw new ValidationError(
+                    "O lote precisa estar comprado e válido na data do atendimento."
+                );
+            const used = previous
+                .filter(
+                    (u) =>
+                        u.purchase_id === lot.id &&
+                        u.appointment_id !== appointmentId
+                )
+                .reduce((n, u) => n + Number(u.quantity), 0);
+            if (quantity(used + item.quantity) > Number(lot.quantity))
+                throw failure(
+                    "Estoque insuficiente neste lote. Confira o saldo atualizado."
+                );
+            const priorCost = previous
+                .filter(
+                    (u) =>
+                        u.purchase_id === lot.id &&
+                        u.appointment_id !== appointmentId
+                )
+                .reduce((n, u) => n + u.cost_cents, 0);
+            const cost = Math.min(
+                lot.cost_cents - priorCost,
+                Math.max(
+                    0,
+                    Math.round(
+                        ((used + item.quantity) * lot.cost_cents) /
+                            Number(lot.quantity)
+                    ) - priorCost
+                )
+            );
+            return {
+                id: randomUUID(),
+                appointment_id: appointmentId,
+                purchase_id: item.purchase_id,
+                quantity: item.quantity,
+                cost_cents: cost
+            };
+        });
+    }
+    async function saveProduct(input, actor, id = null, expected = null) {
+        const record = validateProduct(input),
+            target = id || randomUUID();
+        if (demo())
+            return demoWrite((s) => {
+                s.products ||= [];
+                const old = s.products.find((p) => p.id === target);
+                if (id) assertVersion(old, expected);
+                if (
+                    old &&
+                    old.unit !== record.unit &&
+                    (s.purchases || []).some((p) => p.product_id === target)
+                )
+                    throw failure("A unidade não pode mudar após uma compra.");
+                const row = {
+                    ...record,
+                    id: target,
+                    revision: (old?.revision || 0) + 1
+                };
+                if (old) s.products[s.products.indexOf(old)] = row;
+                else s.products.push(row);
+                demoAudit(
+                    s,
+                    actor,
+                    id ? "update" : "create",
+                    "product",
+                    target
+                );
+                return { id: target };
+            });
+        return transaction(async (client) => {
+            const old = (
+                await client.query(
+                    "SELECT * FROM crm_products WHERE id=$1 FOR UPDATE",
+                    [target]
+                )
+            ).rows[0];
+            if (id) assertVersion(old, expected);
+            if (
+                old &&
+                old.unit !== record.unit &&
+                (
+                    await client.query(
+                        "SELECT id FROM crm_purchases WHERE product_id=$1 LIMIT 1",
+                        [target]
+                    )
+                ).rowCount
+            )
+                throw failure("A unidade não pode mudar após uma compra.");
+            const values = [
+                target,
+                record.name,
+                record.brand,
+                record.unit,
+                record.image,
+                record.image_source
+            ];
+            await client.query(
+                id
+                    ? "UPDATE crm_products SET name=$2,brand=$3,unit=$4,image=$5,image_source=$6,revision=revision+1,updated_at=now() WHERE id=$1"
+                    : "INSERT INTO crm_products(id,name,brand,unit,image,image_source) VALUES($1,$2,$3,$4,$5,$6)",
+                values
+            );
+            await audit(
+                client,
+                actor,
+                id ? "update" : "create",
+                "product",
+                target
+            );
+            return { id: target };
+        });
+    }
+    async function productDetails(id, actor) {
+        if (demo())
+            return demoWrite((s) => {
+                const row = (s.products || []).find((p) => p.id === id);
+                if (!row) throw failure("Produto não encontrado.", 404);
+                demoAudit(s, actor, "view", "product", id);
+                return row;
+            });
+        return transaction(async (client) => {
+            const row = (
+                await client.query("SELECT * FROM crm_products WHERE id=$1", [
+                    id
+                ])
+            ).rows[0];
+            if (!row) throw failure("Produto não encontrado.", 404);
+            await audit(client, actor, "view", "product", id);
+            return serialize(row);
+        });
+    }
+    async function savePurchase(input, actor) {
+        const record = validatePurchase(input),
+            id = randomUUID();
+        if (demo())
+            return demoWrite((s) => {
+                if (!(s.products || []).some((p) => p.id === record.product_id))
+                    throw new ValidationError("Produto não encontrado.");
+                s.purchases ||= [];
+                s.purchases.push({ ...record, id });
+                demoAudit(s, actor, "create", "purchase", id);
+                return { id };
+            });
+        return transaction(async (client) => {
+            if (
+                !(
+                    await client.query(
+                        "SELECT id FROM crm_products WHERE id=$1 FOR UPDATE",
+                        [record.product_id]
+                    )
+                ).rowCount
+            )
+                throw new ValidationError("Produto não encontrado.");
+            await client.query(
+                "INSERT INTO crm_purchases(id,product_id,quantity,cost_cents,purchased_on,expires_on,lot) VALUES($1,$2,$3,$4,$5,$6,$7)",
+                [
+                    id,
+                    record.product_id,
+                    record.quantity,
+                    record.cost_cents,
+                    record.purchased_on,
+                    record.expires_on,
+                    record.lot
+                ]
+            );
+            await audit(client, actor, "create", "purchase", id);
+            return { id };
+        });
+    }
+    function prescriptionRow(record, appointment, patient, actor, id) {
+        if (!appointment || appointment.status !== "Realizado")
+            throw new ValidationError(
+                "A receita exige um atendimento realizado."
+            );
+        if (appointment.date && record.date < appointment.date)
+            throw new ValidationError(
+                "A emissão não pode ser anterior ao atendimento."
+            );
+        return {
+            ...record,
+            id,
+            patient_id: patient.id,
+            patient_name: patient.name,
+            created_by: actor,
+            created_at: new Date().toISOString()
+        };
+    }
+    async function savePrescription(input, actor) {
+        const record = validatePrescription(input),
+            id = randomUUID();
+        if (demo())
+            return demoWrite((s) => {
+                const appointment = s.appointments.find(
+                    (a) => a.id === record.appointment_id
+                );
+                const patient = s.patients.find(
+                    (p) => p.id === appointment?.patient_id
+                );
+                const row = prescriptionRow(
+                    record,
+                    appointment,
+                    patient,
+                    actor,
+                    id
+                );
+                s.prescriptions ||= [];
+                s.prescriptions.push(row);
+                demoAudit(s, actor, "create", "prescription", id);
+                return { id };
+            });
+        return transaction(async (client) => {
+            const a = (
+                await client.query(
+                    "SELECT *,date::text AS date FROM crm_appointments WHERE id=$1 FOR UPDATE",
+                    [record.appointment_id]
+                )
+            ).rows[0];
+            const p =
+                a &&
+                (
+                    await client.query(
+                        "SELECT * FROM crm_patients WHERE id=$1",
+                        [a.patient_id]
+                    )
+                ).rows[0];
+            const r = prescriptionRow(record, a, p, actor, id);
+            await client.query(
+                "INSERT INTO crm_prescriptions(id,appointment_id,patient_id,patient_name,date,title,conduct,doctor,registration,qualification,items,created_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb,$12)",
+                [
+                    id,
+                    r.appointment_id,
+                    r.patient_id,
+                    r.patient_name,
+                    r.date,
+                    r.title,
+                    r.conduct,
+                    r.doctor,
+                    r.registration,
+                    r.qualification,
+                    JSON.stringify(r.items),
+                    actor
+                ]
+            );
+            await audit(client, actor, "create", "prescription", id);
+            return { id };
+        });
+    }
+    async function prescriptionDetails(id, actor) {
+        if (demo())
+            return demoWrite((s) => {
+                const row = (s.prescriptions || []).find((r) => r.id === id);
+                if (!row) throw failure("Receita não encontrada.", 404);
+                demoAudit(s, actor, "view", "prescription", id);
+                return row;
+            });
+        return transaction(async (client) => {
+            const r = (
+                await client.query(
+                    "SELECT *,date::text AS date FROM crm_prescriptions WHERE id=$1",
+                    [id]
+                )
+            ).rows[0];
+            if (!r) throw failure("Receita não encontrada.", 404);
+            await audit(client, actor, "view", "prescription", id);
+            return serialize(r);
         });
     }
     async function intakeDetails(id, actor) {
@@ -434,6 +820,11 @@ export function createStore({
         snapshot,
         savePatient,
         saveAppointment,
+        saveProduct,
+        savePurchase,
+        savePrescription,
+        prescriptionDetails,
+        productDetails,
         intakeDetails,
         linkIntake,
         recordAccess
@@ -443,6 +834,11 @@ export const {
     snapshot,
     savePatient,
     saveAppointment,
+    saveProduct,
+    savePurchase,
+    savePrescription,
+    prescriptionDetails,
+    productDetails,
     intakeDetails,
     linkIntake,
     recordAccess
