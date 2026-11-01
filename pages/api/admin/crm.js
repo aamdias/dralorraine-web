@@ -5,9 +5,14 @@ import {
     savePatient,
     saveAppointment,
     intakeDetails,
-    linkIntake
+    linkIntake,
+    saveProduct,
+    savePurchase,
+    savePrescription,
+    prescriptionDetails,
+    productDetails
 } from "@utils/crm/store.mjs";
-export const config = { api: { bodyParser: { sizeLimit: "16kb" } } };
+export const config = { api: { bodyParser: { sizeLimit: "4mb" } } };
 export default async function handler(req, res) {
     privateHeaders(res);
     if (!["GET", "POST", "PATCH"].includes(req.method))
@@ -20,6 +25,29 @@ export default async function handler(req, res) {
                 .status(401)
                 .json({ error: "Sua sessão expirou. Entre novamente." });
         if (req.method === "GET") {
+            if (req.query.product) {
+                if (
+                    typeof req.query.product !== "string" ||
+                    !/^[a-zA-Z0-9_-]{1,80}$/.test(req.query.product)
+                )
+                    return res.status(400).json({ error: "Produto inválido." });
+                return res.json(
+                    await productDetails(req.query.product, user.email)
+                );
+            }
+            if (req.query.prescription) {
+                if (
+                    typeof req.query.prescription !== "string" ||
+                    !/^[a-zA-Z0-9_-]{1,80}$/.test(req.query.prescription)
+                )
+                    return res.status(400).json({ error: "Receita inválida." });
+                return res.json(
+                    await prescriptionDetails(
+                        req.query.prescription,
+                        user.email
+                    )
+                );
+            }
             if (req.query.intake) {
                 const id = Number(req.query.intake);
                 if (!Number.isSafeInteger(id) || id < 1)
@@ -38,6 +66,19 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "Registro inválido." });
         if (!record || typeof record !== "object" || Array.isArray(record))
             return res.status(400).json({ error: "Dados inválidos." });
+        if (entity === "product")
+            return res.json(
+                await saveProduct(
+                    record,
+                    user.email,
+                    req.method === "PATCH" ? id : null,
+                    expected_revision
+                )
+            );
+        if (entity === "purchase" && req.method === "POST")
+            return res.json(await savePurchase(record, user.email));
+        if (entity === "prescription" && req.method === "POST")
+            return res.json(await savePrescription(record, user.email));
         if (entity === "patient")
             return res.json(
                 await savePatient(

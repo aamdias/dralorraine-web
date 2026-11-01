@@ -73,7 +73,7 @@ export function assertSameOrigin(req) {
 }
 export function safeNext(value) {
     return typeof value === "string" &&
-        /^\/admin(?:\/(?:pacientes(?:\/[a-zA-Z0-9_-]+)?|atendimentos|retornos|reativacao|aniversarios|ranking|online))?(?:\?[^#]*)?$/.test(
+        /^\/admin(?:\/(?:pacientes(?:\/[a-zA-Z0-9_-]+)?|atendimentos|retornos|reativacao|aniversarios|ranking|online|estoque|receitas))?(?:\?[^#]*)?$/.test(
             value
         ) &&
         !/[\\\r\n]/.test(value)
