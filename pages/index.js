@@ -109,7 +109,6 @@ function Hero({ introState }) {
         >
             <div className={styles.heroText}>
                 <div>
-                    <p className={styles.heroEyebrow}>Dermatologia · UNICAMP</p>
                     <h1 id="home-title">
                         <span>
                             <span>Dermatologia com</span>

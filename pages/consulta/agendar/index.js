@@ -301,19 +301,17 @@ export default function AgendarPage() {
             <div
                 ref={workspace}
                 className={`${styles.container} ${styles.workspace}`}
-                data-choice={!modality}
+                data-view={modality || "choice"}
             >
                 {!modality ? (
                     <>
                         <div className={styles.introduction}>
-                            <p className={styles.eyebrow}>
-                                Dermatologia · Agendamento
-                            </p>
                             <h1 className={styles.heading} tabIndex={-1}>
                                 Agende sua <em>consulta</em>.
                             </h1>
                             <p className={styles.lead}>
-                                Escolha o formato que faz sentido para você.
+                                Escolha entre atendimento no consultório e por
+                                vídeo.
                             </p>
                         </div>
                         <div className={styles.portrait}>
@@ -322,7 +320,7 @@ export default function AgendarPage() {
                                 alt="Dra. Lorraine Souza no consultório"
                                 quality={88}
                                 fill
-                                sizes="(min-width: 1176px) 435px, (min-width: 1024px) 38vw, 150px"
+                                sizes="(min-width: 1176px) 430px, (min-width: 900px) 36vw, (min-width: 640px) 40vw, calc(100vw - clamp(40px, 8vw, 64px))"
                             />
                         </div>
                         <ModalityChoice
@@ -332,28 +330,18 @@ export default function AgendarPage() {
                     </>
                 ) : (
                     <>
-                        <aside
-                            className={styles.rail}
-                            aria-label="Etapas do agendamento"
-                        >
-                            <div className={styles.railNav}>
-                                <p className={styles.eyebrow}>
-                                    {modality === "video"
-                                        ? "Videoconsulta"
-                                        : "Presencial"}
-                                </p>
-                                <button
-                                    type="button"
-                                    className={styles.textButton}
-                                    onClick={() => choose("")}
-                                >
-                                    Trocar modalidade
-                                </button>
-                            </div>
+                        <div className={styles.rail}>
+                            <button
+                                type="button"
+                                className={styles.backToChoices}
+                                onClick={() => choose("")}
+                            >
+                                <Chevron /> Trocar modalidade
+                            </button>
                             {modality === "video" && (
                                 <StepProgress currentStep={step} />
                             )}
-                        </aside>
+                        </div>
                         <section
                             className={styles.panel}
                             aria-labelledby="booking-step-title"
@@ -375,45 +363,39 @@ function ModalityChoice({ onChoose, resumeStep }) {
     return (
         <div className={styles.choices}>
             <article className={styles.choice}>
-                <h2 className={styles.choiceTitle}>Consulta presencial</h2>
+                <div className={styles.choiceHeader}>
+                    <h2 className={styles.choiceTitle}>Consulta presencial</h2>
+                    <span>Campinas e São Paulo</span>
+                </div>
                 <p>
                     Exame de pele no consultório e procedimentos quando
                     indicados.
                 </p>
-                <div className={styles.choiceBar}>
-                    <div className={styles.choiceMeta}>
-                        <strong>Campinas e São Paulo</strong>
-                        Data e valor combinados por WhatsApp
-                    </div>
+                <div className={styles.choiceActions}>
+                    <p>Combine data e valor pelo WhatsApp.</p>
                     <button
                         type="button"
                         className={styles.secondary}
                         onClick={() => onChoose("presencial")}
                     >
-                        Ver como agendar <Chevron />
+                        Escolher cidade <Chevron />
                     </button>
                 </div>
             </article>
-            <article className={styles.choice} data-featured="true">
-                <h2 className={styles.choiceTitle}>Videoconsulta</h2>
+            <article className={styles.choice}>
+                <div className={styles.choiceHeader}>
+                    <h2 className={styles.choiceTitle}>Videoconsulta</h2>
+                    <span>{CONSULTATION_PRICE_LABEL}</span>
+                </div>
                 <p>
-                    Atendimento por vídeo de qualquer lugar do Brasil, com
-                    conduta por escrito e 14 dias de suporte.
+                    Atendimento de qualquer lugar do Brasil, com orientações por
+                    escrito e 14 dias de suporte.
                 </p>
-                <div className={`${styles.choiceBar} ${styles.videoBar}`}>
-                    <dl className={styles.videoDetails}>
-                        <div>
-                            <dt>Pagamento único</dt>
-                            <dd>{CONSULTATION_PRICE_LABEL}</dd>
-                        </div>
-                        <div>
-                            <dt>Agendamento</dt>
-                            <dd>Escolha o horário após pagar</dd>
-                        </div>
-                    </dl>
+                <div className={styles.choiceActions}>
+                    <p>Escolha o horário após o pagamento.</p>
                     <button
                         type="button"
-                        className={styles.primary}
+                        className={styles.secondary}
                         onClick={() => onChoose("video")}
                     >
                         {resumeStep
@@ -433,10 +415,10 @@ function StepPresencial() {
             <StepHeader
                 title={
                     <>
-                        Agende direto pelo <em>WhatsApp</em>.
+                        Consulta <em>presencial</em>.
                     </>
                 }
-                description="Escolha Campinas ou São Paulo para combinar data, endereço do consultório e valor com a Dra. Lorraine."
+                description="Escolha a cidade e combine data, endereço e valor com a Dra. Lorraine pelo WhatsApp."
             />
             <ul
                 className={styles.cityLinks}
@@ -479,21 +461,17 @@ function StepPresencial() {
 
 function StepProgress({ currentStep }) {
     return (
-        <>
+        <aside className={styles.progress} aria-label="Etapas da videoconsulta">
             <div className={styles.shortProgress}>
-                <div>
-                    <span>{steps[currentStep - 1].label}</span>
-                    <span>
-                        Etapa {currentStep} de {steps.length}
-                    </span>
-                </div>
+                <span>
+                    Etapa {currentStep} de {steps.length}
+                </span>
                 <progress
                     value={currentStep}
                     max={steps.length}
                     aria-label="Progresso da videoconsulta"
                 />
             </div>
-            <p className={styles.railHeading}>Seu agendamento</p>
             <ol className={styles.desktopProgress}>
                 {steps.map(({ id, label }) => (
                     <li
@@ -512,7 +490,7 @@ function StepProgress({ currentStep }) {
                 <LockGlyph /> O progresso fica salvo neste aparelho para você
                 retomar depois.
             </p>
-        </>
+        </aside>
     );
 }
 
@@ -1497,12 +1475,7 @@ function StepPayment({ data, paymentReturn, paymentSessionId, onNext }) {
             />
 
             <div className={styles.paymentSummary}>
-                <div>
-                    <p className={styles.eyebrow}>
-                        Videoconsulta · Dermatologia
-                    </p>
-                    <p className={styles.price}>{CONSULTATION_PRICE_LABEL}</p>
-                </div>
+                <p className={styles.price}>{CONSULTATION_PRICE_LABEL}</p>
                 <p>Pagamento único</p>
             </div>
             {!data.consultaId && (
