@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
 import SEO from "@components/SEO/SEO";
 import { StructuredData, breadcrumbSchema, faqSchema, personSchema } from "@components/StructuredData";
 import { SITE, absoluteUrl } from "@utils/site";
@@ -80,29 +81,19 @@ export default function BioestimuladorDeColagenoArticle() {
                 ]}
             />
 
-            <header className="relative overflow-hidden bg-[linear-gradient(165deg,#E9E1D4_0%,#F3ECE3_58%,#FAF6F0_100%)] pt-36 pb-16 sm:pt-44 sm:pb-20">
-                <div aria-hidden className="absolute -top-52 -right-44 h-[38rem] w-[38rem] rounded-full bg-rose/50 blur-3xl" />
-                <div aria-hidden className="absolute bottom-0 left-[7%] h-px w-[86%] bg-[linear-gradient(90deg,transparent,#B48967,transparent)]" />
-                <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
-                    <Link href="/blog" className="mb-12 inline-flex text-sm text-stone transition-colors hover:text-copper-dark">
-                        ← Voltar para o blog
-                    </Link>
-                    <p className="mb-6 text-xs font-medium uppercase tracking-label text-copper-dark">
-                        Envelhecimento saudável · Bioestimuladores
-                    </p>
-                    <h1 className="text-balance font-display text-[3.05rem] font-light leading-[0.99] tracking-[-0.025em] sm:text-[4.8rem]">
-                        Bioestimulador de colágeno: o que ele tem a ver com envelhecer bem?
-                    </h1>
-                    <p className="mt-8 max-w-2xl text-lg leading-8 text-stone sm:text-xl">
-                        Envelhecer bem não é tentar congelar o tempo. É entender o que muda na pele e escolher, com critério, o que faz sentido cuidar.
-                    </p>
-                    <div className="mt-10 flex flex-wrap gap-x-7 gap-y-2 border-t border-copper/45 pt-6 text-sm text-stone">
+            <PageIntro
+                backLink={{ href: "/blog", label: "Voltar para o blog" }}
+                eyebrow="Envelhecimento saudável · Bioestimuladores"
+                title="Bioestimulador de colágeno: o que ele tem a ver com envelhecer bem?"
+                lead="Envelhecer bem não é tentar congelar o tempo. É entender o que muda na pele e escolher, com critério, o que faz sentido cuidar."
+                meta={
+                    <>
                         <span>Por Dra. Lorraine Souza</span>
-                        <span>28 de agosto de 2026</span>
+                        <time dateTime="2026-08-28">28 de agosto de 2026</time>
                         <span>6 min de leitura</span>
-                    </div>
-                </div>
-            </header>
+                    </>
+                }
+            />
 
             <article className="bg-paper text-slate">
                 <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">

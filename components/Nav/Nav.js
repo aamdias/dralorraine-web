@@ -79,7 +79,11 @@ const navItemClass = (active, isTransparent) => `relative inline-flex h-11 items
 }`;
 
 /** Navegação desktop com dropdowns controlados e fechamento previsível. */
-export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
+export const Nav = ({
+    isTransparent = false,
+    items = NAV_ITEMS,
+    className = "hidden lg:block"
+}) => {
     const router = useRouter();
     const isActive = useIsActive();
     const navRef = useRef(null);
@@ -108,7 +112,7 @@ export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
     }, []);
 
     return (
-        <nav ref={navRef} className="hidden lg:block" aria-label="Navegação principal">
+        <nav ref={navRef} className={className} aria-label="Navegação principal">
             <ul className="flex items-center gap-5 list-none m-0 p-0 whitespace-nowrap">
                 {items.map((item) => {
                     const active = isActive(item.href, item.exact);
@@ -179,107 +183,5 @@ export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
                 })}
             </ul>
         </nav>
-    );
-};
-
-export const NavToggle = ({ isOpen, onToggle, isTransparent = false }) => (
-    <button
-        type="button"
-        onClick={onToggle}
-        aria-controls="mobile-nav"
-        aria-expanded={isOpen}
-        aria-label={isOpen ? "Fechar menu principal" : "Abrir menu principal"}
-        className={`lg:hidden inline-flex items-center justify-center h-11 w-11 -mr-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-copper ${
-            isTransparent ? "text-paper" : "text-ink hover:text-copper-dark"
-        }`}
-    >
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="square">
-            {isOpen ? <><path d="M5 5 19 19" /><path d="M19 5 5 19" /></> : <><path d="M3 7h18" /><path d="M3 12h18" /><path d="M3 17h18" /></>}
-        </svg>
-    </button>
-);
-
-/** Painel mobile: só existe quando aberto e ocupa o viewport abaixo do header. */
-export const MobileNav = ({ isOpen, onNavigate, items = NAV_ITEMS, ctaHref = "/consulta/agendar", ctaLabel = "Agendar consulta" }) => {
-    const isActive = useIsActive();
-
-    if (!isOpen) return null;
-
-    return (
-        <div
-            id="mobile-nav"
-            className="lg:hidden absolute inset-x-0 top-full h-[calc(100dvh-4.5rem)] min-h-0 bg-paper border-t border-line flex flex-col overflow-hidden"
-        >
-            <nav aria-label="Navegação principal" className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-                <ul className="list-none m-0 p-0">
-                    {items.map((item) => {
-                        const active = isActive(item.href, item.exact);
-
-                        if (!item.children) {
-                            return (
-                                <li key={item.name} className="border-b border-line">
-                                    <Link
-                                        href={item.href}
-                                        onClick={onNavigate}
-                                        aria-current={active ? "page" : undefined}
-                                        className={`flex min-h-[3.75rem] items-center px-5 sm:px-7 text-[17px] transition-colors ${
-                                            active ? "text-copper-dark" : "text-ink hover:text-copper-dark"
-                                        }`}
-                                    >
-                                        {item.name}
-                                    </Link>
-                                </li>
-                            );
-                        }
-
-                        return (
-                            <li key={item.name} className="border-b border-line">
-                                <details defaultOpen={active} className="group">
-                                    <summary className={`flex min-h-[3.75rem] cursor-pointer list-none items-center justify-between px-5 sm:px-7 text-[17px] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-copper [&::-webkit-details-marker]:hidden ${
-                                        active ? "text-copper-dark" : "text-ink"
-                                    }`}>
-                                        <span>{item.name}</span>
-                                        <ChevronDown className="group-open:rotate-180" />
-                                    </summary>
-                                    <ul className="border-t border-line bg-sand/55 py-2">
-                                        {item.children.map((child) => {
-                                            const childActive = isActive(child.href);
-                                            return (
-                                                <li key={child.href} className="border-b border-line last:border-b-0">
-                                                    <Link
-                                                        href={child.href}
-                                                        target={child.external ? "_blank" : undefined}
-                                                        rel={child.external ? "noopener noreferrer" : undefined}
-                                                        onClick={onNavigate}
-                                                        aria-current={childActive ? "page" : undefined}
-                                                        className={`flex min-h-[3.25rem] items-center justify-between gap-4 px-8 py-3 sm:px-10 text-[15px] leading-6 transition-colors ${
-                                                            childActive ? "font-medium text-copper-dark" : "text-stone hover:text-copper-dark"
-                                                        }`}
-                                                    >
-                                                        {child.name}
-                                                        {child.external && <ExternalLinkIndicator />}
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </details>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </nav>
-
-            <div className="shrink-0 border-t border-line bg-paper px-5 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-7">
-                <Link
-                    href={ctaHref}
-                    role="button"
-                    onClick={onNavigate}
-                    className="flex min-h-[3.5rem] w-full items-center justify-center bg-ink px-6 text-[15px] font-medium text-paper transition-colors hover:bg-copper-dark"
-                >
-                    {ctaLabel}
-                </Link>
-            </div>
-        </div>
     );
 };

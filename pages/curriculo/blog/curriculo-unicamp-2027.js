@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro, PageIntroImage } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
 import SEO from "@components/SEO/SEO";
 import {
     StructuredData,
@@ -156,71 +158,39 @@ export default function UnicampCurriculumArticle() {
                 ]}
             />
             <div className="bg-paper text-ink">
-                <header className={styles.hero}>
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <nav
-                            aria-label="Você está em"
-                            className={styles.breadcrumb}
-                        >
-                            <Link href="/curriculo">Currículo</Link>
-                            <span aria-hidden="true">/</span>
-                            <Link href={CURRICULUM_BLOG_PATH}>Guias</Link>
-                            <span aria-hidden="true">/</span>
-                            <span aria-current="page">UNICAMP 2027</span>
-                        </nav>
-                        <div className={styles.heroGrid}>
-                            <div className={styles.heroCopy}>
-                                <p className={styles.eyebrow}>
-                                    Residência médica · Acesso direto · 2027
-                                </p>
-                                <h1>{post.title}</h1>
-                                <p className={styles.heroSubtitle}>
-                                    O que pontua na residência médica, quais
-                                    comprovantes reunir e como preparar seu
-                                    currículo para a segunda fase.
-                                </p>
-                                <p className={styles.heroDescription}>
-                                    Guia de acesso direto com as regras do
-                                    edital oficial, exemplos práticos e
-                                    orientações para organizar os documentos.
-                                </p>
-                                <a
-                                    href="#criterios"
-                                    className={styles.readLink}
-                                >
-                                    Ver os 10 grupos de pontuação <Chevron />
-                                </a>
-                            </div>
-                            <figure className={styles.heroPhoto}>
-                                <div className={styles.heroImage}>
-                                    <Image
-                                        src="/images/curriculum/unicamp-hc-entrada.png"
-                                        alt="Entrada do Hospital de Clínicas da Unicamp, com o portal e a placa de identificação"
-                                        fill
-                                        priority
-                                        sizes="(max-width: 767px) 100vw, 50vw"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <figcaption>
-                                    Hospital de Clínicas da Unicamp · Campinas
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div className={styles.heroMeta}>
-                            <a href="#equipe-editorial">
+                <PageIntro
+                    compact
+                    backLink={{ href: CURRICULUM_BLOG_PATH, label: "Guias de currículo" }}
+                    eyebrow="Residência médica · Acesso direto · 2027"
+                    title={post.title}
+                    lead="O que pontua na residência médica, quais comprovantes reunir e como preparar seu currículo para a segunda fase."
+                    media={
+                        <figure className={styles.heroPhoto}>
+                            <PageIntroImage
+                                src="/images/curriculum/unicamp-hc-entrada.png"
+                                alt="Entrada do Hospital de Clínicas da Unicamp, com o portal e a placa de identificação"
+                                className={styles.heroImage}
+                            />
+                            <figcaption>Hospital de Clínicas da Unicamp · Campinas</figcaption>
+                        </figure>
+                    }
+                    meta={
+                        <>
+                            <a href="#equipe-editorial" className={siteStyles.textLink}>
                                 Equipe de currículo · Dra. Lorraine Souza
                             </a>
-                            <span>
-                                Revisado em{" "}
-                                <time dateTime={post.date}>
-                                    {post.displayDate}
-                                </time>
-                            </span>
+                            <span>Revisado em <time dateTime={post.date}>{post.displayDate}</time></span>
                             <span>{post.readTime}</span>
-                        </div>
-                    </div>
-                </header>
+                        </>
+                    }
+                >
+                    <p className="mb-0 mt-0 max-w-xl leading-relaxed text-stone">
+                        Guia de acesso direto com as regras do edital oficial, exemplos práticos e orientações para organizar os documentos.
+                    </p>
+                    <a href="#criterios" className={styles.readLink}>
+                        Ver os 10 grupos de pontuação <Chevron />
+                    </a>
+                </PageIntro>
 
                 <div
                     className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${styles.readingLayout}`}

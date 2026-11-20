@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
 import SEO from "@components/SEO/SEO";
 import {
     StructuredData,
@@ -51,31 +51,13 @@ export default function CurriculumBlog() {
                 ]}
             />
             <div className="bg-paper text-ink">
-                <header className="bg-sand pb-16 pt-32 sm:pb-24 sm:pt-44">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <Link
-                            href="/curriculo"
-                            className="inline-flex py-3 text-sm text-stone underline decoration-copper underline-offset-8"
-                        >
-                            Serviço de currículo
-                        </Link>
-                        <p className="mb-6 mt-10 text-xs font-medium uppercase tracking-label text-copper-dark">
-                            Currículo em foco · Para médicos
-                        </p>
-                        <h1 className="mb-0 max-w-4xl font-display text-5xl font-light leading-[1.02] tracking-tight sm:text-7xl">
-                            Cada edital pede uma{" "}
-                            <span className="italic text-copper-dark">
-                                leitura atenta
-                            </span>
-                            .
-                        </h1>
-                        <p className="mb-0 mt-8 max-w-2xl text-lg leading-8 text-stone">
-                            Guias para entender o que a banca avalia, reunir os
-                            comprovantes certos e apresentar sua trajetória com
-                            clareza.
-                        </p>
-                    </div>
-                </header>
+                <PageIntro
+                    backLink={{ href: "/curriculo", label: "Serviço de currículo" }}
+                    eyebrow="Currículo em foco · Para médicos"
+                    title={<>Cada edital pede uma <em>leitura atenta</em>.</>}
+                    lead="Guias para entender o que a banca avalia, reunir os comprovantes certos e apresentar sua trajetória com clareza."
+                />
+
                 <section
                     className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
                     aria-labelledby="guides"

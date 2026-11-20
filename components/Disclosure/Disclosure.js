@@ -16,8 +16,27 @@ export const Disclosure = ({
     meta,
     children,
     defaultOpen = false,
-    tone = "paper"
+    tone = "paper",
+    variant = "row"
 }) => {
+    if (variant === "inline") {
+        return (
+            <details open={defaultOpen} className="group mt-[22px]">
+                <summary className="inline-flex cursor-pointer list-none items-center gap-3 text-[15px] font-medium text-ink [&::-webkit-details-marker]:hidden">
+                    <span aria-hidden className="flex h-[30px] w-[30px] items-center justify-center border border-[#DCD4C8] text-lg leading-none text-copper">
+                        <span className="transition-transform duration-[400ms] ease-[cubic-bezier(.2,.7,.2,1)] group-open:rotate-45 motion-reduce:transition-none">
+                            +
+                        </span>
+                    </span>
+                    {title}
+                </summary>
+                <div className="mt-[18px] text-base leading-[1.7] text-slate">
+                    {children}
+                </div>
+            </details>
+        );
+    }
+
     const isDark = tone === "ink";
 
     return (

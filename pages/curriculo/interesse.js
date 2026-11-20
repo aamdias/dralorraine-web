@@ -1,25 +1,37 @@
+import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
 import SEO from "@components/SEO/SEO";
 
 export default function InteresseCurriculo({ formUrl }) {
     return (
-        <>
+        <Layout careerPage>
             <SEO
                 title="Interesse em currículo para residência | Dra. Lorraine"
                 description="Fale com a equipe sobre seu currículo para residência médica e a mentoria com a Dra. Lorraine."
                 url="/curriculo/interesse"
                 noindex
             />
-            <main className="fixed inset-0 bg-paper">
+            <PageIntro
+                compact
+                eyebrow="Currículo para residência médica"
+                title={
+                    <>
+                        Conte sobre sua <em>trajetória</em>
+                    </>
+                }
+            />
+            <div className={`${siteStyles.container} pb-12`}>
                 <iframe
                     data-curriculum-form="EkjBgl"
                     src={formUrl}
                     title="Interesse em currículo para residência médica"
-                    className="block h-full w-full border-0"
+                    className="block h-[max(680px,85svh)] w-full border-0"
                     width="100%"
                     height="100%"
                 />
-            </main>
-        </>
+            </div>
+        </Layout>
     );
 }
 

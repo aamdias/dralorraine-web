@@ -1,9 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
+import styles from "@components/Layout/Site.module.scss";
+import { absoluteUrl } from "@utils/site";
 import SEO from "@components/SEO/SEO";
 import {
     StructuredData,
+    IDS,
     breadcrumbSchema,
     personSchema,
     webSiteSchema
@@ -17,9 +21,11 @@ const posts = [
             "A relação vai além da flacidez. Entenda o que os bioestimuladores podem fazer, o que não prometem e por que a indicação deve ser individual.",
         href: "/blog/bioestimulador-de-colageno",
         date: "28 de agosto de 2026",
+        dateTime: "2026-08-28",
         readTime: "6 min de leitura",
         image: "/blog-bioestimulador-colageno-hero.png",
-        imageAlt: "Mulher adulta em uma clínica dermatológica, com aparência natural e expressão serena"
+        imageAlt:
+            "Mulher adulta em uma clínica dermatológica, com aparência natural e expressão serena"
     },
     {
         category: "Dermatologia clínica",
@@ -28,9 +34,11 @@ const posts = [
             "Rosácea não é falta de cuidado nem simplesmente acne. Entenda os sinais, os gatilhos e como a avaliação dermatológica orienta o tratamento.",
         href: "/blog/rosacea-alisson-becker",
         date: "Publicado em 26 de agosto de 2026",
+        dateTime: "2026-08-26",
         readTime: "8 min de leitura",
         image: "/alisson-becker-rosacea.png",
-        imageAlt: "Alisson Becker, goleiro brasileiro, em retrato durante uma partida"
+        imageAlt:
+            "Alisson Becker, goleiro brasileiro, em retrato durante uma partida"
     },
     {
         category: "Procedimentos",
@@ -39,9 +47,63 @@ const posts = [
             "A decisão não começa pela idade. Entenda o que observar, para quem pode haver indicação e como avaliar expectativas antes da aplicação.",
         href: "/blog/botox",
         date: "Atualizado em 25 de agosto de 2026",
+        dateTime: "2026-08-25",
         readTime: "7 min de leitura"
     }
 ];
+
+function PostCard({ post }) {
+    const titleId = post.href.split("/").pop();
+
+    return (
+        <article>
+            <Link
+                href={post.href}
+                aria-labelledby={titleId}
+                className={`group grid border border-line bg-sand transition-colors hover:border-copper/60 hover:bg-paper ${
+                    post.image
+                        ? "md:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)]"
+                        : ""
+                }`}
+            >
+                {post.image && (
+                    <div className="relative aspect-[16/9] overflow-hidden bg-line md:order-2 md:aspect-auto md:min-h-[18rem]">
+                        <Image
+                            src={post.image}
+                            alt={post.imageAlt}
+                            fill
+                            sizes="(min-width: 1280px) 560px, (min-width: 768px) 45vw, 100vw"
+                            className="object-cover object-[50%_25%]"
+                        />
+                    </div>
+                )}
+                <div className="flex min-w-0 flex-col items-start gap-4 p-6 sm:gap-5 sm:p-9 md:order-1 lg:p-12">
+                    <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 text-sm">
+                        <span className="text-xs font-medium uppercase tracking-label text-copper-dark">
+                            {post.category}
+                        </span>
+                        <time dateTime={post.dateTime} className="text-stone">
+                            {post.date}
+                        </time>
+                    </div>
+                    <h3
+                        id={titleId}
+                        className="m-0 max-w-3xl text-[clamp(30px,4vw,49px)] font-light leading-[1.04] tracking-[-0.02em] text-ink transition-colors group-hover:text-copper-dark"
+                    >
+                        {post.title}
+                    </h3>
+                    <p className="m-0 max-w-xl text-base leading-7 text-stone">
+                        {post.excerpt}
+                    </p>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-2 text-sm">
+                        <span className={styles.textLink}>Ler artigo</span>
+                        <span className="text-stone">{post.readTime}</span>
+                    </div>
+                </div>
+            </Link>
+        </article>
+    );
+}
 
 export default function Blog() {
     return (
@@ -61,121 +123,41 @@ export default function Blog() {
                     ]),
                     {
                         "@type": "Blog",
-                        "@id": "https://www.dralorraine.com/blog/#blog",
+                        "@id": absoluteUrl("/blog#blog"),
                         name: "Blog da Dra. Lorraine",
-                        url: "https://www.dralorraine.com/blog",
+                        url: absoluteUrl("/blog"),
                         inLanguage: "pt-BR",
-                        author: { "@id": "https://www.dralorraine.com/#lorraine" }
+                        author: { "@id": IDS.person }
                     }
                 ]}
             />
 
-            <div className="bg-paper text-ink">
-                <section className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 bg-[linear-gradient(165deg,#E9E1D4_0%,#F3ECE3_48%,#FAF6F0_100%)]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute -right-24 -top-40 h-[34rem] w-[34rem] rounded-full bg-rose/60 blur-3xl"
-                    />
-                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <p className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">
-                            Blog · Dermatologia
-                        </p>
-                        <h1 className="font-display font-light text-[3.2rem] sm:text-display-xl leading-[0.98] tracking-[-0.025em] max-w-3xl text-balance">
-                            Informação para você cuidar da pele com mais{" "}
-                            <span className="italic text-copper-dark">segurança</span>.
-                        </h1>
-                        <p className="mt-8 text-lg leading-8 text-stone max-w-2xl">
-                            Aqui eu traduzo a dermatologia para a vida real: com
-                            ciência, clareza e espaço para as particularidades de
-                            cada pele.
-                        </p>
-                    </div>
-                </section>
-
-                <section className="border-y border-line bg-paper">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-                        <div className="flex items-end justify-between gap-6 mb-10">
-                            <div>
-                                <p className="text-xs uppercase tracking-label text-copper-dark font-medium mb-3">
-                                    Comece por aqui
-                                </p>
-                                <h2 className="font-display text-4xl font-light">Artigos recentes</h2>
-                            </div>
-                            <span className="hidden sm:block text-sm text-stone">Conteúdo educativo</span>
-                        </div>
-
-                        <div className="grid gap-6">
-                            {posts.map((post) => post.image ? (
-                                <article
-                                    key={post.href}
-                                    className="group relative isolate cursor-pointer overflow-hidden border border-line bg-[#eee6db] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper sm:h-[24rem]"
-                                >
-                                    <Link href={post.href} aria-label={`Ler ${post.title}`} className="absolute inset-0 z-20 focus:outline-none">
-                                        <span className="sr-only">Ler artigo: {post.title}</span>
-                                    </Link>
-                                    <div aria-hidden className="absolute inset-x-0 top-0 h-48 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-[58%]">
-                                        <Image
-                                            src={post.image}
-                                            alt={post.imageAlt}
-                                            fill
-                                            sizes="(min-width: 1024px) 52vw, (min-width: 640px) 58vw, 100vw"
-                                            className="object-cover object-[50%_18%] grayscale sepia-[.18] contrast-125 brightness-[.82] opacity-75 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-80 sm:opacity-70 sm:group-hover:opacity-75"
-                                        />
-                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,#eee6db_0%,rgba(238,230,219,.12)_28%,rgba(238,230,219,.02)_100%)] sm:bg-[linear-gradient(90deg,#eee6db_0%,rgba(238,230,219,.96)_16%,rgba(238,230,219,.4)_45%,rgba(238,230,219,.04)_72%)]" />
-                                        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(180,137,103,.16),transparent_48%)] mix-blend-multiply" />
-                                    </div>
-                                    <div className="relative z-10 mt-40 flex min-h-[22rem] max-w-3xl flex-col bg-[#eee6db] p-6 sm:mt-0 sm:h-full sm:min-h-0 sm:bg-transparent sm:p-8">
-                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-label text-copper-dark font-medium">
-                                            <span>{post.category}</span>
-                                            <span aria-hidden className="h-1 w-1 rounded-full bg-copper" />
-                                            <span className="normal-case tracking-normal text-stone font-normal">{post.date}</span>
-                                        </div>
-                                        <h3 className="mt-5 max-w-2xl font-display text-[2.15rem] sm:mt-6 sm:text-[3.1rem] font-light leading-[.98] tracking-[-0.025em]">
-                                            {post.title}
-                                        </h3>
-                                        <p className="mt-4 max-w-xl text-stone leading-7">{post.excerpt}</p>
-                                        <div className="mt-auto flex items-center gap-6 pt-6 text-sm font-medium">
-                                            <span className="underline underline-offset-8 decoration-copper">Ler artigo</span>
-                                            <span className="text-stone">{post.readTime}</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            ) : (
-                                <article
-                                    key={post.href}
-                                    className="group relative h-[24rem] cursor-pointer border border-line bg-sand p-7 sm:p-8 lg:p-10 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-copper/60 hover:shadow-[0_18px_45px_rgba(74,52,38,.10)] focus-within:ring-2 focus-within:ring-copper focus-within:ring-offset-4 focus-within:ring-offset-paper"
-                                >
-                                    <Link href={post.href} aria-label={`Ler ${post.title}`} className="absolute inset-0 z-20 focus:outline-none">
-                                        <span className="sr-only">Ler artigo: {post.title}</span>
-                                    </Link>
-                                    <div className="relative z-10 grid h-full gap-7 lg:grid-cols-[0.9fr_2.1fr] lg:gap-14">
-                                        <div>
-                                            <p className="text-xs uppercase tracking-label text-copper-dark font-medium">
-                                                {post.category}
-                                            </p>
-                                            <p className="mt-4 text-sm text-stone">{post.date}</p>
-                                        </div>
-                                        <div className="flex h-full flex-col">
-                                            <h3 className="font-display text-[2.35rem] sm:text-5xl font-light leading-[1.03] tracking-[-0.02em]">
-                                                {post.title}
-                                            </h3>
-                                            <p className="mt-6 max-w-2xl text-stone leading-7">{post.excerpt}</p>
-                                            <div className="mt-auto flex items-center gap-6 pt-6 text-sm font-medium">
-                                                <span className="underline underline-offset-8 decoration-copper">Ler artigo</span>
-                                                <span className="text-stone">{post.readTime}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            </div>
+            <PageIntro
+                eyebrow="Blog · Dermatologia"
+                title={
+                    <>
+                        Informação para você cuidar da pele com mais{" "}
+                        <em>segurança</em>.
+                    </>
+                }
+                lead="Aqui eu traduzo a dermatologia para a vida real: com ciência, clareza e espaço para as particularidades de cada pele."
+            />
+            <section
+                className={`${styles.container} py-14 sm:py-20 lg:py-28`}
+                aria-labelledby="recent-posts"
+            >
+                <h2
+                    id="recent-posts"
+                    className="mb-8 text-[clamp(34px,4.4vw,64px)] leading-[1.04] tracking-[-0.02em] sm:mb-12"
+                >
+                    Artigos recentes
+                </h2>
+                <div className="grid gap-5 sm:gap-6">
+                    {posts.map((post) => (
+                        <PostCard key={post.href} post={post} />
+                    ))}
+                </div>
+            </section>
         </Layout>
     );
 }

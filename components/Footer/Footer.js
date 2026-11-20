@@ -1,148 +1,114 @@
 import Link from "next/link";
-import { SectionContainer } from "@components/Section";
 import { Logo } from "@components/Logo";
+import { NAV_ITEMS } from "@components/Nav";
+import styles from "@components/Layout/Site.module.scss";
 
-const NAV_COLUMNS = [
+const treatments = NAV_ITEMS.find(
+    ({ href }) => href === "/tratamentos"
+).children;
+const footerGroups = [
     {
-        title: "Serviços",
-        items: [
-            { label: "Consulta", href: "/consulta" },
-            { label: "Blog", href: "/blog" },
-            { label: "Tratamentos", href: "/tratamentos" },
+        label: "Pacientes",
+        links: [
+            ["Consulta", "/consulta"],
+            ["Tratamentos", "/tratamentos"],
+            ["Blog", "/blog"]
         ]
     },
     {
-        title: "Tratamentos",
-        items: [
-            { label: "Botox · toxina botulínica", href: "/tratamentos/toxina-botulinica" },
-            { label: "Bioestimulador de colágeno", href: "/tratamentos/bioestimulador-de-colageno" },
-            { label: "Preenchimento facial", href: "/tratamentos/preenchimento-com-acido-hialuronico" },
-            { label: "Peelings", href: "/tratamentos/peelings" },
-            { label: "Microagulhamento", href: "/tratamentos/microagulhamento" }
-        ]
-    },
-    {
-        title: "Para médicos",
-        items: [
-            { label: "Mentoria", href: "/mentoria" },
-            { label: "Anotações", href: "/anotacoes" },
-            { label: "Currículo", href: "/curriculo" },
-            { label: "Guias de currículo", href: "/curriculo/blog" }
-        ]
-    },
-    {
-        title: "Sobre",
-        items: [
-            { label: "Sobre mim", href: "/#personal-history" },
-            { label: "Aprovações", href: "/#results" }
-        ]
-    },
-    {
-        title: "Legal",
-        items: [
-            { label: "Política de Privacidade", href: "/politica-de-privacidade" },
-            { label: "Termos de Uso", href: "/termos-de-uso" },
+        label: "Tratamentos",
+        links: treatments.slice(1).map(({ name, href }) => [
             {
-                label: "Consentimento · Telemedicina",
-                href: "/consentimento-telemedicina"
-            }
-        ]
-    }
-];
-
-const CAREER_NAV_COLUMNS = [
+                "/tratamentos/toxina-botulinica": "Toxina botulínica",
+                "/tratamentos/preenchimento-com-acido-hialuronico":
+                    "Preenchimento facial"
+            }[href] ?? name,
+            href
+        ])
+    },
     {
-        title: "Currículo para residência",
-        items: [
-            { label: "Resultados", href: "/curriculo#resultados" },
-            { label: "Conheça o serviço", href: "/curriculo#servico" },
-            { label: "Blog de currículo", href: "/curriculo/blog" }
+        label: "Para médicos",
+        links: [
+            ["Mentoria", "/mentoria"],
+            ["Anotações", "/anotacoes"],
+            ["Currículo", "/curriculo"],
+            ["Guias de currículo", "/curriculo/blog"]
         ]
     },
     {
-        title: "Legal",
-        items: NAV_COLUMNS.find((column) => column.title === "Legal").items.filter(
-            (item) => item.href !== "/consentimento-telemedicina"
-        )
+        label: "Legal",
+        links: [
+            ["Política de Privacidade", "/politica-de-privacidade"],
+            ["Termos de Uso", "/termos-de-uso"],
+            ["Consentimento · Telemedicina", "/consentimento-telemedicina"]
+        ]
     }
 ];
 
-/**
- * Footer — assinatura da marca sobre Papel (brandbook §02, §04).
- * O bloco escuro do site é o CTA final; o rodapé volta ao papel para
- * fechar a página no mesmo tom em que ela começa.
- */
-export const Footer = ({ careerPage = false }) => {
-    const year = new Date().getFullYear();
+const creditHref = `https://wa.me/5585994319716?text=${encodeURIComponent(
+    "Olá, vi o site da Dra. Lorraine e quero um site assim."
+)}`;
 
+const careerGroup = {
+    label: "Currículo para residência",
+    links: [
+        ["Resultados", "/curriculo#resultados"],
+        ["Conheça o serviço", "/curriculo#servico"],
+        ["Guias de currículo", "/curriculo/blog"]
+    ]
+};
+
+export function Footer({ careerPage, showWhatsApp }) {
+    const groups = careerPage ? [careerGroup, footerGroups[3]] : footerGroups;
     return (
-        <footer
-            id="footer"
-            className="bg-paper text-ink"
-        >
-            <SectionContainer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12">
-                    {/* Identity */}
-                    <div className="lg:col-span-5">
-                        <Link
-                            href="/"
-                            aria-label="Ir para a página inicial"
-                            className="inline-block"
-                        >
-                            <Logo
-                                lockup="horizontal"
-                                tone="copper"
-                                markClassName="h-[52px] w-auto"
-                            />
-                        </Link>
-                        <p className="text-stone text-base leading-relaxed max-w-sm mt-7">
-                            Dra. Lorraine Souza
-                            <br />
-                            <span className="text-stone text-sm">
-                                Dermatologia · R3 em Dermatologia na UNICAMP
-                            </span>
-                        </p>
-                        <p className="text-stone text-xs leading-relaxed mt-7 max-w-sm">
-                            {careerPage
-                                ? "Elaboração de currículo e orientação para processos seletivos de residência médica."
-                                : "Conteúdo educativo e atendimento clínico. Este site não substitui avaliação médica presencial quando indicada."}
-                        </p>
-                    </div>
-
-                    {/* Nav columns */}
-                    <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
-                        {(careerPage ? CAREER_NAV_COLUMNS : NAV_COLUMNS).map((col) => (
-                            <div key={col.title}>
-                                <h3 className="font-sans text-xs uppercase tracking-label text-copper-dark font-medium mb-5">
-                                    {col.title}
-                                </h3>
-                                <ul className="space-y-3">
-                                    {col.items.map((item) => (
-                                        <li key={item.label}>
-                                            <a
-                                                href={item.href}
-                                                className="text-slate hover:text-copper-dark text-sm transition-colors"
-                                            >
-                                                {item.label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
+        <footer id="footer" className={styles.footer}>
+            <div className={`${styles.container} ${styles.footerColumns}`}>
+                <div>
+                    <Link href="/">
+                        <Logo markClassName="h-[52px] w-auto" />
+                    </Link>
+                    <p className={styles.footerNotice}>
+                        Conteúdo educativo e atendimento clínico. Este site não
+                        substitui avaliação médica presencial quando indicada.
+                    </p>
+                    <p className={styles.registration}>CRM-SP 218676</p>
                 </div>
-
-                <div className="border-t border-line py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-stone">
+                <nav
+                    className={styles.footerLinks}
+                    aria-label="Links do rodapé"
+                >
+                    {groups.map(({ label, links }) => (
+                        <div key={label}>
+                            <h2>{label}</h2>
+                            <ul>
+                                {links.map(([name, href]) => (
+                                    <li key={href}>
+                                        <Link href={href}>{name}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </nav>
+            </div>
+            <div aria-hidden="true" className={styles.footerWordmark}>
+                Lorraine <em>Souza</em>
+            </div>
+            <div className={styles.footerBar} data-whatsapp={showWhatsApp}>
+                <div className={styles.container}>
                     <span>
-                        © {year} Dra. Lorraine Souza. Todos os direitos
-                        reservados.
+                        © {new Date().getFullYear()} Dra. Lorraine Souza. Todos
+                        os direitos reservados.
                     </span>
-                    <span className="tracking-label uppercase">
-                        {careerPage ? "Currículo · Residência médica" : "Dermatologia · Mentoria · Conteúdo"}
-                    </span>
+                    <a
+                        href={creditHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Quero um site assim
+                    </a>
                 </div>
-            </SectionContainer>
+            </div>
         </footer>
     );
-};
+}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
 import SEO from "@components/SEO/SEO";
 import { StructuredData, breadcrumbSchema, faqSchema, personSchema } from "@components/StructuredData";
 import { SITE, absoluteUrl } from "@utils/site";
@@ -52,17 +53,19 @@ export default function BotoxArticle() {
                 faqSchema(faqs)
             ]} />
 
-            <header className="relative overflow-hidden pt-36 pb-16 sm:pt-44 sm:pb-20 bg-[linear-gradient(165deg,#E9E1D4_0%,#F3ECE3_58%,#FAF6F0_100%)]">
-                <div aria-hidden className="absolute -top-52 -right-44 h-[38rem] w-[38rem] rounded-full bg-rose/50 blur-3xl" />
-                <div aria-hidden className="absolute left-[7%] bottom-0 h-px w-[86%] bg-[linear-gradient(90deg,transparent,#B48967,transparent)]" />
-                <div className="relative max-w-4xl mx-auto px-4 sm:px-6">
-                    <Link href="/blog" className="inline-flex text-sm text-stone hover:text-copper-dark transition-colors mb-12">← Voltar para o blog</Link>
-                    <p className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">Decisão de tratamento · Toxina botulínica</p>
-                    <h1 className="font-display font-light text-[3.05rem] sm:text-[4.8rem] leading-[0.99] tracking-[-0.025em] text-balance">Quando fazer Botox? Para quem a toxina botulínica costuma ser indicada.</h1>
-                    <p className="mt-8 max-w-2xl text-lg sm:text-xl leading-8 text-stone">A pergunta não é “qual idade?”. É se esse procedimento faz sentido para a sua expressão, sua pele e o resultado que você quer buscar.</p>
-                    <div className="mt-10 pt-6 border-t border-copper/45 flex flex-wrap gap-x-7 gap-y-2 text-sm text-stone"><span>Por Dra. Lorraine Souza</span><span>Atualizado em 25 de agosto de 2026</span><span>7 min de leitura</span></div>
-                </div>
-            </header>
+            <PageIntro
+                backLink={{ href: "/blog", label: "Voltar para o blog" }}
+                eyebrow="Decisão de tratamento · Toxina botulínica"
+                title="Quando fazer Botox? Para quem a toxina botulínica costuma ser indicada."
+                lead="A pergunta não é “qual idade?”. É se esse procedimento faz sentido para a sua expressão, sua pele e o resultado que você quer buscar."
+                meta={
+                    <>
+                        <span>Por Dra. Lorraine Souza</span>
+                        <time dateTime="2026-08-25">Atualizado em 25 de agosto de 2026</time>
+                        <span>7 min de leitura</span>
+                    </>
+                }
+            />
 
             <article className="bg-paper text-slate">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">

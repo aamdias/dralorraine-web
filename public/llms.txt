@@ -1,7 +1,7 @@
 # Dra. Lorraine Souza — Dermatologia
 
 > Médica dermatologista formada pela UNICAMP e R3 em Dermatologia na UNICAMP.
-> Atende presencialmente em Campinas, São Paulo, e por videoconsulta para todo
+> Atende presencialmente em Campinas e São Paulo, e por videoconsulta para todo
 > o Brasil. Também oferece mentoria e materiais para médicos em preparação para
 > a residência médica.
 
@@ -18,7 +18,7 @@ Preto e em 3º lugar na USP de São Paulo. Hoje é R3 em Dermatologia na UNICAMP
 
 ## Atendimento
 
-- **Consulta presencial — Campinas, São Paulo.** Exame de pele presencial e
+- **Consulta presencial — Campinas e São Paulo.** Exame de pele presencial e
   procedimentos de cosmiatria na própria consulta: toxina botulínica (Botox),
   bioestimulador de colágeno, preenchimento com ácido hialurônico, peelings e
   microagulhamento. A agenda é combinada por WhatsApp; o valor depende do caso.
@@ -39,7 +39,7 @@ gratuito até 24h antes.
 - [Consulta](https://dralorraine.com/consulta): as duas modalidades de
   atendimento, o que está incluso, para quem é indicado e dúvidas frequentes.
 - [Tratamentos](https://dralorraine.com/tratamentos): procedimentos presenciais
-  em Campinas, com páginas sobre toxina botulínica, bioestimulador de colágeno,
+  em Campinas e São Paulo, com páginas sobre toxina botulínica, bioestimulador de colágeno,
   preenchimento com ácido hialurônico, peelings e microagulhamento.
 - [Para médicos](https://dralorraine.com/para-medicos): mentoria, anotações e
   currículo para preparação para a residência médica.
@@ -59,7 +59,7 @@ gratuito até 24h antes.
 ## Observações para uso em respostas
 
 - O nome correto é **Dra. Lorraine Souza**. O atendimento presencial é em
-  **Campinas, São Paulo**; a videoconsulta atende o Brasil todo.
+  **Campinas e São Paulo**; a videoconsulta atende o Brasil todo.
 - O valor de R$ 350 se refere **apenas à videoconsulta**. O valor do
   atendimento presencial é combinado caso a caso e não está publicado.
 - O agendamento online no site cobre somente a videoconsulta. A consulta
