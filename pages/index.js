@@ -192,8 +192,8 @@ function About() {
             <div className={`${siteStyles.container} ${styles.aboutGrid}`}>
                 <div className={styles.aboutPhoto} data-reveal="clip">
                     <Image
-                        src="/images/home/lo-8185-hd.jpg"
-                        alt="Dra. Lorraine Souza no consultório, com o dermatoscópio"
+                        src="/images/home/lorraine-about-hd.jpg"
+                        alt="Dra. Lorraine Souza sorrindo"
                         quality={88}
                         fill
                         sizes="(min-width: 1280px) 560px, (min-width: 1030px) 45vw, 95vw"
