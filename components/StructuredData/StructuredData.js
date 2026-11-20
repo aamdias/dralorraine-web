@@ -23,12 +23,13 @@ const AREA_SERVED = [
         addressRegion: SITE.region,
         addressCountry: SITE.country
     } },
+    { "@type": "City", name: "São Paulo" },
     { "@type": "AdministrativeArea", name: SITE.regionName },
     { "@type": "Country", name: "Brasil" }
 ];
 
 /** A médica. Base de identidade para tudo mais. */
-export const personSchema = () => ({
+export const personSchema = (image = SITE.defaultImage) => ({
     "@type": "Physician",
     "@id": IDS.person,
     name: SITE.name,
@@ -37,9 +38,9 @@ export const personSchema = () => ({
     jobTitle: "Médica dermatologista",
     medicalSpecialty: "Dermatology",
     description:
-        "Médica formada pela UNICAMP e R3 em Dermatologia na UNICAMP, aprovada em 1º lugar em Dermatologia na UNICAMP e na PUC Campinas, com aprovações em USP-RP e USP-SP. Atende em Campinas, São Paulo, e por videoconsulta.",
+        "Médica formada pela UNICAMP e R3 em Dermatologia na UNICAMP, aprovada em 1º lugar em Dermatologia na UNICAMP e na PUC Campinas, com aprovações em USP-RP e USP-SP. Atende em Campinas e São Paulo, e por videoconsulta.",
     url: SITE.url,
-    image: absoluteUrl(SITE.defaultImage),
+    image: absoluteUrl(image),
     email: `mailto:${SITE.email}`,
     knowsLanguage: "pt-BR",
     areaServed: AREA_SERVED,
@@ -67,13 +68,13 @@ export const personSchema = () => ({
 });
 
 /** O consultório como negócio local — é o que responde "dermatologista em Campinas". */
-export const practiceSchema = () => ({
+export const practiceSchema = (image = SITE.defaultImage) => ({
     "@type": "MedicalBusiness",
     "@id": IDS.practice,
     name: SITE.fullName,
     url: SITE.url,
     logo: absoluteUrl(SITE.logo),
-    image: absoluteUrl(SITE.defaultImage),
+    image: absoluteUrl(image),
     email: `mailto:${SITE.email}`,
     priceRange: "$$",
     currenciesAccepted: "BRL",
@@ -92,13 +93,13 @@ export const practiceSchema = () => ({
             "@type": "MedicalTherapy",
             name: "Consulta dermatológica presencial",
             description:
-                "Consulta no consultório em Campinas, São Paulo, com exame de pele presencial e procedimentos de cosmiatria na própria visita."
+                "Consulta presencial em Campinas e São Paulo, com exame de pele."
         },
         {
             "@type": "MedicalTherapy",
             name: "Videoconsulta em dermatologia",
             description:
-                "Consulta de uma hora por vídeo, com análise prévia de fotos, conduta por escrito e 14 dias de suporte por mensagem."
+                "Consulta por vídeo, com análise prévia de fotos, conduta por escrito e 14 dias de suporte por mensagem."
         },
         {
             "@type": "MedicalProcedure",

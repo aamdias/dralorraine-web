@@ -4,6 +4,7 @@ import { upload } from "@vercel/blob/client";
 import { Layout } from "@components/Layout";
 import { Chevron } from "@components/Chevron";
 import SEO from "@components/SEO/SEO";
+import { consultationWhatsAppUrl } from "@utils/consultationContact";
 
 const STORAGE_KEY = "consulta_agendamento_v1";
 const FLOW_VERSION = 2;
@@ -23,10 +24,9 @@ const CONSULTATION_PRICE_LABEL = "R$ 350";
  * Atendimento presencial (Campinas, SP) não passa pelo fluxo online: a agenda
  * do consultório é combinada direto com a Dra. Lorraine pelo WhatsApp.
  */
-export const WHATSAPP_NUMBER = "5512992057736";
-export const WHATSAPP_PRESENCIAL_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+const WHATSAPP_PRESENCIAL_URL = consultationWhatsAppUrl(
     "Olá, Dra. Lorraine! Gostaria de agendar uma consulta presencial em Campinas."
-)}`;
+);
 
 const PRESENCIAL_PROCEDURES = [
     "Toxina botulínica (Botox)",

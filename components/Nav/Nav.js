@@ -79,7 +79,11 @@ const navItemClass = (active, isTransparent) => `relative inline-flex h-11 items
 }`;
 
 /** Navegação desktop com dropdowns controlados e fechamento previsível. */
-export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
+export const Nav = ({
+    isTransparent = false,
+    items = NAV_ITEMS,
+    className = "hidden lg:block"
+}) => {
     const router = useRouter();
     const isActive = useIsActive();
     const navRef = useRef(null);
@@ -108,7 +112,7 @@ export const Nav = ({ isTransparent = false, items = NAV_ITEMS }) => {
     }, []);
 
     return (
-        <nav ref={navRef} className="hidden lg:block" aria-label="Navegação principal">
+        <nav ref={navRef} className={className} aria-label="Navegação principal">
             <ul className="flex items-center gap-5 list-none m-0 p-0 whitespace-nowrap">
                 {items.map((item) => {
                     const active = isActive(item.href, item.exact);

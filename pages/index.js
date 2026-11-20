@@ -1,9 +1,10 @@
-import { Layout } from "@components/Layout";
-import { MotionBTTContainer } from "@components/Motion";
-import { Button } from "@components/Button";
-import { Results } from "@components/Results";
-import { Monogram } from "@components/Logo";
+import { useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 import { Chevron } from "@components/Chevron";
+import { Disclosure } from "@components/Disclosure";
+import { Monogram } from "@components/Logo";
 import SEO from "@components/SEO/SEO";
 import {
     StructuredData,
@@ -11,495 +12,548 @@ import {
     practiceSchema,
     webSiteSchema
 } from "@components/StructuredData";
-import Image from "next/image";
-import Link from "next/link";
+import {
+    BookingLink,
+    WhatsAppIcon,
+    WHATSAPP_HREF
+} from "@components/Home/HomeActions";
+import { HomeHeader } from "@components/Home/HomeHeader";
+import { HomeFooter } from "@components/Home/HomeFooter";
+import {
+    HomeIntro,
+    useHomeIntro,
+    useScrollReveals
+} from "@components/Home/HomeMotion";
+import styles from "@components/Home/Home.module.scss";
+import { SITE } from "@utils/site";
 
-const PORTRAIT_SRC = "/lolo-portrait-consulta.jpg";
-
-const stats = [
-    { figure: "UNICAMP", label: "Formação em Medicina" },
-    { figure: "2026", label: "R3 em Dermatologia" },
-    { figure: "+140", label: "Anotações de residência" },
-    { figure: "São Paulo", label: "Atendimento" }
-];
-
-const services = [
+const heroPhoto = "/images/home/lo-8282.jpg";
+const manifesto =
+    "Antes de propor qualquer tratamento, eu quero entender a sua *pele,* a sua rotina e o que trouxe você até aqui. Ciência para decidir, escuta para entender, *cuidado* para acompanhar.";
+const formation = [
     {
-        n: "01",
-        tag: "Para pacientes",
-        title: "Consulta de dermatologia",
+        title: "Diagnóstico preciso",
         description:
-            "Uma hora de avaliação completa, conduta personalizada e 14 dias de suporte.",
-        href: "/consulta",
-        cta: "Ver a consulta"
+            "Formação em hospital universitário, com casos de todos os níveis de complexidade.",
+        proof: "Medicina e residência · UNICAMP"
     },
     {
-        n: "02",
-        tag: "Para médicos em preparação",
+        title: "Conduta baseada em evidência",
+        description:
+            "Cada indicação parte do que a ciência sustenta, explicada para você entender.",
+        proof: "R3 em Dermatologia · 2026"
+    },
+    {
+        title: "Método no seu tratamento",
+        description:
+            "O mesmo método que me levou ao 1º lugar em Dermatologia organiza o seu plano de cuidado.",
+        proof: "1º lugar · Dermatologia UNICAMP"
+    }
+];
+const rankings = [
+    [1, "UNICAMP"],
+    [2, "USP Ribeirão Preto"],
+    [1, "PUC Campinas"],
+    [3, "USP São Paulo"]
+];
+const consultationSteps = [
+    "Avaliação dermatológica completa",
+    "Conduta por escrito, com o porquê de cada passo",
+    "14 dias de suporte direto comigo"
+];
+const places = [
+    ["Campinas", "Consultório"],
+    ["São Paulo", "Consultório"],
+    ["Videoconsulta", "De qualquer lugar do Brasil"]
+];
+const citiesOnMap = [
+    { name: "Campinas", x: 405.5, y: 226.9 },
+    { name: "São Paulo", x: 434.2, y: 273.7 }
+];
+const resources = [
+    {
         title: "Mentoria individual",
-        description:
-            "Acompanhamento estratégico com quem conquistou o 1º lugar em Dermato na UNICAMP. Planeje, ajuste rotina e chegue lá.",
-        href: "/mentoria",
-        cta: "Conhecer mentoria"
+        description: "Com quem conquistou o 1º lugar em Dermato na UNICAMP.",
+        href: "/mentoria"
     },
     {
-        n: "03",
-        tag: "Material de estudo",
         title: "Anotações originais",
-        description:
-            "+140 anotações organizadas por grande área. É o mesmo material que levou às aprovações em UNICAMP, USP-RP, USP-SP e PUCC.",
-        href: "/anotacoes",
-        cta: "Ver anotações"
+        description: "+140 anotações organizadas por grande área.",
+        href: "/anotacoes"
     },
     {
-        n: "04",
-        tag: "Preparação",
         title: "Currículo para residência",
-        description:
-            "Modelo de currículo estratégico, valorizando trajetória e conquistas para provas que consideram o documento.",
-        href: "/curriculo",
-        cta: "Ver currículo"
+        description: "Um currículo que valoriza a sua trajetória.",
+        href: "/curriculo"
     }
 ];
 
-const paths = [
-    {
-        eyebrow: "Para pacientes",
-        title: "Diagnóstico preciso e uma conduta que você entende.",
-        items: [
-            "Uma hora de consulta, com avaliação dermatológica completa.",
-            "Conduta por escrito, baseada em evidência, com o porquê de cada passo.",
-            "14 dias de suporte direto comigo para ajustar o tratamento."
-        ],
-        cta: {
-            label: "Agendar consulta",
-            href: "/consulta/agendar",
-            primary: true
-        }
-    },
-    {
-        eyebrow: "Para médicos em preparação",
-        title: "Quatro aprovações em Dermatologia. Método, não sorte.",
-        items: [
-            "1º lugar na UNICAMP e na PUC Campinas, aprovada também na USP-RP e USP-SP.",
-            "Plano de estudo, rotina e revisão desenhados para o seu semestre.",
-            "Poucos médicos por vez, porque mentoria individual exige atenção real."
-        ],
-        cta: { label: "Conhecer a mentoria", href: "/mentoria", primary: false }
-    }
-];
+function Index({ children }) {
+    return (
+        <span aria-hidden="true" className={styles.index}>
+            {children}
+        </span>
+    );
+}
+
+function Eyebrow({ number, children, reveal = true }) {
+    return (
+        <p className={styles.eyebrow} data-reveal={reveal ? "up" : undefined}>
+            <Index>{number}</Index>
+            <span>{children}</span>
+        </p>
+    );
+}
+
+function Hero({ introState }) {
+    return (
+        <section
+            className={styles.hero}
+            data-intro={introState}
+            aria-labelledby="home-title"
+        >
+            <div className={styles.heroText}>
+                <div>
+                    <p className={styles.heroEyebrow}>Dermatologia · UNICAMP</p>
+                    <h1 id="home-title">
+                        <span>
+                            <span>Dermatologia com</span>
+                        </span>{" "}
+                        <span>
+                            <span>ciência, escuta</span>
+                        </span>{" "}
+                        <span>
+                            <span>
+                                e <em>cuidado</em>.
+                            </span>
+                        </span>
+                    </h1>
+                    <p className={styles.heroLead}>
+                        Atendo em Campinas, São Paulo e por videoconsulta.
+                    </p>
+                    <div className={styles.heroActions}>
+                        <BookingLink />
+                        <Link href="#servicos" className={styles.textLink}>
+                            Ver todos os serviços
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.heroPhoto}>
+                <Image
+                    src={heroPhoto}
+                    alt="Dra. Lorraine Souza de perfil"
+                    fill
+                    priority
+                    sizes="(min-width: 960px) 46vw, 100vw"
+                />
+            </div>
+        </section>
+    );
+}
+
+function Manifesto({ sectionRef }) {
+    return (
+        <section
+            className={styles.manifesto}
+            ref={sectionRef}
+            aria-label="Como eu trabalho"
+        >
+            <div className={styles.manifestoSticky}>
+                <div className={styles.manifestoContent}>
+                    <Eyebrow number="01" reveal={false}>
+                        Como eu trabalho
+                    </Eyebrow>
+                    <p className={styles.manifestoQuote}>
+                        {manifesto.split(" ").map((word, index) => {
+                            const Tag = word.startsWith("*") ? "em" : "span";
+                            return (
+                                <Tag data-manifesto-word key={index}>
+                                    {word.replaceAll("*", "")}{" "}
+                                </Tag>
+                            );
+                        })}
+                    </p>
+                    <div className={styles.signature}>
+                        <Monogram decorative className="h-[30px] w-auto" />
+                        <span>Dra. Lorraine Souza</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function About() {
+    return (
+        <section
+            id="sobre"
+            tabIndex={-1}
+            className={styles.about}
+            aria-labelledby="about-title"
+        >
+            <span id="personal-history" className={styles.previousAnchor} />
+            <div className={`${styles.container} ${styles.aboutGrid}`}>
+                <div className={styles.aboutPhoto} data-reveal="clip">
+                    <Image
+                        src="/images/home/lo-8185.jpg"
+                        alt="Dra. Lorraine Souza no consultório, com o dermatoscópio"
+                        fill
+                        sizes="(min-width: 1280px) 560px, (min-width: 1030px) 45vw, 95vw"
+                    />
+                </div>
+                <div className={styles.aboutText}>
+                    <Eyebrow number="02">Sobre mim</Eyebrow>
+                    <h2
+                        id="about-title"
+                        className={styles.largeHeading}
+                        data-reveal="up"
+                    >
+                        Médica pela UNICAMP e <em>1º lugar</em> em Dermato na
+                        UNICAMP.
+                    </h2>
+                    <p data-reveal="up">
+                        A dermatologia é meu foco desde a graduação. Hoje, como
+                        R3 na UNICAMP, levo ciência, organização e escuta para
+                        as consultas e para a mentoria de médicos.
+                    </p>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function Formation() {
+    return (
+        <section className={styles.formation} aria-labelledby="formation-title">
+            <div className={styles.container}>
+                <Eyebrow number="03">Formação</Eyebrow>
+                <h2
+                    id="formation-title"
+                    className={styles.heading}
+                    data-reveal="up"
+                >
+                    O que a minha formação muda na <em>sua consulta</em>.
+                </h2>
+                <ol className={styles.formationGrid}>
+                    {formation.map(({ title, description, proof }, index) => (
+                        <li key={title} data-reveal="up">
+                            <Index>0{index + 1}</Index>
+                            <div>
+                                <h3>{title}</h3>
+                                <p>{description}</p>
+                                <div className={styles.proof}>{proof}</div>
+                            </div>
+                        </li>
+                    ))}
+                </ol>
+                <div className={styles.rankingsIntro} data-reveal="up">
+                    <h3 className={styles.heading}>
+                        Aprovada para a residência em <em>Dermatologia</em> nas
+                        instituições mais concorridas de São Paulo.
+                    </h3>
+                    <Disclosure title="O que isso significa?" variant="inline">
+                        <p className={styles.disclosureText}>
+                            Depois da faculdade, o médico faz a residência para
+                            se especializar, e a entrada é por prova.
+                            Dermatologia está entre as especialidades mais
+                            disputadas do país: em 2023, fui aprovada em quatro
+                            desses processos, todos em 1ª chamada. Os números
+                            abaixo são a minha colocação em cada um.
+                        </p>
+                    </Disclosure>
+                </div>
+                <ul className={styles.rankings}>
+                    {rankings.map(([place, institution]) => (
+                        <li key={institution} data-reveal="up">
+                            <div className={styles.rankNumber}>
+                                {place}
+                                <span>º</span>
+                            </div>
+                            <div className={styles.rankInstitution}>
+                                {institution}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}
+
+function Consultation() {
+    return (
+        <section
+            id="consulta"
+            tabIndex={-1}
+            className={styles.consultation}
+            aria-labelledby="consultation-title"
+        >
+            <div className={styles.consultationPhoto} data-reveal="clip">
+                <Image
+                    src="/images/home/lo-8137.jpg"
+                    alt="Dra. Lorraine Souza sentada no consultório"
+                    fill
+                    sizes="(min-width: 900px) 50vw, 100vw"
+                />
+            </div>
+            <div className={styles.consultationText}>
+                <Eyebrow number="04">A consulta</Eyebrow>
+                <h2
+                    id="consultation-title"
+                    className={styles.heading}
+                    data-reveal="up"
+                >
+                    Do diagnóstico ao <em>acompanhamento</em>.
+                </h2>
+                <ol className={styles.steps}>
+                    {consultationSteps.map((step, index) => (
+                        <li key={step} data-reveal="up">
+                            <Index>0{index + 1}</Index>
+                            <span>{step}</span>
+                        </li>
+                    ))}
+                </ol>
+                <div className={styles.consultationActions} data-reveal="up">
+                    <BookingLink />
+                    <Link href="/consulta" className={styles.textLink}>
+                        Ver a consulta
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function Locations() {
+    return (
+        <section
+            id="onde"
+            className={styles.locations}
+            aria-labelledby="locations-title"
+        >
+            <div className={`${styles.container} ${styles.locationsGrid}`}>
+                <div>
+                    <Eyebrow number="05">Onde atendo</Eyebrow>
+                    <h2
+                        id="locations-title"
+                        className={styles.heading}
+                        data-reveal="up"
+                    >
+                        Campinas, São Paulo e <em>onde você estiver</em>.
+                    </h2>
+                    <dl className={styles.locationList}>
+                        {places.map(([place, description]) => (
+                            <div key={place} data-reveal="up">
+                                <dt>{place}</dt>
+                                <dd>{description}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </div>
+                <div className={styles.map} data-reveal="up">
+                    <Image
+                        src="/map-sp.svg"
+                        alt="Mapa do estado de São Paulo com Campinas e a capital marcadas"
+                        fill
+                        sizes="(min-width: 1080px) 60vw, 100vw"
+                        unoptimized
+                    />
+                    <svg aria-hidden="true" viewBox="0 0 600 401">
+                        <path
+                            className={styles.mapRoute}
+                            d="M405.5 226.9 Q 440 240 434.2 273.7"
+                        />
+                        {citiesOnMap.map(({ name, x, y }) => (
+                            <g key={name}>
+                                <circle cx={x} cy={y} r="30" fillOpacity=".1" />
+                                <circle cx={x} cy={y} r="16" fillOpacity=".2" />
+                                <circle
+                                    cx={x}
+                                    cy={y}
+                                    r="5.5"
+                                    className={styles.mapDot}
+                                />
+                            </g>
+                        ))}
+                    </svg>
+                    <span aria-hidden="true" className={styles.campinas}>
+                        Campinas
+                    </span>
+                    <span aria-hidden="true" className={styles.saoPaulo}>
+                        São Paulo
+                    </span>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function Services() {
+    return (
+        <section
+            id="servicos"
+            tabIndex={-1}
+            className={styles.services}
+            aria-labelledby="services-title"
+        >
+            <span id="solutions" className={styles.previousAnchor} />
+            <div className={styles.container}>
+                <Eyebrow number="06">Como posso te ajudar</Eyebrow>
+                <h2
+                    id="services-title"
+                    className={styles.largeHeading}
+                    data-reveal="up"
+                >
+                    Dois caminhos, uma <em>mesma origem</em>.
+                </h2>
+                <div className={styles.serviceGrid}>
+                    <article className={styles.patientCard} data-reveal="up">
+                        <Monogram decorative className={styles.cardMark} />
+                        <div className={styles.cardLabel}>
+                            <span>Para pacientes</span>
+                            <Index>01</Index>
+                        </div>
+                        <h3>
+                            Consulta de <em>dermatologia</em>
+                        </h3>
+                        <ul className={styles.benefits}>
+                            <li>Avaliação completa</li>
+                            <li>Conduta por escrito</li>
+                            <li>14 dias de suporte</li>
+                        </ul>
+                        <div className={styles.patientActions}>
+                            <BookingLink />
+                            <Link href="/consulta" className={styles.textLink}>
+                                Ver a consulta
+                            </Link>
+                        </div>
+                    </article>
+                    <article className={styles.doctorCard} data-reveal="up">
+                        <div className={styles.cardLabel}>
+                            <span>Para médicos em preparação</span>
+                            <Index>02</Index>
+                        </div>
+                        <h3>
+                            Preparação para a <em>residência</em>
+                        </h3>
+                        <ul className={styles.doctorResources}>
+                            {resources.map(({ title, description, href }) => (
+                                <li key={href}>
+                                    <Link href={href}>
+                                        <div>
+                                            <span>{title}</span>
+                                            <p>{description}</p>
+                                        </div>
+                                        <span
+                                            className={styles.resourceChevron}
+                                        >
+                                            <Chevron className="h-[13px] w-[13px]" />
+                                        </span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function Closing() {
+    return (
+        <section className={styles.closing} aria-labelledby="closing-title">
+            <div className={styles.container}>
+                <Monogram
+                    tone="rose"
+                    decorative
+                    className="mx-auto h-14 w-auto"
+                />
+                <h2 id="closing-title" data-reveal="up">
+                    Comece por onde fizer <em>mais sentido</em> para você.
+                </h2>
+                <p className={styles.closingLead} data-reveal="up">
+                    Nos dois caminhos, você fala direto comigo.
+                </p>
+                <div className={styles.closingActions} data-reveal="up">
+                    <BookingLink className={styles.lightButton} />
+                    <a
+                        className={`${styles.button} ${styles.outlineButton}`}
+                        href={WHATSAPP_HREF}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Falar no WhatsApp
+                    </a>
+                </div>
+                <p className={styles.closingContact}>
+                    Não sabe qual caminho é o seu? Escreva para{" "}
+                    <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Eu mesma
+                    respondo.
+                </p>
+            </div>
+        </section>
+    );
+}
 
 export default function Home() {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const contentRef = useRef(null);
+    const mainRef = useRef(null);
+    const manifestoRef = useRef(null);
+    const introState = useHomeIntro();
+    useScrollReveals(mainRef, manifestoRef);
+
     return (
-        <Layout>
+        <div className={styles.home}>
             <SEO
-                title="Dra. Lorraine Souza | Dermatologista em Campinas e videoconsulta"
-                description="Dermatologista formada pela UNICAMP e R3 em Dermatologia na UNICAMP. Consulta presencial em Campinas, São Paulo, e videoconsulta. Também mentoria para residência médica."
+                title="Dra. Lorraine Souza | Dermatologia em Campinas, São Paulo e online"
+                description="Médica formada pela UNICAMP e R3 em Dermatologia na UNICAMP. Consulta em Campinas, São Paulo e por videoconsulta. Mentoria para residência médica."
                 url="/"
                 type="profile"
+                image={heroPhoto}
+                imageAlt="Dra. Lorraine Souza de perfil"
             />
             <StructuredData
-                graph={[personSchema(), practiceSchema(), webSiteSchema()]}
+                graph={[
+                    personSchema(heroPhoto),
+                    practiceSchema(heroPhoto),
+                    webSiteSchema()
+                ]}
             />
-
-            <div className="bg-paper text-ink">
-                {/* ============ HERO ============ */}
-                {/* O campo de fundo sobe atrás do header fixo (que fica
-                    transparente no topo da home), então header e primeira
-                    dobra leem como um bloco só. Papel prensado: gradiente
-                    quente + grão + um halo de cobre atrás do retrato.
-                    Nada de sombra — ver docs/brandbook.md §04. */}
-                <section className="relative isolate overflow-hidden pt-32 pb-16 lg:pt-[7.5rem] lg:pb-20 2xl:flex 2xl:min-h-[clamp(48rem,calc(100svh-12.5rem),60rem)] 2xl:items-center 2xl:pt-36">
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute -z-20 -top-[28%] right-[-45%] w-[150%] sm:right-[-10%] sm:w-[68%] h-[145%] rounded-full bg-[radial-gradient(closest-side,rgba(180,137,103,0.32),rgba(180,137,103,0.10)_55%,transparent_100%)]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute -z-20 -top-[10%] -left-[18%] h-[95%] w-[58%] rounded-full bg-[radial-gradient(closest-side,rgba(231,211,196,0.55),transparent_100%)]"
-                    />
-                    {/* Grão de papel: dá a textura de letterpress que a marca pede */}
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 -z-10 opacity-[0.35] mix-blend-multiply bg-[url('/noise.webp')] bg-repeat bg-[length:220px_220px]"
-                    />
-                    {/* Fio de cobre fechando a dobra */}
-                    <div
-                        aria-hidden
-                        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
-                    />
-
-                    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:max-w-[1440px]">
-                        <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 2xl:gap-24 items-center">
-                            {/* Fio de margem: âncora editorial da coluna de texto */}
-                            <div
-                                aria-hidden
-                                className="hidden lg:block absolute left-0 top-2 bottom-2 w-px bg-[linear-gradient(180deg,transparent,rgba(180,137,103,0.55)_18%,rgba(180,137,103,0.55)_82%,transparent)]"
-                            />
-                            <div>
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.1, duration: 0.5 }}
-                                    className="mb-6"
-                                >
-                                    <div className="text-xs uppercase tracking-label text-copper-dark font-medium leading-relaxed">
-                                        Dermatologia · Campinas e videoconsulta
-                                    </div>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.2, duration: 0.6 }}
-                                >
-                                    <h1 className="font-display font-light text-[2.75rem] sm:text-5xl lg:text-[5rem] leading-[1.03] tracking-[-0.02em] mb-7 text-balance">
-                                        Dermatologia com ciência, escuta e{" "}
-                                        <span className="italic text-copper-dark">
-                                            cuidado
-                                        </span>
-                                        .
-                                    </h1>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-10 lg:mb-11"
-                                >
-                                    <p className="text-lg text-stone leading-[1.7] max-w-lg 2xl:max-w-xl">
-                                        Sou médica pela UNICAMP e R3 em
-                                        Dermatologia na UNICAMP. Atendo no
-                                        consultório, em Campinas, e por
-                                        videoconsulta, de onde você estiver.
-                                        Também acompanho médicos em preparação
-                                        para a residência.
-                                    </p>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.4, duration: 0.5 }}
-                                >
-                                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-9 py-2">
-                                        <Button
-                                            href="/consulta/agendar"
-                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
-                                        >
-                                            Agendar consulta
-                                        </Button>
-                                        <a
-                                            href="#solutions"
-                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/50 hover:decoration-copper-dark transition-colors py-2 text-center sm:text-left"
-                                        >
-                                            Ver todos os serviços
-                                        </a>
-                                    </div>
-                                </MotionBTTContainer>
-                            </div>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.7 }}
-                            >
-                                {/* Fio de canto + tinta de cobre: enquadramento
-                                    editorial, sem sombra (brandbook §04/§05). */}
-                                <div className="relative max-w-[420px] mx-auto lg:max-w-[440px] lg:mr-0 lg:ml-auto 2xl:max-w-[min(30rem,45svh)]">
-                                    <div
-                                        aria-hidden
-                                        className="absolute -inset-4 lg:-inset-7 bg-copper/[0.08]"
-                                    />
-                                    <div
-                                        aria-hidden
-                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-16 lg:w-[88px] h-px bg-copper"
-                                    />
-                                    <div
-                                        aria-hidden
-                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-px h-16 lg:h-[88px] bg-copper"
-                                    />
-                                    <div className="relative aspect-[3/4] bg-line overflow-hidden">
-                                        <Image
-                                            src={PORTRAIT_SRC}
-                                            alt="Dra. Lorraine Souza"
-                                            fill
-                                            className="object-cover"
-                                            priority
-                                            sizes="(min-width: 1536px) min(480px, 45svh), (min-width: 1024px) 440px, (min-width: 640px) 420px, calc(100vw - 32px)"
-                                        />
-                                    </div>
-                                </div>
-                            </MotionBTTContainer>
-                        </div>
-                    </div>
-                </section>
-
-                {/* ============ STATS STRIP ============ */}
-                <section className="bg-paper">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 2xl:max-w-[1440px]">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
-                            {stats.map((s, i) => (
-                                <MotionBTTContainer
-                                    key={i}
-                                    transition={{
-                                        delay: 0.1 + i * 0.08,
-                                        duration: 0.5
-                                    }}
-                                >
-                                    <div>
-                                        <div className="font-display font-light text-3xl lg:text-[2.5rem] text-ink leading-[1.1]">
-                                            {s.figure}
-                                        </div>
-                                        <div className="mt-2.5 text-[11px] uppercase tracking-[0.18em] text-stone font-medium leading-relaxed">
-                                            {s.label}
-                                        </div>
-                                    </div>
-                                </MotionBTTContainer>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* ============ PERSONAL HISTORY ============ */}
-                <section
-                    id="personal-history"
-                    className="py-20 lg:py-28 bg-sand scroll-mt-24"
+            <HomeIntro stage={introState} />
+            <HomeHeader
+                menuOpen={menuOpen}
+                setMenuOpen={setMenuOpen}
+                contentRef={contentRef}
+                introState={introState}
+            />
+            <div ref={contentRef}>
+                <main ref={mainRef}>
+                    <Hero introState={introState} />
+                    <Manifesto sectionRef={manifestoRef} />
+                    <About />
+                    <Formation />
+                    <Consultation />
+                    <Locations />
+                    <Services />
+                    <Closing />
+                </main>
+                <HomeFooter />
+                <a
+                    className={styles.floatingWhatsApp}
+                    data-intro={introState}
+                    data-menu={menuOpen}
+                    href={WHATSAPP_HREF}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Falar com a Dra. Lorraine no WhatsApp"
                 >
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1fr_1.35fr] gap-12 lg:gap-[88px]">
-                            <div>
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.1, duration: 0.5 }}
-                                    className="mb-6"
-                                >
-                                    <div className="text-xs uppercase tracking-label text-copper-dark font-medium">
-                                        Sobre mim
-                                    </div>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.2, duration: 0.6 }}
-                                >
-                                    <h2 className="font-display font-light text-4xl lg:text-[3.5rem] leading-[1.06] tracking-[-0.015em] mb-0">
-                                        Médica pela UNICAMP e{" "}
-                                        <span className="italic">
-                                            1º lugar
-                                        </span>{" "}
-                                        em Dermato na UNICAMP.
-                                    </h2>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.35, duration: 0.6 }}
-                                >
-                                    <Monogram
-                                        decorative
-                                        className="h-14 w-auto mt-11 opacity-50"
-                                    />
-                                </MotionBTTContainer>
-                            </div>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.6 }}
-                            >
-                                <div className="space-y-6 text-slate text-lg leading-[1.7]">
-                                    <p>
-                                        Sou médica formada pela UNICAMP, onde a
-                                        dermatologia se tornou meu foco desde a
-                                        graduação. Minha trajetória combina
-                                        estudo intenso, prática clínica e a
-                                        curiosidade constante de cuidar melhor
-                                        da pele de cada pessoa.
-                                    </p>
-                                    <p>
-                                        Na preparação para a residência,
-                                        conquistei o 1º lugar em Dermatologia
-                                        na UNICAMP, além de aprovações em
-                                        USP-RP, USP-SP e PUC Campinas. Esse
-                                        resultado nasceu de método,
-                                        consistência e escolhas bem feitas ao
-                                        longo do caminho.
-                                    </p>
-                                    <p>
-                                        Hoje, como R3 em Dermatologia na
-                                        UNICAMP, levo essa mesma combinação de
-                                        ciência, organização e escuta para as
-                                        consultas e para a mentoria de médicos
-                                        que também estão construindo seus
-                                        próximos passos.
-                                    </p>
-                                </div>
-                            </MotionBTTContainer>
-                        </div>
-                    </div>
-                </section>
-
-                {/* ============ RESULTS ============ */}
-                <Results />
-
-                {/* ============ SOLUTIONS ============ */}
-                <section
-                    id="solutions"
-                    className="py-20 lg:py-28 bg-paper scroll-mt-24"
-                >
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-2xl mb-14 lg:mb-[72px]">
-                            <MotionBTTContainer
-                                transition={{ delay: 0.1, duration: 0.5 }}
-                                className="mb-6"
-                            >
-                                <div className="text-xs uppercase tracking-label text-copper-dark font-medium">
-                                    Como posso te ajudar
-                                </div>
-                            </MotionBTTContainer>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.2, duration: 0.6 }}
-                            >
-                                <h2 className="font-display font-light text-4xl lg:text-[3.5rem] leading-[1.06] tracking-[-0.015em] mb-5">
-                                    Dois caminhos, uma{" "}
-                                    <span className="italic">mesma origem</span>
-                                    .
-                                </h2>
-                            </MotionBTTContainer>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.5 }}
-                            >
-                                <p className="text-lg text-stone leading-[1.7]">
-                                    Atendo quem busca cuidado em dermatologia e
-                                    acompanho quem está a caminho da
-                                    residência.
-                                </p>
-                            </MotionBTTContainer>
-                        </div>
-
-                        <div className="space-y-0 border-t border-line">
-                            {services.map((s, i) => (
-                                <MotionBTTContainer
-                                    key={s.n}
-                                    transition={{
-                                        delay: 0.15 + i * 0.05,
-                                        duration: 0.5
-                                    }}
-                                >
-                                    <Link
-                                        href={s.href}
-                                        className="group block border-b border-line py-8 lg:py-9 transition-colors duration-300 hover:bg-sand"
-                                    >
-                                        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-4 lg:gap-12 items-start lg:items-center px-1 lg:px-2">
-                                            <div className="flex items-baseline gap-5">
-                                                <div className="text-[13px] font-mono text-copper tracking-index">
-                                                    {s.n}
-                                                </div>
-                                                <div className="hidden sm:block text-xs uppercase tracking-[0.2em] text-stone font-medium lg:w-[184px]">
-                                                    {s.tag}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-display font-normal text-[1.6rem] lg:text-[2rem] leading-[1.15] text-ink group-hover:text-copper-dark transition-colors duration-300 mb-0">
-                                                    {s.title}
-                                                </h3>
-                                                <p className="mt-2.5 text-stone leading-[1.65] max-w-2xl">
-                                                    {s.description}
-                                                </p>
-                                            </div>
-                                            <div className="text-sm font-medium text-ink group-hover:text-copper-dark transition-colors whitespace-nowrap">
-                                                {s.cta}
-                                                <span className="ml-2 inline-block text-copper align-middle transition-transform duration-300 group-hover:translate-x-1">
-                                                    <Chevron />
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </MotionBTTContainer>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* ============ CLOSING CTA (superfície escura) ============ */}
-                <section className="py-20 lg:py-[120px] bg-ink text-paper">
-                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <MotionBTTContainer
-                            transition={{ delay: 0.1, duration: 0.6 }}
-                        >
-                            <div className="flex flex-col items-center text-center">
-                                <Monogram
-                                    tone="rose"
-                                    decorative
-                                    className="h-14 lg:h-[60px] w-auto"
-                                />
-                                <h2 className="font-display font-light text-4xl lg:text-[3.75rem] leading-[1.06] tracking-[-0.02em] mt-9 mb-0 text-paper max-w-3xl">
-                                    Comece por onde fizer{" "}
-                                    <span className="italic text-rose">
-                                        mais sentido
-                                    </span>{" "}
-                                    para você.
-                                </h2>
-                                <p className="text-lg text-paper/70 leading-[1.7] max-w-lg mt-8 lg:mt-10">
-                                    Nos dois caminhos, você fala direto comigo.
-                                </p>
-                            </div>
-                        </MotionBTTContainer>
-
-                        <MotionBTTContainer
-                            transition={{ delay: 0.2, duration: 0.6 }}
-                        >
-                            {/* Grade de 1px: os fios são o próprio divisor */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper/[0.16] border border-paper/[0.16] mt-12 lg:mt-16">
-                                {paths.map((p) => (
-                                    <div
-                                        key={p.eyebrow}
-                                        className="bg-ink p-8 lg:p-12 flex flex-col"
-                                    >
-                                        <div className="text-[11px] uppercase tracking-label text-copper font-medium">
-                                            {p.eyebrow}
-                                        </div>
-                                        <h3 className="font-display font-normal text-[1.6rem] lg:text-[2rem] leading-[1.2] text-paper mt-5 mb-0">
-                                            {p.title}
-                                        </h3>
-                                        <ul className="mt-6 space-y-3.5 text-[15px] text-paper/[0.72] leading-relaxed">
-                                            {p.items.map((item) => (
-                                                <li
-                                                    key={item}
-                                                    className="flex gap-3.5"
-                                                >
-                                                    <span
-                                                        aria-hidden
-                                                        className="w-3.5 h-px bg-copper mt-[11px] flex-none"
-                                                    />
-                                                    <span>{item}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <div className="mt-auto pt-8">
-                                            <Link
-                                                href={p.cta.href}
-                                                role="button"
-                                                className={`inline-flex items-center justify-center px-8 py-4 text-[15px] font-medium rounded-none transition-colors duration-300 ${
-                                                    p.cta.primary
-                                                        ? "bg-paper text-ink hover:bg-rose"
-                                                        : "border border-paper/50 text-paper hover:bg-paper hover:text-ink hover:border-paper"
-                                                }`}
-                                            >
-                                                {p.cta.label}
-                                            </Link>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </MotionBTTContainer>
-
-                        <p className="text-center text-[13px] text-paper/45 leading-[1.7] mt-14 lg:mt-16 mx-auto max-w-xl">
-                            Não sabe qual caminho é o seu? Escreva para{" "}
-                            <a
-                                href="mailto:contato@dralorraine.com"
-                                className="text-rose hover:text-paper transition-colors"
-                            >
-                                contato@dralorraine.com
-                            </a>
-                            . Eu mesma respondo.
-                        </p>
-                    </div>
-                </section>
+                    <WhatsAppIcon /> WhatsApp
+                </a>
             </div>
-        </Layout>
+            <Analytics />
+        </div>
     );
 }
