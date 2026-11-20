@@ -1,4 +1,6 @@
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { Results } from "@components/Results";
@@ -82,83 +84,24 @@ export default function MentorshipPage() {
             />
 
             <div className="bg-paper text-ink">
-                {/* ============ HERO ============ */}
-                <section className="pt-32 pb-20 lg:pt-40 lg:pb-28">
-                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <MotionBTTContainer
-                            transition={{ delay: 0.1, duration: 0.5 }}
-                            className="mb-8"
-                        >
-                            <div className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
-                                <span className="w-1.5 h-1.5 bg-copper rounded-full" />
-                                Turma 2026 · Inscrições abertas
+                <PageIntro
+                    eyebrow="Turma 2026 · Inscrições abertas"
+                    title={<>Sua aprovação na <em>residência</em> começa no planejamento.</>}
+                    lead="Mentoria individual com quem conquistou o 1º lugar em Dermatologia na UNICAMP. Do planejamento à aprovação, com o tempo e o método que funcionam pra você."
+                >
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+        <a href="https://queroserdermato.com.br" target="_blank" rel="noopener noreferrer" className={siteStyles.button}>Conhecer Mentoria QSD 2026</a>
+        <a href="#opcoes" className={siteStyles.textLink}>Ver todas as opções</a>
+    </div>
+                    <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-7 border-t border-line pt-8 md:grid-cols-4">
+                        {stats.map(({ figure, label }) => (
+                            <div key={label} className="min-w-0">
+                                <dt className="font-display text-4xl font-light text-copper lg:text-5xl">{figure}</dt>
+                                <dd className="mt-3 text-xs font-medium uppercase tracking-label text-stone">{label}</dd>
                             </div>
-                        </MotionBTTContainer>
-
-                        <MotionBTTContainer
-                            transition={{ delay: 0.2, duration: 0.6 }}
-                        >
-                            <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4.5rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                Sua aprovação na{" "}
-                                <span className="italic text-copper-dark">
-                                    residência
-                                </span>{" "}
-                                começa no planejamento.
-                            </h1>
-                        </MotionBTTContainer>
-
-                        <MotionBTTContainer
-                            transition={{ delay: 0.3, duration: 0.6 }}
-                            className="mb-14 lg:mb-16"
-                        >
-                            <p className="text-lg text-stone leading-relaxed max-w-2xl mx-auto">
-                                Mentoria individual com quem conquistou o 1º
-                                lugar em Dermatologia na UNICAMP. Do
-                                planejamento à aprovação, com o tempo e o
-                                método que funcionam pra você.
-                            </p>
-                        </MotionBTTContainer>
-
-                        {/* Stats */}
-                        <MotionBTTContainer
-                            transition={{ delay: 0.4, duration: 0.6 }}
-                            className="mb-14 lg:mb-16"
-                        >
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-8 max-w-3xl mx-auto border-t border-line pt-10">
-                                {stats.map((s, i) => (
-                                    <div key={i} className="text-center">
-                                        <div className="text-4xl lg:text-5xl font-light text-copper tracking-tight">
-                                            {s.figure}
-                                        </div>
-                                        <div className="mt-3 text-xs uppercase tracking-[0.22em] text-stone font-medium">
-                                            {s.label}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </MotionBTTContainer>
-
-                        <MotionBTTContainer
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                        >
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-                                <Button
-                                    href="https://queroserdermato.com.br"
-                                    target="_blank"
-                                    className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
-                                >
-                                    Conhecer Mentoria QSD 2026
-                                </Button>
-                                <a
-                                    href="#opcoes"
-                                    className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
-                                >
-                                    Ver todas as opções
-                                </a>
-                            </div>
-                        </MotionBTTContainer>
-                    </div>
-                </section>
+                        ))}
+                    </dl>
+                </PageIntro>
 
                 {/* ============ PROBLEMS ============ */}
                 <section className="py-20 lg:py-24 border-t border-line bg-sand">

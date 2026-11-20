@@ -1,22 +1,18 @@
 import Link from "next/link";
 import { Chevron } from "@components/Chevron";
 import { consultationWhatsAppUrl } from "@utils/consultationContact";
-import styles from "./Home.module.scss";
+import styles from "./Site.module.scss";
 
 export const BOOKING_HREF = "/consulta/agendar";
 export const WHATSAPP_HREF = consultationWhatsAppUrl(
     "Olá, Dra. Lorraine. Gostaria de agendar uma consulta."
 );
 
-export function BookingLink({ className = "", showChevron = true, onClick }) {
+export function BookingLink({ className = "" }) {
     return (
-        <Link
-            href={BOOKING_HREF}
-            className={`${styles.button} ${className}`}
-            onClick={onClick}
-        >
+        <Link href={BOOKING_HREF} className={`${styles.button} ${className}`}>
             Agendar consulta
-            {showChevron && <Chevron />}
+            <Chevron />
         </Link>
     );
 }

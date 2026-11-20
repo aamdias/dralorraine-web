@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro, PageIntroImage } from "@components/Layout/PageIntro";
 import SEO from "@components/SEO/SEO";
 import { StructuredData, breadcrumbSchema, faqSchema, personSchema } from "@components/StructuredData";
 import { SITE, absoluteUrl } from "@utils/site";
@@ -61,24 +62,20 @@ export default function RosaceaAlissonBeckerArticle() {
                 faqSchema(faqs)
             ]} />
 
-            <header className="relative isolate overflow-hidden pt-36 pb-16 sm:pt-44 sm:pb-20 bg-[linear-gradient(165deg,#E9E1D4_0%,#F3ECE3_58%,#FAF6F0_100%)]">
-                <div aria-hidden className="absolute -top-52 -right-44 h-[38rem] w-[38rem] rounded-full bg-rose/50 blur-3xl" />
-                <div aria-hidden className="absolute inset-y-0 right-0 hidden w-[46%] lg:block">
-                    <Image src="/alisson-becker-rosacea.png" alt="" fill priority sizes="46vw" className="object-cover object-[50%_17%] grayscale sepia-[.18] contrast-125 brightness-[.82] opacity-85" />
-                    <div className="absolute inset-0 bg-[linear-gradient(90deg,#F3ECE3_0%,rgba(243,236,227,.95)_15%,rgba(243,236,227,.34)_42%,transparent_68%)]" />
-                    <div className="absolute inset-0 bg-copper/10 mix-blend-color" />
-                </div>
-                <div aria-hidden className="absolute left-[7%] bottom-0 h-px w-[86%] bg-[linear-gradient(90deg,transparent,#B48967,transparent)]" />
-                <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-                    <Link href="/blog" className="inline-flex text-sm text-stone hover:text-copper-dark transition-colors mb-12">← Voltar para o blog</Link>
-                    <div className="max-w-[36rem]">
-                        <p className="text-xs uppercase tracking-label text-copper-dark font-medium mb-6">Dermatologia clínica · Rosácea</p>
-                        <h1 className="font-display font-light text-[3.05rem] sm:text-[4.8rem] leading-[0.99] tracking-[-0.025em] text-balance">O que o goleiro Alisson tem no rosto? Entenda a rosácea.</h1>
-                        <p className="mt-8 max-w-2xl text-lg sm:text-xl leading-8 text-stone">O assunto que chamou atenção no futebol abre espaço para falar de uma condição comum, tratável e muito mais complexa do que “ficar vermelho”.</p>
-                        <div className="mt-10 pt-6 border-t border-copper/45 flex flex-wrap gap-x-7 gap-y-2 text-sm text-stone"><span>Por Dra. Lorraine Souza</span><span>Publicado em 26 de agosto de 2026</span><span>8 min de leitura</span></div>
-                    </div>
-                </div>
-            </header>
+            <PageIntro
+                backLink={{ href: "/blog", label: "Voltar para o blog" }}
+                eyebrow="Dermatologia clínica · Rosácea"
+                title="O que o goleiro Alisson tem no rosto? Entenda a rosácea."
+                lead="O assunto que chamou atenção no futebol abre espaço para falar de uma condição comum, tratável e muito mais complexa do que “ficar vermelho”."
+                media={<PageIntroImage src="/alisson-becker-rosacea.png" alt="Alisson Becker em retrato durante uma partida" position="50% 17%" />}
+                meta={
+                    <>
+                        <span>Por Dra. Lorraine Souza</span>
+                        <time dateTime="2026-08-26">Publicado em 26 de agosto de 2026</time>
+                        <span>8 min de leitura</span>
+                    </>
+                }
+            />
 
             <article className="bg-paper text-slate">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">

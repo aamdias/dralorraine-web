@@ -1,0 +1,374 @@
+.site {
+    @apply bg-paper font-sans text-ink;
+    --gutter: clamp(20px, 4vw, 32px);
+    --bleed-gutter: max(20px, calc((100vw - 1280px) / 2 + 32px));
+    --header-height: 81px;
+    --ease-rise: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-mask: cubic-bezier(0.76, 0, 0.24, 1);
+    --opening-background: linear-gradient(
+        172deg,
+        #eee7dc,
+        #f5f0e8 45%,
+        theme("colors.paper")
+    );
+    overflow-x: clip;
+    letter-spacing: -0.2px;
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+        outline: 2px solid theme("colors.copper.dark");
+        outline-offset: 4px;
+    }
+}
+
+@media (max-width: 719px) {
+    .site {
+        --header-height: 68px;
+    }
+}
+
+@media (min-width: 1080px) {
+    .site {
+        --header-height: 65px;
+    }
+}
+
+.container {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+.index {
+    @apply font-mono text-xs tracking-index text-copper;
+}
+
+.button {
+    @apply inline-flex items-center bg-ink font-medium text-paper;
+    gap: 14px;
+    padding: 19px 34px;
+    transition: color 0.3s, background 0.3s, border-color 0.3s;
+    &:hover {
+        @apply bg-copper-dark text-paper;
+    }
+    svg {
+        flex: none;
+    }
+}
+.textLink {
+    @apply font-medium text-ink underline decoration-copper/60;
+    text-underline-offset: 7px;
+    text-decoration-thickness: 1px;
+    &:hover {
+        @apply text-copper-dark;
+    }
+}
+.header {
+    @apply fixed inset-x-0 top-0 border-b border-line bg-paper/[.94] backdrop-blur-[14px];
+    z-index: 50;
+    padding-block: 18px;
+    transition: transform 0.6s var(--ease-rise), padding 0.4s;
+
+    &[data-scrolled="true"] {
+        padding-block: 12px;
+    }
+    &[data-hidden="true"]:not(:focus-within) {
+        transform: translateY(-110%);
+    }
+    &[data-intro="waiting"] .homeLogo,
+    &[data-intro="waiting"] .desktopNav,
+    &[data-intro="waiting"] .headerBooking {
+        opacity: 0;
+    }
+}
+.headerInner {
+    @apply flex items-center;
+    gap: 28px;
+    padding-inline: var(--bleed-gutter);
+}
+.homeLogo {
+    @apply inline-flex flex-none;
+    transition: opacity 1s 0.3s;
+    &:focus-visible {
+        opacity: 1 !important;
+    }
+}
+.smallLogo,
+.desktopNav,
+.headerInner > .headerBooking {
+    display: none;
+}
+.desktopNav {
+    margin-left: auto;
+    transition: opacity 1s 0.4s;
+    > ul {
+        gap: 30px;
+        > li > :is(a, button) {
+            @apply text-sm text-slate hover:text-copper-dark;
+        }
+        > li > div > ul {
+            box-shadow: none;
+        }
+    }
+    &:focus-within {
+        opacity: 1 !important;
+    }
+}
+.headerInner > .headerBooking {
+    padding: 13px 24px;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background 0.3s, opacity 1s 0.5s;
+    &:focus-visible {
+        opacity: 1 !important;
+    }
+}
+.menuToggle {
+    @apply relative ml-auto shrink-0;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    span {
+        @apply absolute bg-ink;
+        left: 11px;
+        right: 11px;
+        top: 18px;
+        height: 1px;
+        transition: transform 0.45s var(--ease-rise);
+    }
+    span + span {
+        top: 25px;
+    }
+    &[aria-expanded="true"] {
+        span {
+            transform: translateY(3.5px) rotate(45deg);
+        }
+        span + span {
+            transform: translateY(-3.5px) rotate(-45deg);
+        }
+    }
+}
+.mobileMenu {
+    @apply fixed inset-0 flex flex-col bg-paper;
+    z-index: 45;
+    padding: 96px 20px calc(24px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    pointer-events: none;
+    transition: clip-path 0.8s var(--ease-mask), visibility 0s 0.8s;
+
+    &[data-open="true"] {
+        clip-path: inset(0);
+        visibility: visible;
+        pointer-events: auto;
+        transition-delay: 0s;
+        li a {
+            opacity: 1;
+            transform: none;
+            transition-delay: var(--menu-delay);
+        }
+    }
+    ul {
+        @apply flex-1;
+    }
+    li a {
+        @apply flex items-baseline justify-between font-display font-light;
+        padding-block: 18px;
+        font-size: 38px;
+        line-height: 1.05;
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s, transform 0.8s var(--ease-rise);
+        &:focus-visible {
+            opacity: 1;
+            transform: none;
+            transition: none;
+            outline-offset: -2px;
+        }
+    }
+}
+.mobileMenu > .menuBooking {
+    @apply w-full shrink-0 justify-center text-[15px];
+    min-height: 56px;
+    padding: 12px 20px;
+}
+@media (max-width: 719px) {
+    .header {
+        padding-block: 12px;
+    }
+    .smallLogo {
+        display: block;
+    }
+    .fullLogo {
+        display: none;
+    }
+}
+@media (min-width: 1080px) {
+    .header {
+        @apply border-line/70 bg-paper/[.86] backdrop-blur-md;
+        padding-block: 10px;
+
+        &[data-scrolled="true"] {
+            padding-block: 6px;
+        }
+    }
+    .headerInner {
+        gap: clamp(16px, 2vw, 28px);
+    }
+    .desktopNav > ul {
+        gap: clamp(16px, 1.8vw, 26px);
+    }
+    .headerInner > .headerBooking {
+        @apply border border-copper/50 bg-transparent text-copper-dark;
+        min-height: 40px;
+        padding: 8px 15px;
+
+        &:hover {
+            @apply border-ink bg-ink text-paper;
+        }
+    }
+    .desktopNav {
+        display: block;
+    }
+    .headerInner > .headerBooking {
+        display: inline-flex;
+    }
+    .menuToggle,
+    .mobileMenu {
+        display: none;
+    }
+}
+.footer {
+    @apply overflow-hidden bg-paper;
+}
+.footerColumns {
+    @apply grid gap-12;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    padding-block: clamp(64px, 8vw, 88px) 56px;
+    .footerNotice,
+    .registration {
+        @apply text-[13px] text-stone;
+        max-width: 340px;
+        line-height: 1.7;
+    }
+    .footerNotice {
+        margin-top: 26px;
+    }
+    .registration {
+        margin-top: 10px;
+    }
+}
+.footerLinks {
+    @apply grid gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+    h2 {
+        @apply mb-4 font-sans text-[11px] font-medium uppercase tracking-label text-copper-dark;
+        line-height: 1.5;
+    }
+    li + li {
+        margin-top: 11px;
+    }
+    li {
+        @apply text-sm text-slate;
+    }
+    a {
+        @apply hover:text-copper-dark;
+    }
+}
+.footerWordmark {
+    @apply whitespace-nowrap text-center font-display font-light text-sand;
+    margin-bottom: -0.08em;
+    font-size: min(15vw, 236px);
+    line-height: 0.8;
+    letter-spacing: -0.035em;
+}
+.footerBar {
+    @apply relative border-t border-line bg-paper text-xs text-stone;
+    > div {
+        @apply flex flex-wrap items-center justify-between gap-2.5;
+        padding-block: 20px 104px;
+    }
+    a {
+        @apply text-copper-dark underline decoration-copper/50 underline-offset-4 hover:text-ink;
+    }
+}
+@media (min-width: 960px) {
+    .footerBar > div {
+        padding-bottom: 96px;
+    }
+}
+
+.floatingWhatsApp {
+    @apply fixed inline-flex items-center gap-3 bg-ink text-sm font-medium text-paper hover:bg-copper-dark;
+    z-index: 44;
+    right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right));
+    bottom: max(clamp(16px, 2vw, 28px), env(safe-area-inset-bottom));
+    height: 54px;
+    padding-inline: 16px 20px;
+    transition: opacity 0.8s, transform 0.8s var(--ease-rise), background 0.3s;
+    &[data-intro="entering"] {
+        animation: whats-app-in 0.8s var(--ease-rise) 1.4s both;
+    }
+    &[data-intro="waiting"],
+    &[data-menu="true"] {
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        visibility: hidden;
+        animation: none;
+    }
+    &:focus-visible {
+        animation: none;
+    }
+}
+
+@keyframes whats-app-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.header ul,
+.mobileMenu ul,
+.footer ul {
+    margin: 0;
+}
+.footerNotice,
+.registration {
+    margin: 0;
+}
+.footerBar[data-whatsapp="false"] > div {
+    padding-bottom: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .button,
+    .header,
+    .menuToggle span,
+    .mobileMenu,
+    .mobileMenu li a {
+        transition: none;
+    }
+    .header[data-hidden="true"]:not(:focus-within) {
+        transform: none;
+    }
+    .floatingWhatsApp[data-intro="entering"] {
+        animation: none;
+    }
+}
+
+@media print {
+    .header,
+    .mobileMenu,
+    .floatingWhatsApp {
+        display: none;
+    }
+}

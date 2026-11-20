@@ -1,4 +1,6 @@
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { Results } from "@components/Results";
@@ -10,7 +12,7 @@ import {
 } from "@utils/facebookPixel";
 
 const PREVIEW_SRC = "/anotacoes-originais-notion-lo.png";
-const PORTRAIT_SRC = "/lolo-portrait-home-page.png";
+const PORTRAIT_SRC = "/images/home/lo-8185-hd.jpg";
 
 const features = [
     {
@@ -81,88 +83,41 @@ export default function Anotacoes() {
             />
 
             <div className="bg-paper text-ink">
-                {/* ============ HERO ============ */}
-                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
-                            <div>
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.1, duration: 0.5 }}
-                                    className="mb-8"
-                                >
-                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
-                                        Material exclusivo · +140 temas
-                                    </div>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.2, duration: 0.6 }}
-                                >
-                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                        As anotações que me levaram ao{" "}
-                                        <span className="italic text-copper-dark">
-                                            1º lugar
-                                        </span>{" "}
-                                        em Dermato.
-                                    </h1>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-14 lg:mb-16"
-                                >
-                                    <p className="text-lg text-stone leading-relaxed max-w-lg">
-                                        +140 anotações originais, o mesmo
-                                        material que levou à aprovação em
-                                        UNICAMP, USP-RP, USP-SP e PUC Campinas.
-                                        Organizado por grande área e focado no
-                                        que realmente cai.
-                                    </p>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.4, duration: 0.5 }}
-                                >
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
-                                        <Button
-                                            href="#cta-anotacoes"
-                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
-                                        >
-                                            Quero garantir meu acesso
-                                        </Button>
-                                        <a
-                                            href="#conteudo"
-                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
-                                        >
-                                            Ver o que está incluído
-                                        </a>
-                                    </div>
-                                </MotionBTTContainer>
-                            </div>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.7 }}
-                            >
-                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
-                                    <div
-                                        aria-hidden
-                                        className="absolute -inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
-                                    />
-                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)]">
-                                        <Image
-                                            src={PREVIEW_SRC}
-                                            alt="Preview das anotações da Dra. Lorraine"
-                                            fill
-                                            className="object-cover"
-                                            priority
-                                            sizes="(max-width: 1024px) 90vw, 40vw"
-                                        />
-                                    </div>
-                                </div>
-                            </MotionBTTContainer>
-                        </div>
+                <PageIntro
+                    eyebrow="Material exclusivo · +140 temas"
+                    title={
+                        <>
+                            As anotações que me levaram ao <em>1º lugar</em> em
+                            Dermato.
+                        </>
+                    }
+                    lead="+140 anotações originais, o mesmo material que levou à aprovação em UNICAMP, USP-RP, USP-SP e PUC Campinas. Organizado por grande área e focado no que realmente cai."
+                    media={
+                        <figure className="mx-auto grid max-w-[410px] justify-items-center gap-4 border border-line bg-paper px-6 py-6 sm:py-8">
+                            <Image
+                                src={PREVIEW_SRC}
+                                alt="Índice no Notion mostrando os temas de Cirurgia nas anotações de residência"
+                                width={576}
+                                height={799}
+                                priority
+                                sizes="(min-width: 960px) 275px, 68vw"
+                                className="h-auto w-full max-w-[275px]"
+                            />
+                            <figcaption className="text-center text-sm leading-relaxed text-stone">
+                                Prévia da organização dos temas no Notion
+                            </figcaption>
+                        </figure>
+                    }
+                >
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+                        <a href="#cta-anotacoes" className={siteStyles.button}>
+                            Quero garantir meu acesso
+                        </a>
+                        <a href="#conteudo" className={siteStyles.textLink}>
+                            Ver o que está incluído
+                        </a>
                     </div>
-                </section>
+                </PageIntro>
 
                 {/* ============ FEATURES ============ */}
                 <section
@@ -237,20 +192,15 @@ export default function Anotacoes() {
                             <MotionBTTContainer
                                 transition={{ delay: 0.2, duration: 0.6 }}
                             >
-                                <div className="relative max-w-[360px] mx-auto lg:max-w-none">
-                                    <div
-                                        aria-hidden
-                                        className="absolute -inset-6 bg-copper/[0.05] rounded-[4px]"
+                                <div className="relative mx-auto aspect-[4/5] max-w-[420px] overflow-hidden bg-line">
+                                    <Image
+                                        src={PORTRAIT_SRC}
+                                        alt="Dra. Lorraine Souza no consultório"
+                                        fill
+                                        quality={88}
+                                        className="object-cover object-[50%_22%]"
+                                        sizes="(min-width: 640px) 420px, 90vw"
                                     />
-                                    <div className="relative aspect-[3/4] bg-line overflow-hidden rounded-[3px] shadow-[0_30px_60px_-24px_rgba(139,58,47,0.25)]">
-                                        <Image
-                                            src={PORTRAIT_SRC}
-                                            alt="Dra. Lorraine Souza"
-                                            fill
-                                            className="object-cover"
-                                            sizes="(max-width: 1024px) 70vw, 30vw"
-                                        />
-                                    </div>
                                 </div>
                             </MotionBTTContainer>
 
@@ -362,7 +312,10 @@ export default function Anotacoes() {
                                                 key={i}
                                                 className="flex items-start gap-3.5"
                                             >
-                                                <span aria-hidden className="w-3.5 h-px bg-copper mt-[11px] flex-none" />
+                                                <span
+                                                    aria-hidden
+                                                    className="w-3.5 h-px bg-copper mt-[11px] flex-none"
+                                                />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -415,7 +368,10 @@ export default function Anotacoes() {
                                                 key={i}
                                                 className="flex items-start gap-3.5"
                                             >
-                                                <span aria-hidden className="w-3.5 h-px bg-rose mt-[11px] flex-none" />
+                                                <span
+                                                    aria-hidden
+                                                    className="w-3.5 h-px bg-rose mt-[11px] flex-none"
+                                                />
                                                 <span>{item}</span>
                                             </li>
                                         ))}

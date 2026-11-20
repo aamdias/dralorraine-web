@@ -1,4 +1,7 @@
 import { Layout } from "@components/Layout";
+import { PageIntro, PageIntroImage } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
+import { BookingLink } from "@components/Layout/SiteActions";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
 import { Chevron } from "@components/Chevron";
@@ -79,7 +82,7 @@ const focusAreas = [
             { label: "Microagulhamento", href: "/tratamentos/microagulhamento" },
         ],
         procedureNote:
-            "Realizo esses procedimentos presencialmente, no consultório em Campinas, São Paulo.",
+            "Realizo esses procedimentos presencialmente em Campinas e São Paulo.",
     },
     {
         title: "Dermatologia clínica",
@@ -89,7 +92,7 @@ const focusAreas = [
 ];
 
 // Estes itens não são "não atendemos": são o que pede consulta presencial
-// (Campinas). Emergência é a única exceção real.
+// em Campinas e São Paulo. Emergência é a única exceção real.
 const nonIndications = [
     "Biópsias e retirada de lesões",
     "Toxina botulínica, peelings e microagulhamento",
@@ -109,7 +112,7 @@ const included = [
 const faqs = [
     {
         q: "A consulta pode ser presencial?",
-        a: "Sim. Atendo presencialmente em Campinas, São Paulo, com exame de pele e procedimentos como toxina botulínica, bioestimulador de colágeno, peelings e microagulhamento. Escolha o formato no primeiro passo do agendamento: a videoconsulta é fechada por aqui, e a agenda presencial combinamos pelo WhatsApp.",
+        a: "Sim. Atendo presencialmente em Campinas e São Paulo, com exame de pele e procedimentos como toxina botulínica, bioestimulador de colágeno, peelings e microagulhamento. Escolha o formato no primeiro passo do agendamento: a videoconsulta é fechada por aqui, e a agenda presencial combinamos pelo WhatsApp.",
     },
     {
         q: "A Dra. Lorraine pode emitir receita?",
@@ -143,8 +146,8 @@ export default function ConsultaPage() {
     return (
         <Layout>
             <SEO
-                title="Consulta de Dermatologia em Campinas e Online | Dra. Lorraine Souza"
-                description="Consulta de dermatologia com a Dra. Lorraine Souza, médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Presencial em Campinas, São Paulo, com procedimentos de cosmiatria, ou por videoconsulta."
+                title="Consulta de Dermatologia em Campinas, São Paulo e Online | Dra. Lorraine Souza"
+                description="Consulta de dermatologia com a Dra. Lorraine Souza, médica pela UNICAMP e R3 em Dermatologia na UNICAMP. Presencial em Campinas e São Paulo, com procedimentos de cosmiatria, ou por videoconsulta."
                 url="/consulta"
             />
             <StructuredData
@@ -159,107 +162,19 @@ export default function ConsultaPage() {
                 ]}
             />
             <div className="main-wrapper relative z-10 bg-paper text-ink">
-                {/* ============ HERO ============ */}
-                {/* Mesmo campo de fundo da home: gradiente quente, grão de
-                    papel e fio de cobre fechando a dobra. O respiro superior
-                    é maior porque o header é fixo — o retrato estava colado
-                    nele. Ver docs/brandbook.md §04. */}
-                <section className="relative isolate overflow-hidden pt-36 pb-20 md:pb-24 lg:pt-48 lg:pb-28">
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 -z-20 bg-[linear-gradient(172deg,#E9E1D4_0%,#F0EAE0_30%,#F7F2EA_62%,#FAF6F0_88%,#FAF6F0_100%)]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute -z-20 -top-[28%] right-[-45%] w-[150%] sm:right-[-10%] sm:w-[68%] h-[145%] rounded-full bg-[radial-gradient(closest-side,rgba(180,137,103,0.30),rgba(180,137,103,0.09)_55%,transparent_100%)]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 -z-10 opacity-[0.35] mix-blend-multiply bg-[url('/noise.webp')] bg-repeat bg-[length:220px_220px]"
-                    />
-                    <div
-                        aria-hidden
-                        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(180,137,103,0.45)_28%,rgba(180,137,103,0.45)_72%,transparent)]"
-                    />
-                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid md:grid-cols-[minmax(0,1.02fr)_minmax(260px,0.72fr)] min-[900px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.78fr)] lg:grid-cols-[1.05fr_0.9fr] gap-12 md:gap-7 min-[900px]:gap-8 lg:gap-16 items-center">
-                            <div className="order-1 md:max-w-[560px] min-[900px]:max-w-[620px]">
-                                <MotionBTTContainer transition={{ delay: 0.1, duration: 0.6 }}>
-                                    <div className="text-xs uppercase tracking-[0.24em] sm:tracking-[0.28em] text-copper-dark font-medium mb-6 md:mb-7 lg:mb-8">
-                                        Dermatologia · Consulta
-                                    </div>
-                                </MotionBTTContainer>
-                                <MotionBTTContainer transition={{ delay: 0.2, duration: 0.6 }}>
-                                    <h1 className="max-w-[11.5em] text-[2.6rem] sm:text-5xl md:text-[3rem] min-[900px]:text-[3.35rem] lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-7 lg:mb-8 text-balance">
-                                        Cuide da sua pele com atenção e{" "}
-                                        <span className="italic font-normal text-copper-dark">
-                                            ciência
-                                        </span>
-                                        .
-                                    </h1>
-                                </MotionBTTContainer>
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-10 md:mb-12 lg:mb-16"
-                                >
-                                    <p className="text-lg md:text-base min-[900px]:text-[1.05rem] lg:text-lg text-stone leading-relaxed max-w-lg min-[900px]:max-w-[34rem]">
-                                        Consulta com a Dra. Lorraine Souza,
-                                        médica formada na UNICAMP e R3 em
-                                        Dermatologia na UNICAMP. Atendimento
-                                        humanizado, sem filas, com tempo para
-                                        escutar o seu caso.
-                                    </p>
-                                </MotionBTTContainer>
-                                <MotionBTTContainer transition={{ delay: 0.4, duration: 0.6 }}>
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 md:gap-5 min-[900px]:gap-6 py-2">
-                                        <Button
-                                            href="/consulta/agendar"
-                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-8 sm:px-9 md:px-6 min-[900px]:px-7 lg:px-9 py-[17px] sm:py-[18px] md:py-4 lg:py-[18px] rounded-none transition-colors duration-300"
-                                        >
-                                            Agendar consulta
-                                        </Button>
-                                        <a
-                                            href="#modalidades"
-                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
-                                        >
-                                            Ver as duas opções
-                                        </a>
-                                    </div>
-                                </MotionBTTContainer>
-                            </div>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.7 }}
-                                className="order-2"
-                            >
-                                <div className="relative max-w-[420px] mx-auto md:max-w-[300px] md:mr-0 min-[900px]:max-w-[340px] lg:max-w-[440px]">
-                                    <div
-                                        aria-hidden
-                                        className="absolute -inset-4 lg:-inset-7 bg-copper/[0.08]"
-                                    />
-                                    <div
-                                        aria-hidden
-                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-16 lg:w-[88px] h-px bg-copper"
-                                    />
-                                    <div
-                                        aria-hidden
-                                        className="absolute -top-4 -left-4 lg:-top-7 lg:-left-7 w-px h-16 lg:h-[88px] bg-copper"
-                                    />
-                                    <div className="relative aspect-[3/4] bg-line overflow-hidden">
-                                        <Image
-                                            src={PORTRAIT_SRC}
-                                            alt="Dra. Lorraine Souza"
-                                            fill
-                                            className="object-cover"
-                                            priority
-                                            sizes="(max-width: 1024px) 90vw, 40vw"
-                                        />
-                                    </div>
-                                </div>
-                            </MotionBTTContainer>
-                        </div>
+                <PageIntro
+                    eyebrow="Dermatologia · Consulta"
+                    title={<>Cuide da sua pele com atenção e <em>ciência</em>.</>}
+                    lead="Consulta com a Dra. Lorraine Souza, médica formada na UNICAMP e R3 em Dermatologia na UNICAMP. Atendimento humanizado, sem filas, com tempo para escutar o seu caso."
+                    media={<PageIntroImage src="/images/home/lo-8137-hd.jpg" alt="Dra. Lorraine Souza no consultório" position="50% 35%" quality={88} />}
+                >
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+                        <BookingLink />
+                        <a href="#modalidades" className={siteStyles.textLink}>
+                            Ver as duas opções
+                        </a>
                     </div>
-                </section>
+                </PageIntro>
 
                 {/* ============ STATS ============ */}
                 <section className="border-y border-line">
@@ -384,8 +299,7 @@ export default function ConsultaPage() {
                                         saúde da pele e planejar o que melhora
                                         a sua qualidade. Os procedimentos de
                                         cosmiatria são realizados
-                                        presencialmente, em Campinas, São
-                                        Paulo.
+                                        presencialmente em Campinas e São Paulo.
                                     </p>
                                 </div>
 
@@ -477,7 +391,7 @@ export default function ConsultaPage() {
                             >
                                 <div>
                                     <div className="text-xs uppercase tracking-[0.22em] text-stone font-medium mb-5 pb-5 border-b border-line">
-                                        Atendo presencialmente, em Campinas
+                                        Atendimento presencial em Campinas e São Paulo
                                     </div>
                                     <ul className="space-y-3 text-ink mb-8">
                                         {nonIndications.map((item, i) => (
@@ -491,8 +405,8 @@ export default function ConsultaPage() {
                                         ))}
                                     </ul>
                                     <p className="text-sm text-stone leading-relaxed border-t border-line pt-6">
-                                        Estes pedem consulta presencial, no
-                                        consultório em Campinas, São Paulo. Você
+                                        Esses casos pedem consulta presencial em
+                                        Campinas ou São Paulo. Você
                                         escolhe a modalidade no primeiro passo do
                                         agendamento. Urgências e emergências
                                         precisam de pronto-atendimento.
@@ -616,8 +530,8 @@ export default function ConsultaPage() {
                                     </Button>
                                     <p className="text-xs text-stone mt-10 leading-relaxed max-w-sm">
                                         Você escolhe entre videoconsulta e
-                                        atendimento presencial em Campinas no
-                                        primeiro passo do agendamento.
+                                        atendimento presencial em Campinas ou
+                                        São Paulo no primeiro passo do agendamento.
                                     </p>
                                 </div>
                             </div>

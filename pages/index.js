@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Analytics } from "@vercel/analytics/react";
+import { Layout } from "@components/Layout";
 import { Chevron } from "@components/Chevron";
 import { Disclosure } from "@components/Disclosure";
 import { Monogram } from "@components/Logo";
@@ -12,13 +12,8 @@ import {
     practiceSchema,
     webSiteSchema
 } from "@components/StructuredData";
-import {
-    BookingLink,
-    WhatsAppIcon,
-    WHATSAPP_HREF
-} from "@components/Home/HomeActions";
-import { HomeHeader } from "@components/Home/HomeHeader";
-import { HomeFooter } from "@components/Home/HomeFooter";
+import { BookingLink, WHATSAPP_HREF } from "@components/Layout/SiteActions";
+import siteStyles from "@components/Layout/Site.module.scss";
 import {
     HomeIntro,
     useHomeIntro,
@@ -27,7 +22,7 @@ import {
 import styles from "@components/Home/Home.module.scss";
 import { SITE } from "@utils/site";
 
-const heroPhoto = "/images/home/lo-8282.jpg";
+const heroPhoto = "/images/home/lo-8282-hd.jpg";
 const manifesto =
     "Antes de propor qualquer tratamento, eu quero entender a sua *pele,* a sua rotina e o que trouxe você até aqui. Ciência para decidir, escuta para entender, *cuidado* para acompanhar.";
 const formation = [
@@ -133,7 +128,7 @@ function Hero({ introState }) {
                     </p>
                     <div className={styles.heroActions}>
                         <BookingLink />
-                        <Link href="#servicos" className={styles.textLink}>
+                        <Link href="#servicos" className={siteStyles.textLink}>
                             Ver todos os serviços
                         </Link>
                     </div>
@@ -143,6 +138,7 @@ function Hero({ introState }) {
                 <Image
                     src={heroPhoto}
                     alt="Dra. Lorraine Souza de perfil"
+                    quality={88}
                     fill
                     priority
                     sizes="(min-width: 960px) 46vw, 100vw"
@@ -193,11 +189,12 @@ function About() {
             aria-labelledby="about-title"
         >
             <span id="personal-history" className={styles.previousAnchor} />
-            <div className={`${styles.container} ${styles.aboutGrid}`}>
+            <div className={`${siteStyles.container} ${styles.aboutGrid}`}>
                 <div className={styles.aboutPhoto} data-reveal="clip">
                     <Image
-                        src="/images/home/lo-8185.jpg"
+                        src="/images/home/lo-8185-hd.jpg"
                         alt="Dra. Lorraine Souza no consultório, com o dermatoscópio"
+                        quality={88}
                         fill
                         sizes="(min-width: 1280px) 560px, (min-width: 1030px) 45vw, 95vw"
                     />
@@ -225,8 +222,12 @@ function About() {
 
 function Formation() {
     return (
-        <section className={styles.formation} aria-labelledby="formation-title">
-            <div className={styles.container}>
+        <section
+            id="results"
+            className={styles.formation}
+            aria-labelledby="formation-title"
+        >
+            <div className={siteStyles.container}>
                 <Eyebrow number="03">Formação</Eyebrow>
                 <h2
                     id="formation-title"
@@ -291,8 +292,9 @@ function Consultation() {
         >
             <div className={styles.consultationPhoto} data-reveal="clip">
                 <Image
-                    src="/images/home/lo-8137.jpg"
+                    src="/images/home/lo-8137-hd.jpg"
                     alt="Dra. Lorraine Souza sentada no consultório"
+                    quality={88}
                     fill
                     sizes="(min-width: 900px) 50vw, 100vw"
                 />
@@ -316,7 +318,7 @@ function Consultation() {
                 </ol>
                 <div className={styles.consultationActions} data-reveal="up">
                     <BookingLink />
-                    <Link href="/consulta" className={styles.textLink}>
+                    <Link href="/consulta" className={siteStyles.textLink}>
                         Ver a consulta
                     </Link>
                 </div>
@@ -332,7 +334,7 @@ function Locations() {
             className={styles.locations}
             aria-labelledby="locations-title"
         >
-            <div className={`${styles.container} ${styles.locationsGrid}`}>
+            <div className={`${siteStyles.container} ${styles.locationsGrid}`}>
                 <div>
                     <Eyebrow number="05">Onde atendo</Eyebrow>
                     <h2
@@ -389,6 +391,24 @@ function Locations() {
     );
 }
 
+const featuredTreatments = [
+    {
+        slug: "toxina-botulinica",
+        title: "Botox",
+        description: "Pode suavizar linhas de expressão."
+    },
+    {
+        slug: "bioestimulador-de-colageno",
+        title: "Bioestimulador de colágeno",
+        description: "Ajuda na firmeza da pele ao longo do tempo."
+    },
+    {
+        slug: "preenchimento-com-acido-hialuronico",
+        title: "Preenchimento facial",
+        description: "Pode dar suporte ou volume em pontos do rosto."
+    }
+];
+
 function Services() {
     return (
         <section
@@ -398,7 +418,7 @@ function Services() {
             aria-labelledby="services-title"
         >
             <span id="solutions" className={styles.previousAnchor} />
-            <div className={styles.container}>
+            <div className={siteStyles.container}>
                 <Eyebrow number="06">Como posso te ajudar</Eyebrow>
                 <h2
                     id="services-title"
@@ -422,9 +442,30 @@ function Services() {
                             <li>Conduta por escrito</li>
                             <li>14 dias de suporte</li>
                         </ul>
+                        <div
+                            id="procedimentos"
+                            className={styles.patientProcedures}
+                        >
+                            <h4>Procedimentos</h4>
+                            <ul>
+                                {featuredTreatments.map(
+                                    ({ slug, title, description }) => (
+                                        <li key={slug}>
+                                            <Link href={`/tratamentos/${slug}`}>
+                                                {title}
+                                            </Link>
+                                            <span>{description}</span>
+                                        </li>
+                                    )
+                                )}
+                            </ul>
+                        </div>
                         <div className={styles.patientActions}>
                             <BookingLink />
-                            <Link href="/consulta" className={styles.textLink}>
+                            <Link
+                                href="/consulta"
+                                className={siteStyles.textLink}
+                            >
                                 Ver a consulta
                             </Link>
                         </div>
@@ -464,7 +505,7 @@ function Services() {
 function Closing() {
     return (
         <section className={styles.closing} aria-labelledby="closing-title">
-            <div className={styles.container}>
+            <div className={siteStyles.container}>
                 <Monogram
                     tone="rose"
                     decorative
@@ -479,7 +520,7 @@ function Closing() {
                 <div className={styles.closingActions} data-reveal="up">
                     <BookingLink className={styles.lightButton} />
                     <a
-                        className={`${styles.button} ${styles.outlineButton}`}
+                        className={`${siteStyles.button} ${styles.outlineButton}`}
                         href={WHATSAPP_HREF}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -498,15 +539,18 @@ function Closing() {
 }
 
 export default function Home() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const contentRef = useRef(null);
     const mainRef = useRef(null);
     const manifestoRef = useRef(null);
     const introState = useHomeIntro();
     useScrollReveals(mainRef, manifestoRef);
 
     return (
-        <div className={styles.home}>
+        <Layout
+            home
+            introState={introState}
+            mainRef={mainRef}
+            className={styles.home}
+        >
             <SEO
                 title="Dra. Lorraine Souza | Dermatologia em Campinas, São Paulo e online"
                 description="Médica formada pela UNICAMP e R3 em Dermatologia na UNICAMP. Consulta em Campinas, São Paulo e por videoconsulta. Mentoria para residência médica."
@@ -523,37 +567,14 @@ export default function Home() {
                 ]}
             />
             <HomeIntro stage={introState} />
-            <HomeHeader
-                menuOpen={menuOpen}
-                setMenuOpen={setMenuOpen}
-                contentRef={contentRef}
-                introState={introState}
-            />
-            <div ref={contentRef}>
-                <main ref={mainRef}>
-                    <Hero introState={introState} />
-                    <Manifesto sectionRef={manifestoRef} />
-                    <About />
-                    <Formation />
-                    <Consultation />
-                    <Locations />
-                    <Services />
-                    <Closing />
-                </main>
-                <HomeFooter />
-                <a
-                    className={styles.floatingWhatsApp}
-                    data-intro={introState}
-                    data-menu={menuOpen}
-                    href={WHATSAPP_HREF}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Falar com a Dra. Lorraine no WhatsApp"
-                >
-                    <WhatsAppIcon /> WhatsApp
-                </a>
-            </div>
-            <Analytics />
-        </div>
+            <Hero introState={introState} />
+            <Manifesto sectionRef={manifestoRef} />
+            <About />
+            <Formation />
+            <Consultation />
+            <Locations />
+            <Services />
+            <Closing />
+        </Layout>
     );
 }

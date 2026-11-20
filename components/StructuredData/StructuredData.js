@@ -104,27 +104,27 @@ export const practiceSchema = (image = SITE.defaultImage) => ({
         {
             "@type": "MedicalProcedure",
             name: "Toxina botulínica",
-            howPerformed: "Aplicação presencial no consultório em Campinas, São Paulo."
+            howPerformed: "Aplicação presencial em Campinas e São Paulo."
         },
         {
             "@type": "MedicalProcedure",
             name: "Preenchimento com ácido hialurônico",
-            howPerformed: "Aplicação presencial no consultório em Campinas, São Paulo."
+            howPerformed: "Aplicação presencial em Campinas e São Paulo."
         },
         {
             "@type": "MedicalProcedure",
             name: "Bioestimulador de colágeno",
-            howPerformed: "Aplicação presencial no consultório em Campinas, São Paulo."
+            howPerformed: "Aplicação presencial em Campinas e São Paulo."
         },
         {
             "@type": "MedicalProcedure",
             name: "Peelings",
-            howPerformed: "Realizado presencialmente no consultório em Campinas, São Paulo."
+            howPerformed: "Realizado presencialmente em Campinas e São Paulo."
         },
         {
             "@type": "MedicalProcedure",
             name: "Microagulhamento",
-            howPerformed: "Realizado presencialmente no consultório em Campinas, São Paulo."
+            howPerformed: "Realizado presencialmente em Campinas e São Paulo."
         }
     ]
 });

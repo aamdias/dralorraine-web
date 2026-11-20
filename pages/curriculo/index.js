@@ -4,6 +4,8 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { Layout } from "@components/Layout";
+import { PageIntro } from "@components/Layout/PageIntro";
+import siteStyles from "@components/Layout/Site.module.scss";
 import { Chevron } from "@components/Chevron";
 import { MotionBTTContainer } from "@components/Motion";
 import { Button } from "@components/Button";
@@ -344,79 +346,16 @@ export default function Curriculo() {
             />
 
             <div className="bg-paper text-ink">
-                {/* ============ HERO ============ */}
-                <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
-                            <div>
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.1, duration: 0.5 }}
-                                    className="mb-8"
-                                >
-                                    <div className="text-xs uppercase tracking-[0.28em] text-copper-dark font-medium">
-                                        Serviço especializado
-                                    </div>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.2, duration: 0.6 }}
-                                >
-                                    <h1 className="text-[2.75rem] sm:text-5xl lg:text-[4rem] font-light leading-[1.05] tracking-[-0.02em] mb-8 text-balance">
-                                        Currículo profissional para{" "}
-                                        <span className="italic text-copper-dark">
-                                            residência médica
-                                        </span>
-                                        .
-                                    </h1>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mb-14 lg:mb-16"
-                                >
-                                    <p className="text-lg text-stone leading-relaxed max-w-lg">
-                                        Um currículo estrategicamente elaborado,
-                                        próximo ao que me levou às melhores
-                                        notas em UNICAMP, USP-SP e UNIFESP. Um
-                                        currículo personalizado para a
-                                        instituição escolhida, por{" "}
-                                        {CURRICULUM_OFFER.label}.
-                                    </p>
-                                </MotionBTTContainer>
-
-                                <MotionBTTContainer
-                                    transition={{ delay: 0.4, duration: 0.5 }}
-                                >
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 py-2">
-                                        <Button
-                                            href="#servico"
-                                            className="bg-ink hover:bg-copper-dark text-paper font-medium px-9 py-[18px] rounded-none transition-colors duration-300"
-                                        >
-                                            Quero meu currículo
-                                        </Button>
-                                        <a
-                                            href="#resultados"
-                                            className="text-ink hover:text-copper-dark font-medium underline underline-offset-[6px] decoration-1 decoration-copper/40 hover:decoration-copper transition-colors py-2"
-                                        >
-                                            Ver resultados
-                                        </a>
-                                    </div>
-                                </MotionBTTContainer>
-                            </div>
-
-                            <MotionBTTContainer
-                                transition={{ delay: 0.3, duration: 0.7 }}
-                            >
-                                <div className="relative max-w-[440px] mx-auto lg:max-w-none">
-                                    <div
-                                        aria-hidden
-                                        className="absolute -inset-6 lg:-inset-10 bg-copper/[0.06] rounded-[4px]"
-                                    />
+                <PageIntro
+                    eyebrow="Serviço especializado"
+                    title={<>Currículo profissional para <em>residência médica</em>.</>}
+                    lead={<>Um currículo estrategicamente elaborado, próximo ao que me levou às melhores notas em UNICAMP, USP-SP e UNIFESP. Um currículo personalizado para a instituição escolhida, por {CURRICULUM_OFFER.label}.</>}
+                    media={<div className="relative max-w-[440px] mx-auto ">
                                     <div
                                         ref={containerRef}
                                         onTouchStart={handleTouchStart}
                                         onTouchEnd={handleTouchEnd}
-                                        className="relative bg-line overflow-hidden rounded-[3px] shadow-[0_40px_80px_-30px_rgba(139,58,47,0.28)] cursor-grab active:cursor-grabbing"
+                                        className="relative bg-line overflow-hidden border border-line cursor-grab active:cursor-grabbing"
                                         style={{ aspectRatio: "21/29.7" }}
                                     >
                                         <img
@@ -428,7 +367,7 @@ export default function Curriculo() {
                                             draggable="false"
                                         />
                                     </div>
-                                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                                    <div className="mt-5 flex items-center justify-center gap-2">
                                         {images.map((_, index) => (
                                             <button
                                                 key={index}
@@ -438,6 +377,7 @@ export default function Curriculo() {
                                                 aria-label={`Ver exemplo ${
                                                     index + 1
                                                 }`}
+                                                aria-pressed={index === currentIndex}
                                                 className={`h-1.5 transition-all ${
                                                     index === currentIndex
                                                         ? "bg-copper w-8"
@@ -446,11 +386,13 @@ export default function Curriculo() {
                                             />
                                         ))}
                                     </div>
-                                </div>
-                            </MotionBTTContainer>
-                        </div>
-                    </div>
-                </section>
+                                </div>}
+                >
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+        <a href="#servico" className={siteStyles.button}>Quero meu currículo</a>
+        <a href="#resultados" className={siteStyles.textLink}>Ver resultados</a>
+    </div>
+                </PageIntro>
 
                 {/* ============ BENEFITS ============ */}
                 <section className="py-20 lg:py-28 border-t border-line bg-sand">

@@ -1,43 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Monogram } from "@components/Logo";
 import styles from "./Home.module.scss";
 
-const introKey = "lorraine-home-intro-v2";
 const reducedMotion = "(prefers-reduced-motion: reduce)";
+const useBrowserLayoutEffect =
+    typeof window === "undefined" ? useEffect : useLayoutEffect;
 const clamp = (value) => Math.max(0, Math.min(1, value));
+
+// Lives for a single document, so changing routes won't replay the opening,
+// and reloading the site starts a fresh opening.
+let introPlayed = false;
 
 export function useHomeIntro() {
     const [stage, setStage] = useState("ready");
 
-    useEffect(() => {
+    useBrowserLayoutEffect(() => {
         const media = window.matchMedia(reducedMotion);
         if (
+            introPlayed ||
             media.matches ||
             document.visibilityState === "hidden" ||
-            window.scrollY > 0 ||
             window.location.hash
         )
             return;
 
-        try {
-            if (sessionStorage.getItem(introKey)) return;
-        } catch {
-            return;
-        }
+        setStage("waiting");
 
-        const begin = window.setTimeout(() => {
-            try {
-                sessionStorage.setItem(introKey, "seen");
-            } catch {
-                return;
-            }
-            setStage("waiting");
-        }, 0);
-        const start = window.setTimeout(() => setStage("entering"), 1550);
+        const start = window.setTimeout(() => {
+            introPlayed = true;
+            setStage("entering");
+        }, 1550);
         const end = window.setTimeout(() => setStage("ready"), 4050);
 
         const finish = () => {
-            window.clearTimeout(begin);
+            introPlayed = true;
             window.clearTimeout(start);
             window.clearTimeout(end);
             setStage("ready");
@@ -49,7 +45,6 @@ export function useHomeIntro() {
         window.addEventListener("beforeprint", finish);
         media.addEventListener("change", finish);
         return () => {
-            window.clearTimeout(begin);
             window.clearTimeout(start);
             window.clearTimeout(end);
             document.removeEventListener(
