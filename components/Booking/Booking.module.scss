@@ -31,7 +31,7 @@
 .main {
     @apply relative isolate flex-1;
     background: var(--opening-background);
-    padding-block: clamp(32px, 6vw, 80px) clamp(56px, 7vw, 96px);
+    padding-block: clamp(20px, 4.5vw, 64px) clamp(40px, 6vw, 80px);
 
     &::before {
         @apply pointer-events-none absolute inset-0 -z-10 opacity-30 mix-blend-multiply;
@@ -43,7 +43,7 @@
 
 .workspace {
     @apply grid items-start;
-    gap: clamp(24px, 4vw, 64px);
+    gap: clamp(16px, 3.5vw, 56px);
 
     > * {
         min-width: 0;
@@ -63,107 +63,66 @@
 }
 
 .heading {
-    font-size: clamp(42px, 4.8vw, 70px);
+    font-size: clamp(37px, 5.6vw, 72px);
 }
 .stepTitle {
     font-size: clamp(36px, 4.3vw, 62px);
 }
 .choiceTitle {
-    font-size: clamp(34px, 3.3vw, 48px);
-}
-
-.eyebrow {
-    @apply m-0 flex items-center gap-3 text-xs font-medium uppercase tracking-label text-copper-dark;
-    line-height: 1.55;
-
-    &::before {
-        @apply h-px w-7 shrink-0 bg-copper;
-        content: "";
-    }
+    font-size: clamp(30px, 3.6vw, 42px);
 }
 
 .introduction {
-    @apply grid gap-4;
-    .lead {
-        @apply m-0 max-w-sm leading-relaxed text-stone;
-    }
+    @apply grid gap-2 sm:gap-3;
+    grid-area: intro;
 }
-
+.lead {
+    @apply m-0 leading-relaxed text-stone;
+}
 .portrait {
     @apply relative overflow-hidden bg-line;
     grid-area: portrait;
-    aspect-ratio: 4 / 5;
+    height: clamp(126px, 34vw, 166px);
+
     img {
         object-fit: cover;
-        object-position: 50% 36%;
+        object-position: 50% 26%;
     }
 }
-
-.workspace[data-choice="true"] {
-    grid-template:
-        "intro portrait" auto
-        "choices choices" auto / minmax(0, 1fr) minmax(82px, 24%);
-    column-gap: clamp(14px, 3vw, 32px);
-
-    .introduction {
-        grid-area: intro;
-    }
-    .choices {
-        grid-area: choices;
-    }
-    .portrait {
-        align-self: center;
-    }
-    .heading {
-        font-size: clamp(34px, 9.5vw, 64px);
-    }
+.workspace[data-view="choice"] {
+    grid-template-areas: "intro" "portrait" "choices";
+    row-gap: clamp(16px, 2.4vw, 28px);
 }
-
 .choices {
-    @apply grid gap-3 sm:gap-5;
+    @apply grid gap-3 sm:gap-4;
+    grid-area: choices;
 }
-
 .choice {
     @apply grid border border-line bg-paper;
-    padding: clamp(21px, 3.4vw, 38px);
-    gap: 13px;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(15px, 2.4vw, 27px);
+    gap: 8px;
 
-    &[data-featured="true"] {
-        @apply border-copper/[.35] bg-sand;
+    > p {
+        @apply m-0 max-w-lg text-sm leading-relaxed text-slate sm:text-base;
     }
+}
+.choiceHeader {
+    @apply flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1;
+
+    span {
+        @apply text-sm font-medium leading-snug text-copper-dark;
+    }
+}
+.choiceActions {
+    @apply mt-1 grid items-center gap-x-4 gap-y-2 border-t border-line pt-3;
+
     p {
-        @apply m-0 max-w-lg leading-relaxed text-slate;
+        @apply m-0 text-sm leading-snug text-stone;
     }
-}
 
-.choiceBar {
-    @apply mt-2 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-line pt-4;
-}
-.choiceMeta {
-    @apply text-sm leading-6 text-stone;
-    strong {
-        @apply block text-base font-medium text-ink;
-    }
-}
-
-.videoBar {
-    @apply grid grid-cols-1 items-start justify-stretch gap-5;
-    > button {
-        @apply sm:justify-self-end;
-    }
-}
-
-.videoDetails {
-    @apply m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3 sm:gap-x-8;
-    dt {
-        @apply mb-1 text-xs text-stone;
-    }
-    dd {
-        @apply m-0 text-sm font-medium text-ink;
-        line-height: 1.35;
-    }
-    > div + div {
-        @apply border-l border-line pl-4 sm:pl-8;
+    button {
+        @apply w-full justify-between border-copper text-ink hover:bg-sand;
     }
 }
 
@@ -242,13 +201,22 @@
     outline: none;
 }
 .rail {
-    @apply grid gap-5;
+    @apply grid justify-items-start gap-2 lg:gap-5;
 }
-.railNav {
-    @apply flex flex-wrap items-center justify-between gap-x-4 gap-y-1;
+.backToChoices {
+    @extend .textButton;
+    @apply gap-2;
+
+    svg {
+        transform: rotate(180deg);
+    }
 }
-.railHeading {
-    @apply hidden font-display text-4xl font-light leading-tight lg:block;
+.progress {
+    @apply grid w-full gap-5;
+}
+.workspace[data-view="presencial"] {
+    max-width: 880px;
+    gap: 8px;
 }
 .desktopProgress {
     @apply hidden lg:grid;
@@ -267,9 +235,6 @@
 }
 .shortProgress {
     @apply grid gap-2 text-xs font-medium text-stone lg:hidden;
-    > div {
-        @apply flex justify-between gap-3;
-    }
     progress {
         @apply h-[3px] w-full appearance-none border-0 bg-line;
         &::-webkit-progress-bar {
@@ -356,55 +321,62 @@
 }
 
 @media (max-width: 639px) {
-    .portrait img {
-        transform: scale(1.2);
-        transform-origin: 50% 32%;
-    }
-    .choiceBar > :is(button, a) {
-        width: 100%;
-    }
     .mastheadInner {
+        min-height: 58px;
         gap: 0 12px;
     }
     .mastheadLink {
         font-size: 13px;
     }
 }
+@media (640px <= width < 900px) {
+    .workspace[data-view="choice"] {
+        grid-template:
+            "intro portrait" auto
+            "choices choices" auto / minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+    .introduction {
+        align-self: center;
+    }
+    .choices {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .portrait {
+        height: 168px;
+    }
+}
+@media (min-width: 900px) {
+    .workspace[data-view="choice"] {
+        grid-template:
+            "intro portrait" auto
+            "choices portrait" 1fr / minmax(0, 1.55fr) minmax(0, 1fr);
+    }
+    .portrait {
+        align-self: stretch;
+        height: auto;
 
+        img {
+            object-position: 50% 32%;
+        }
+    }
+    .choiceActions {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+}
 @media (min-width: 1024px) {
-    .workspace {
+    .workspace[data-view="video"] {
         grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.65fr);
     }
-    .workspace[data-choice="true"] {
-        grid-template:
-            "intro choices" auto
-            "portrait choices" 1fr / minmax(0, 1fr) minmax(0, 1.45fr);
-        column-gap: clamp(36px, 5vw, 72px);
-        row-gap: 24px;
-
-        .heading {
-            font-size: clamp(45px, 4.8vw, 70px);
-        }
-        .portrait {
-            align-self: start;
-            aspect-ratio: 8 / 9;
-            max-height: clamp(300px, 52svh, 440px);
-        }
-    }
-    .rail {
+    .workspace[data-view="video"] .rail {
         position: sticky;
         top: 24px;
     }
 }
-
 .paymentSummary {
     @apply flex flex-wrap items-end justify-between gap-3 border border-line bg-sand;
     padding: clamp(20px, 3vw, 32px);
     p {
         @apply m-0 text-sm text-stone;
-    }
-    p.eyebrow {
-        @apply mb-3 text-xs text-copper-dark;
     }
     p.price {
         @apply font-display font-light leading-none text-ink;
